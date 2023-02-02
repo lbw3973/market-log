@@ -1,2 +1,0 @@
-test admin
-test test
