@@ -8,5 +8,22 @@
     <link rel="stylesheet" href="../scss/admin/admin.scss" />
     <script type="module" src="../js/page/admin/admin.js" defer></script>
   </head>
-  <body></body>
+  <body>
+    <header>
+      <div>로고</div>
+      <button>로그아웃</button>
+    </header>
+    <main>
+      <aside>
+        <ul>
+          <a href="/" data-navigo><button>대시보드</button></a>
+          <a href="/product" data-navigo><button>상품관리</button></a>
+          <a href="/order" data-navigo><button>거래내역</button></a>
+        </ul>
+      </aside>
+      <section class="contents">
+        <div class="contents__container"></div>
+      </section>
+    </main>
+  </body>
 </html>
