@@ -141,3 +141,13 @@ table {
 button {
   all: unset;
 }
+// a link 스타일 초기화
+a {
+  all: unset;
+  &:link,
+  &:visited,
+  &:active,
+  &:hover {
+    text-decoration: none;
+  }
+}
