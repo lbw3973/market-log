@@ -1,0 +1,26 @@
+{
+  "name": "market-log",
+  "version": "1.0.0",
+  "description": "",
+  "source": "index.html",
+  "scripts": {
+    "dev": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.8.3",
+    "os-browserify": "^0.3.0",
+    "parcel": "^2.8.3",
+    "path-browserify": "^1.0.1",
+    "process": "^0.11.10",
+    "sass": "^1.58.0"
+  },
+  "dependencies": {
+    "chart.js": "^4.2.0",
+    "dotenv": "^16.0.3",
+    "navigo": "^8.11.1"
+  }
+}
