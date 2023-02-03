@@ -1,45 +1,35 @@
 @forward 'globals';
-
-// 공통 헤더 부분입니다. body 부분도 복사해야 layout이 안 깨집니다.
 body {
   display: flex;
   justify-content: center;
-  width: 1440px;
+  // width: 1440px;
 }
-.padding {
-  padding: 5px 50px 0;
-}
-
-// header {
-//   display: flex;
-//   flex-direction: column;
-// }
 .header {
+  display: flex;
+  justify-content: flex-end;
   width: 1440px;
+  padding: 20px 200px 0;
 
-  &__nav {
+  &__user {
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 30px;
-    font-size: 12px;
+    flex-direction: column;
 
-    &-ul {
+    &-login {
       display: flex;
-      gap: 12px;
-      color: var(--color-main6);
+      justify-content: flex-end;
+
+      &--ul {
+        display: flex;
+        gap: 5px;
+      }
 
       &-li {
-        &--img {
-          width: 100%;
-          height: 30px;
+        > a {
+          ::after {
+            content: '|';
+          }
         }
       }
     }
   }
-}
-
-// header main logo
-main {
-  // display: flex;
 }
