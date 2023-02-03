@@ -29,3 +29,6 @@ dist-ssr
 #cache
 .cache
 .parcel-cache
+
+#package-lock.json
+package-lock.json
