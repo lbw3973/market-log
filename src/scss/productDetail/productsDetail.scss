@@ -1,5 +1,29 @@
 @forward '../globals';
 
+// 버튼 클릭했을 때 효과
+@mixin btnEffect($backColor, $color) {
+  &:hover,
+  &:active {
+    background-color: $backColor;
+    color: $color;
+    cursor: pointer;
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
+}
+
+// 장바구니, 구매하기 버튼 중복코드
+@mixin cartbuyBtn {
+  width: 100%;
+  padding: 14px 26px;
+  border: 1px solid var(--logo-color);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+// header 시작
 .header-container {
   display: flex;
   justify-content: center;
@@ -106,7 +130,139 @@
     }
   }
 }
+// header 끝
 
-.alink {
-  display: flex;
+// main
+.main {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 30px;
+
+  &-container {
+    display: grid;
+    grid-template-columns: 55% 40%;
+  }
+}
+
+// section
+.section {
+  width: 90%;
+  max-width: 1440px;
+  &__productDetail {
+    display: flex;
+    justify-content: center;
+
+    img {
+      width: 80%;
+    }
+  }
+}
+
+// aside
+.aside {
+  &__productDetail {
+    &-menu {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &--info {
+      &-title {
+        width: 100%;
+        font-size: 24px;
+      }
+
+      &-sec {
+        margin-top: 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &-price {
+          font-size: 20px;
+        }
+
+        &-wishlist {
+          img {
+            height: 36px;
+          }
+        }
+      }
+
+      &-desc {
+        margin-top: 16px;
+      }
+
+      &-tagLists {
+        display: flex;
+        gap: 6px;
+        margin-top: 20px;
+
+        &-tag {
+          padding: 6px;
+          background-color: var(--light-purple);
+          color: #000;
+          border: 1px solid var(--logo-color);
+          border-radius: 6px;
+          cursor: pointer;
+
+          &:hover,
+          &:active {
+            color: #fff;
+            background-color: var(--logo-color);
+          }
+        }
+      }
+    }
+
+    // 구매 수량, 금액, 장바구니, 구매하기 버튼
+    &--count {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+
+      &-btns {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+      }
+
+      &-btn {
+        padding: 6px 10px;
+        border: 1px solid var(--logo-color);
+        border-radius: 6px;
+        background-color: var(--light-purple);
+        color: #000;
+
+        @include btnEffect(var(--logo-color), #fff);
+      }
+    }
+
+    &--totalPrice {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      font-weight: 700;
+    }
+
+    &--btns {
+      margin-top: 40px;
+      display: flex;
+      gap: 10px;
+      justify-content: space-around;
+      text-align: center;
+
+      &-cart {
+        @include cartbuyBtn();
+        @include btnEffect(var(--logo-color), #fff);
+      }
+
+      &-buy {
+        @include cartbuyBtn();
+        @include btnEffect(var(--logo-color), #fff);
+      }
+    }
+  }
 }
