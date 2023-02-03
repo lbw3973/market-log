@@ -1,7 +1,6 @@
 // dotenv 사용 예시
 import dotenv from 'dotenv';
 import Navigo from 'navigo';
-import { async } from 'q';
 import { base_url, api_key, user_name, admin_email } from '../db.js';
 dotenv.config();
 window.localStorage.clear() // TODO : 삭제
