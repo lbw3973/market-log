@@ -20,18 +20,59 @@
         <ul class="header__user-login--ul">
           <li class="header__user-login--li"><a href="#">회원가입</a></li>
           <li class="header__user-login--li">
-            <a href="#"><strong>테스트님</strong>환영합니다</a>
+            <a href="#"
+              ><strong id="header__user-login-name">테스트님</strong>
+              환영합니다</a
+            >
           </li>
           <li class="header__user-login--li"><a href="#">로그인</a></li>
         </ul>
       </nav>
-      <nav class="header-nav">
-        <div class="header-nav"></div>
-        <div class="header-nav-search">
-          <a href="#"
-            ><img src="../../public/mainLogo.svg" alt="main logo" />마켓로그</a
-          >
+      <nav class="header-main">
+        <a class="header-main__home-link" href="#">
+          <img
+            class="header-main__logo"
+            src="../../public/mainLogo.svg"
+            alt="main logo"
+          />
+          <h1 class="header-main__company-name">마켓로그</h1>
+        </a>
+        <div class="header-main__search">
+          <form class="header-main__search--form">
+            <input class="header-main__search--input" />
+            <button class="header-main__search--button">
+              <img src="../../public/search.png" alt="search button" />
+            </button>
+          </form>
         </div>
+        <div class="header-main__links">
+          <a href="#"
+            ><img
+              class="header-main__links-img"
+              src="../../public/heart.svg"
+              alt="찜하기"
+          /></a>
+          <a href="#"
+            ><img
+              class="header-main__links-img"
+              src="../../public/cart.svg"
+              alt="카트"
+          /></a>
+          <a href="#"
+            ><img
+              class="header-main__links-img"
+              src="../../public/member.svg"
+              alt="회원가입"
+          /></a>
+        </div>
+      </nav>
+      <nav class="header-nav-category">
+        <ul class="header-nav-category--ul">
+          <li class="header-nav-category--li"><a href="#">스마트</a></li>
+          <li class="header-nav-category--li"><a href="#">노트북</a></li>
+          <li class="header-nav-category--li"><a href="#">PC</a></li>
+          <li class="header-nav-category--li"><a href="#">음향</a></li>
+        </ul>
       </nav>
     </header>
   </body>
