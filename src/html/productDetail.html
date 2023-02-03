@@ -6,13 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>제품 상세페이지</title>
     <!-- scss -->
-    <link rel="stylesheet" href="../scss/productsDetail.scss" />
+    <link rel="stylesheet" href="../scss/productDetail/productsDetail.scss" />
     <!-- js -->
-    <script type="module" src="../js/page/cart.js " defer></script>
+    <script
+      type="module"
+      src="../js/page/productDetail/productDetail.js "
+      defer
+    ></script>
   </head>
   <body>
     <header class="header">
-      <div class="header__user-login">
+      <nav class="header__user-login">
         <ul class="header__user-login--ul">
           <li class="header__user-login--li"><a href="#">회원가입</a></li>
           <li class="header__user-login--li">
@@ -20,7 +24,15 @@
           </li>
           <li class="header__user-login--li"><a href="#">로그인</a></li>
         </ul>
-      </div>
+      </nav>
+      <nav class="header-nav">
+        <div class="header-nav"></div>
+        <div class="header-nav-search">
+          <a href="#"
+            ><img src="../../public/mainLogo.svg" alt="main logo" />마켓로그</a
+          >
+        </div>
+      </nav>
     </header>
   </body>
 </html>

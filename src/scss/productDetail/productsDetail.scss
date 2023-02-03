@@ -1,4 +1,4 @@
-@forward 'globals';
+@forward '../globals';
 body {
   display: flex;
   justify-content: center;
@@ -6,13 +6,13 @@ body {
 }
 .header {
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
   width: 1440px;
   padding: 20px 200px 0;
 
   &__user {
     display: flex;
-    flex-direction: column;
+    justify-content: flex-end;
 
     &-login {
       display: flex;
@@ -24,11 +24,6 @@ body {
       }
 
       &-li {
-        > a {
-          ::after {
-            content: '|';
-          }
-        }
       }
     }
   }
