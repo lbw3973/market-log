@@ -9,20 +9,38 @@
     <script type="module" src="../js/page/admin/admin.js" defer></script>
   </head>
   <body>
-    <header>
-      <div>로고</div>
-      <button>로그아웃</button>
+    <header class="header-container">
+      <div class="header">
+        <nav class="header-main">
+          <a class="header-main__home-link" href="#">
+            <img
+              class="header-main__logo"
+              src="../..//public/mainLogo.svg"
+              alt="main logo"
+            />
+            <h1 class="header-main__company-name">마켓로그</h1>
+          </a>
+          <div class="header-main__links"></div>
+        </nav>
+        <nav class="header__admin-logout">로그아웃</nav>
+      </div>
     </header>
     <main>
-      <aside>
+      <aside class="aside-container">
         <ul>
-          <a href="/" data-navigo><button>대시보드</button></a>
-          <a href="/product" data-navigo><button>상품관리</button></a>
-          <a href="/order" data-navigo><button>거래내역</button></a>
+          <li class="aside-container__list">
+            <a href="/" data-navigo><span>대시보드</span></a>
+          </li>
+          <li class="aside-container__list">
+            <a href="/product" data-navigo><span>상품관리</span></a>
+          </li>
+          <li class="aside-container__list">
+            <a href="/order" data-navigo><span>거래내역</span></a>
+          </li>
         </ul>
       </aside>
-      <section class="contents">
-        <div class="contents__container"></div>
+      <section class="main-container">
+        <div class="main-container__contents"></div>
       </section>
     </main>
   </body>
