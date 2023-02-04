@@ -90,7 +90,6 @@ video {
   padding: 0;
   border: 0;
   font-size: 100%;
-  font: inherit;
   vertical-align: baseline;
   list-style: none;
 }
@@ -140,4 +139,13 @@ table {
 // 버튼 스타일 초기화
 button {
   all: unset;
+}
+// a link 스타일 초기화
+a {
+  &:link,
+  &:visited,
+  &:active,
+  &:hover {
+    text-decoration: none;
+  }
 }

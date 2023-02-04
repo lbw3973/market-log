@@ -2,17 +2,19 @@
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="public/favicon.svg" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Team-uh</title>
+    <title>제품 상세페이지</title>
     <!-- scss -->
-    <link rel="stylesheet" href="./src/scss/main.scss" />
+    <link rel="stylesheet" href="../scss/productDetail/productsDetail.scss" />
     <!-- js -->
-    <script type="module" src="./src/js/main.js" defer></script>
+    <script
+      type="module"
+      src="../js/page/productDetail/productDetail.js "
+      defer
+    ></script>
   </head>
   <body>
-    <!-- 공통 헤더 시작 -->
     <header class="header-container">
       <div class="header">
         <nav class="header__user-login">
@@ -31,7 +33,7 @@
           <a class="header-main__home-link" href="#">
             <img
               class="header-main__logo"
-              src="./public/mainLogo.svg"
+              src="../../public/mainLogo.svg"
               alt="main logo"
             />
             <h1 class="header-main__company-name">마켓로그</h1>
@@ -40,7 +42,7 @@
             <form class="header-main__search--form">
               <input class="header-main__search--input" />
               <button class="header-main__search--button">
-                <img src="./public/search.png" alt="search button" />
+                <img src="../../public/search.png" alt="search button" />
               </button>
             </form>
           </div>
@@ -48,19 +50,19 @@
             <a href="#"
               ><img
                 class="header-main__links-img"
-                src="./public/heart.svg"
+                src="../../public/heart.svg"
                 alt="찜하기"
             /></a>
             <a href="#"
               ><img
                 class="header-main__links-img"
-                src="./public/cart.svg"
+                src="../../public/cart.svg"
                 alt="카트"
             /></a>
             <a href="#"
               ><img
                 class="header-main__links-img"
-                src="./public/member.svg"
+                src="../../public/member.svg"
                 alt="회원가입"
             /></a>
           </div>
@@ -75,35 +77,6 @@
         </nav>
       </div>
     </header>
-    <!-- 공통 헤더 끝 -->
-    <!-- 각 페이지 진입점!! 건들지 말 것! -->
-    <div>
-      <ul>
-        <!-- example html -->
-        <li>
-          <a href="./src/example/index.html">link to example's index.html</a>
-        </li>
-        <!-- 진짜 메인페이지 html -->
-        <li>
-          <a href="./src/example/index.html">진짜 메인페이지 html</a>
-        </li>
-        <!-- 제품 상세페에지 html -->
-        <li>
-          <a href="./src/html/productDetail.html">제품 상세페에지 html</a>
-        </li>
-        <!-- 관리자 페이지 html -->
-        <li>
-          <a href="./src/html/admin.html">관리자 페이지 html</a>
-        </li>
-        <!-- 회원가입 페이지 html -->
-        <li>
-          <a href="./src/html/signup.html">회원가입 페이지 html</a>
-        </li>
-        <li>
-          <a href="./src/html/mypage.html">마이페이지 html</a>
-        </li>
-        <div>test</div>
-      </ul>
-    </div>
+    123123
   </body>
 </html>
