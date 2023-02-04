@@ -1,6 +1,26 @@
 // dotenv 사용 예시
 import dotenv from 'dotenv';
 import { base_url, api_key, user_name, admin_email } from './db.js';
+
+import Swiper from 'swiper';
+
+new Swiper('.swiper', {
+  spaceBetween: 30,
+  centeredSlides: true,
+  autoplay: {
+    delay: 2500,
+    disableOnInteraction: false,
+  },
+  pagination: {
+    el: '.swiper-pagination',
+    clickable: true,
+  },
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev',
+  },
+});
+
 dotenv.config();
 
 console.log('BASE_URL:', process.env.BASE_URL);
