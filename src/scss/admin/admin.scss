@@ -1,5 +1,67 @@
-// @forward '../scss/globals';
+@forward '../globals';
 
-// body {
-//   background-color: var(--color-main3);
-// }
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 1440px;
+  padding: 20px 200px 20px;
+  border-bottom: 1px solid;
+  box-shadow: var(--box-shadow);
+
+  &-main {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &__home-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    &__logo {
+      height: 80px;
+    }
+
+    &__company-name {
+      font-size: 30px;
+    }
+
+    &__links-img {
+      height: 40px;
+    }
+  }
+}
+
+main {
+  display: flex;
+  height: 100vh;
+}
+
+.aside-container {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+
+  &__list {
+    border-bottom: 1px solid;
+
+    & a {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px;
+    }
+  }
+}
+
+.main-container {
+  width: calc(100% - 200px);
+  background-color: var(--light-purple);
+  margin: 20px;
+
+  &__contents {
+    padding: 20px;
+  }
+}
