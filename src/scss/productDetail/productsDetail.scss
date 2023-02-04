@@ -1,7 +1,7 @@
 @forward '../globals';
 
 // 버튼 클릭했을 때 효과
-@mixin btnEffect($backColor, $color) {
+@mixin btnEffect($backColor, $color: white) {
   &:hover,
   &:active {
     background-color: $backColor;
@@ -15,10 +15,10 @@
 }
 
 // 장바구니, 구매하기 버튼 중복코드
-@mixin cartbuyBtn {
+@mixin cartbuyBtn($color) {
   width: 100%;
   padding: 14px 26px;
-  border: 1px solid var(--logo-color);
+  border: 1px solid $color;
   border-radius: 6px;
   cursor: pointer;
 }
@@ -32,7 +32,7 @@
   display: flex;
   flex-direction: column;
   width: 1440px;
-  padding: 20px 200px 20px;
+  padding: 20px 100px 20px;
   border-bottom: 1px solid;
   box-shadow: var(--box-shadow);
 
@@ -47,9 +47,6 @@
       &--ul {
         display: flex;
         gap: 5px;
-      }
-
-      &-li {
       }
     }
   }
@@ -75,7 +72,7 @@
     }
 
     &__search {
-      width: 50%;
+      min-width: 40%;
       border: 1px solid;
 
       &--form {
@@ -134,26 +131,25 @@
 
 // main
 .main {
-  width: 80%;
+  width: 95%;
   margin: 0 auto;
   margin-top: 30px;
 
   &-container {
     display: grid;
-    grid-template-columns: 55% 40%;
+    justify-content: center;
+    grid-template-columns: 45% 40%;
   }
 }
 
 // section
 .section {
-  width: 90%;
-  max-width: 1440px;
   &__productDetail {
     display: flex;
     justify-content: center;
 
     img {
-      width: 80%;
+      width: 90%;
     }
   }
 }
@@ -255,13 +251,18 @@
       text-align: center;
 
       &-cart {
-        @include cartbuyBtn();
+        @include cartbuyBtn(var(--logo-color));
         @include btnEffect(var(--logo-color), #fff);
       }
 
       &-buy {
-        @include cartbuyBtn();
+        @include cartbuyBtn(var(--logo-color));
         @include btnEffect(var(--logo-color), #fff);
+      }
+
+      &-soldOut {
+        @include cartbuyBtn(var(--soldOut-color));
+        cursor: not-allowed;
       }
     }
   }
