@@ -151,8 +151,7 @@
 
         ul {
           li {
-            color: var(--light-purple);
-            border: 1px solid #eee;
+            border: 1px solid #fafafa;
             border-bottom: none;
             font-size: 0.9rem;
             &:first-child {
@@ -163,6 +162,7 @@
               justify-content: space-between;
               align-items: center;
               padding: 1rem;
+              color: var(--light-purple);
               svg {
                 color: var(--light-purple);
               }
@@ -171,6 +171,9 @@
             //   text-decoration: none;
             //   color: var(--light-purple);
             // }
+            &:hover {
+              background-color: #fafafa;
+            }
           }
         }
       }
@@ -256,19 +259,29 @@
           border: 1px solid var(--light-purple);
           border-radius: 5px;
           margin-right: 10px;
+          outline: none;
         }
         .calender-icon {
           position: absolute;
-          right: 200px;
+          right: 50px;
+          bottom: 16px;
           color: var(--light-purple);
+          &:hover {
+            cursor: pointer;
+          }
         }
         button {
           width: 30px;
           height: 30px;
           border: 1px solid var(--light-purple);
           border-radius: 5px;
+          align-items: center;
+          @include center;
           svg {
             color: var(--light-purple);
+          }
+          &:hover {
+            cursor: pointer;
           }
         }
       }
@@ -341,18 +354,20 @@
   }
 }
 .modal {
-  position: absolute;
-  left: 40vw;
-  bottom: 40vh;
-  border: 1px solid var(--light-purple);
-  border-radius: 5px;
-  background-color: #fff;
-  width: 300px;
-  height: 200px;
-  align-items: center;
-  justify-content: space-evenly;
-  text-align: center;
-  @include straight;
+  &-wrap {
+    position: absolute;
+    left: 40vw;
+    bottom: 40vh;
+    border: 1px solid var(--light-purple);
+    border-radius: 5px;
+    background-color: #fff;
+    width: 300px;
+    height: 200px;
+    text-align: center;
+    align-items: center;
+    justify-content: space-evenly;
+    @include straight;
+  }
   &-text {
     font-weight: 700;
   }
@@ -372,6 +387,7 @@
       &:nth-child(2) {
         border: 1px solid var(--light-purple);
         color: var(--light-purple);
+        background-color: #fff;
       }
       &:hover {
         cursor: pointer;
