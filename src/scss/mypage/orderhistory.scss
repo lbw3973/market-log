@@ -8,9 +8,12 @@
   display: flex;
   flex-direction: column;
 }
-
+.nodisplay {
+  display: none;
+}
 .header-container {
-  @include center;
+  display: flex;
+  justify-content: center;
 }
 .header {
   display: flex;
@@ -160,6 +163,9 @@
               justify-content: space-between;
               align-items: center;
               padding: 1rem;
+              svg {
+                color: var(--light-purple);
+              }
             }
             // a:visited {
             //   text-decoration: none;
@@ -192,7 +198,7 @@
             text-align: right;
 
             span {
-              color: #5f0080;
+              color: var(--light-purple);
               // font-weight: bold;
             }
           }
@@ -248,16 +254,22 @@
         padding: 10px 0;
         .calender-date {
           border: 1px solid var(--light-purple);
+          border-radius: 5px;
           margin-right: 10px;
         }
         .calender-icon {
           position: absolute;
           right: 200px;
+          color: var(--light-purple);
         }
         button {
           width: 30px;
           height: 30px;
           border: 1px solid var(--light-purple);
+          border-radius: 5px;
+          svg {
+            color: var(--light-purple);
+          }
         }
       }
       .products {
@@ -308,10 +320,14 @@
               padding: 7px;
               margin: 7px 0;
               border: 1px solid var(--light-purple);
+              border-radius: 5px;
               color: var(--light-purple);
               &:nth-child(2) {
                 background-color: var(--light-purple);
                 color: #fff;
+              }
+              &:hover {
+                cursor: pointer;
               }
             }
           }
@@ -320,6 +336,45 @@
       .order-history--pagination {
         @include center;
         margin: 10px 0;
+      }
+    }
+  }
+}
+.modal {
+  position: absolute;
+  left: 40vw;
+  bottom: 40vh;
+  border: 1px solid var(--light-purple);
+  border-radius: 5px;
+  background-color: #fff;
+  width: 300px;
+  height: 200px;
+  align-items: center;
+  justify-content: space-evenly;
+  text-align: center;
+  @include straight;
+  &-text {
+    font-weight: 700;
+  }
+  svg {
+    color: #cdb4db;
+  }
+  .buttons {
+    display: flex;
+    button {
+      border: 1px solid var(--light-purple);
+      background-color: var(--light-purple);
+      color: #fff;
+      border-radius: 5px;
+      width: 60px;
+      height: 45px;
+      margin: 0 10px;
+      &:nth-child(2) {
+        border: 1px solid var(--light-purple);
+        color: var(--light-purple);
+      }
+      &:hover {
+        cursor: pointer;
       }
     }
   }
