@@ -1,7 +1,15 @@
 // font family
 // regular 400, medium 500, bold 700, black 900
+@font-face {
+  font-family: 'S-CoreDream-3Light';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
 
 * {
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: 'S-CoreDream-3Light', 'Noto Sans KR', sans-serif;
 }
