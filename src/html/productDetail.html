@@ -15,7 +15,7 @@
     ></script>
   </head>
   <body>
-    <!-- 메인 헤더 시작 -->
+    <!-- 공통 헤더 시작 -->
     <header class="header-container">
       <div class="header">
         <nav class="header__user-login">
@@ -78,12 +78,12 @@
         </nav>
       </div>
     </header>
-    <!-- main header 끝 -->
+    <!-- 공통 헤더 끝 -->
     <!-- main 시작 -->
     <main class="main">
-      <div class="main-container">
-        <!-- section__productDetail -->
-        <section class="section__productDetail">
+      <!-- <div class="main-container"> -->
+      <!-- section__productDetail -->
+      <!-- <section class="section__productDetail">
           <img
             src="../../public/IMGproductDetail/bluetooth keyboard.jpeg"
             alt="제품 사진"
@@ -127,13 +127,31 @@
           <div class="aside__productDetail--btns">
             <button class="aside__productDetail--btns-cart">장바구니</button>
             <button class="aside__productDetail--btns-buy">구매하기</button>
-            <!-- <button class="aside__productDetail--btns-soldOut">
+            <button class="aside__productDetail--btns-soldOut">
               해당 상품은 품절입니다.
-            </button> -->
+            </button>
           </div>
-        </aside>
-      </div>
+        </aside> -->
+      <!-- </div> -->
+      <!-- <div>test</div> -->
     </main>
     <!-- main 끝 -->
+    <!-- 장바구니 modal -->
+    <div class="modal__addCart">
+      <div class="modal__addCart-container">
+        <div class="modal__addCart--info">
+          <img src="../../public/cart.svg" alt="장바구니 추가 완료" />
+          <h4>장바구니에 추가되었습니다.</h4>
+        </div>
+        <div class="modal__addCart--btns">
+          <button class="modal__addCart--btn keepShopping">
+            <a href="/" data-navigo>계속 쇼핑하기</a>
+          </button>
+          <button class="modal__addCart--btn goToCart">
+            <a href="/cart" data-navigo>장바구니 바로가기</a>
+          </button>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
