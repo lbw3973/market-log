@@ -23,27 +23,40 @@
   cursor: pointer;
 }
 
-body {
-  height: 100vh;
+@mixin section-header {
+  font-size: 55px;
+  font-weight: 600;
+  color: var(--logo-color);
 }
 
-// header 시작
-.header-container {
-  display: flex;
+body {
+  width: 100%;
+  min-width: 1540px;
+  height: auto;
   justify-content: center;
+  align-content: center;
+}
+
+img {
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.header-container {
+  justify-content: center;
+  width: 100%;
 }
 .header {
   display: flex;
   flex-direction: column;
-  width: 1440px;
-  padding: 20px 100px 20px;
-  border-bottom: 1px solid;
+
+  padding: 20px 200px 20px;
+  border-bottom: 1px solid var(--division-line);
   box-shadow: var(--box-shadow);
 
   &__user {
     display: flex;
     justify-content: flex-end;
-
     &-login {
       display: flex;
       justify-content: flex-end;
@@ -51,12 +64,17 @@ body {
       &--ul {
         display: flex;
         gap: 5px;
+        &--li {
+          a {
+            color: var(--logo-color);
+          }
+        }
       }
     }
   }
 
   &-main {
-    margin-top: 10px;
+    margin-top: 22px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -68,16 +86,17 @@ body {
     }
 
     &__logo {
-      height: 80px;
+      height: 72px;
+      margin-right: 10px;
     }
 
     &__company-name {
-      font-size: 30px;
+      font-size: 28px;
+      color: var(--logo-color);
     }
 
     &__search {
-      min-width: 40%;
-      border: 1px solid;
+      width: 45%;
 
       &--form {
         display: flex;
@@ -86,12 +105,13 @@ body {
         width: 100%;
         height: 50px;
         border: 1px solid var(--logo-color);
+        border-radius: 6px;
       }
 
       &--input {
         width: 100%;
         height: 80%;
-        border-radius: 3px;
+        padding-left: 16px;
         border: none;
 
         &:focus,
@@ -112,6 +132,7 @@ body {
 
     &__links-img {
       height: 40px;
+      margin: 0 8px;
     }
   }
 
@@ -120,18 +141,19 @@ body {
       margin-top: 40px;
       &--ul {
         display: flex;
-        justify-content: space-between;
+        justify-content: space-evenly;
       }
 
       &--li {
+        margin: 0 100px;
         a {
-          font-size: 20px;
+          color: var(--logo-color);
+          font-size: 18px;
         }
       }
     }
   }
 }
-// header 끝
 
 // main
 .main {
@@ -334,15 +356,8 @@ body {
       transform: scale(0.98);
     }
     a {
-      // padding: 10px 16px;
-      // border: 1px solid var(--logo-color);
-      // border-radius: 6px;
-
-      // &:active,
-      // &:hover {
-      //   background-color: var(--logo-color);
-      //   color: #fff;
-      // }
+      width: 100%;
+      height: 100%;
     }
   }
 }

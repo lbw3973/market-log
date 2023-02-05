@@ -1,0 +1,259 @@
+@forward '../globals';
+@mixin section-header {
+  font-size: 55px;
+  font-weight: 600;
+  color: var(--logo-color);
+}
+
+body {
+  width: 100%;
+  min-width: 1540px;
+  height: auto;
+  justify-content: center;
+  align-content: center;
+}
+
+img {
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.header-container {
+  justify-content: center;
+  width: 100%;
+}
+.header {
+  display: flex;
+  flex-direction: column;
+
+  padding: 20px 200px 20px;
+  border-bottom: 1px solid var(--division-line);
+  box-shadow: var(--box-shadow);
+
+  &__user {
+    display: flex;
+    justify-content: flex-end;
+    &-login {
+      display: flex;
+      justify-content: flex-end;
+
+      &--ul {
+        display: flex;
+        gap: 5px;
+        &--li {
+          a {
+            color: var(--logo-color);
+          }
+        }
+      }
+    }
+  }
+
+  &-main {
+    margin-top: 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &__home-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    &__logo {
+      height: 72px;
+      margin-right: 10px;
+    }
+
+    &__company-name {
+      font-size: 28px;
+      color: var(--logo-color);
+    }
+
+    &__search {
+      width: 45%;
+
+      &--form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 50px;
+        border: 1px solid var(--logo-color);
+        border-radius: 6px;
+      }
+
+      &--input {
+        width: 100%;
+        height: 80%;
+        padding-left: 16px;
+        border: none;
+
+        &:focus,
+        &:active {
+          outline: none;
+        }
+      }
+
+      &--button {
+        img {
+          height: 30px;
+          margin-right: 10px;
+          color: var(--logo-color);
+          cursor: pointer;
+        }
+      }
+    }
+
+    &__links-img {
+      height: 40px;
+      margin: 0 8px;
+    }
+  }
+
+  &-nav {
+    &-category {
+      margin-top: 40px;
+      &--ul {
+        display: flex;
+        justify-content: space-evenly;
+      }
+
+      &--li {
+        margin: 0 100px;
+        a {
+          color: var(--logo-color);
+          font-size: 18px;
+        }
+      }
+    }
+  }
+}
+
+body {
+  height: 100vh;
+}
+// Cart
+.cart {
+  margin: 60px 100px;
+  min-height: 100vh;
+
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+  }
+
+  &__header {
+    border-bottom: 1px solid var(--logo-color);
+    padding-bottom: 10px;
+    h2 {
+      font-size: 26px;
+    }
+  }
+
+  &__list {
+    min-width: 70%;
+  }
+  &__item {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+
+    &-info {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+
+      &--checkbox {
+        input {
+          width: 16px;
+          height: 16px;
+        }
+      }
+
+      &--img {
+        img {
+          width: 100px;
+          height: 100px;
+        }
+      }
+    }
+
+    &--calc {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      &-count {
+        margin-left: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 20px;
+
+        button {
+          border: 1px solid var(--logo-color);
+          padding: 3px 6px;
+          border-radius: 6px;
+        }
+      }
+    }
+  }
+
+  &__price {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 30%;
+    padding: 10px;
+
+    &--border {
+      border: 1px solid var(--logo-color);
+    }
+
+    &--calc {
+      padding: 30px 20px;
+      @mixin cart__price--calc {
+        display: flex;
+        justify-content: space-between;
+        gap: 30px;
+        padding: 10px 20px;
+      }
+      &-orderPrice {
+        @include cart__price--calc();
+      }
+      &-discountPrice {
+        @include cart__price--calc();
+      }
+      &-deliveryPrice {
+        @include cart__price--calc();
+      }
+    }
+
+    &--total {
+      display: flex;
+      justify-content: space-between;
+      height: 50px;
+      padding: 0px 16px;
+      background-color: var(--light-blue);
+      font-size: 20px;
+      align-items: center;
+    }
+
+    &--paymentBtn {
+      margin-top: 20px;
+      width: 230px;
+      height: 50px;
+      padding: 0px 16px;
+      background-color: var(--logo-color);
+      color: #fff;
+      text-align: center;
+    }
+  }
+}
+button {
+  cursor: pointer;
+}
