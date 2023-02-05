@@ -300,11 +300,12 @@
           z-index: 5;
           filter: drop-shadow(10px 10);
 
-          .curr-month {
+          .curr-date {
             display: flex;
             align-items: center;
             justify-content: space-between;
             margin: 20px 0 0 0;
+            text-align: left;
             font-weight: 600;
             .material-symbols-outlined {
               @include center;
