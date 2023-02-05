@@ -1,6 +1,7 @@
 // dotenv 사용 예시
 import dotenv from 'dotenv';
 import Navigo from 'navigo';
+import { doc } from 'prettier';
 import { base_url, api_key, user_name, admin_email } from '../db.js';
 dotenv.config();
 window.localStorage.clear() // TODO : 삭제
@@ -37,23 +38,38 @@ router.on({
           <ul></ul>
           <div></div>
         </div>
-        <div class="accountNumber"></div>
-        <div class="phoneNumber"></div>
+      </div>
+      <div class="create__account">
+        <div class="create__account__modal">
+          <div class="modal__contaier">
+            <ul></ul>
+            <div class="accountNumber">
+              <input type="number"/>
+            </div>
+            <div class="phoneNumber">
+              <input type="number"/>
+            </div> 
+          </div>
+        </div>
       </div>
     `
   const myPageAccountWrapper = document.querySelector('.mypage__account__wrapper')
   const divUserAccount = document.querySelector('.user__account')
+  const dicCreateAccount = document.querySelector('.create__account')
 
   const UserAccounts = await getUserAccounts()
   showUserAccounts(divUserAccount, UserAccounts)
   const btnCreateAccount = document.createElement('button') 
-  btnCreateAccount.classList.add('create__account')
+  btnCreateAccount.classList.add('btn__create__account')
   btnCreateAccount.innerText = '계좌추가!'
   divUserAccount.querySelector('div').append(btnCreateAccount)
 
   btnCreateAccount.addEventListener('click', async () => {
-    const bankCode = getSelectBank()
-    console.log(bankCode)
+    dicCreateAccount.style.display = 'block'
+    const bankList = await getBankList()
+    createBankAccountList(dicCreateAccount, bankList)
+    // const bankCode = getSelectBank()
+    // console.log(bankCode)
   })
   },
   '/mypage/heart': () => {
@@ -133,8 +149,8 @@ const createUserACcount = async () => {
   return json()
 } 
 
-const createBankAccountList = (data) => {
-  const ulEl = document.querySelector('ul')
+const createBankAccountList = (div, data) => {
+  const ulEl = div.querySelector('ul')
   const liEls = data.map(_data => {
     const liEl = document.createElement('li')
     liEl.innerHTML = /* html */ `
@@ -250,6 +266,7 @@ const displayNameEl = document.querySelector('.display-name')
 const submitEl = document.querySelector('.signup')
 const authorizationEl = document.querySelector('.authorization')
 const loginEl = document.querySelector('.login')
+// const btnLogout = document.querySelector('.logout')
 
 let id = ''
 let pw = ''
@@ -296,6 +313,16 @@ loginEl.addEventListener('click', () => {
     }
   })
 })
+// btnLogout.addEventListener('click', () => {
+//   request({
+//     url: 'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/logout',
+//     method: 'POST',
+//     headers: {
+//       ...headers,
+//       Authorization: `Bearer ${window.localStorage.getItem('token')}`
+//     }
+//   })
+// })
 
 async function request(options) {
   const defaultOptions = {
