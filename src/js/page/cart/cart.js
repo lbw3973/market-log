@@ -14,13 +14,19 @@ export const shoppingCartStore = {
 const cartIdLocalStorage = shoppingCartStore.getLocalStorage();
 console.log(cartIdLocalStorage);
 
-/** 장바구니에 상품이 있을 떄 화면 렌더링 */
+let shoppingCartArray = [];
+shoppingCartArray = cartIdLocalStorage;
+
+let cartProductTotalPrice;
+
+/** 장바구니에 상품이 있을 때 화면 렌더링 */
 const renderCartList = (cartIdLocalStorage) => {
-  const { id, price, count, thumbnail, title } = cartIdLocalStorage;
   const cartListTemplate = cartIdLocalStorage
     .map((item) => {
+      const { id, price, count, thumbnail, title } = item;
+      cartProductTotalPrice = price;
       return `
-    <li class="cart__item" data-productId="${item.id}">
+    <li class="cart__item" data-product-id="${id}">
       <div class="cart__item-info">
         <div class="cart__item-info--checkbox">
           <input type="checkbox" checked />
@@ -28,24 +34,24 @@ const renderCartList = (cartIdLocalStorage) => {
         <a href="#" data-navigo
           ><div class="cart__item-info--img">
             <img
-              src="${item.thumbnail}"
-              alt="${item.title}"
+              src="${thumbnail}"
+              alt="${title}"
             /></div
         ></a>
         <a href="#" data-navigo
           ><span class="cart__item-info--title">
-            ${item.title}
+            ${title}
           </span></a
         >
       </div>
       <div class="cart__item--calc">
         <div class="cart__item--calc-count">
           <button class="cart-minusQtyBtn">-</button>
-          <p>${item.count}</p>
+          <p class="cartProductQty">${count}</p>
           <button class="cart-addQtyBtn">+</button>
         </div>
-        <span class="cart__item--price">${item.price.toLocaleString()}원</span>
-        <button class="cart__item--deleteBtn">X</button>
+        <span class="cart__item--price cartProductTotalPrice">${price}</span>
+        <button class="cart__item--deleteBtn cartProductDeleteBtn">X</button>
       </div>
     </li>
     `;
@@ -54,16 +60,72 @@ const renderCartList = (cartIdLocalStorage) => {
 
   $('.cart__list').innerHTML = cartListTemplate;
 };
+
+const storeLocalStorage = (id) => {
+  const existingItem = shoppingCartArray.find((item) => item.id === id);
+  console.log('existingItem', existingItem);
+
+  if (existingItem) {
+    existingItem.price += existingItem.pricePerOne;
+    existingItem.qty += 1;
+    existingItem.count += 1;
+    return;
+  }
+
+  shoppingCartStore.setLocalStorage(shoppingCartArray);
+  console.log('장바구니', shoppingCartArray);
+};
+
 /** 장바구니 구매수량 핸들링 이벤트 */
 $('.cart__list').addEventListener('click', (e) => {
-  console.log(e.target);
+  // const price = Number(
+  //   e.target.closest('li').querySelector('.cartProductTotalPrice').innerHTML,
+  // );
+  // const qty = Number(
+  //   e.target.closest('li').querySelector('.cartProductQty').textContent,
+  // );
+  handleCartQty(e);
+});
+/** 장바구니 구매수량 핸들링 함수 */
+const handleCartQty = (e) => {
+  const id = e.target.closest('li')?.dataset.productId;
+
+  // 수량+ 버튼
+  if (e.target.classList.contains('cart-addQtyBtn')) {
+    storeLocalStorage(id);
+    renderCartList(cartIdLocalStorage);
+    shoppingCartStore.setLocalStorage(shoppingCartArray);
+    return;
+  }
+
+  // 수량- 버튼
   if (e.target.classList.contains('cart-minusQtyBtn')) {
+    const existingItem = shoppingCartArray.find((item) => item.id === id);
+    console.log('existingItem', existingItem);
+
+    if (existingItem) {
+      existingItem.price -= existingItem.pricePerOne;
+      existingItem.qty -= 1;
+      existingItem.count -= 1;
+      shoppingCartStore.setLocalStorage(shoppingCartArray);
+      renderCartList(cartIdLocalStorage);
+      return;
+    }
+  }
+};
+
+/** 장바구니에서 삭제 이벤트*/
+$('.cart__list').addEventListener('click', (e) => {
+  const id = e.target.closest('li')?.dataset.productId;
+
+  if (e.target.classList.contains('cartProductDeleteBtn')) {
+    console.log(e.target);
   }
 });
 
-/** 장바구니 구매수량 핸들링 함수 */
+/** 장바구니에서 삭제 함수 */
 
-/** 빈 장바구니일 떄 화면에 표시 */
+/** 빈 장바구니일 때 화면에 표시 */
 const renderEmptyCart = () => {
   const cartListEmptyTemplate = `
     <div class="cart__empty">
