@@ -1,4 +1,5 @@
 @forward '../globals';
+@use './productAdd.scss';
 
 .header {
   display: flex;
@@ -71,7 +72,7 @@ main {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 1rem;
+    padding-bottom: 16px;
 
     & h2 {
       font-size: 20px;
@@ -80,7 +81,7 @@ main {
 
     & div {
       display: flex;
-      gap: 1rem;
+      gap: 16px;
     }
 
     & select {
@@ -102,7 +103,7 @@ main {
       cursor: pointer;
       font-size: 15px;
       padding: 10px;
-      width: 20rem;
+      width: 400px;
     }
 
     &-input img {
