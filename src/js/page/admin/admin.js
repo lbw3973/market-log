@@ -34,7 +34,7 @@ const renderPage = (html) => {
   const page = content.querySelector('.main-container__content > div');
 
   if (page.className === 'product-container') {
-    renderPageBtn(page);
+    productHandler(page);
   } else if (page.className === 'productAdd-container') {
     productAddHandler(page);
   }
@@ -57,7 +57,7 @@ renderPage(dashboardPage);
   console.log(res);
 })();
 
-const renderPageBtn = (page) => {
+const productHandler = (page) => {
   const numberOfProduct = 52; // 제품 배열의 length
   const itemsPerPage = 10; // 한 페이지에 출력할 제품 수
   const numberOfPages = Math.ceil(numberOfProduct / itemsPerPage);
