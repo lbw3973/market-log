@@ -77,7 +77,7 @@ export const productAddPage = `
           </div>  
           <div class='container-form__content--price'>
             <p>가격 <span>*</span></p>
-            <input type='text' name='price' placeholder='제품명' required>
+            <input type='text' name='price' placeholder='가격' required>
           </div>  
           <div class='container-form__content--description'>
             <p>제품상세설명<span>*</span></p>
@@ -86,20 +86,18 @@ export const productAddPage = `
           <div class='container-form__content--thumbnail'>
             <div>
               <p>썸네일 이미지 <span>*</span></p>
-              <button>파일선택</button>
+              <input type="file">
             </div>
-            <div>
-              <img alt='썸네일 이미지' src=''>
-              <p>이름 미리보기<p>
+            <div class="preview">
+              <img src=''style="width:100px;">
             </div>
           </div>
         </div>
-
+        <div class='container-form__btn'>
+          <button type='submit' class='container-form__btn--add'>추가</button>
+          <a href ='/admin/product/' data-navigo container-form__btn--cancel'>취소</a> 
+        </div>
       </div>    
-      <div class='container-form__btn'>
-        <button class='container-form__btn--add'>추가</button>
-        <a href ='/admin/product/' data-navigo container-form__btn--cancel'>취소</a> 
-      </div>
     </form>
   </div>
 `;
