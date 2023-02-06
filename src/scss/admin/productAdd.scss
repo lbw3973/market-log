@@ -17,7 +17,7 @@
   &__content {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 40px;
     width: 100%;
 
     &--tags {
@@ -64,6 +64,18 @@
       }
 
       & textarea {
+        width: 20%;
+      }
+    }
+
+    &--thumbnail > div {
+      display: flex;
+
+      & p {
+        width: 20%;
+      }
+
+      & input {
         width: 20%;
       }
     }
