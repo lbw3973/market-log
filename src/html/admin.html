@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../scss/admin/admin.scss" />
     <script type="module" src="../js/page/admin/admin.js" defer></script>
   </head>
+
   <body>
     <header class="header-container">
       <div class="header">
@@ -29,18 +30,18 @@
       <aside class="aside-container">
         <ul>
           <li class="aside-container__list">
-            <a href="/" data-navigo><span>대시보드</span></a>
+            <a href="/admin" data-navigo><span>대시보드</span></a>
           </li>
           <li class="aside-container__list">
-            <a href="/product" data-navigo><span>상품관리</span></a>
+            <a href="/admin/product" data-navigo><span>상품관리</span></a>
           </li>
           <li class="aside-container__list">
-            <a href="/order" data-navigo><span>거래내역</span></a>
+            <a href="/admin/order" data-navigo><span>거래내역</span></a>
           </li>
         </ul>
       </aside>
       <section class="main-container">
-        <div class="main-container__contents"></div>
+        <div class="main-container__content"></div>
       </section>
     </main>
   </body>
