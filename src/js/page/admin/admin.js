@@ -45,18 +45,23 @@ const productPage = `
     <div class='product-container' data-page='product'>
         <div class ='product-container__search'>
             <h2>상품관리</h2>
-            <select>
-                <option value='마우스'>마우스</option>
-                <option value>키보드</option>
-            </select>
-            <select>
-                <option value=''>품절여부</option>
-                <option value='true'>Y</option>
-                <option value='false'>N</option>
-            </select>
-            <div class='product-container__search-input'>
-                <input placeholder="상품명을 입력해 주세요.">
-                <button>확인</button>
+            <div product-container__select>
+              <select>
+                  <option value=''>카테고리</option>
+                  <option value>키보드</option>
+                  <option value>키보드</option>
+                  <option value>키보드</option>
+                  <option value>키보드</option>
+              </select>
+              <select>
+                  <option value=''>품절여부</option>
+                  <option value='true'>Y</option>
+                  <option value='false'>N</option>
+              </select>
+              <div class='product-container__search-input'>
+                  <input placeholder="상품명을 입력해 주세요.">
+                  <img src="../../public/search.png" alt="검색">
+              </div>
             </div>
         </div>
         <ul class='product-container__list'>
