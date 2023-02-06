@@ -1,5 +1,6 @@
 import Navigo from 'navigo';
 import { getAllProudct } from './api';
+import searchPNG from '../../../../public/search.png';
 
 let currentPage = 'dashboard';
 
@@ -45,7 +46,7 @@ const productPage = `
     <div class='product-container' data-page='product'>
         <div class ='product-container__search'>
             <h2>상품관리</h2>
-            <div product-container__select>
+            <div>
               <select>
                   <option value=''>카테고리</option>
                   <option value>키보드</option>
@@ -59,19 +60,20 @@ const productPage = `
                   <option value='false'>N</option>
               </select>
               <div class='product-container__search-input'>
-                  <input placeholder="상품명을 입력해 주세요.">
-                  <img src="../../public/search.png" alt="검색">
+                  <input placeholder='상품명을 입력해 주세요.'>
+                  <img src=${searchPNG} alt='검색'>
               </div>
             </div>
         </div>
         <ul class='product-container__list'>
-            <div>
-                <span>NO</span>
-                <span>카테고리</span>
-                <span>상품명</span>
-                <span>가격</span>
-                <span>품절여부</span>
-            </div>
+            <li>
+                <input type="checkbox">
+                <span style='width: 5%;'>NO</span>
+                <span style='width: 10%;'>카테고리</span>
+                <span style='width: 10%;'>상품명</span>
+                <span style='width: 15%;'>가격</span>
+                <span style='width: 15%;'>품절여부</span>
+            </li>
         </ul>
         <div class='product-container__btn'>
             <button class='product-container__btn-delete'>삭제</button>
