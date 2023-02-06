@@ -84,15 +84,13 @@ const productPage = `
 `;
 
 const productAddPage = `
-  <div class='product-add-container' data-page='add'>
-    <form class='product-add-container__form'>
-      <div class='product-add-container__form--header'>
-        <h1>상품 등록</h1>
-      </div>
-      <div class='product-add-container__form--content'>
-        <div class='form-container1'>
-          <div class='form-container__tags'>
-            <p>태그<span>*</span></p>
+  <div class='container' data-page='add'>
+    <form class='container-form'>
+      <h2 class='container-form__header'>상품 등록</h2>
+      <div class='container-form__content'>
+
+          <div class='container-form__content--tags'>
+            <p>카테고리<span>*</span></p>
             <select name='tags' required>
               <option value=''>선택</option>
               <option value='주식'>주식</option>
@@ -105,37 +103,35 @@ const productAddPage = `
               <option value='위생'>위생</option>
             </select>
           </div>  
-          <div class='form-container__title'>
+          <div class='container-form__content--title'>
             <p>제품명 <span>*</span></p>
             <input type='text' name='title' placeholder='제품명' required>
           </div>  
-          <div class='form-container__price'>
+          <div class='container-form__content--price'>
             <p>가격 <span>*</span></p>
             <input type='text' name='price' placeholder='제품명' required>
           </div>  
-          <div class='form-container__description'>
+          <div class='container-form__content--description'>
             <p>제품상세설명<span>*</span></p>
             <textarea type='text' name='description' placeholder='제품 상세 설명' required></textarea>
-          </div>  
-          <div class='form-container__thumbnail'></div>  
-          <div class='form-container__isSoldOut'></div>  
-        </div>
-        <div class='form-container2'>
-          <div class='form-container__thumbnail'>
-            <p>썸네일 이미지 <span>*</span></p>
+          </div>
+          <div class='container-form__content--thumbnail'>
             <div>
-              <div>
-                <img alt='썸네일 이미지' src=''>
-              </div>
-              <div>
-                <button>파일변경</button>
-                <p><p>
-              </div>
+              <p>썸네일 이미지 <span>*</span></p>
+              <button>파일선택</button>
+            </div>
+            <div>
+              <img alt='썸네일 이미지' src=''>
+              <p>이름 미리보기<p>
             </div>
           </div>
         </div>
+
+      </div>    
+      <div class='container-form__btn'>
+        <button class='container-form__btn--add'>추가</button>
+        <a href ='/admin/product/' data-navigo container-form__btn--cancel'>취소</a> 
       </div>
-      <div class='product-add-container__form--btn'></div>
     </form>
   </div>
 `;
