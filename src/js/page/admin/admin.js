@@ -9,6 +9,7 @@ import {
 import { productAddHandler } from './productAdd.js';
 
 let currentPage = 'dashboard';
+let products = [];
 
 const router = new Navigo('/');
 
@@ -53,11 +54,31 @@ const pageClickHandler = (e) => {
 renderPage(dashboardPage);
 
 (async () => {
-  const res = await getAllProduct();
-  console.log(res);
+  products = await getAllProduct();
+  console.log(products);
 })();
 
 const productHandler = (page) => {
+  const productList = page.querySelector('.product-container__list');
+
+  const productsEl = products.map((product, idx) => {
+    const productEl = document.createElement('li');
+    productEl.innerHTML = `
+          <input type="checkbox">
+          <span style='width: 5%;'>${idx}</span>
+          <span style='width: 10%;'>${product.tags[0]}</span>
+          <span style='width: 10%;'>${product.title}</span>
+          <span style='width: 15%;'>${product.price}</span>
+          <span style='width: 15%;'>${
+            'true' === product.isSoldOut ? '품절' : '판매가능'
+          }</span>
+        `;
+    return productEl;
+  });
+  console.log(...productsEl);
+  productList.append(...productsEl);
+  // productEl.forEach((el, idx) => productList.append(el[idx]));
+
   const numberOfProduct = 52; // 제품 배열의 length
   const itemsPerPage = 10; // 한 페이지에 출력할 제품 수
   const numberOfPages = Math.ceil(numberOfProduct / itemsPerPage);
