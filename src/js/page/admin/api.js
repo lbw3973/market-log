@@ -18,18 +18,30 @@ export const getAllProudct = async () => {
 };
 
 export const addProduct = async (product) => {
-  const res = await fetch(
+  console.log(product.thumbnail);
+  await fetch(
     'https://asia-northeast3-heropy-api.cloudfunctions.net/api/products ',
     {
       method: 'POST',
       headers,
       body: JSON.stringify({
-        title,
-        price,
-        description,
-        tags,
-        thumbnailBase64,
+        title: product.title,
+        price: product.price,
+        description: product.description,
+        tags: product.tags,
+        thumbnailBase64: product.thumbnail,
       }),
+    },
+  );
+};
+
+export const deleteProduct = async (product) => {
+  console.log(product.thumbnail);
+  const res = await fetch(
+    `https://asia-northeast3-heropy-api.cloudfunctions.net/api/${id}`,
+    {
+      method: 'POST',
+      headers,
     },
   );
 };
