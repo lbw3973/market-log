@@ -350,6 +350,10 @@
                   border-radius: 50%;
                   color: #fff;
                 }
+                &.selected {
+                  background-color: var(--light-blue);
+                  border-radius: 50%;
+                }
                 // &::after {
                 //   content: '';
                 //   width: 34px;

@@ -1,0 +1,245 @@
+@import '../globals/';
+@mixin row-center {
+  display: flex;
+  justify-content: center;
+}
+@mixin center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@mixin straight {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-container {
+  display: flex;
+  justify-content: center;
+}
+.header {
+  display: flex;
+  flex-direction: column;
+  width: 1440px;
+  padding: 20px 200px 20px;
+  border-bottom: 1px solid #d3d3d3;
+  box-shadow: var(--box-shadow);
+
+  &__user {
+    display: flex;
+    justify-content: flex-end;
+
+    &-login {
+      display: flex;
+      justify-content: flex-end;
+
+      &--ul {
+        display: flex;
+        gap: 5px;
+      }
+
+      &-li {
+      }
+    }
+  }
+
+  &-main {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &__home-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    &__logo {
+      height: 80px;
+    }
+
+    &__company-name {
+      font-size: 30px;
+    }
+
+    &__search {
+      width: 50%;
+      border: 1px solid;
+
+      &--form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 50px;
+        border: 1px solid var(--light-purple);
+      }
+
+      &--input {
+        width: 100%;
+        height: 80%;
+        border-radius: 3px;
+        border: none;
+
+        &:focus,
+        &:active {
+          outline: none;
+        }
+      }
+
+      &--button {
+        img {
+          height: 30px;
+          margin-right: 10px;
+          color: var(--light-purple);
+          cursor: pointer;
+        }
+      }
+    }
+
+    &__links-img {
+      height: 40px;
+    }
+  }
+
+  &-nav {
+    &-category {
+      margin-top: 40px;
+      &--ul {
+        display: flex;
+        justify-content: space-between;
+      }
+      &--li {
+        a {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+}
+.mypage {
+  display: grid;
+  place-content: center;
+  box-sizing: border-box;
+  width: 1440px;
+  padding: 32px 0 0;
+  .mypage__container {
+    display: flex;
+    margin-top: 2rem;
+    width: 1200px;
+    // width: 74vw;
+    .mypage__navbar {
+      @include straight;
+      gap: 2rem;
+      width: 20%;
+      z-index: 200;
+      h1 {
+        font-size: 1.6rem;
+        // font-weight: 800;
+      }
+      nav {
+        @include straight;
+        ul {
+          li {
+            border: 1px solid #fafafa;
+            border-bottom: none;
+            font-size: 0.9rem;
+            &:first-child {
+              background-color: #fafafa;
+            }
+            a {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              padding: 1rem;
+              color: var(--light-purple);
+              svg {
+                color: var(--light-purple);
+              }
+            }
+            // a:visited {
+            //   text-decoration: none;
+            //   color: var(--light-purple);
+            // }
+            &:hover {
+              background-color: #fafafa;
+            }
+          }
+        }
+      }
+    }
+    .mypage__account__container {
+      margin-left: 2rem;
+      width: 1440px;
+      height: 100vh;
+      .mypage__account__wrapper {
+        .mypage__account__header {
+          border-bottom: 2px solid #fff;
+          padding-bottom: 1rem;
+          h1 {
+            font-size: 30px;
+            // font-weight: bold;
+          }
+        }
+        .user__account {
+          p {
+            font-size: 14px;
+            margin-top: 20px;
+            text-align: right;
+            span {
+              color: var(--light-purple);
+              // font-weight: bold;
+            }
+          }
+          ul {
+            @include straight;
+            gap: 20px;
+            margin: 10px 0;
+            li {
+              padding: 20px;
+              border: 2px solid;
+              position: relative;
+              display: flex;
+              align-items: center;
+              span {
+                font-size: 20px;
+                display: block;
+              }
+              span::before {
+              }
+              span::after {
+              }
+              button {
+                position: absolute;
+                right: 30px;
+              }
+            }
+          }
+          div {
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+}
+.mypage__orderhistory {
+  padding-left: 80px;
+  width: 80%;
+  min-height: 450px;
+  h2 {
+    font-size: 22.4px;
+    padding: 0 0 16px;
+    border-bottom: 2px solid #000;
+  }
+  .order-specific {
+    margin-top: 16px;
+    display: flex;
+  }
+  .product-container {
+    border: 1px solid var(--light-purple);
+    width: 630px;
+    height: 122px;
+  }
+}
