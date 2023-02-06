@@ -5,7 +5,7 @@ const headers = {
   masterKey: true,
 };
 
-export const getAllProudct = async () => {
+export const getAllProduct = async () => {
   const res = await fetch(
     'https://asia-northeast3-heropy-api.cloudfunctions.net/api/products ',
     {

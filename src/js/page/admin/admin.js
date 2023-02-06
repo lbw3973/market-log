@@ -1,5 +1,5 @@
 import Navigo from 'navigo';
-import { getAllProudct } from './api.js';
+import { getAllProduct } from './api.js';
 import {
   dashboardPage,
   orderPage,
@@ -53,7 +53,7 @@ const pageClickHandler = (e) => {
 renderPage(dashboardPage);
 
 (async () => {
-  const res = await getAllProudct();
+  const res = await getAllProduct();
   console.log(res);
 })();
 
