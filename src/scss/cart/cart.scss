@@ -158,8 +158,10 @@ body {
   }
   &__item {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    min-height: 100px;
     padding: 10px;
+    border-bottom: 1px solid var(--division-line);
 
     &-info {
       display: flex;
@@ -184,7 +186,7 @@ body {
     &--calc {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 80px;
 
       &-count {
         margin-left: 10px;
@@ -215,12 +217,13 @@ body {
     }
 
     &--calc {
+      width: 300px;
       padding: 30px 20px;
       @mixin cart__price--calc {
         display: flex;
         justify-content: space-between;
         gap: 30px;
-        padding: 10px 20px;
+        padding: 16px 20px;
       }
       &-orderPrice {
         @include cart__price--calc();
@@ -237,7 +240,7 @@ body {
       display: flex;
       justify-content: space-between;
       height: 50px;
-      padding: 0px 16px;
+      padding: 16px 40px;
       background-color: var(--light-blue);
       font-size: 20px;
       align-items: center;
@@ -245,12 +248,32 @@ body {
 
     &--paymentBtn {
       margin-top: 20px;
-      width: 230px;
+      width: 310px;
       height: 50px;
       padding: 0px 16px;
       background-color: var(--logo-color);
       color: #fff;
       text-align: center;
+    }
+  }
+
+  &__empty {
+    margin-top: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    img {
+      width: 60px;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      border: 1px solid var(--logo-color);
+      border-radius: 6px;
     }
   }
 }

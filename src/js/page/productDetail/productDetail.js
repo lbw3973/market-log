@@ -11,7 +11,7 @@ export const shoppingCartStore = {
     localStorage.setItem('shoppingCart', JSON.stringify(product));
   },
   getLocalStorage() {
-    return JSON.parse(localStorage.getItem('shoppingCart') || []);
+    return JSON.parse(localStorage.getItem('shoppingCart')) || [];
   },
 };
 let shoppingCartArr = [];
@@ -22,8 +22,14 @@ let shoppingCartArr = [];
 //   console.log(shoppingCartArr);
 // };
 
-const storeCart = (productId) => {
-  shoppingCartArr.push({ id: productId });
+// const storeCart = (id, price, thumbnail, title, count, checked, count) => {
+//   shoppingCartArr.push({ id, price, thumbnail, title, count, checked, count });
+//   shoppingCartStore.setLocalStorage(shoppingCartArr);
+//   console.log(shoppingCartArr);
+// };
+
+const storeCart = (id, price, count, thumbnail, title) => {
+  shoppingCartArr.push({ id, price, count, thumbnail, title });
   shoppingCartStore.setLocalStorage(shoppingCartArr);
   console.log(shoppingCartArr);
 };
@@ -55,12 +61,12 @@ const getDetailProduct = async (productId) => {
   }
 };
 
-getDetailProduct('cMciAKoHplCj2VjRs4FA');
-
 /** 구매 수량 */
 let productDetailProductQty = 1;
 /** 총 상품 금액 */
 let productDetailTotalPrice;
+let productDetailTitle;
+let productDetailThumbnail;
 
 const renderDetailProduct = async (productId) => {
   const productDetail = await getDetailProduct(productId);
@@ -69,6 +75,9 @@ const renderDetailProduct = async (productId) => {
 
   // 총 금액 계산
   productDetailTotalPrice = price * productDetailProductQty;
+  //
+  productDetailTitle = title;
+  productDetailThumbnail = thumbnail;
 
   const productTags = tags
     .map((tag) => {
@@ -87,7 +96,7 @@ const renderDetailProduct = async (productId) => {
     </section>
     <aside class="aside__productDetail-menu">
       <div class="aside__productDetail--info">
-        <h2 class="aside__productDetail--info-title">
+        <h2 class="aside__productDetail--info-title" id="productDetail-title">
           ${title}
         </h2>
         <div class="aside__productDetail--info-sec">
@@ -112,13 +121,13 @@ const renderDetailProduct = async (productId) => {
         <p class="aside__productDetail--count-buy">구매 수량</p>
         <div class="aside__productDetail--count-btns">
           <button class="aside__productDetail--count-btn minusQtyBtn">-</button>
-          <span class="aside__productDetail--count-qty Qty">${productDetailProductQty}</span>
+          <span class="aside__productDetail--count-qty Qty" id="productDetailProductQty">${productDetailProductQty}</span>
           <button class="aside__productDetail--count-btn addQtyBtn">+</button>
         </div>
       </div>
       <div class="aside__productDetail--totalPrice">
         <p>총 상품 금액</p>
-        <p>${productDetailTotalPrice.toLocaleString()} 원</p>
+        <p id="productDetail-totalPrice">${productDetailTotalPrice.toLocaleString()}</p>
       </div>
       <div class="aside__productDetail--btns">
         ${
@@ -135,7 +144,8 @@ const renderDetailProduct = async (productId) => {
   $('.main').innerHTML = detailProductTemplate;
 };
 
-renderDetailProduct('cMciAKoHplCj2VjRs4FA');
+// renderDetailProduct('cMciAKoHplCj2VjRs4FA');
+renderDetailProduct('uXaJcS1hQwq1LPZgcrkQ');
 
 /** 구매수량 추가 핸들링 이벤트 */
 $('.main').addEventListener('click', (e) => {
@@ -144,6 +154,7 @@ $('.main').addEventListener('click', (e) => {
 
 /** 구매수량 핸들링 함수 */
 const updateInfo = async (e) => {
+  // 구매수량 -
   if (e.target.classList.contains('minusQtyBtn')) {
     productDetailProductQty -= 1;
     if (productDetailProductQty === 0) {
@@ -152,7 +163,7 @@ const updateInfo = async (e) => {
     renderDetailProduct('cMciAKoHplCj2VjRs4FA');
     return;
   }
-
+  // 구매수량 +
   if (e.target.classList.contains('addQtyBtn')) {
     productDetailProductQty += 1;
     renderDetailProduct('cMciAKoHplCj2VjRs4FA');
@@ -163,9 +174,17 @@ const updateInfo = async (e) => {
 /** 장바구니에 담기 */
 $('.main').addEventListener('click', (e) => {
   if (e.target.classList.contains('addCartBtn')) {
-    const productId = e.target.closest('.main-container').dataset.productId;
-    console.log(productId);
-    storeCart(productId);
+    const id = e.target.closest('.main-container').dataset.productId;
+    console.log(id);
+    const price = productDetailTotalPrice;
+    const count = productDetailProductQty;
+    const title = productDetailTitle;
+    const thumbnail = productDetailThumbnail;
+    console.log(title);
+    console.log(price);
+    // const price =
+    // storeCart(id, price, thumbnail, title, count, checked);
+    storeCart(id, price, count, thumbnail, title);
   }
 });
 
@@ -189,7 +208,7 @@ const handleModal = (e) => {
     return;
   }
 
-  // navigo 장바구니로 가기
+  // '장바구니 바로가기' 버튼 클릭 시, navigo 장바구니로 가기
   if (e.target === $('.goToCart')) {
     $('.modal__addCart').style.display = 'none';
     return;
