@@ -61,7 +61,21 @@ main {
   background-color: var(--light-purple);
   margin: 20px;
 
-  &__contents {
+  &__content {
     padding: 20px;
   }
+}
+
+.product-container {
+  &__search {
+    display: flex;
+  }
+
+  &__btn {
+    display: flex;
+  }
+}
+
+.active {
+  font-weight: 600;
 }
