@@ -16,6 +16,7 @@ console.log(cartIdLocalStorage);
 
 /** 장바구니에 상품이 있을 떄 화면 렌더링 */
 const renderCartList = (cartIdLocalStorage) => {
+  const { id, price, count, thumbnail, title } = cartIdLocalStorage;
   const cartListTemplate = cartIdLocalStorage
     .map((item) => {
       return `
@@ -24,14 +25,14 @@ const renderCartList = (cartIdLocalStorage) => {
         <div class="cart__item-info--checkbox">
           <input type="checkbox" checked />
         </div>
-        <a href="#"
+        <a href="#" data-navigo
           ><div class="cart__item-info--img">
             <img
               src="${item.thumbnail}"
               alt="${item.title}"
             /></div
         ></a>
-        <a href="#"
+        <a href="#" data-navigo
           ><span class="cart__item-info--title">
             ${item.title}
           </span></a
@@ -39,9 +40,9 @@ const renderCartList = (cartIdLocalStorage) => {
       </div>
       <div class="cart__item--calc">
         <div class="cart__item--calc-count">
-          <button>-</button>
-          <p>1</p>
-          <button>+</button>
+          <button class="cart-minusQtyBtn">-</button>
+          <p>${item.count}</p>
+          <button class="cart-addQtyBtn">+</button>
         </div>
         <span class="cart__item--price">${item.price.toLocaleString()}원</span>
         <button class="cart__item--deleteBtn">X</button>
@@ -53,6 +54,14 @@ const renderCartList = (cartIdLocalStorage) => {
 
   $('.cart__list').innerHTML = cartListTemplate;
 };
+/** 장바구니 구매수량 핸들링 이벤트 */
+$('.cart__list').addEventListener('click', (e) => {
+  console.log(e.target);
+  if (e.target.classList.contains('cart-minusQtyBtn')) {
+  }
+});
+
+/** 장바구니 구매수량 핸들링 함수 */
 
 /** 빈 장바구니일 떄 화면에 표시 */
 const renderEmptyCart = () => {
