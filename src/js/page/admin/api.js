@@ -17,9 +17,22 @@ export const getAllProudct = async () => {
   return json;
 };
 
-
-
-
+export const addProduct = async (product) => {
+  const res = await fetch(
+    'https://asia-northeast3-heropy-api.cloudfunctions.net/api/products ',
+    {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        title,
+        price,
+        description,
+        tags,
+        thumbnailBase64,
+      }),
+    },
+  );
+};
 
 // {
 //   id: '2fYWw6890PmjFLFwjp7C',
