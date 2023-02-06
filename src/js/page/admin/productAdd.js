@@ -29,7 +29,6 @@ export const productAddHandler = (page) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.addEventListener('load', (e) => {
-      console.log(e.target.result);
       profileImgBase64 = e.target.result;
       preview.src = e.target.result;
     });
