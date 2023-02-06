@@ -45,8 +45,6 @@ const renderPage = (html) => {
 const pageClickHandler = (e) => {
   const page = e.target.closest(`.${currentPage}-container`);
 
-  console.log(page);
-
   if (e.target.matches('.products-container__btn-delete')) {
     console.log('상품 삭제');
   }
@@ -115,7 +113,7 @@ const renderPageBtn = (page) => {
   });
 };
 
-const showCurrentPageNumber = (numberBtns, idx, activeIdx) => {
+const showCurrentPageNumber = (numberBtns, idx) => {
   for (let numberBtn of numberBtns) {
     numberBtn.classList.remove('active');
   }
