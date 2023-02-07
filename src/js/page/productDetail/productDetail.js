@@ -153,8 +153,8 @@ const init = () => {
   if (shoppingCartStore.getLocalStorage().length > 0) {
     shoppingCartArr = shoppingCartStore.getLocalStorage();
   }
-  // renderDetailProduct('cMciAKoHplCj2VjRs4FA');
-  renderDetailProduct('uXaJcS1hQwq1LPZgcrkQ');
+  renderDetailProduct('cMciAKoHplCj2VjRs4FA');
+  // renderDetailProduct('uXaJcS1hQwq1LPZgcrkQ');
   // shoppingCartStore.setLocalStorage(shoppingCartArr);
 };
 init();
@@ -179,8 +179,8 @@ const updateInfo = async (e) => {
       productDetailProductQty = 1;
     }
 
-    // renderDetailProduct('cMciAKoHplCj2VjRs4FA');
-    renderDetailProduct('uXaJcS1hQwq1LPZgcrkQ');
+    renderDetailProduct('cMciAKoHplCj2VjRs4FA');
+    // renderDetailProduct('uXaJcS1hQwq1LPZgcrkQ');
     // shoppingCartStore.setLocalStorage(shoppingCartArr);
     return;
   }
@@ -188,8 +188,8 @@ const updateInfo = async (e) => {
   if (e.target.classList.contains('addQtyBtn')) {
     productDetailProductQty += 1;
 
-    // renderDetailProduct('cMciAKoHplCj2VjRs4FA');
-    renderDetailProduct('uXaJcS1hQwq1LPZgcrkQ');
+    renderDetailProduct('cMciAKoHplCj2VjRs4FA');
+    // renderDetailProduct('uXaJcS1hQwq1LPZgcrkQ');
     return;
   }
   shoppingCartStore.setLocalStorage(shoppingCartArr);
@@ -248,6 +248,28 @@ const handleModal = (e) => {
 
 let cartProductTotalPrice;
 
+let cartTotalPaymentPrice; // [장바구니] 총 결제 금액
+let cartTotalOrderPrice; // [장바구니] 총 주문 금액
+let cartDiscountPrice = 0; // [장바구니] 할인 금액
+let cartDeliveryPrice = 0; // [장바구니] 배송비
+
+/** 장바구니 총 가격 렌더링 */
+const renderCartPrice = () => {
+  const cartTotalPrice = shoppingCartArr.map((items) => items.price);
+  const cartTotalPriceReduce = cartTotalPrice.reduce((acc, val) => {
+    return acc + val;
+  }, 0);
+
+  console.log(cartTotalPrice);
+  console.log(cartTotalPriceReduce);
+  cartTotalOrderPrice = cartTotalPriceReduce;
+  console.log('cartTotalPaymentPrice', cartTotalPaymentPrice);
+  console.log(typeof cartTotalOrderPrice);
+  console.log(typeof cartDiscountPrice);
+  console.log(typeof cartDeliveryPrice);
+  return cartTotalOrderPrice;
+};
+
 // 장바구니 페이지 초기 렌더링
 const renderInitCartPage = `
 <section class="cart">
@@ -257,35 +279,46 @@ const renderInitCartPage = `
 
     <!-- 총 주문 금액 -->
     <aside class="cart__price">
-      <div class="cart__price--border">
-        <div class="cart__price--calc">
-          <div class="cart__price--calc-orderPrice">
-            <span class="cartOrderPrice">총 주문 금액</span>
-            <p class="cartOrderPrice">0 원</p>
-          </div>
-          <div class="cart__price--calc-discountPrice">
-            <span>할인 금액</span>
-            <p class="cartDiscountPrice">0 원</p>
-          </div>
-          <div class="cart__price--calc-deliveryPrice">
-            <span>베송비</span>
-            <p class="cartDeliveryPrice">0 원</p>
-          </div>
-        </div>
-        <div class="cart__price--total">
-          <span>총 결제 금액</span>
-          <p class="cartTotalPrice">0 원</p>
-        </div>
-      </div>
-      <a href="#" data-navigo
-        ><button class="cart__price--paymentBtn carPaymentBtn">
-          결제하기
-        </button></a
-      >
+    
     </aside>
   </div>
 </section>
 `;
+
+/** 장바구니 결제금액 렌더링 */
+const renderCartOrderPrice = () => {
+  // [장바구니] 총 결제 금액
+  cartTotalPaymentPrice =
+    cartTotalOrderPrice + cartDiscountPrice + cartDeliveryPrice;
+  const cartOrderPriceTemplate = `
+  <div class="cart__price--border">
+    <div class="cart__price--calc">
+      <div class="cart__price--calc-orderPrice">
+        <span class="cartOrderPrice">총 주문 금액</span>
+        <p class="cartOrderPrice">${cartTotalOrderPrice.toLocaleString()} 원</p>
+      </div>
+      <div class="cart__price--calc-discountPrice">
+        <span>할인 금액</span>
+        <p class="cartDiscountPrice">0 원</p>
+      </div>
+      <div class="cart__price--calc-deliveryPrice">
+        <span>배송비</span>
+        <p class="cartDeliveryPrice">0 원</p>
+      </div>
+    </div>
+    <div class="cart__price--total">
+      <span>총 결제 금액</span>
+      <p class="cartTotalPaymentPrice">${cartTotalPaymentPrice.toLocaleString()} 원</p>
+    </div>
+  </div>
+  <a href="/order" data-navigo
+    ><button class="cart__price--paymentBtn carPaymentBtn">
+      결제하기
+    </button></a
+  >
+`;
+  $('.main').querySelector('.cart__price').innerHTML = cartOrderPriceTemplate;
+};
 
 const renderCartList = (storage) => {
   const cartListTemplate = storage
@@ -317,7 +350,7 @@ const renderCartList = (storage) => {
           <p class="cartProductQty">${count} 개</p>
           <button class="cart-addQtyBtn">+</button>
         </div>
-        <span class="cart__item--price cartProductTotalPrice">${price} 원</span>
+        <span class="cart__item--price cartProductTotalPrice">${price.toLocaleString()} 원</span>
         <button class="cart__item--deleteBtn cartProductDeleteBtn">X</button>
       </div>
     </li>
@@ -325,6 +358,8 @@ const renderCartList = (storage) => {
     })
     .join('');
 
+  renderCartPrice();
+  renderCartOrderPrice();
   $('.main').querySelector('.cart__list').innerHTML = cartListTemplate;
 };
 
@@ -402,7 +437,6 @@ $('.main').addEventListener('click', (e) => {
     console.log(e.target);
     shoppingCartStore.setLocalStorage(shoppingCartArr);
     // 카트 페이지 렌더
-    // renderCartList(shoppingCartArr);
     renderCartPage();
     // return;
   }
@@ -461,23 +495,15 @@ router.on({
 const renderCartPage = () => {
   if (shoppingCartArr.length === 0) {
     $('.main').querySelector('.cart__list').innerHTML = renderInitEmptyCartPage;
+    // renderCartPrice();
     return;
   } else if (shoppingCartArr.length > 0) {
+    // 장바구니에 넣은 상품 렌더링
     renderCartList(shoppingCartArr);
+    // 결제금액 렌더링
+    renderCartPrice();
     return;
   }
+  // renderCartPrice();
+  // return;
 };
-
-//   $('.cart__list').innerHTML = cartListEmptyTemplate;
-// };
-
-// /** 장바구니 localStorage length가 0일 때 '장바구니 비었다는 표시'
-//  * 아니면 localStorage 상품 렌더링 */
-// shoppingCartStore.getLocalStorage().length === 0
-//   ? renderEmptyCart()
-//   : renderCartList();
-
-// /** 장바구니 총 가격 렌더링 */
-// const renderCartPrice = () => {
-//   // const cartPriceTemplate =
-// };
