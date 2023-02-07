@@ -3,6 +3,7 @@
 import Navigo from 'navigo';
 const router = new Navigo('/');
 import heart from '../../../../public/heart.svg';
+import { renderCartList } from '../Cart/cart';
 const $ = (selector) => document.querySelector(selector);
 
 /** 장바구니 localStorage */
@@ -47,6 +48,7 @@ HEADERS = {
   username: 'KDT4_Team3',
 };
 
+/** 상세 제품 db에서 불러오기 */
 const getDetailProduct = async (productId) => {
   try {
     const res = await fetch(`${BASE_URL}/products/${productId}`, {
@@ -143,51 +145,50 @@ const renderDetailProduct = async (productId) => {
 
   $('.main').innerHTML = detailProductTemplate;
 
-  $('.goToCart').addEventListener('click', () => {
-    router.on({
-      '/cart': () => {
-        $('.modal__addCart').style.display = 'none';
-        renderPage(cartTemplate);
-      },
-    });
-  });
+  // $('.goToCart').addEventListener('click', () => {
+  //   router.on({
+  //     '/cart': async () => {
+  //       $('.modal__addCart').style.display = 'none';
+  //       await renderPage(cartTemplate);
+  //     },
+  //   });
+  // });
 
-  $('.keepShopping').addEventListener('click', () => {
-    router.on({
-      '/': () => {
-        $('.modal__addCart').style.display = 'none';
-        renderPage(cartTemplate);
-      },
-    });
-  });
+  // $('.keepShopping').addEventListener('click', () => {
+  //   router.on({
+  //     '/': () => {
+  //       $('.modal__addCart').style.display = 'none';
+  //       renderPage(cartTemplate);
+  //     },
+  //   });
+  // });
 };
 
 const init = () => {
   if (shoppingCartStore.getLocalStorage().length > 0) {
     shoppingCartArr = shoppingCartStore.getLocalStorage();
   }
-  renderDetailProduct('cMciAKoHplCj2VjRs4FA');
-  // renderDetailProduct('uXaJcS1hQwq1LPZgcrkQ');
+  // renderDetailProduct('cMciAKoHplCj2VjRs4FA');
+  renderDetailProduct('uXaJcS1hQwq1LPZgcrkQ');
   // shoppingCartStore.setLocalStorage(shoppingCartArr);
 };
 init();
 
-const cartTemplate = /* html */ `
-<div>123</div>
-`;
+/** 렌더 함수 for navigo */
+
 const renderPage = (html) => {
   $('.main').innerHTML = html;
 };
 
 /** navigo 장바구니, 계속쇼핑하기 버튼 클릭 시 이동 */
-$('.goToCart').addEventListener('click', () => {
-  router.on({
-    '/cart': () => {
-      $('.modal__addCart').style.display = 'none';
-      renderPage(cartTemplate);
-    },
-  });
-});
+// $('.goToCart').addEventListener('click', () => {
+//   router.on({
+//     '/cart': () => {
+//       $('.modal__addCart').style.display = 'none';
+//       renderPage(renderCartPage);
+//     },
+//   });
+// });
 
 $('.keepShopping').addEventListener('click', () => {
   router.on({
@@ -212,8 +213,8 @@ const updateInfo = async (e) => {
       productDetailProductQty = 1;
     }
     // shoppingCartStore.getLocalStorage();
-    renderDetailProduct('cMciAKoHplCj2VjRs4FA');
-    // renderDetailProduct('uXaJcS1hQwq1LPZgcrkQ');
+    // renderDetailProduct('cMciAKoHplCj2VjRs4FA');
+    renderDetailProduct('uXaJcS1hQwq1LPZgcrkQ');
     // shoppingCartStore.setLocalStorage(shoppingCartArr);
     return;
   }
@@ -221,8 +222,8 @@ const updateInfo = async (e) => {
   if (e.target.classList.contains('addQtyBtn')) {
     productDetailProductQty += 1;
     // shoppingCartStore.getLocalStorage();
-    renderDetailProduct('cMciAKoHplCj2VjRs4FA');
-    // renderDetailProduct('uXaJcS1hQwq1LPZgcrkQ');
+    // renderDetailProduct('cMciAKoHplCj2VjRs4FA');
+    renderDetailProduct('uXaJcS1hQwq1LPZgcrkQ');
     // shoppingCartStore.setLocalStorage(shoppingCartArr);
     return;
   }
@@ -273,3 +274,170 @@ const handleModal = (e) => {
     return;
   }
 };
+
+/*-----------------------------------*\
+  #cart js
+\*-----------------------------------*/
+const cartIdLocalStorage = shoppingCartStore.getLocalStorage();
+console.log(cartIdLocalStorage);
+
+let shoppingCartArray = [];
+shoppingCartArray = cartIdLocalStorage;
+
+let cartProductTotalPrice;
+
+// `;
+const renderCartPage = `
+<section class="cart">
+  <div class="cart__header"><h2>장바구니</h2></div>
+  <div class="cart__container">
+    <ul class="cart__list"></ul>
+
+    <!-- 총 주문 금액 -->
+    <aside class="cart__price">
+      <div class="cart__price--border">
+        <div class="cart__price--calc">
+          <div class="cart__price--calc-orderPrice">
+            <span class="cartOrderPrice">총 주문 금액</span>
+            <p class="cartOrderPrice">0 원</p>
+          </div>
+          <div class="cart__price--calc-discountPrice">
+            <span>할인 금액</span>
+            <p class="cartDiscountPrice">0 원</p>
+          </div>
+          <div class="cart__price--calc-deliveryPrice">
+            <span>베송비</span>
+            <p class="cartDeliveryPrice">0 원</p>
+          </div>
+        </div>
+        <div class="cart__price--total">
+          <span>총 결제 금액</span>
+          <p class="cartTotalPrice">0 원</p>
+        </div>
+      </div>
+      <aa href="#" data-navigo
+        ><button class="cart__price--paymentBtn carPaymentBtn">
+          결제하기
+        </button></aa
+      >
+    </aside>
+  </div>
+</section>
+`;
+
+const cartListTemplate = shoppingCartStore
+  .getLocalStorage()
+  .map((item) => {
+    const { id, price, count, thumbnail, title } = item;
+    cartProductTotalPrice = price;
+    return `
+    <li class="cart__item" data-product-id="${id}">
+      <div class="cart__item-info">
+        <div class="cart__item-info--checkbox">
+          <input type="checkbox" checked />
+        </div>
+        <a href="#" data-navigo
+          ><div class="cart__item-info--img">
+            <img
+              src="${thumbnail}"
+              alt="${title}"
+            /></div
+        ></a>
+        <a href="#" data-navigo
+          ><span class="cart__item-info--title">
+            ${title}
+          </span></a
+        >
+      </div>
+      <div class="cart__item--calc">
+        <div class="cart__item--calc-count">
+          <button class="cart-minusQtyBtn">-</button>
+          <p class="cartProductQty">${count}</p>
+          <button class="cart-addQtyBtn">+</button>
+        </div>
+        <span class="cart__item--price cartProductTotalPrice">${cartProductTotalPrice.toLocaleString()} 원</span>
+        <button class="cart__item--deleteBtn cartProductDeleteBtn">X</button>
+      </div>
+    </li>
+    `;
+  })
+  .join('');
+
+// const renderCartList = (cartIdLocalStorage) => {
+//   const cartListTemplate = cartIdLocalStorage
+//     .map((item) => {
+//       const { id, price, count, thumbnail, title } = item;
+//       cartProductTotalPrice = price;
+//       return `
+//     <li class="cart__item" data-product-id="${id}">
+//       <div class="cart__item-info">
+//         <div class="cart__item-info--checkbox">
+//           <input type="checkbox" checked />
+//         </div>
+//         <a href="#" data-navigo
+//           ><div class="cart__item-info--img">
+//             <img
+//               src="${thumbnail}"
+//               alt="${title}"
+//             /></div
+//         ></a>
+//         <a href="#" data-navigo
+//           ><span class="cart__item-info--title">
+//             ${title}
+//           </span></a
+//         >
+//       </div>
+//       <div class="cart__item--calc">
+//         <div class="cart__item--calc-count">
+//           <button class="cart-minusQtyBtn">-</button>
+//           <p class="cartProductQty">${count}</p>
+//           <button class="cart-addQtyBtn">+</button>
+//         </div>
+//         <span class="cart__item--price cartProductTotalPrice">${price}</span>
+//         <button class="cart__item--deleteBtn cartProductDeleteBtn">X</button>
+//       </div>
+//     </li>
+//     `;
+//     })
+//     .join('');
+
+//   return ($('.main').querySelector('.cart__list').innerHTML = cartListTemplate);
+// };
+
+router.on({
+  '/cart': () => {
+    $('.modal__addCart').style.display = 'none';
+    // ul태그 삽입
+    renderPage(renderCartPage);
+    console.log('/cart');
+    console.log(shoppingCartStore.getLocalStorage());
+    console.log($('.main').querySelector('.cart__list'));
+    // renderCartList(shoppingCartStore.getLocalStorage());
+    $('.main').querySelector('.cart__list').innerHTML = cartListTemplate;
+  },
+});
+
+const storeLocalStorage = (id) => {
+  const existingItem = shoppingCartArr.find((item) => item.id === id);
+  console.log('existingItem', existingItem);
+
+  if (existingItem) {
+    existingItem.price += existingItem.pricePerOne;
+    existingItem.qty += 1;
+    existingItem.count += 1;
+    return;
+  }
+  // shoppingCartArr
+  shoppingCartStore.setLocalStorage(shoppingCartArr);
+  console.log('장바구니', shoppingCartArray);
+};
+
+$('.main').addEventListener('click', (e) => {
+  const id = e.target.closest('li')?.dataset.productId;
+  if (e.target.classList.contains('cart-addQtyBtn')) {
+    storeLocalStorage(id);
+    shoppingCartStore.setLocalStorage(shoppingCartArr);
+    $('.main').querySelector('.cart__list').innerHTML = cartListTemplate;
+    return;
+  }
+});
