@@ -153,8 +153,8 @@ const init = () => {
   if (shoppingCartStore.getLocalStorage().length > 0) {
     shoppingCartArr = shoppingCartStore.getLocalStorage();
   }
-  renderDetailProduct('cMciAKoHplCj2VjRs4FA');
-  // renderDetailProduct('uXaJcS1hQwq1LPZgcrkQ');
+  // renderDetailProduct('cMciAKoHplCj2VjRs4FA');
+  renderDetailProduct('uXaJcS1hQwq1LPZgcrkQ');
   // shoppingCartStore.setLocalStorage(shoppingCartArr);
 };
 init();
@@ -179,8 +179,8 @@ const updateInfo = async (e) => {
       productDetailProductQty = 1;
     }
 
-    renderDetailProduct('cMciAKoHplCj2VjRs4FA');
-    // renderDetailProduct('uXaJcS1hQwq1LPZgcrkQ');
+    // renderDetailProduct('cMciAKoHplCj2VjRs4FA');
+    renderDetailProduct('uXaJcS1hQwq1LPZgcrkQ');
     // shoppingCartStore.setLocalStorage(shoppingCartArr);
     return;
   }
@@ -188,8 +188,8 @@ const updateInfo = async (e) => {
   if (e.target.classList.contains('addQtyBtn')) {
     productDetailProductQty += 1;
 
-    renderDetailProduct('cMciAKoHplCj2VjRs4FA');
-    // renderDetailProduct('uXaJcS1hQwq1LPZgcrkQ');
+    // renderDetailProduct('cMciAKoHplCj2VjRs4FA');
+    renderDetailProduct('uXaJcS1hQwq1LPZgcrkQ');
     return;
   }
   shoppingCartStore.setLocalStorage(shoppingCartArr);
@@ -449,18 +449,13 @@ const renderInitEmptyCartPage = `
     </div>
   `;
 
-// router.on({
-//   '/cart': () => {
-//     $('.modal__addCart').style.display = 'none';
-//     // ul태그 삽입
-//     renderPage(renderInitCartPage);
-//     console.log('/cart');
-//     console.log('shoppingCartArr', shoppingCartArr);
-
-//     // 카트 페이지 렌더
-//     renderCartPage();
-//   },
-// });
+/** 로운님한테 innerHTML 로직 요청 */
+router.on({
+  '/': () => {
+    // main 홈페이지로 이동
+    console.log('쇼핑하러 가기');
+  },
+});
 
 /** 빈 장바구니일 때, 상품이 있는 장바구니일 때 */
 const renderCartPage = () => {
