@@ -18,7 +18,6 @@ export const getAllProduct = async () => {
 };
 
 export const addProduct = async (product) => {
-  console.log(product.thumbnail);
   await fetch(
     'https://asia-northeast3-heropy-api.cloudfunctions.net/api/products ',
     {
@@ -36,7 +35,6 @@ export const addProduct = async (product) => {
 };
 
 export const deleteProduct = async (product) => {
-  console.log(product.thumbnail);
   const res = await fetch(
     `https://asia-northeast3-heropy-api.cloudfunctions.net/api/${id}`,
     {
