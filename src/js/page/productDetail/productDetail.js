@@ -165,16 +165,6 @@ const renderPage = (html) => {
   $('.main').innerHTML = html;
 };
 
-/** navigo 장바구니, 계속쇼핑하기 버튼 클릭 시 이동 */
-// $('.goToCart').addEventListener('click', () => {
-//   router.on({
-//     '/cart': () => {
-//       $('.modal__addCart').style.display = 'none';
-//       renderPage(renderCartPage);
-//     },
-//   });
-// });
-
 /** 구매수량 추가 핸들링 이벤트 */
 $('.main').addEventListener('click', (e) => {
   updateInfo(e);
@@ -324,10 +314,10 @@ const renderCartList = (storage) => {
       <div class="cart__item--calc">
         <div class="cart__item--calc-count">
           <button class="cart-minusQtyBtn">-</button>
-          <p class="cartProductQty">${count}</p>
+          <p class="cartProductQty">${count} 개</p>
           <button class="cart-addQtyBtn">+</button>
         </div>
-        <span class="cart__item--price cartProductTotalPrice">${price}</span>
+        <span class="cart__item--price cartProductTotalPrice">${price} 원</span>
         <button class="cart__item--deleteBtn cartProductDeleteBtn">X</button>
       </div>
     </li>
@@ -344,11 +334,9 @@ router.on({
     // ul태그 삽입
     renderPage(renderInitCartPage);
     console.log('/cart');
-
-    console.log('347', shoppingCartArr);
+    console.log('shoppingCartArr', shoppingCartArr);
 
     // 카트 페이지 렌더
-    // renderCartList(shoppingCartArr);
     renderCartPage();
   },
 });
@@ -440,9 +428,15 @@ $('.main').addEventListener('click', (e) => {
       // 카트 페이지 렌더
       // renderCartList(shoppingCartArr);
       renderCartPage();
-      // return;
+      return;
     }
-    // return;
+    return;
+  }
+
+  // 장바구니에서 삭제
+  if (e.target.classList.contains('cartProductDeleteBtn')) {
+    shoppingCartArr = shoppingCartArr.filter((item) => item.id !== id);
+    renderCartPage();
   }
 });
 
@@ -455,12 +449,27 @@ const renderInitEmptyCartPage = `
     </div>
   `;
 
+// router.on({
+//   '/cart': () => {
+//     $('.modal__addCart').style.display = 'none';
+//     // ul태그 삽입
+//     renderPage(renderInitCartPage);
+//     console.log('/cart');
+//     console.log('shoppingCartArr', shoppingCartArr);
+
+//     // 카트 페이지 렌더
+//     renderCartPage();
+//   },
+// });
+
+/** 빈 장바구니일 때, 상품이 있는 장바구니일 때 */
 const renderCartPage = () => {
   if (shoppingCartArr.length === 0) {
-    return ($('.main').querySelector('.cart__list').innerHTML =
-      cartListTemplate);
+    $('.main').querySelector('.cart__list').innerHTML = renderInitEmptyCartPage;
+    return;
   } else if (shoppingCartArr.length > 0) {
-    return renderCartList(shoppingCartArr);
+    renderCartList(shoppingCartArr);
+    return;
   }
 };
 
