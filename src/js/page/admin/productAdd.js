@@ -1,8 +1,8 @@
 import { addProduct } from './api.js';
+import { router } from './admin.js';
 
 export const productAddHandler = (page) => {
   const form = page.querySelector('.container-form');
-  const productAddBtn = form.querySelector('.container-form__btn--add');
   const titleInput = form.querySelector(
     '.container-form__content--title input',
   );
@@ -29,13 +29,10 @@ export const productAddHandler = (page) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.addEventListener('load', (e) => {
-      console.log(e.target.result);
       profileImgBase64 = e.target.result;
       preview.src = e.target.result;
     });
   });
-
-  console.log(profileImgBase64)
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -51,5 +48,8 @@ export const productAddHandler = (page) => {
     console.log(product);
 
     await addProduct(product);
+    alert('상품이 추가되었습니다.');
+
+    router.navigate('/admin/product');
   });
 };
