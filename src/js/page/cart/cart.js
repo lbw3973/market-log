@@ -143,19 +143,19 @@
 //   }
 
 // 수량- 버튼
-//   if (e.target.classList.contains('cart-minusQtyBtn')) {
-//     const existingItem = shoppingCartArray.find((item) => item.id === id);
-//     console.log('existingItem', existingItem);
+// if (e.target.classList.contains('cart-minusQtyBtn')) {
+//   const existingItem = shoppingCartArray.find((item) => item.id === id);
+//   console.log('existingItem', existingItem);
 
-//     if (existingItem) {
-//       existingItem.price -= existingItem.pricePerOne;
-//       existingItem.qty -= 1;
-//       existingItem.count -= 1;
-//       shoppingCartStore.setLocalStorage(shoppingCartArray);
-//       renderCartList(cartIdLocalStorage);
-//       return;
-//     }
+//   if (existingItem) {
+//     existingItem.price -= existingItem.pricePerOne;
+//     existingItem.qty -= 1;
+//     existingItem.count -= 1;
+//     shoppingCartStore.setLocalStorage(shoppingCartArray);
+//     renderCartList(cartIdLocalStorage);
+//     return;
 //   }
+// }
 // };
 
 // /** 장바구니에서 삭제 이벤트*/
