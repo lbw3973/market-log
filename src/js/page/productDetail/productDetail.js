@@ -3,6 +3,7 @@
 import Navigo from 'navigo';
 const router = new Navigo('/');
 import heart from '../../../../public/heart.svg';
+import cartSVG from '../../../../public/cart.svg';
 const $ = (selector) => document.querySelector(selector);
 
 /** 장바구니 localStorage */
@@ -345,8 +346,10 @@ router.on({
     console.log('/cart');
 
     console.log('347', shoppingCartArr);
-    // $('.main').querySelector('.cart__list').innerHTML = cartListTemplate;
-    renderCartList(shoppingCartArr);
+
+    // 카트 페이지 렌더
+    // renderCartList(shoppingCartArr);
+    renderCartPage();
   },
 });
 
@@ -410,7 +413,9 @@ $('.main').addEventListener('click', (e) => {
     storeLocalStorage(id);
     console.log(e.target);
     shoppingCartStore.setLocalStorage(shoppingCartArr);
-    renderCartList(shoppingCartArr);
+    // 카트 페이지 렌더
+    // renderCartList(shoppingCartArr);
+    renderCartPage();
     // return;
   }
 
@@ -432,7 +437,9 @@ $('.main').addEventListener('click', (e) => {
       }
 
       shoppingCartStore.setLocalStorage(shoppingCartArr);
-      renderCartList(shoppingCartArr);
+      // 카트 페이지 렌더
+      // renderCartList(shoppingCartArr);
+      renderCartPage();
       // return;
     }
     // return;
@@ -440,13 +447,22 @@ $('.main').addEventListener('click', (e) => {
 });
 
 /** 빈 장바구니일 때 화면에 표시 */
-const cartListEmptyTemplate = `
+const renderInitEmptyCartPage = `
     <div class="cart__empty">
       <img src="${cartSVG}" alt="빈 장바구니" />
       <h3>장바구니가 비었습니다.</h3>
       <a href="/" data-navigo><button>쇼핑하러 가기</button></a>
     </div>
   `;
+
+const renderCartPage = () => {
+  if (shoppingCartArr.length === 0) {
+    return ($('.main').querySelector('.cart__list').innerHTML =
+      cartListTemplate);
+  } else if (shoppingCartArr.length > 0) {
+    return renderCartList(shoppingCartArr);
+  }
+};
 
 //   $('.cart__list').innerHTML = cartListEmptyTemplate;
 // };
