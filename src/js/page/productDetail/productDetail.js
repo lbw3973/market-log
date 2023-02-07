@@ -153,8 +153,8 @@ const init = () => {
   if (shoppingCartStore.getLocalStorage().length > 0) {
     shoppingCartArr = shoppingCartStore.getLocalStorage();
   }
-  renderDetailProduct('cMciAKoHplCj2VjRs4FA');
-  // renderDetailProduct('uXaJcS1hQwq1LPZgcrkQ');
+  // renderDetailProduct('cMciAKoHplCj2VjRs4FA');
+  renderDetailProduct('uXaJcS1hQwq1LPZgcrkQ');
   // shoppingCartStore.setLocalStorage(shoppingCartArr);
 };
 init();
@@ -179,8 +179,8 @@ const updateInfo = async (e) => {
       productDetailProductQty = 1;
     }
 
-    renderDetailProduct('cMciAKoHplCj2VjRs4FA');
-    // renderDetailProduct('uXaJcS1hQwq1LPZgcrkQ');
+    // renderDetailProduct('cMciAKoHplCj2VjRs4FA');
+    renderDetailProduct('uXaJcS1hQwq1LPZgcrkQ');
     // shoppingCartStore.setLocalStorage(shoppingCartArr);
     return;
   }
@@ -188,8 +188,8 @@ const updateInfo = async (e) => {
   if (e.target.classList.contains('addQtyBtn')) {
     productDetailProductQty += 1;
 
-    renderDetailProduct('cMciAKoHplCj2VjRs4FA');
-    // renderDetailProduct('uXaJcS1hQwq1LPZgcrkQ');
+    // renderDetailProduct('cMciAKoHplCj2VjRs4FA');
+    renderDetailProduct('uXaJcS1hQwq1LPZgcrkQ');
     return;
   }
   shoppingCartStore.setLocalStorage(shoppingCartArr);
@@ -449,20 +449,22 @@ $('.main').addEventListener('click', (e) => {
     if (existingItem) {
       if (existingItem.price > existingItem.pricePerOne) {
         existingItem.price -= existingItem.pricePerOne;
+        // return;
       }
       if (existingItem.qty > 1) {
         existingItem.qty -= 1;
-        return;
+        // return;
       }
       if (existingItem.count > 1) {
         existingItem.count -= 1;
+        // return;
       }
 
       shoppingCartStore.setLocalStorage(shoppingCartArr);
       // 카트 페이지 렌더
       // renderCartList(shoppingCartArr);
       renderCartPage();
-      return;
+      // return;
     }
     return;
   }
