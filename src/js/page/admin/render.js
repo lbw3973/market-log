@@ -1,5 +1,6 @@
 import searchPNG from '../../../../public/search.png';
 
+
 export const dashboardPage = ` 
     <div class='dashboard-container' data-page='dashboard'>대시보드
     </div>
@@ -24,8 +25,8 @@ export const productPage = `
               </select>
               <select>
                   <option value=''>품절여부</option>
-                  <option value='true'>Y</option>
-                  <option value='false'>N</option>
+                  <option value='true'>품절</option>
+                  <option value='false'>판매가능</option>
               </select>
               <div class='product-container__search-input'>
                   <input placeholder='상품명을 입력해 주세요.'>
@@ -77,19 +78,19 @@ export const productAddPage = `
           </div>  
           <div class='container-form__content--price'>
             <p>가격 <span>*</span></p>
-            <input type='text' name='price' placeholder='가격' required>
+            <input type='number' name='price' placeholder='가격' required>
           </div>  
           <div class='container-form__content--description'>
             <p>제품상세설명<span>*</span></p>
             <textarea type='text' name='description' placeholder='제품 상세 설명' required></textarea>
           </div>
           <div class='container-form__content--thumbnail'>
-            <div>
+            <div class='container-form__content--thumbnail--box'>
               <p>썸네일 이미지 <span>*</span></p>
-              <input type="file">
+              <input type="file" required>
             </div>
-            <div class="preview">
-              <img src=''style="width:100px;">
+            <div class='container-form__content--thumbnail--preview'>
+              <img src=''>
             </div>
           </div>
         </div>
