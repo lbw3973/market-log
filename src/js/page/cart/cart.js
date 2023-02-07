@@ -2,12 +2,18 @@
 import cartSVG from '../../../../public/cart.svg';
 const $ = (selector) => document.querySelector(selector);
 
-export const shoppingCartStore = {
+const shoppingCartStore = {
   setLocalStorage(product) {
     localStorage.setItem('shoppingCart', JSON.stringify(product));
   },
   getLocalStorage() {
     return JSON.parse(localStorage.getItem('shoppingCart')) || [];
+  },
+  removeLocalStorage() {
+    localStorage.removeItem('shoppingCart').slice(0, 1);
+  },
+  clearLocalStorage() {
+    localStorage.clear();
   },
 };
 
@@ -18,6 +24,42 @@ let shoppingCartArray = [];
 shoppingCartArray = cartIdLocalStorage;
 
 let cartProductTotalPrice;
+
+/** 장바구니 페이지 렌더링 */
+// const renderCartPage = () => {
+const cartSection = document.createElement('section');
+cartSection.classList.add('cart');
+$('.main').append(cartSection);
+
+const cartHeader = document.createElement('div');
+cartHeader.classList.add('cart__header');
+cartSection.append(cartHeader);
+
+const cartH2 = document.createElement('h2');
+cartH2.textContent = '장바구니';
+cartHeader.innerHTML(cartH2);
+
+const cartContainer = document.createElement('div');
+cartContainer.classList.add('cart__container');
+cartHeader.append();
+
+const cartList = document.createElement('ul');
+cartList.classList.add('cart__list');
+cartContainer.innerHTML = cartList;
+
+// };
+// renderCartPage();
+
+// `
+{
+  /* <section class="cart">
+  <div class="cart__header"><h2>장바구니</h2></div>
+  <div class="cart__container">
+    <ul class="cart__list"></ul>
+  </div>
+</section> */
+}
+// `;
 
 /** 장바구니에 상품이 있을 때 화면 렌더링 */
 const renderCartList = (cartIdLocalStorage) => {
@@ -148,3 +190,42 @@ shoppingCartStore.getLocalStorage().length === 0
 const renderCartPrice = () => {
   // const cartPriceTemplate =
 };
+
+/** 장바구니 화면 렌더링 */
+// const renderCartLayout = () => {
+//   // <section class="cart"></section>
+//   const cartSection = document.createElement('section');
+//   cartSection.classList.add('cart');
+//   // <div class="cart__header"><h2>장바구니</h2></div>
+//   const cartHeader = document.createElement('div');
+//   cartHeader.classList.add('cart__header');
+//   cartSection.append(cartHeader);
+//   const cartH2 = document.createElement('h2');
+//   cartH2.innerHTML = '장바구니';
+//   cartHeader.append(cartH2);
+//   //
+//   const cartContainer = document.createElement('div');
+//   cartContainer.classList.add('cart__container');
+//   cartSection.append(cartContainer);
+//   //
+//   const cartList = document.createElement('ul');
+//   cartList.classList.add('cart__list');
+//   cartContainer.append(cartList);
+//   console.log(cartSection);
+//   // $('.main').innerHTML = /* html */ `
+//   // <section class="cart">
+//   //   <div class="cart__header"><h2>장바구니</h2></div>
+//   //   <div class="cart__container">
+//   //     <ul class="cart__list"></ul>
+//   //   </div>
+//   // </section>
+//   // `;
+//   $('.main').insertAdjacentHTML('afterbegin', cartSection);
+// };
+// // <section class="cart">
+// //   <div class="cart__header"><h2>장바구니</h2></div>
+// //   <div class="cart__container">
+// //     <ul class="cart__list"></ul>
+// //   </div>
+// // </section>
+// renderCartLayout();

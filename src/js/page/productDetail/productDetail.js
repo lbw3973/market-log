@@ -13,6 +13,12 @@ export const shoppingCartStore = {
   getLocalStorage() {
     return JSON.parse(localStorage.getItem('shoppingCart')) || [];
   },
+  removeLocalStorage() {
+    localStorage.removeItem('shoppingCart')[0];
+  },
+  clearLocalStorage() {
+    localStorage.clear();
+  },
 };
 let shoppingCartArr = [];
 
