@@ -1,7 +1,6 @@
 // dotenv 사용 예시
 import dotenv from 'dotenv';
 import Navigo from 'navigo';
-import { render } from 'sass';
 import { base_url, api_key, user_name, admin_email } from '../db.js';
 dotenv.config();
 window.localStorage.clear(); // TODO : 삭제
@@ -19,6 +18,7 @@ const temporaryEl = document.querySelector('.temporary');
 const myPageAccountContainer = document.querySelector(
   '.mypage__account__container',
 );
+const loadingImgEl = document.querySelector('#lodingGIF');
 btnGetList.textContent = '은행 목록 가져오기'; // 삭제 예정
 
 router.on({
@@ -26,8 +26,10 @@ router.on({
     myPageAccountContainer.innerHTML = '';
   },
   '/mypage/account': async () => {
-    renderPage(htmlMypage_Account)
-    initFunc()
+    loadingImgEl.style.display = 'block';
+    renderPage(htmlMypage_Account);
+    await initFunc();
+    loadingImgEl.style.display = 'none';
   },
   '/mypage/heart': () => {
     myPageAccountContainer.innerHTML = '';
@@ -43,7 +45,7 @@ const htmlMypage_Account = `
     <h1>계좌 관리</h1>
   </div>
   <div class="user__account">
-    <p class="total__balance">총 계좌 잔액:</p>
+    <p class="total__balance"></p>
     <ul></ul>
     <div></div>
   </div>
@@ -87,10 +89,10 @@ const htmlMypage_Account = `
     </div>
   </div>
 </div>
-`
+`;
 
 function renderPage(html) {
-  myPageAccountContainer.innerHTML = html
+  myPageAccountContainer.innerHTML = html;
 }
 
 async function initFunc() {
@@ -101,8 +103,7 @@ async function initFunc() {
     dicCreateAccount.querySelector('#input__account');
   const inputPhoneNumberEl = dicCreateAccount.querySelector('#input__phone');
   const btnFinalCreate = document.querySelector('#btnFinalCreate');
-  const divDeleteAccount = document.querySelector('.delete__account')
-
+  const divDeleteAccount = document.querySelector('.delete__account');
 
   const btnCreateAccount = document.createElement('button');
   const UserAccounts = await getUserAccounts();
@@ -142,6 +143,7 @@ async function initFunc() {
 
 // 삭제 예정
 btnGetList.addEventListener('click', () => {
+  // mypage__account.style.backgroundImage = 'none';
   temporaryEl.style.display = 'none';
 });
 
@@ -192,8 +194,8 @@ const createUserAccount = async (bankCode) => {
   if (res.ok) {
     // router.navigate('/mypage/heart');
     // router.navigate('/mypage/account');
-    renderPage(htmlMypage_Account)
-    initFunc()
+    renderPage(htmlMypage_Account);
+    initFunc();
   }
 };
 
@@ -212,9 +214,9 @@ const deleteAccount = async (e) => {
     }),
   });
 
-  if (res.ok) { 
-    renderPage(htmlMypage_Account)
-    initFunc()
+  if (res.ok) {
+    renderPage(htmlMypage_Account);
+    initFunc();
   }
 
   const json = await res.json();
@@ -267,12 +269,24 @@ const getSelectBank = () => {
 
 // 사용자의 계좌를 전부 보여준다
 const showUserAccounts = (div, datas) => {
-  const accounts = datas.accounts;
   const totalBalance = document.createElement('span');
-  totalBalance.textContent = `${datas.totalBalance.toLocaleString()}`;
+  totalBalance.textContent = `총 계좌 잔액 : ${datas.totalBalance.toLocaleString()}`;
   totalBalance.classList.add('total__balance');
-
   const UserAccountList = div.querySelector('ul');
+
+  if (datas.accounts.length === 0) {
+    const pNotExistAccountEl = document.createElement('p');
+    pNotExistAccountEl.textContent = '등록된 계좌가 없습니다';
+    Object.assign(pNotExistAccountEl.style, {
+      textAlign: 'center',
+      padding: '50px',
+    });
+
+    UserAccountList.append(pNotExistAccountEl);
+    return;
+  }
+  const accounts = datas.accounts;
+
   const totalBalanceEl = div.querySelector('p');
 
   const liEls = accounts.map((data) => {
@@ -292,29 +306,8 @@ const showUserAccounts = (div, datas) => {
     btnDeleteAccount.id = 'btnDeleteAccount';
     btnDeleteAccount.dataset.id = data.id;
 
-
     btnDeleteAccount.addEventListener('click', async (event) => {
-      const divDeleteAccount = document.querySelector('.delete__account')
-      divDeleteAccount.style.display = 'block'
-    
-      document.querySelector('#delete-ok').addEventListener('click', async () => {
-        const result = await deleteAccount(event)
-          if (result === false) {
-            alert('삭제 오류');
-          }
-      })
-
-      document.querySelector('#delete-cancel').addEventListener('click', () => {
-        divDeleteAccount.style.display = 'none'
-      })
-
-      // const userOk = showDeleteAccountModal()
-      // if(userOK === true){
-      //   const result = await deleteAccount(event);
-      //   if (result === false) {
-      //     alert('삭제 오류');
-      //   }
-      // }
+      showDeleteAccountModal(event);
     });
 
     liEl.append(bankName, accountNumber, balance, btnDeleteAccount);
@@ -326,20 +319,21 @@ const showUserAccounts = (div, datas) => {
 };
 
 // 계좌 삭제 Click시 modal Open
-const showDeleteAccountModal = () => {
-  const divDeleteAccount = document.querySelector('.delete__account')
-  divDeleteAccount.style.display = 'block'
+const showDeleteAccountModal = (event) => {
+  const divDeleteAccount = document.querySelector('.delete__account');
+  divDeleteAccount.style.display = 'block';
 
-  const btnDeleteOK = document.querySelector('#delete-ok')
-  const btnDeleteCancel = document.querySelector('#delete-cancel')
+  document.querySelector('#delete-ok').addEventListener('click', async () => {
+    const result = await deleteAccount(event);
+    if (result === false) {
+      alert('삭제 오류');
+    }
+  });
 
-  
-
-  
-
-}
-
-
+  document.querySelector('#delete-cancel').addEventListener('click', () => {
+    divDeleteAccount.style.display = 'none';
+  });
+};
 
 // const
 
@@ -387,6 +381,7 @@ authorizationEl.addEventListener('click', async () => {
   });
 });
 loginEl.addEventListener('click', async () => {
+  loginEl.textContent = '로그인 시도 중...';
   await request({
     url: 'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/login',
     method: 'POST',
