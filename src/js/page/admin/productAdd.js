@@ -47,9 +47,10 @@ export const productAddHandler = (page) => {
 
     console.log(product);
 
-    await addProduct(product);
-    alert('상품이 추가되었습니다.');
-
-    router.navigate('/admin/product');
+    if (confirm('상품을 추가하시겠습니까?')) {
+      await addProduct(product);
+      alert('상품이 추가되었습니다.');
+      router.navigate('/admin/product');
+    }
   });
 };
