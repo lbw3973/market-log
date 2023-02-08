@@ -153,8 +153,9 @@ const init = () => {
   if (shoppingCartStore.getLocalStorage().length > 0) {
     shoppingCartArr = shoppingCartStore.getLocalStorage();
   }
-  // renderDetailProduct('cMciAKoHplCj2VjRs4FA');
-  renderDetailProduct('uXaJcS1hQwq1LPZgcrkQ');
+
+  // renderDetailProduct('4mZdaj6ioV9b0yXqLPKK');
+  renderDetailProduct('UcGtdmglg7bzIFDosY9D');
   // shoppingCartStore.setLocalStorage(shoppingCartArr);
 };
 init();
@@ -179,8 +180,8 @@ const updateInfo = async (e) => {
       productDetailProductQty = 1;
     }
 
-    // renderDetailProduct('cMciAKoHplCj2VjRs4FA');
-    renderDetailProduct('uXaJcS1hQwq1LPZgcrkQ');
+    // renderDetailProduct('4mZdaj6ioV9b0yXqLPKK');
+    renderDetailProduct('UcGtdmglg7bzIFDosY9D');
     // shoppingCartStore.setLocalStorage(shoppingCartArr);
     return;
   }
@@ -188,8 +189,8 @@ const updateInfo = async (e) => {
   if (e.target.classList.contains('addQtyBtn')) {
     productDetailProductQty += 1;
 
-    // renderDetailProduct('cMciAKoHplCj2VjRs4FA');
-    renderDetailProduct('uXaJcS1hQwq1LPZgcrkQ');
+    // renderDetailProduct('4mZdaj6ioV9b0yXqLPKK');
+    renderDetailProduct('UcGtdmglg7bzIFDosY9D');
     return;
   }
   shoppingCartStore.setLocalStorage(shoppingCartArr);
