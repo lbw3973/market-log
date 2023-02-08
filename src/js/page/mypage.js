@@ -1,11 +1,13 @@
 // dotenv 사용 예시
 import dotenv from 'dotenv';
 import Navigo from 'navigo';
+import { render } from 'sass';
 import { base_url, api_key, user_name, admin_email } from '../db.js';
 dotenv.config();
 window.localStorage.clear(); // TODO : 삭제
 
 const router = new Navigo('/');
+
 const headers = {
   'content-type': 'application/json',
   apikey: api_key,
@@ -14,94 +16,18 @@ const headers = {
 
 const btnGetList = document.querySelector('.getlist');
 const temporaryEl = document.querySelector('.temporary');
-
 const myPageAccountContainer = document.querySelector(
   '.mypage__account__container',
 );
-btnGetList.textContent = '은행 목록 가져오기';
-myPageAccountContainer.innerText = '';
+btnGetList.textContent = '은행 목록 가져오기'; // 삭제 예정
 
 router.on({
   '/mypage/order': () => {
     myPageAccountContainer.innerHTML = '';
   },
   '/mypage/account': async () => {
-    myPageAccountContainer.innerHTML = /* HTML */ `
-      <div class="mypage__account__wrapper">
-        <div class="mypage__account__header">
-          <h1>계좌 관리</h1>
-        </div>
-        <div class="user__account">
-          <p class="total__balance">총 계좌 잔액:</p>
-          <ul></ul>
-          <div></div>
-        </div>
-      </div>
-      <div class="create__account">
-        <div class="create__account__modal">
-          <div class="modal__container">
-            <h2>계좌 추가</h2>
-            <ul></ul>
-            <div class="accountNumber">
-              <span>계좌 번호</span>
-              <input type="text" id="input__account" class="create__input" />
-            </div>
-            <div class="phoneNumber">
-              <span>전화 번호</span>
-              <input type="text" id="input__phone" class="create__input" />
-            </div>
-            <div class="modal__notice">
-              <p>· 계좌번호와 전화번호에는 - 구분이 없어야 합니다.</p>
-              <p>
-                · 은행 [] 안의 숫자를 모두 더하면 각 은행의 유효한 계좌번호
-                길이가 됩니다.
-              </p>
-            </div>
-            <div class="modal__button__create">
-              <button id="btnFinalCreate">추가</button>
-            </div>
-            <button id="btnCloseModal">X</button>
-          </div>
-        </div>
-      </div>
-    `;
-
-    const divUserAccount = document.querySelector('.user__account');
-    const dicCreateAccount = document.querySelector('.create__account');
-    const btnCloseModal = document.querySelector('#btnCloseModal');
-    const inputAccountNumberEl =
-      dicCreateAccount.querySelector('#input__account');
-    const inputPhoneNumberEl = dicCreateAccount.querySelector('#input__phone');
-    const btnFinalCreate = document.querySelector('#btnFinalCreate');
-
-    const btnCreateAccount = document.createElement('button');
-    const UserAccounts = await getUserAccounts();
-    showUserAccounts(divUserAccount, UserAccounts);
-    btnCreateAccount.classList.add('btn__create__account');
-    btnCreateAccount.innerText = '계좌추가!';
-    divUserAccount.querySelector('div').append(btnCreateAccount);
-
-    inputAccountNumberEl.addEventListener('keyup', checkInputNumber());
-    inputPhoneNumberEl.addEventListener('keyup', checkInputNumber());
-
-    btnCreateAccount.addEventListener('click', async () => {
-      const createAbleBankList = Array.from(await getBankList()).filter(
-        (x) => x.disabled === false,
-      );
-      createBankAccountList(
-        dicCreateAccount.querySelector('.modal__container'),
-        createAbleBankList,
-      );
-      dicCreateAccount.style.display = 'block';
-    });
-    btnCloseModal.addEventListener('click', () => {
-      dicCreateAccount.querySelector('ul').innerHTML = '';
-      dicCreateAccount.style.display = 'none';
-    });
-    btnFinalCreate.addEventListener('click', () => {
-      const bankCode = getSelectBank();
-      createUserAccount(bankCode);
-    });
+    renderPage(htmlMypage_Account)
+    initFunc()
   },
   '/mypage/heart': () => {
     myPageAccountContainer.innerHTML = '';
@@ -110,21 +36,116 @@ router.on({
     myPageAccountContainer.innerHTML = '';
   },
 });
-function checkInputNumber() {
-  return (e) => {
-    if (e.key === /[0-9]/) {
-    } else {
-      e.target.value = e.target.value
-        .replace(/[^0-9.]/g, '')
-        .replace(/(\..*)\./g, '$1');
-    }
-  };
+
+const htmlMypage_Account = `
+<div class="mypage__account__wrapper">
+  <div class="mypage__account__header">
+    <h1>계좌 관리</h1>
+  </div>
+  <div class="user__account">
+    <p class="total__balance">총 계좌 잔액:</p>
+    <ul></ul>
+    <div></div>
+  </div>
+</div>
+<div class="create__account">
+  <div class="create__account__modal">
+    <div class="modal__container">
+      <h2>계좌 추가</h2>
+      <ul></ul>
+      <div class="accountNumber">
+        <span>계좌 번호</span>
+        <input type="text" id="input__account" class="create__input" />
+      </div>
+      <div class="phoneNumber">
+        <span>전화 번호</span>
+        <input type="text" id="input__phone" class="create__input" />
+      </div>
+      <div class="modal__notice">
+        <p>· 계좌번호와 전화번호에는 - 구분이 없어야 합니다.</p>
+        <p>
+          · 은행 [] 안의 숫자를 모두 더하면 각 은행의 유효한 계좌번호
+          길이가 됩니다.
+        </p>
+      </div>
+      <div class="modal__button__create">
+        <button id="btnFinalCreate">추가</button>
+      </div>
+      <button id="btnCloseModal">X</button>
+    </div>
+  </div>
+</div>
+<div class="delete__account">
+  <div class="delete__account__modal">
+    <div class="modal__container">
+      <h2>계좌 삭제</h2>
+      <span>정말로 삭제 하시겠습니까?</span>
+      <div>
+        <button id="delete-ok">예</button>
+        <button id="delete-cancel">아니오</button>
+      </div>
+    </div>
+  </div>
+</div>
+`
+
+function renderPage(html) {
+  myPageAccountContainer.innerHTML = html
 }
 
-btnGetList.addEventListener('click', async () => {
+async function initFunc() {
+  const divUserAccount = document.querySelector('.user__account');
+  const dicCreateAccount = document.querySelector('.create__account');
+  const btnCloseModal = document.querySelector('#btnCloseModal');
+  const inputAccountNumberEl =
+    dicCreateAccount.querySelector('#input__account');
+  const inputPhoneNumberEl = dicCreateAccount.querySelector('#input__phone');
+  const btnFinalCreate = document.querySelector('#btnFinalCreate');
+  const divDeleteAccount = document.querySelector('.delete__account')
+
+
+  const btnCreateAccount = document.createElement('button');
+  const UserAccounts = await getUserAccounts();
+  showUserAccounts(divUserAccount, UserAccounts);
+  btnCreateAccount.classList.add('btn__create__account');
+  btnCreateAccount.innerText = '계좌추가!';
+  divUserAccount.querySelector('div').append(btnCreateAccount);
+
+  // Input Tag Custom : 숫자만 입력 가능
+  inputAccountNumberEl.addEventListener('keyup', checkInputNumber());
+  inputPhoneNumberEl.addEventListener('keyup', checkInputNumber());
+
+  // 계좌 추가 modal Open
+  btnCreateAccount.addEventListener('click', async () => {
+    const createAbleBankList = Array.from(await getBankList()).filter(
+      (x) => x.disabled === false,
+    );
+    createBankAccountList(
+      dicCreateAccount.querySelector('.modal__container'),
+      createAbleBankList,
+    );
+    dicCreateAccount.style.display = 'block';
+  });
+
+  // 계좌 추가 modal Close
+  btnCloseModal.addEventListener('click', () => {
+    dicCreateAccount.querySelector('ul').innerHTML = '';
+    dicCreateAccount.style.display = 'none';
+  });
+
+  // 계좌 생성 버튼
+  btnFinalCreate.addEventListener('click', () => {
+    const bankCode = getSelectBank();
+    createUserAccount(bankCode);
+  });
+}
+
+// 삭제 예정
+btnGetList.addEventListener('click', () => {
   temporaryEl.style.display = 'none';
 });
 
+// API : 은행 목록
 const getBankList = async () => {
   const res = await fetch(`${base_url}/account/banks`, {
     method: 'GET',
@@ -138,6 +159,7 @@ const getBankList = async () => {
   return json;
 };
 
+// API : 계좌 조회
 const getUserAccounts = async () => {
   const res = await fetch(`${base_url}/account`, {
     method: 'GET',
@@ -151,6 +173,7 @@ const getUserAccounts = async () => {
   return json;
 };
 
+// API : 계좌 개설
 const createUserAccount = async (bankCode) => {
   const res = await fetch(`${base_url}/account`, {
     method: 'POST',
@@ -167,11 +190,50 @@ const createUserAccount = async (bankCode) => {
   });
 
   if (res.ok) {
-    router.navigate('/mypage/heart');
-    router.navigate('/mypage/account');
+    // router.navigate('/mypage/heart');
+    // router.navigate('/mypage/account');
+    renderPage(htmlMypage_Account)
+    initFunc()
   }
 };
 
+// API : 계좌 해지
+const deleteAccount = async (e) => {
+  const accountId = e.target.dataset.id;
+  const res = await fetch(`${base_url}/account`, {
+    method: 'DELETE',
+    headers: {
+      ...headers,
+      Authorization: `Bearer ${window.localStorage.getItem('token')}`,
+    },
+    body: JSON.stringify({
+      accountId: accountId,
+      signature: true,
+    }),
+  });
+
+  if (res.ok) { 
+    renderPage(htmlMypage_Account)
+    initFunc()
+  }
+
+  const json = await res.json();
+  return json;
+};
+
+// Input Tag Custom : 숫자만 입력 가능
+function checkInputNumber() {
+  return (e) => {
+    if (e.key === /[0-9]/) {
+    } else {
+      e.target.value = e.target.value
+        .replace(/[^0-9.]/g, '')
+        .replace(/(\..*)\./g, '$1');
+    }
+  };
+}
+
+// 등록 가능한 은행 목록을 가져와 은행 이름과 계좌번호 형식과 Render
 const createBankAccountList = (div, data) => {
   const ulEl = div.querySelector('ul');
   const liEls = data.map((_data) => {
@@ -187,6 +249,7 @@ const createBankAccountList = (div, data) => {
   ulEl.append(...liEls);
 };
 
+// 계좌 개설 시, 사용자가 선택한 은행Code를 가져옴
 const getSelectBank = () => {
   const checkBoxs = document.querySelectorAll('.selectBank');
   const bchecked = Array.from(checkBoxs).every((x) => x.checked === false);
@@ -202,6 +265,7 @@ const getSelectBank = () => {
   }
 };
 
+// 사용자의 계좌를 전부 보여준다
 const showUserAccounts = (div, datas) => {
   const accounts = datas.accounts;
   const totalBalance = document.createElement('span');
@@ -228,12 +292,29 @@ const showUserAccounts = (div, datas) => {
     btnDeleteAccount.id = 'btnDeleteAccount';
     btnDeleteAccount.dataset.id = data.id;
 
-    btnDeleteAccount.addEventListener('click', (event) => {
-      const result = deleteAccount(event);
-      if (result === false) {
-        alert('삭제 오류');
-        return;
-      }
+
+    btnDeleteAccount.addEventListener('click', async (event) => {
+      const divDeleteAccount = document.querySelector('.delete__account')
+      divDeleteAccount.style.display = 'block'
+    
+      document.querySelector('#delete-ok').addEventListener('click', async () => {
+        const result = await deleteAccount(event)
+          if (result === false) {
+            alert('삭제 오류');
+          }
+      })
+
+      document.querySelector('#delete-cancel').addEventListener('click', () => {
+        divDeleteAccount.style.display = 'none'
+      })
+
+      // const userOk = showDeleteAccountModal()
+      // if(userOK === true){
+      //   const result = await deleteAccount(event);
+      //   if (result === false) {
+      //     alert('삭제 오류');
+      //   }
+      // }
     });
 
     liEl.append(bankName, accountNumber, balance, btnDeleteAccount);
@@ -244,28 +325,21 @@ const showUserAccounts = (div, datas) => {
   totalBalanceEl.append(totalBalance);
 };
 
-const deleteAccount = async (e) => {
-  const accountId = e.target.dataset.id;
-  const res = await fetch(`${base_url}/account`, {
-    method: 'DELETE',
-    headers: {
-      ...headers,
-      Authorization: `Bearer ${window.localStorage.getItem('token')}`,
-    },
-    body: JSON.stringify({
-      accountId: accountId,
-      signature: true,
-    }),
-  });
+// 계좌 삭제 Click시 modal Open
+const showDeleteAccountModal = () => {
+  const divDeleteAccount = document.querySelector('.delete__account')
+  divDeleteAccount.style.display = 'block'
 
-  if (res.ok) {
-    router.navigate('/mypage/heart');
-    router.navigate('/mypage/account');
-  }
+  const btnDeleteOK = document.querySelector('#delete-ok')
+  const btnDeleteCancel = document.querySelector('#delete-cancel')
 
-  const json = await res.json();
-  return json;
-};
+  
+
+  
+
+}
+
+
 
 // const
 
