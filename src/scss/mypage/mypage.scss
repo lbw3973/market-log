@@ -5,7 +5,6 @@ label {
 }
 button {
   border: 3px solid black;
-  cursor: pointer;
   padding: 5px;
   border-radius: 3px;
 }
@@ -257,7 +256,6 @@ section {
                   border: 0;
                   border-radius: 3px;
                   color: #fff;
-                  cursor: pointer;
                   display: block;
                   height: 36px;
                   overflow: hidden;
@@ -274,7 +272,6 @@ section {
                 background-color: var(--logo-color);
                 border: 0;
                 color: #fff;
-                cursor: pointer;
                 display: block;
                 height: 44px;
                 margin: 40px auto 0;
