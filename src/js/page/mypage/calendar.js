@@ -28,7 +28,7 @@ export default function () {
   const noContentEl = document.querySelector('.nocontent-box');
   const productsEl = document.querySelector('.products');
   const productArr = document.querySelectorAll('.product');
-  const dayEl = calendar;
+  // const dayEl = calendar;
   const todayEl = document.querySelector('.today');
   const selectedEl = document.querySelector('.selected');
 

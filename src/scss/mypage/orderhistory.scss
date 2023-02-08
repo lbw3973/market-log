@@ -1,18 +1,6 @@
 @import '../globals/';
-
-@mixin row-center {
-  display: flex;
-  justify-content: center;
-}
-@mixin center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-@mixin straight {
-  display: flex;
-  flex-direction: column;
-}
+@import './mixin.scss';
+@import './modal.scss';
 
 .nodisplay {
   display: none;
@@ -158,14 +146,18 @@
             font-size: 0.9rem;
             &:first-child {
               background-color: #fafafa;
+              a {
+                color: var(--light-purple);
+              }
             }
             a {
               display: flex;
               justify-content: space-between;
               align-items: center;
               padding: 1rem;
-              color: var(--light-purple);
-              svg {
+              color: #000;
+              &:hover {
+                background-color: #fafafa;
                 color: var(--light-purple);
               }
             }
@@ -173,9 +165,6 @@
             //   text-decoration: none;
             //   color: var(--light-purple);
             // }
-            &:hover {
-              background-color: #fafafa;
-            }
           }
         }
       }
@@ -277,7 +266,7 @@
           border: 1px solid var(--light-purple);
           border-radius: 5px;
           @include center;
-          svg {
+          img {
             color: var(--light-purple);
           }
           &:hover {
@@ -379,8 +368,7 @@
             @include straight;
             align-items: center;
             color: var(--light-purple);
-            svg {
-              color: var(--light-purple);
+            img {
               margin: 20px 0;
             }
           }
@@ -449,50 +437,6 @@
       .order-history--pagination {
         @include row-center;
         margin: 10px 0;
-      }
-    }
-  }
-}
-
-/*모달창*/
-.modal {
-  &-wrap {
-    position: absolute;
-    left: 40vw;
-    bottom: 40vh;
-    border: 1px solid var(--light-purple);
-    border-radius: 5px;
-    background-color: #fff;
-    width: 300px;
-    height: 200px;
-    text-align: center;
-    align-items: center;
-    justify-content: space-evenly;
-    @include straight;
-  }
-  &-text {
-    font-weight: 700;
-  }
-  svg {
-    color: #cdb4db;
-  }
-  .buttons {
-    display: flex;
-    button {
-      border: 1px solid var(--light-purple);
-      background-color: var(--light-purple);
-      color: #fff;
-      border-radius: 5px;
-      width: 60px;
-      height: 45px;
-      margin: 0 10px;
-      &:nth-child(2) {
-        border: 1px solid var(--light-purple);
-        color: var(--light-purple);
-        background-color: #fff;
-      }
-      &:hover {
-        cursor: pointer;
       }
     }
   }

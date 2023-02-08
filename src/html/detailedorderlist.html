@@ -98,81 +98,37 @@
               <li>
                 <a href="/mypage/order" data-navigo>
                   주문 내역
-                  <svg
-                    stroke="currentColor"
-                    fill="currentColor"
-                    stroke-width="0"
-                    viewBox="0 0 24 24"
-                    height="12"
-                    width="12"
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="nav-icon"
-                  >
-                    <path fill="none" d="M0 0h24v24H0V0z"></path>
-                    <path
-                      d="M6.23 20.23L8 22l10-10L8 2 6.23 3.77 14.46 12z"
-                    ></path>
-                  </svg>
+                  <img
+                    src="../../public/chevronrightpurple.svg"
+                    alt="chevronrightpurple"
+                  />
                 </a>
               </li>
               <li>
                 <a href="/mypage/account" data-navigo>
                   계좌 관리
-                  <svg
-                    stroke="currentColor"
-                    fill="currentColor"
-                    stroke-width="0"
-                    viewBox="0 0 24 24"
-                    height="12"
-                    width="12"
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="nav-icon"
-                  >
-                    <path fill="none" d="M0 0h24v24H0V0z"></path>
-                    <path
-                      d="M6.23 20.23L8 22l10-10L8 2 6.23 3.77 14.46 12z"
-                    ></path>
-                  </svg>
+                  <img
+                    src="../../public/chevronrightpurple.svg"
+                    alt="chevronright"
+                  />
                 </a>
               </li>
               <li>
                 <a href="/mypage/heart" data-navigo>
                   찜한 상품
-                  <svg
-                    stroke="currentColor"
-                    fill="currentColor"
-                    stroke-width="0"
-                    viewBox="0 0 24 24"
-                    height="12"
-                    width="12"
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="nav-icon"
-                  >
-                    <path fill="none" d="M0 0h24v24H0V0z"></path>
-                    <path
-                      d="M6.23 20.23L8 22l10-10L8 2 6.23 3.77 14.46 12z"
-                    ></path>
-                  </svg>
+                  <img
+                    src="../../public/chevronrightpurple.svg"
+                    alt="chevronright"
+                  />
                 </a>
               </li>
               <li>
                 <a href="/mypage/modify" data-navigo>
                   개인 정보 수정
-                  <svg
-                    stroke="currentColor"
-                    fill="currentColor"
-                    stroke-width="0"
-                    viewBox="0 0 24 24"
-                    height="12"
-                    width="12"
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="nav-icon"
-                  >
-                    <path fill="none" d="M0 0h24v24H0V0z"></path>
-                    <path
-                      d="M6.23 20.23L8 22l10-10L8 2 6.23 3.77 14.46 12z"
-                    ></path>
-                  </svg>
+                  <img
+                    src="../../public/chevronrightpurple.svg"
+                    alt="chevronright"
+                  />
                 </a>
               </li>
             </ul>
@@ -190,8 +146,10 @@
               <span class="product--name"
                 >프라이멀 케나인 동결건조 치킨 포뮬라 156g</span
               >
-              <span class="product--price">29,000원</span>
-              <span class="product--count">(1개)</span>
+              <div>
+                <span class="product--price">29,000원</span>
+                <span class="product--count">(1개)</span>
+              </div>
             </div>
             <div class="order-status">주문취소</div>
           </div>
@@ -211,3 +169,26 @@
     </main>
   </body>
 </html>
+<a
+  href="https://market-mong-nyang.netlify.app/products/${orderHistory.detailId}"
+  ><img
+    src="${orderHistory.thumbnail}"
+    alt="product-image"
+    class="product--img"
+/></a>
+<div class="product--info">
+  <a href="#" class="product--name">${orderHistory.product.title}</a>
+  <div class="product--info-numbers">
+    <div class="product--price">${orderHistory.product.price}</div>
+    <div class="product--order-date">
+      ${(orderHistory.timePaid).slice(0,10)}
+    </div>
+  </div>
+  <span class="order-status">구매 완료</span>
+  <span>구매가 완료 되었습니다.</span>
+  <span>구매 확정 이후에는 주문 취소가 불가능합니다.</span>
+</div>
+<div class="buttons">
+  <button class="button cancel-btn">주문 취소</button>
+  <button class="button orderfix-btn">구매 확정</button>
+</div>

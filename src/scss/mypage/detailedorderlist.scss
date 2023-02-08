@@ -1,17 +1,5 @@
 @import '../globals/';
-@mixin row-center {
-  display: flex;
-  justify-content: center;
-}
-@mixin center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-@mixin straight {
-  display: flex;
-  flex-direction: column;
-}
+@import './mixin.scss';
 
 .header-container {
   display: flex;
@@ -147,14 +135,18 @@
             font-size: 0.9rem;
             &:first-child {
               background-color: #fafafa;
+              a {
+                color: var(--light-purple);
+              }
             }
             a {
               display: flex;
               justify-content: space-between;
               align-items: center;
               padding: 1rem;
-              color: var(--light-purple);
-              svg {
+              color: #000;
+              &:hover {
+                background-color: #fafafa;
                 color: var(--light-purple);
               }
             }
@@ -162,9 +154,6 @@
             //   text-decoration: none;
             //   color: var(--light-purple);
             // }
-            &:hover {
-              background-color: #fafafa;
-            }
           }
         }
       }
@@ -238,8 +227,74 @@
     display: flex;
   }
   .product-container {
+    box-sizing: border-box;
     border: 1px solid var(--light-purple);
-    width: 630px;
+    border-radius: 5px;
+    margin-bottom: 30px;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 1fr 8fr 1.5fr;
+    width: 100%;
     height: 122px;
+    .product--image {
+      width: 80px;
+      height: 100px;
+
+      background-color: red;
+    }
+    .product-info {
+      @include straight;
+      margin-left: 20px;
+      .product--name {
+        margin: 5px 0;
+        font: {
+          size: 20px;
+          weight: 600;
+        }
+      }
+      div {
+      }
+    }
+    .order-status {
+      @include center;
+      font-weight: 600;
+    }
+  }
+  .payment-info--title {
+    font-size: 19.2px;
+    margin-bottom: 16px;
+  }
+  .payment-info {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    grid-template-rows: 59px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid var(--light-purple);
+    border-radius: 5px;
+    span {
+      text-align: left;
+    }
+    .payment--type {
+      box-sizing: border-box;
+      padding: 10px;
+      height: 100%;
+      @include straight;
+      justify-content: space-between;
+      span :first-child {
+        color: #666;
+      }
+    }
+    .payment--price {
+      box-sizing: border-box;
+      padding: 10px;
+      height: 100%;
+      background-color: var(--light-purple);
+      @include straight;
+      justify-content: space-between;
+      span :first-child {
+        color: #666;
+      }
+    }
   }
 }
