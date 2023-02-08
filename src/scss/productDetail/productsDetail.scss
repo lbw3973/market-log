@@ -1,21 +1,62 @@
 @forward '../globals';
 
-.header-container {
-  display: flex;
+// 버튼 클릭했을 때 효과
+@mixin btnEffect($backColor, $color: white) {
+  &:hover,
+  &:active {
+    background-color: $backColor;
+    color: $color;
+    cursor: pointer;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+// 장바구니, 구매하기 버튼 중복코드
+@mixin cartbuyBtn($color) {
+  width: 100%;
+  padding: 14px 26px;
+  border: 1px solid $color;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+@mixin section-header {
+  font-size: 55px;
+  font-weight: 600;
+  color: var(--logo-color);
+}
+
+body {
+  width: 100%;
+  min-width: 1540px;
+  height: auto;
   justify-content: center;
+  align-content: center;
+}
+
+img {
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.header-container {
+  justify-content: center;
+  width: 100%;
 }
 .header {
   display: flex;
   flex-direction: column;
-  width: 1440px;
+
   padding: 20px 200px 20px;
-  border-bottom: 1px solid;
+  border-bottom: 1px solid var(--division-line);
   box-shadow: var(--box-shadow);
 
   &__user {
     display: flex;
     justify-content: flex-end;
-
     &-login {
       display: flex;
       justify-content: flex-end;
@@ -23,15 +64,17 @@
       &--ul {
         display: flex;
         gap: 5px;
-      }
-
-      &-li {
+        &--li {
+          a {
+            color: var(--logo-color);
+          }
+        }
       }
     }
   }
 
   &-main {
-    margin-top: 10px;
+    margin-top: 22px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -43,16 +86,17 @@
     }
 
     &__logo {
-      height: 80px;
+      height: 72px;
+      margin-right: 10px;
     }
 
     &__company-name {
-      font-size: 30px;
+      font-size: 28px;
+      color: var(--logo-color);
     }
 
     &__search {
-      width: 50%;
-      border: 1px solid;
+      width: 45%;
 
       &--form {
         display: flex;
@@ -61,12 +105,13 @@
         width: 100%;
         height: 50px;
         border: 1px solid var(--logo-color);
+        border-radius: 6px;
       }
 
       &--input {
         width: 100%;
         height: 80%;
-        border-radius: 3px;
+        padding-left: 16px;
         border: none;
 
         &:focus,
@@ -87,6 +132,7 @@
 
     &__links-img {
       height: 40px;
+      margin: 0 8px;
     }
   }
 
@@ -95,18 +141,224 @@
       margin-top: 40px;
       &--ul {
         display: flex;
-        justify-content: space-between;
+        justify-content: space-evenly;
       }
 
       &--li {
+        margin: 0 100px;
         a {
-          font-size: 20px;
+          color: var(--logo-color);
+          font-size: 18px;
         }
       }
     }
   }
 }
 
-.alink {
-  display: flex;
+// main
+.main {
+  width: 95%;
+  margin: 0 auto;
+  margin-top: 30px;
+  height: 100vh;
+
+  &-container {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: 45% 40%;
+  }
+}
+
+// section
+.section {
+  &__productDetail {
+    display: flex;
+    justify-content: center;
+
+    img {
+      width: 90%;
+    }
+  }
+}
+
+// aside
+.aside {
+  &__productDetail {
+    &-menu {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &--info {
+      &-title {
+        width: 100%;
+        font-size: 24px;
+      }
+
+      &-sec {
+        margin-top: 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &-price {
+          font-size: 20px;
+        }
+
+        &-wishlist {
+          img {
+            height: 36px;
+            cursor: pointer;
+
+            &:active {
+              transform: scale(0.98);
+            }
+          }
+        }
+      }
+
+      &-desc {
+        margin-top: 16px;
+      }
+
+      &-tagLists {
+        display: flex;
+        gap: 6px;
+        margin-top: 20px;
+
+        &-tag {
+          padding: 6px;
+          background-color: var(--light-purple);
+          color: #000;
+          border: 1px solid var(--logo-color);
+          border-radius: 6px;
+          cursor: pointer;
+
+          &:hover,
+          &:active {
+            color: #fff;
+            background-color: var(--logo-color);
+          }
+        }
+      }
+    }
+
+    // 구매 수량, 금액, 장바구니, 구매하기 버튼
+    &--count {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+
+      &-btns {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+      }
+
+      &-btn {
+        padding: 6px 10px;
+        border: 1px solid var(--logo-color);
+        border-radius: 6px;
+        background-color: var(--light-purple);
+        color: #000;
+
+        @include btnEffect(var(--logo-color), #fff);
+      }
+    }
+
+    &--totalPrice {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      font-weight: 700;
+    }
+
+    &--btns {
+      margin-top: 40px;
+      display: flex;
+      gap: 10px;
+      justify-content: space-around;
+      text-align: center;
+
+      &-cart {
+        @include cartbuyBtn(var(--logo-color));
+        @include btnEffect(var(--logo-color), #fff);
+      }
+
+      &-buy {
+        @include cartbuyBtn(var(--logo-color));
+        @include btnEffect(var(--logo-color), #fff);
+      }
+
+      &-soldOut {
+        @include cartbuyBtn(var(--soldOut-color));
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+.modal__addCart {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  width: 400px;
+  height: 300px;
+  overflow: hidden;
+  border: 1px solid var(--deps-blue);
+  background-color: #fff;
+  box-shadow: var(--box-shadow);
+
+  &-container {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &--info {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    img {
+      height: 60px;
+    }
+    h4 {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 26px;
+    }
+  }
+
+  &--btns {
+    margin-top: 60px;
+    display: flex;
+    justify-content: center;
+    font-size: 16px;
+    gap: 16px;
+  }
+
+  &--btn {
+    padding: 10px 16px;
+    border: 1px solid var(--logo-color);
+    border-radius: 6px;
+
+    &:active,
+    &:hover {
+      background-color: var(--logo-color);
+      color: #fff;
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+    a {
+      width: 100%;
+      height: 100%;
+    }
+  }
 }

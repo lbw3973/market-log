@@ -4,11 +4,113 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cart</title>
-    <link rel="stylesheet" href="cart.scss" />
-    <script type="module" src="../js/cart.js" defer></script>
+    <title>장바구니</title>
+    <link rel="stylesheet" href="../scss/cart/cart.scss" />
+    <script type="module" src="../js/page/cart/cart.js" defer></script>
   </head>
   <body>
-    Cart page
+    <!-- 공통 헤더 시작 -->
+    <header class="header-container">
+      <div class="header">
+        <nav class="header__user-login">
+          <ul class="header__user-login--ul">
+            <li class="header__user-login--li"><a href="#">회원가입</a></li>
+            <li class="header__user-login--li">
+              <a href="#"
+                ><strong id="header__user-login-name">테스트님</strong>
+                환영합니다</a
+              >
+            </li>
+            <li class="header__user-login--li"><a href="#">로그인</a></li>
+          </ul>
+        </nav>
+        <nav class="header-main">
+          <a class="header-main__home-link" href="#">
+            <img
+              class="header-main__logo"
+              src="../../public/mainLogo.svg"
+              alt="main logo"
+            />
+            <h1 class="header-main__company-name">마켓로그</h1>
+          </a>
+          <div class="header-main__search">
+            <form class="header-main__search--form">
+              <input class="header-main__search--input" />
+              <button class="header-main__search--button">
+                <img src="../../public/search.png" alt="search button" />
+              </button>
+            </form>
+          </div>
+          <div class="header-main__links">
+            <a href="#"
+              ><img
+                class="header-main__links-img"
+                src="../../public/heart.svg"
+                alt="찜하기"
+            /></a>
+            <a href="#"
+              ><img
+                class="header-main__links-img"
+                src="../../public/cart.svg"
+                alt="카트"
+            /></a>
+            <a href="#"
+              ><img
+                class="header-main__links-img"
+                src="../../public/member.svg"
+                alt="회원가입"
+            /></a>
+          </div>
+        </nav>
+        <nav class="header-nav-category">
+          <ul class="header-nav-category--ul">
+            <li class="header-nav-category--li"><a href="#">스마트</a></li>
+            <li class="header-nav-category--li"><a href="#">노트북</a></li>
+            <li class="header-nav-category--li"><a href="#">PC</a></li>
+            <li class="header-nav-category--li"><a href="#">음향</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <!-- 공통 헤더 끝 -->
+    <!-- main 시작 -->
+    <main class="main">
+      <!-- <section class="cart">
+        <div class="cart__header"><h2>장바구니</h2></div>
+        <div class="cart__container">
+          <ul class="cart__list"></ul> -->
+
+      <!-- 총 주문 금액 -->
+      <!-- <aside class="cart__price">
+            <div class="cart__price--border">
+              <div class="cart__price--calc">
+                <div class="cart__price--calc-orderPrice">
+                  <span class="cartOrderPrice">총 주문 금액</span>
+                  <p class="cartOrderPrice">0 원</p>
+                </div>
+                <div class="cart__price--calc-discountPrice">
+                  <span>할인 금액</span>
+                  <p class="cartDiscountPrice">0 원</p>
+                </div>
+                <div class="cart__price--calc-deliveryPrice">
+                  <span>베송비</span>
+                  <p class="cartDeliveryPrice">0 원</p>
+                </div>
+              </div>
+              <div class="cart__price--total">
+                <span>총 결제 금액</span>
+                <p class="cartTotalPrice">0 원</p>
+              </div>
+            </div>
+            <aa href="#" data-navigo
+              ><button class="cart__price--paymentBtn carPaymentBtn">
+                결제하기
+              </button></aa
+            >
+          </aside>
+        </div>
+      </section> -->
+    </main>
+    <!-- main 끝 -->
   </body>
 </html>
