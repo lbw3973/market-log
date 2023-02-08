@@ -18,7 +18,8 @@ const temporaryEl = document.querySelector('.temporary');
 const myPageAccountContainer = document.querySelector(
   '.mypage__account__container',
 );
-const loadingImgEl = document.querySelector('#lodingGIF');
+// const loadingImgEl = document.querySelector('#img-lodingGIF');
+const divLoadingEl = document.querySelector('.loadingGif');
 btnGetList.textContent = '은행 목록 가져오기'; // 삭제 예정
 
 router.on({
@@ -26,10 +27,8 @@ router.on({
     myPageAccountContainer.innerHTML = '';
   },
   '/mypage/account': async () => {
-    loadingImgEl.style.display = 'block';
     renderPage(htmlMypage_Account);
     await initFunc();
-    loadingImgEl.style.display = 'none';
   },
   '/mypage/heart': () => {
     myPageAccountContainer.innerHTML = '';
@@ -92,6 +91,7 @@ const htmlMypage_Account = `
 `;
 
 function renderPage(html) {
+  divLoadingEl.style.display = 'block';
   myPageAccountContainer.innerHTML = html;
 }
 
@@ -139,6 +139,8 @@ async function initFunc() {
     const bankCode = getSelectBank();
     createUserAccount(bankCode);
   });
+
+  divLoadingEl.style.display = 'none';
 }
 
 // 삭제 예정
