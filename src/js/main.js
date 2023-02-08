@@ -1,37 +1,78 @@
-// dotenv 사용 예시
-import dotenv from 'dotenv';
-import { base_url, api_key, user_name, admin_email } from './db.js';
+//최상단버튼
+// let toTop = document.querySelector('#to-top');
 
-import Swiper from 'swiper';
+// window.addEventListener('scroll', () => {
+//   let scrollY = window.scrollY;
+//   if (scrollY > 200) {
+//     toTop.classList.add('on');
+//     if (scrollY < 200) {
+//       toTop.classList.add('on');
+//       // 색반전 주기
+//     } else {
+//       toTop.classList.remove('on');
+//     }
+//   }
+// });
+// toTop.addEventListener('click', (e) => {
+//   e.preventDefault();
+//   window.scrollTo({ top: 0, behavior: 'smooth' });
+// });
 
-new Swiper('.swiper', {
-  spaceBetween: 30,
-  centeredSlides: true,
-  autoplay: {
-    delay: 2500,
-    disableOnInteraction: false,
+// import * as signup from './page/signup';
+// import * as productDetail from './page/productDetail/productDetail';
+import { mpWeekly } from './renderMainPage.js';
+//import { mpBestDesign, mpNewProduct, mpWeekly } from './renderMainPage.js';
+import Navigo from 'navigo';
+const $ = (selector) => document.querySelector(selector);
+
+/** navigo router */
+const router = new Navigo('/');
+router.on({
+  '/': () => {
+    renderPage(mpWeekly);
+    // renderPage(mpNewProduct);
+    // renderPage(mpBestDesign);
+    console.log('contentsMainPage    contentsMainPage');
   },
-  pagination: {
-    el: '.swiper-pagination',
-    clickable: true,
+  '/signup': () => {
+    console.log('signup    signup');
   },
-  navigation: {
-    nextEl: '.swiper-button-next',
-    prevEl: '.swiper-button-prev',
+  '/login': () => {
+    console.log('login    login');
+  },
+  '/cart': () => {
+    console.log('cart    cart');
+  },
+  '/hart': () => {
+    console.log('hart    hart');
+  },
+  '/mypage': () => {
+    console.log('mypage    mypage');
+  },
+  '/productDetail': () => {
+    console.log('productDetail    productDetail');
   },
 });
 
-dotenv.config();
+/** 렌더 함수 for navigo */
+const renderPage = (html) => {
+  console.log(html);
+  const mainPageAll = document.querySelector('.app');
+  mainPageAll.innerHTML = html;
+  //mainPageAll.innerHTML = '';
+  //mainPageAll.append(html);
+};
 
-console.log('BASE_URL:', process.env.BASE_URL);
-console.log('API_KEY:', process.env.API_KEY);
-console.log('USER_NAME:', process.env.USER_NAME);
-console.log('ADMIN_EMAIL:', process.env.ADMIN_EMAIL);
+const renderInitMainPage = () => {
+  renderPage(mpWeekly);
+  // renderPage(mpNewProduct);
+  // renderPage(mpBestDesign);
+};
 
-console.log({ base_url, api_key, user_name, admin_email });
+renderInitMainPage();
 
-// 버튼 테스트
-const btn = document.querySelector('button');
-btn.addEventListener('click', () => {
-  console.log('clicked!');
-});
+// /** 메인페이지 초기화 */
+const initMainPage = () => {
+  renderPage();
+};
+initMainPage();
