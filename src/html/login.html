@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="../scss/signup/signup.scss" />
-    <script defer src="../js/page/signup.js"></script>
+    <link rel="stylesheet" href="../scss/login/login.scss" />
+    <script defer src="../js/page/login.js"></script>
   </head>
 
   <body>
@@ -74,55 +74,33 @@
       </div>
     </header>
     <!-- 공통 헤더 끝 -->
+    <!-- 로그인 페이지 시작-->
+
     <div class="container">
-      <h1 class="title">회원가입</h1>
+      <h1 class="title">로그인</h1>
       <ul>
         <li>
           <!-- <p>아이디</p> -->
           <div class="title-gongback"></div>
-          <input type="text" placeholder="아이디 (영문 소문자, 숫자, 6~20자)" />
+          <input type="text" placeholder="아이디" />
         </li>
         <li>
-          <!-- <p>비밀번호</p> -->
-          <input
-            type="password"
-            placeholder="비밀번호 (영문 대/소문자, 숫자, 특수문자 중 2가지 조합, 8~20자)"
-          />
-          <input type="password" placeholder="비밀번호확인" />
-        </li>
-        <li>
-          <!-- <p>이메일</p> -->
-          <input type="text" placeholder="이메일주소 입력" />
+          <input type="password" placeholder="비밀번호" />
         </li>
       </ul>
+      <div class="saveId">
+        <input type="checkbox" class="input_chk" />
+        <label class="save">아이디 저장</label>
+        <div class="asd"></div>
+        <div class="find">
+          <a href="#">아이디찾기 |</a>
+          <a href="#">비번찾기 |</a>
+          <a href="../html/signup.html">회원가입</a>
+        </div>
+      </div>
+      <button class="login-btn">로그인</button>
     </div>
-    <div class="box">
-      <input type="checkbox" class="input_chk" />
-      <label class="pilsu" for="">전체 약관 및 마케팅 수신에 동의합니다.</label>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    </div>
-    <hr align="center" />
-    <div class="box">
-      <input type="checkbox" class="input_chk" />
-      <label class="pilsu" for=""
-        >이용약관 (필수) <span class="gongback"> </span>
-        <a id="asd" href=""> 보기</a></label
-      >
-    </div>
-    <div class="box">
-      <input type="checkbox" class="input_chk" />
-      <label class="pilsu" for=""
-        >개인정보 수집 및 이용 (필수) <span class="gongback1"> </span>
-        <a id="asd" href=""> 보기 </a></label
-      >
-    </div>
-    <hr />
-
-    <button type="button" class="submit-btn">가입하기</button>
-
-    <!-- 임시로그인페이지 지워야함-->
-    <a class="qwe" href="../html/login.html">asd </a>
-
+    <!-- 로그인 페이지 끝-->
     <!-- 공통 FOOTER 시작-->
     <div class="footer-container">
       <footer>

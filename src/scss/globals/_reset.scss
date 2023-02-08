@@ -114,6 +114,7 @@ section {
 }
 body {
   line-height: 1;
+  font: inherit;
 }
 menu,
 ol,
@@ -139,6 +140,7 @@ table {
 // 버튼 스타일 초기화
 button {
   all: unset;
+  cursor: pointer;
 }
 // a link 스타일 초기화
 a {
