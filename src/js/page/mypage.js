@@ -46,7 +46,9 @@ const htmlMypage_Account = `
   <div class="user__account">
     <p class="total__balance"></p>
     <ul></ul>
-    <div></div>
+    <div>
+      <button class="btn__create__account">계좌추가!</button>
+    </div>
   </div>
 </div>
 <div class="create__account">
@@ -103,14 +105,10 @@ async function initFunc() {
     dicCreateAccount.querySelector('#input__account');
   const inputPhoneNumberEl = dicCreateAccount.querySelector('#input__phone');
   const btnFinalCreate = document.querySelector('#btnFinalCreate');
-  const divDeleteAccount = document.querySelector('.delete__account');
 
-  const btnCreateAccount = document.createElement('button');
+  const btnCreateAccount = document.querySelector('.btn__create__account');
   const UserAccounts = await getUserAccounts();
   showUserAccounts(divUserAccount, UserAccounts);
-  btnCreateAccount.classList.add('btn__create__account');
-  btnCreateAccount.innerText = '계좌추가!';
-  divUserAccount.querySelector('div').append(btnCreateAccount);
 
   // Input Tag Custom : 숫자만 입력 가능
   inputAccountNumberEl.addEventListener('keyup', checkInputNumber());
@@ -121,7 +119,7 @@ async function initFunc() {
     const createAbleBankList = Array.from(await getBankList()).filter(
       (x) => x.disabled === false,
     );
-    createBankAccountList(
+    getPossibleBankList(
       dicCreateAccount.querySelector('.modal__container'),
       createAbleBankList,
     );
@@ -136,7 +134,7 @@ async function initFunc() {
 
   // 계좌 생성 버튼
   btnFinalCreate.addEventListener('click', () => {
-    const bankCode = getSelectBank();
+    const bankCode = getUserSelectBank();
     createUserAccount(bankCode);
   });
 
@@ -238,7 +236,7 @@ function checkInputNumber() {
 }
 
 // 등록 가능한 은행 목록을 가져와 은행 이름과 계좌번호 형식과 Render
-const createBankAccountList = (div, data) => {
+const getPossibleBankList = (div, data) => {
   const ulEl = div.querySelector('ul');
   const liEls = data.map((_data) => {
     const liEl = document.createElement('li');
@@ -254,7 +252,7 @@ const createBankAccountList = (div, data) => {
 };
 
 // 계좌 개설 시, 사용자가 선택한 은행Code를 가져옴
-const getSelectBank = () => {
+const getUserSelectBank = () => {
   const checkBoxs = document.querySelectorAll('.selectBank');
   const bchecked = Array.from(checkBoxs).every((x) => x.checked === false);
 
