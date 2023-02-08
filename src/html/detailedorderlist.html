@@ -169,26 +169,3 @@
     </main>
   </body>
 </html>
-<a
-  href="https://market-mong-nyang.netlify.app/products/${orderHistory.detailId}"
-  ><img
-    src="${orderHistory.thumbnail}"
-    alt="product-image"
-    class="product--img"
-/></a>
-<div class="product--info">
-  <a href="#" class="product--name">${orderHistory.product.title}</a>
-  <div class="product--info-numbers">
-    <div class="product--price">${orderHistory.product.price}</div>
-    <div class="product--order-date">
-      ${(orderHistory.timePaid).slice(0,10)}
-    </div>
-  </div>
-  <span class="order-status">구매 완료</span>
-  <span>구매가 완료 되었습니다.</span>
-  <span>구매 확정 이후에는 주문 취소가 불가능합니다.</span>
-</div>
-<div class="buttons">
-  <button class="button cancel-btn">주문 취소</button>
-  <button class="button orderfix-btn">구매 확정</button>
-</div>
