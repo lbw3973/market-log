@@ -6,8 +6,9 @@
   <link rel="icon" type="image/svg+xml" href="public/favicon.svg" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Market.log|MainPage</title>
+  <title>Market.log | MainPage</title>
   <!-- scss -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
   <link rel="stylesheet" href="./src/scss/main.scss" />
   <!-- js -->
   <script type="module" src="./src/js/main.js" defer></script>
@@ -19,19 +20,29 @@
     <div class="header">
       <nav class="header__user-login">
         <ul class="header__user-login--ul">
-          <li class="header__user-login--li"><a href="#">회원가입</a></li>
           <li class="header__user-login--li">
-            <a href="#"><strong id="header__user-login-name">테스트님</strong>
-              환영합니다</a>
+            <a href="/signup" data-navigo>회원가입</a>
           </li>
-          <li class="header__user-login--li"><a href="#">로그인</a></li>
+          <li class="header__user-login--li">
+            <a href="/myPage" data-navigo>
+              <strong id="header__user-login-name">테스트님</strong>환영합니다
+            </a>
+          </li>
+          <li class="header__user-login--li">
+            <a href="/login" data-navigo>
+              로그인
+            </a>
+          </li>
         </ul>
       </nav>
+
       <nav class="header-main">
-        <a class="header-main__home-link" href="#">
+        <a class="header-main__home-link" href="/" data-navigo>
           <img class="header-main__logo" src="./public/mainLogo.svg" alt="main logo" />
           <h1 class="header-main__company-name">마켓로그</h1>
         </a>
+
+        <!-- navigo, filtering 적용필 -->
         <div class="header-main__search">
           <form class="header-main__search--form">
             <input class="header-main__search--input" />
@@ -40,138 +51,67 @@
             </button>
           </form>
         </div>
+
         <div class="header-main__links">
-          <a href="#"><img class="header-main__links-img" src="./public/heart.svg" alt="찜하기" /></a>
-          <a href="#"><img class="header-main__links-img" src="./public/cart.svg" alt="카트" /></a>
-          <a href="#"><img class="header-main__links-img" src="./public/member.svg" alt="회원가입" /></a>
+          <a href="/hart" data-navigo><img class="header-main__links-img" src="./public/heart.svg" alt="찜하기" /></a>
+          <a href="/cart" data-navigo><img class="header-main__links-img" src="./public/cart.svg" alt="카트" /></a>
+          <a href="/mypage" data-navigo><img class="header-main__links-img" src="./public/member.svg" alt="회원가입" /></a>
         </div>
+
       </nav>
+
+      <!-- 카테고리메뉴 : 뉴아이템, 베스트아이템, 다중 필터링-->
+      <!-- navigo 적용필 -->
       <nav class="header-nav-category">
-        <ul class="header-nav-category--ul">
-          <li class="header-nav-category--li"><a href="#">스마트</a></li>
-          <li class="header-nav-category--li"><a href="#">노트북</a></li>
-          <li class="header-nav-category--li"><a href="#">PC</a></li>
-          <li class="header-nav-category--li"><a href="#">음향</a></li>
-        </ul>
+        <div class="header-nav-category--dropdown">
+          <nav href="/pc" data-navigo class="header-nav-category--dropitem">
+            PC
+          </nav>
+          <div class="header-nav-category--dropdown-content">
+            <a href="/mouse" data-navigo>마우스</a>
+            <a href="/keyboard" data-navigo>키보드</a>
+            <a href="/hub" data-navigo>허브</a>
+          </div>
+        </div>
+        <div class="header-nav-category--dropdown">
+          <nav href="/smart" data-navigo class="header-nav-category--dropitem">
+            스마트
+          </nav>
+          <div class="header-nav-category--dropdown-content">
+            <a href="/adapter">어댑터</a>
+            <a href="/charge">충전</a>
+            <a href="/smart-etc">기타</a>
+          </div>
+        </div>
+        <div class="header-nav-category--dropdown">
+          <nav href="/notebook" data-navigo class="header-nav-category--dropitem">
+            노트북
+          </nav>
+          <div class="header-nav-category--dropdown-content">
+            <a href="/keypad">키패드</a>
+            <a href="/notbookstand">노트북스탠드</a>
+            <a href="/lock">도난방지</a>
+          </div>
+        </div>
+        <div class="header-nav-category--dropdown">
+          <nav href="/sound" data-navigo class="header-nav-category--dropitem">
+            음향
+          </nav>
+          <div class="header-nav-category--dropdown-content">
+            <a href="/earhead">헤드셋</a>
+            <a href="/speaker">스피커</a>
+            <a href="/kids">키즈</a>
+          </div>
+        </div>
       </nav>
     </div>
   </header>
   <!-- 공통 헤더 끝 -->
 
-  <!-- 스와이퍼 -->
-  <div class="swiper">
-    <div class="swiper-wrapper">
-      <div class="swiper-slide">
-        <img src="./public/image/swiper-sale.jpg" alt="swiper" />
-      </div>
-      <div class="swiper-slide">
-        <img src="./public/image/swiper-keyboard.gif" alt="swiper" />
-      </div>
-    </div>
-  </div>
-  <!-- WEEKLY BEST 주간 베스트 상품-->
-  <div class="weekly-container">
-    <span class="section-header"> Weekly Best </span>
-    <div class="weekly-wrap">
-      <img src="./public/image/weekly-best0.jpg" alt="weekly" class="weekly--mainImg" />
-      <ul class="weekly-products">
-        <li class="weekly-product">
-          <a><img src="./public/image/product1.jfif" alt="weekly" /></a>
-        </li>
-        <li class="weekly-product">
-          <a><img src="./public/image/product2.jfif" alt="weekly" /></a>
-        </li>
-        <li class="weekly-product">
-          <a><img src="./public/image/product3.jfif" alt="weekly" /></a>
-        </li>
-        <li class="weekly-product">
-          <a><img src="./public/image/product4.jfif" alt="weekly" /></a>
-        </li>
-        <li class="weekly-product">
-          <a><img src="./public/image/product5.jfif" alt="weekly" /></a>
-        </li>
-        <li class="weekly-product">
-          <a><img src="./public/image/product6.jfif" alt="weekly" /></a>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- NEW PRODUCT 새상품-->
-  <div class="new-product-modal">
-    <span class="section-header">New Product</span>
-    <div class="new-products">
-      <div class="new-product">
-        <a href="http://">
-          <div class="new-product--item">
-            <img src="./public/image/case1.jfif" alt="newproduct" />
-            <div class="product--fullname">
-              <div class="product--category">[CASE]</div>
-              <div class="product--name">이천이십삼년,2023</div>
-            </div>
-            <div class="division-line"></div>
-            <span class="product--price">14,000원</span>
-          </div>
-        </a>
-        <a href="http://">
-          <div class="new-product--item">
-            <img src="./public/image/case1.jfif" alt="newproduct" />
-            <div class="product--fullname">
-              <div class="product--category">[CASE]</div>
-              <div class="product--name">이천이십삼년,2023</div>
-            </div>
-            <div class="division-line"></div>
-            <span class="product--price">14,000원</span>
-          </div>
-        </a>
-        <a href="http://">
-          <div class="new-product--item">
-            <img src="./public/image/case1.jfif" alt="newproduct" />
-            <div class="product--fullname">
-              <div class="product--category">[CASE]</div>
-              <div class="product--name">이천이십삼년,2023</div>
-            </div>
-            <div class="division-line"></div>
-            <span class="product--price">14,000원</span>
-          </div>
-        </a>
-        <a href="http://">
-          <div class="new-product--item">
-            <img src="./public/image/case1.jfif" alt="newproduct" />
-            <div class="product--fullname">
-              <div class="product--category">[CASE]</div>
-              <div class="product--name">이천이십삼년,2023</div>
-            </div>
-            <div class="division-line"></div>
-            <span class="product--price">14,000원</span>
-          </div>
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- BEST DESIGN -->
-  <div class="best-design-modal">
-    <div class="curve-line">
-      <svg viewBox="0 -1 266.12 31" xmlns="http://www.w3.org/2000/svg" stroke-width="3"
-        style="stroke: rgb(19, 55, 177)">
-        <path class="cls-1"
-          d="M0,0C13.76,0,20.68,7.28,27.37,14.32S40.37,28,53.23,28,72.41,21.34,79.1,14.32,92.71,0,106.46,0s20.67,7.28,27.36,14.32S146.82,28,159.68,28s19.18-6.64,25.86-13.66S199.14,0,212.9,0s20.66,7.28,27.36,14.32S253.26,28,266.12,28">
-        </path>
-      </svg>
-    </div>
-    <span class="section-header">Best Design</span>
-    <div class="best-designs">
-      <div class="best-design--products">
-        <div class="sub section-header">market.log</div>
-        <div class="sub section-content">
-          마켓로그 선정 최고의 디자인<br />
-          제품을 눌러 상세 내용을 살펴보세요!!
-        </div>
-      </div>
-      <img src="./public/image/best-design.jpg" alt="best-design--main" class="best-design--main" />
-    </div>
-  </div>
+  <!-- 메인페이지 라우터 -->
+  <main class="app">
+  </main>
+  <!-- 메인페이지 끝 -->
 
   <!-- 공통 FOOTER 시작-->
   <div class="footer-container">
@@ -187,7 +127,7 @@
           <span class="footer-info__company-name">(주)merge | </span>
           <span class="footer-info__company-ceo"> 대표: 로그 킴 | </span>
           <span class="footer-info__business-email">
-            비즈니스: jhLee@marketlog.co.kr</span>
+            비즈니스: logkim@marketlog.co.kr</span>
         </div>
         <span class="footer-info__copyright">COPYRICHT (c) (주)merge</span>
       </div>
