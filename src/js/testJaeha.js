@@ -139,32 +139,6 @@ const initializeMainPage = async () => {
   renderProductItem(await getAllProducts());
   console.log('initialize');
 };
-// window.addEventListener('DOMContentLoaded', (e) => {
-//   initializeMainPage();
-// });
-
-// router
-//   .on({
-//     '/': async () => {
-//       // renderPage(renderProductIteminMainPageTemplate);
-//       console.log('working 144');
-//       // renderProductItem(await getAllProducts());
-//       initializeMainPage();
-//     },
-//     '/product/:id': async (params) => {
-//       console.log(params);
-//       console.log(params.data.id);
-//       console.log('navigo params working');
-//       await renderDetailProduct(params.data.id);
-//     },
-//   })
-//   .resolve();
-
-// .resolve();
-// router.navigate('product/:id');
-// router.notFound(() => {
-//   console.log('not found');
-// });
 
 /*-----------------------------------*\
   #productDetail js
@@ -343,12 +317,14 @@ const init = () => {
 // };
 
 /** 구매수량 추가 핸들링 이벤트 */
-$('.app').addEventListener('click', (e) => {
+$('.app').addEventListener('click', (e, productId) => {
+  console.log();
+  console.log(e.target);
   updateInfo(e);
 });
 
 /** 구매수량 핸들링 함수 */
-const updateInfo = async (e) => {
+const updateInfo = async (e, productId) => {
   // 구매수량 -
   if (e.target.classList.contains('minusQtyBtn')) {
     productDetailProductQty -= 1;
@@ -356,17 +332,14 @@ const updateInfo = async (e) => {
       productDetailProductQty = 1;
     }
 
-    renderDetailProduct('4mZdaj6ioV9b0yXqLPKK');
-    // renderDetailProduct('UcGtdmglg7bzIFDosY9D');
-    // shoppingCartStore.setLocalStorage(shoppingCartArr);
+    renderDetailProduct(productId);
     return;
   }
   // 구매수량 +
   if (e.target.classList.contains('addQtyBtn')) {
     productDetailProductQty += 1;
 
-    renderDetailProduct('4mZdaj6ioV9b0yXqLPKK');
-    // renderDetailProduct('UcGtdmglg7bzIFDosY9D');
+    renderDetailProduct(productId);
     return;
   }
   shoppingCartStore.setLocalStorage(shoppingCartArr);
@@ -687,13 +660,7 @@ router
     '/': async () => {
       console.log('/ route is working');
       await initializeMainPage();
-      // await renderDetailProduct('');
     },
-  })
-  .resolve();
-
-router
-  .on({
     '/product/:id': async (params) => {
       console.log(params);
       console.log(params.data.id);
@@ -702,3 +669,5 @@ router
     },
   })
   .resolve();
+
+// router.on({}).resolve();
