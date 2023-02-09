@@ -64,17 +64,17 @@ const initMainPage = () => {
 \*-----------------------------------*/
 
 const BASE_URL = 'https://asia-northeast3-heropy-api.cloudfunctions.net/api';
-masterKeyHEADERS = {
+const HEADERS = {
   'content-type': 'application/json',
   apikey: 'FcKdtJs202301',
   username: 'KDT4_Team3',
-  masterKey: true,
 };
 
 const getAllProducts = async () => {
   try {
     const res = await fetch(`${BASE_URL}/products`, {
-      headers: masterKeyHEADERS,
+      ...HEADERS,
+      masterKey: true,
     });
     const data = await res.json();
     console.log(data);
@@ -175,12 +175,22 @@ const storeCart = (id, price, count, thumbnail, title, pricePerOne) => {
   console.log(shoppingCartArr);
 };
 
+/** 토큰 오류 */
+
 // const BASE_URL = 'https://asia-northeast3-heropy-api.cloudfunctions.net/api';
-HEADERS = {
-  'content-type': 'application/json',
-  apikey: 'FcKdtJs202301',
-  username: 'KDT4_Team3',
-};
+// const HEADERS = {
+//   'content-type': 'application/json',
+//   apikey: 'FcKdtJs202301',
+//   username: 'KDT4_Team3',
+// };
+// const tokenValue = localStorage.getItem('token');
+// const token = JSON.parse(tokenValue).value;
+// console.log(token);
+
+// const accessTokenHEADERS = {
+//   ...HEADERS,
+//   Authorization: `Bearer ${token}`,
+// };
 
 /** 상세 제품 db에서 불러오기 */
 const getDetailProduct = async (productId) => {
@@ -193,6 +203,21 @@ const getDetailProduct = async (productId) => {
   } catch (err) {
     console.log(err);
     console.log('err: ', '해당 제품을 불러오기 실패');
+  }
+};
+
+/** 계좌 목록 및 잔액 조회 db에서 불러오기 */
+const getAccountDetail = async () => {
+  try {
+    const res = await fetch(`${BASE_URL}/account`, {
+      header: accessTokenHEADERS,
+    });
+    const data = await res.json();
+    console.log(data);
+    return data;
+  } catch (err) {
+    console.log(err);
+    console.log('err: ', '계좌목록 조회 실패');
   }
 };
 
@@ -386,7 +411,7 @@ let cartDiscountPrice = 0; // [장바구니] 할인 금액
 let cartDeliveryPrice = 0; // [장바구니] 배송비
 
 /** 장바구니 총 가격 렌더링 */
-const renderCartPrice = () => {
+const renderCartTotalPrice = () => {
   const cartTotalPrice = shoppingCartArr.map((items) => items.price);
   const cartTotalPriceReduce = cartTotalPrice.reduce((acc, val) => {
     return acc + val;
@@ -432,7 +457,7 @@ const renderInitCartPage = `
         </div>
       </div>
       <a href="/order" data-navigo
-        ><button class="cart__price--paymentBtn carPaymentBtn">
+        ><button class="cart__price--paymentBtn cartPaymentBtn">
           결제하기
         </button></a
       >
@@ -467,7 +492,7 @@ const renderCartOrderPrice = () => {
       <p class="cartTotalPaymentPrice">${cartTotalPaymentPrice.toLocaleString()} 원</p>
     </div>
   </div>
-  <button class="cart__price--paymentBtn carPaymentBtn">
+  <button class="cart__price--paymentBtn cartPaymentBtn">
     결제하기
   </button>
 `;
@@ -512,7 +537,7 @@ const renderCartList = (storage) => {
     })
     .join('');
 
-  renderCartPrice();
+  renderCartTotalPrice();
   renderCartOrderPrice();
   $('.app').querySelector('.cart__list').innerHTML = cartListTemplate;
 };
@@ -599,7 +624,7 @@ const renderCartPage = () => {
     // 장바구니에 넣은 상품 렌더링
     renderCartList(shoppingCartArr);
     // 결제금액 렌더링
-    renderCartPrice();
+    renderCartTotalPrice();
     return;
   }
 };
@@ -607,6 +632,14 @@ const renderCartPage = () => {
 /*-----------------------------------*\
   # 결제 페이지 # pay js
 \*-----------------------------------*/
+const renderProductTotalQty = () => {
+  const paymentItemCount = shoppingCartArr.map((items) => items.count);
+  const renderProductTotalQty = paymentItemCount.reduce((acc, val) => {
+    return acc + val;
+  }, 0);
+
+  return renderProductTotalQty;
+};
 
 const renderInitPaymentPage = `
 <section class="pay">
@@ -615,7 +648,7 @@ const renderInitPaymentPage = `
     <div class="pay__info">
       <div class="pay__info--header"><h3>주문정보</h3></div>
       <div class="pay__info--orderItem pay__info--order-item">
-        <h4>주문상품 <span>1개</span></h4>
+        <h4>주문상품 <span class="paymentProductQty">${renderProductTotalQty()}</span>개</h4>
         <ul class="pay__info--orderItem-lists"></ul>
       </div>
       <div class="pay__info--orderItem pay__info--address-info">
@@ -716,7 +749,7 @@ const renderInitPaymentPage = `
           <div class="pay__info--payment--container">
             <div class="pay__info--container-totalOrderPrice">
               <h6>총 주문 금액</h6>
-              <span class="payTotalOrderPrice">${renderCartPrice().toLocaleString()} 원</span>
+              <span class="payTotalOrderPrice">${renderCartTotalPrice().toLocaleString()} 원</span>
             </div>
             <div class="pay__info--container-discountPrice">
               <h6>할인 금액</h6>
@@ -728,7 +761,7 @@ const renderInitPaymentPage = `
             </div>
             <div class="pay__info--container-totalPaymentPrice">
               <h6>총 결제 금액</h6>
-              <span class="payTotalPaymentPrice">${renderCartPrice().toLocaleString()} 원</span>
+              <span class="payTotalPaymentPrice">${renderCartTotalPrice().toLocaleString()} 원</span>
             </div>
           </div>
         </div>
@@ -740,71 +773,7 @@ const renderInitPaymentPage = `
         </div>
         <div class="payment-method__select-card">
           <div class="swiper payment-method__swiper-wrapper">
-            <ul class="swiper-wrapper payment-method__card-lists">
-              <li class="swiper-slide payment-method__card-list">
-                <img
-                  src="${kBankCardIMG}"
-                  width="210"
-                  height="140"
-                  alt="k뱅크"
-                />
-                <p class="payment-method__card-name">케이뱅크</p>
-              </li>
-              <li class="swiper-slide payment-method__card-list">
-                <img
-                  src="${kBankCardIMG}"
-                  width="210"
-                  height="140"
-                  alt="k뱅크"
-                />
-                <p class="payment-method__card-name">하나은행</p>
-              </li>
-              <li class="swiper-slide payment-method__card-list">
-                <img
-                  src="${kBankCardIMG}"
-                  width="210"
-                  height="140"
-                  alt="k뱅크"
-                />
-                <p class="payment-method__card-name">카카오뱅크</p>
-              </li>
-              <li class="swiper-slide payment-method__card-list">
-                <img
-                  src="${kBankCardIMG}"
-                  width="210"
-                  height="140"
-                  alt="k뱅크"
-                />
-                <p class="payment-method__card-name">NH은행</p>
-              </li>
-              <li class="swiper-slide payment-method__card-list">
-                <img
-                  src="${kBankCardIMG}"
-                  width="210"
-                  height="140"
-                  alt="k뱅크"
-                />
-                <p class="payment-method__card-name">신한은행</p>
-              </li>
-              <li class="swiper-slide payment-method__card-list">
-                <img
-                  src="${kBankCardIMG}"
-                  width="210"
-                  height="140"
-                  alt="k뱅크"
-                />
-                <p class="payment-method__card-name">우리은행</p>
-              </li>
-              <li class="swiper-slide payment-method__card-list">
-                <img
-                  src="${kBankCardIMG}"
-                  width="210"
-                  height="140"
-                  alt="k뱅크"
-                />
-                <p class="payment-method__card-name">KB은행</p>
-              </li>
-            </ul>
+            <ul class="swiper-wrapper payment-method__card-lists"></ul>
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
           </div>
@@ -822,7 +791,7 @@ const renderInitPaymentPage = `
           </ul>
           <div class="payment-method__final-confirm--container">
             <button class="payment-method__final-confirm--btn">
-              총 10,000,000원 결제하기
+              총 ${renderCartTotalPrice().toLocaleString()}원 결제하기
             </button>
           </div>
         </div>
@@ -858,8 +827,34 @@ const renderPaymentProductList = (storage) => {
     paymentProductListTemplate;
 };
 
+/** 계좌목록 및 잔액 조회 */
+const renderPaymentAccount = (items) => {
+  const paymentAccountListTemplate = items.map((item) => {
+    const { totalBalance, accounts } = item;
+    const { id, bankName, bankCode, accountNumber, balance } = accounts;
+
+    return `
+    <li class="swiper-slide payment-method__card-list" data-account-id="${id}">
+      <img
+        src="${kBankCardIMG}"
+        width="210"
+        height="140"
+        alt="${bankName}"
+      />
+      <p class="payment-method__card-name">${account}</p>
+      <p>${totalBalance}</p>
+      <p>${bankCode}</p>
+      <p>${accountNumber}</p>
+      <p>${balance}</p>
+    </li>
+    `;
+  });
+  $('.app').querySelector('.payment-method__card-lists').innerHTML =
+    paymentAccountListTemplate;
+};
+
 /** 카카오 맵 렌더링 */
-const renderKaokaoMap = () => {
+const renderKakaoMap = () => {
   var mapContainer = document.getElementById('map'), // 지도를 표시할 div
     mapOption = {
       center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
@@ -934,7 +929,7 @@ router
       // 카트 페이지 렌더
       renderCartPage();
     },
-    '/payment': () => {
+    '/payment': async () => {
       $('.modal__addCart').style.display = 'none';
       // renderPage(renderInitCartPage);
       console.log('/payment');
@@ -943,11 +938,13 @@ router
       // 결제 페이지 렌더
       renderPage(renderInitPaymentPage);
       renderPaymentProductList(shoppingCartArr);
-      renderKaokaoMap();
+      // renderPaymentAccount(await getAccountDetail());
+      renderKakaoMap();
     },
   })
   .resolve();
 
+/** [장바구니 페이지] 결제하기 버튼 클릭 -> [결제 페이지]로 이동  */
 $('.app')
   .querySelector('.cartEmpty-goToShoppingBtn')
   ?.addEventListener('click', (e) => {
@@ -955,8 +952,9 @@ $('.app')
     router.navigate('/');
   });
 
+/** [장바구니 페이지] 결제하기 버튼 클릭 -> [결제 페이지]로 이동  */
 $('.app')
-  .querySelector('.carPaymentBtn')
+  .querySelector('.cartPaymentBtn')
   ?.addEventListener('click', (e) => {
     console.log(e.target);
     router.navigate('/payment');
