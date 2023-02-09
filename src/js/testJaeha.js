@@ -35,24 +35,6 @@ const router = new Navigo('/');
 //     // renderPage(mpBestDesign);
 //     console.log('contentsMainPage    contentsMainPage');
 //   },
-//   '/signup': () => {
-//     console.log('signup    signup');
-//   },
-//   '/login': () => {
-//     console.log('login    login');
-//   },
-//   '/cart': () => {
-//     console.log('cart    cart');
-//   },
-//   '/hart': () => {
-//     console.log('hart    hart');
-//   },
-//   '/mypage': () => {
-//     console.log('mypage    mypage');
-//   },
-//   '/productDetail': () => {
-//     console.log('productDetail    productDetail');
-//   },
 // });
 
 /** 렌더 함수 for navigo */
@@ -78,7 +60,7 @@ const initMainPage = () => {
 // initMainPage();
 
 /*-----------------------------------*\
-  #상세 제품 불러오기 테스트
+  #메인 페이지에 상세 제품 불러오기 테스트
 \*-----------------------------------*/
 
 const BASE_URL = 'https://asia-northeast3-heropy-api.cloudfunctions.net/api';
@@ -140,7 +122,7 @@ const initializeMainPage = async () => {
 };
 
 /*-----------------------------------*\
-  #productDetail js
+  제품 상세 페이지  #productDetail js
 \*-----------------------------------*/
 
 // productDetail 제품 상세페이지
@@ -151,6 +133,7 @@ import Navigo from 'navigo';
 // import cartSVG from '../../../../public/cart.svg';
 import heart from '../../public/heart.svg';
 import cartSVG from '../../public/cart.svg';
+import kBankCardIMG from '../../public/cardImg/kakao.png';
 // import cartSVG from '../../../../public/cart.svg';
 // const $ = (selector) => document.querySelector(selector);
 
@@ -227,7 +210,7 @@ const renderDetailProduct = async (productId) => {
     productDetail;
   console.log('productDetail', productDetail);
 
-  // 총 금액 계산, 제품title, thumbnail
+  // 총 금액 계산, 제품title, thumbnail, 상품 개당 가격
   productDetailTotalPrice = price * productDetailProductQty;
   productDetailTitle = title;
   productDetailThumbnail = thumbnail;
@@ -392,7 +375,7 @@ const handleModal = (e) => {
 };
 
 /*-----------------------------------*\
-  # 장바구니 cart js
+  # 장바구니 페이지 cart js
 \*-----------------------------------*/
 
 let cartProductTotalPrice;
@@ -484,11 +467,9 @@ const renderCartOrderPrice = () => {
       <p class="cartTotalPaymentPrice">${cartTotalPaymentPrice.toLocaleString()} 원</p>
     </div>
   </div>
-  <a href="/order" data-navigo
-    ><button class="cart__price--paymentBtn carPaymentBtn">
-      결제하기
-    </button></a
-  >
+  <button class="cart__price--paymentBtn carPaymentBtn">
+    결제하기
+  </button>
 `;
   $('.app').querySelector('.cart__price').innerHTML = cartOrderPriceTemplate;
 };
@@ -623,6 +604,315 @@ const renderCartPage = () => {
   }
 };
 
+/*-----------------------------------*\
+  # 결제 페이지 # pay js
+\*-----------------------------------*/
+
+const renderInitPaymentPage = `
+<section class="pay">
+  <div class="pay__container">
+    <div class="pay__header"><h2>결제하기</h2></div>
+    <div class="pay__info">
+      <div class="pay__info--header"><h3>주문정보</h3></div>
+      <div class="pay__info--orderItem pay__info--order-item">
+        <h4>주문상품 <span>1개</span></h4>
+        <ul class="pay__info--orderItem-lists"></ul>
+      </div>
+      <div class="pay__info--orderItem pay__info--address-info">
+        <h4>배송지</h4>
+        <div class="pay__info--address-container">
+          <form class="pay__info--address-form">
+            <div class="pay__info-zipcode">
+              <h6>우편번호</h6>
+              <div class="pay__info-zipcode--data">
+                <input
+                  class="pay__info-zipcode--data-input"
+                  placeholder="우편번호"
+                  id="sample5_address"
+                  required
+                />
+                <button class="pay__info-zipcode--data-searchBtn">
+                  우편번호 찾기
+                </button>
+              </div>
+            </div>
+
+            <div class="pay__info--order">
+              <h6>주소지</h6>
+              <div class="pay__info--order-data">
+                <input
+                  placeholder="주소"
+                  class="pay__info--order-data-address"
+                  required
+                />
+                <input
+                  placeholder="상세정보1"
+                  class="pay__info--order-data-detailInfo1"
+                />
+                <input
+                  placeholder="상세정보2"
+                  class="pay__info--order-data-detailInfo2"
+                />
+              </div>
+            </div>
+
+            <div class="pay__info--delivery">
+              <h6>배송메모</h6>
+              <div>
+                <select>
+                  <option value="default">
+                    배송 메세지를 선택해주세요.
+                  </option>
+                  <option value="purchase-item">
+                    배송 전에 미리 연락 바랍니다.
+                  </option>
+                  <option value="purchase-item">
+                    부재시 경비실에 맡겨 주세요.
+                  </option>
+                  <option value="purchase-item">
+                    부재시 전화 주시거나 문자 남겨 주세요.
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
+          </form>
+        </div>
+      </div>
+      <div class="pay__info--orderItem pay__info--payer-info">
+        <h4>주문자 정보</h4>
+        <div class="pay__info--payer--container">
+          <form class="pay__info--payer--form">
+            <div class="pay__info--payer--name">
+              <h6>주문자</h6>
+              <input
+                class="pay__info--payer--name-input"
+                placeholder="이름을 입력해주세요"
+                required
+              />
+            </div>
+            <div class="pay__info--payer--email">
+              <h6>이메일</h6>
+              <input
+                class="pay__info--payer--email-input"
+                type="email"
+                placeholder="이메일을 입력해주세요"
+              />
+            </div>
+            <div class="pay__info--payer--phoneNum">
+              <h6>휴대폰</h6>
+              <input
+                class="pay__info--payer--phoneNum-input"
+                type="tel"
+                placeholder="휴대폰 번호를 입력해주세요"
+              />
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="pay__info--orderItem pay__info--price-sum">
+        <div class="pay__info--width400px">
+          <h4>결제 금액</h4>
+          <div class="pay__info--payment--container">
+            <div class="pay__info--container-totalOrderPrice">
+              <h6>총 주문 금액</h6>
+              <span class="payTotalOrderPrice">${renderCartPrice().toLocaleString()} 원</span>
+            </div>
+            <div class="pay__info--container-discountPrice">
+              <h6>할인 금액</h6>
+              <span class="payDiscountPrice">${cartDiscountPrice.toLocaleString()} 원</span>
+            </div>
+            <div class="pay__info--container-deliveryPrice">
+              <h6>배송비</h6>
+              <span class="payDeliveryPrice">${cartDiscountPrice.toLocaleString()} 원</span>
+            </div>
+            <div class="pay__info--container-totalPaymentPrice">
+              <h6>총 결제 금액</h6>
+              <span class="payTotalPaymentPrice">${renderCartPrice().toLocaleString()} 원</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pay__info--orderItem pay__info--payment-method">
+        <div class="payment-method">
+          <h4>결제수단</h4>
+          <span>선택된 계좌: 신한은행</span>
+        </div>
+        <div class="payment-method__select-card">
+          <div class="swiper payment-method__swiper-wrapper">
+            <ul class="swiper-wrapper payment-method__card-lists">
+              <li class="swiper-slide payment-method__card-list">
+                <img
+                  src="${kBankCardIMG}"
+                  width="210"
+                  height="140"
+                  alt="k뱅크"
+                />
+                <p class="payment-method__card-name">케이뱅크</p>
+              </li>
+              <li class="swiper-slide payment-method__card-list">
+                <img
+                  src="${kBankCardIMG}"
+                  width="210"
+                  height="140"
+                  alt="k뱅크"
+                />
+                <p class="payment-method__card-name">하나은행</p>
+              </li>
+              <li class="swiper-slide payment-method__card-list">
+                <img
+                  src="${kBankCardIMG}"
+                  width="210"
+                  height="140"
+                  alt="k뱅크"
+                />
+                <p class="payment-method__card-name">카카오뱅크</p>
+              </li>
+              <li class="swiper-slide payment-method__card-list">
+                <img
+                  src="${kBankCardIMG}"
+                  width="210"
+                  height="140"
+                  alt="k뱅크"
+                />
+                <p class="payment-method__card-name">NH은행</p>
+              </li>
+              <li class="swiper-slide payment-method__card-list">
+                <img
+                  src="${kBankCardIMG}"
+                  width="210"
+                  height="140"
+                  alt="k뱅크"
+                />
+                <p class="payment-method__card-name">신한은행</p>
+              </li>
+              <li class="swiper-slide payment-method__card-list">
+                <img
+                  src="${kBankCardIMG}"
+                  width="210"
+                  height="140"
+                  alt="k뱅크"
+                />
+                <p class="payment-method__card-name">우리은행</p>
+              </li>
+              <li class="swiper-slide payment-method__card-list">
+                <img
+                  src="${kBankCardIMG}"
+                  width="210"
+                  height="140"
+                  alt="k뱅크"
+                />
+                <p class="payment-method__card-name">KB은행</p>
+              </li>
+            </ul>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+          </div>
+        </div>
+        <div class="payment-method__final">
+          <ul class="payment-method__final-alert">
+            <li>
+              - 최소 결제 가능 금액은 총 결제 금액에서 배송비를 제외한
+              금액입니다.
+            </li>
+            <li>
+              - 소액 결제의 경우 정책에 따라 결제 금액 제한이 있을 수
+              있습니다.
+            </li>
+          </ul>
+          <div class="payment-method__final-confirm--container">
+            <button class="payment-method__final-confirm--btn">
+              총 10,000,000원 결제하기
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+`;
+
+/** 결제페이지 제품 리스트 렌더링 */
+const renderPaymentProductList = (storage) => {
+  const paymentProductListTemplate = storage
+    .map((item) => {
+      const { id, price, count, thumbnail, title } = item;
+
+      return `
+    <li class="pay__info--orderItem-list" data-product-id="${id}">
+      <img
+        src="${thumbnail}"
+        alt="${title}"
+      />
+      <div class="pay__info--orderItem-desc">
+        <h5 class="pay__info--orderItem-title">${title}</h5>
+        <div class="pay__info--orderItem-qty">${count} 개</div>
+        <div class="pay__info--orderItem-totalprice">${price.toLocaleString()}원</div>
+      </div>
+    </li>
+    `;
+    })
+    .join('');
+
+  $('.app').querySelector('.pay__info--orderItem-lists').innerHTML =
+    paymentProductListTemplate;
+};
+
+/** 카카오 맵 렌더링 */
+const renderKaokaoMap = () => {
+  var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+    mapOption = {
+      center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
+      level: 5, // 지도의 확대 레벨
+    };
+
+  //지도를 미리 생성
+  var map = new daum.maps.Map(mapContainer, mapOption);
+  //주소-좌표 변환 객체를 생성
+  var geocoder = new daum.maps.services.Geocoder();
+  //마커를 미리 생성
+  var marker = new daum.maps.Marker({
+    position: new daum.maps.LatLng(37.537187, 127.005476),
+    map: map,
+  });
+  function sample5_execDaumPostcode() {
+    new daum.Postcode({
+      oncomplete: function (data) {
+        var addr = data.address; // 최종 주소 변수
+
+        // 주소 정보를 해당 필드에 넣는다.
+        document.getElementById('sample5_address').value = addr;
+        // 주소로 상세 정보를 검색
+        geocoder.addressSearch(data.address, function (results, status) {
+          // 정상적으로 검색이 완료됐으면
+          if (status === daum.maps.services.Status.OK) {
+            var result = results[0]; //첫번째 결과의 값을 활용
+
+            // 해당 주소에 대한 좌표를 받아서
+            var coords = new daum.maps.LatLng(result.y, result.x);
+            // 지도를 보여준다.
+            mapContainer.style.display = 'block';
+            map.relayout();
+            // 지도 중심을 변경한다.
+            map.setCenter(coords);
+            // 마커를 결과값으로 받은 위치로 옮긴다.
+            marker.setPosition(coords);
+          }
+        });
+      },
+    }).open();
+  }
+  $('.app')
+    .querySelector('.pay__info-zipcode--data-searchBtn')
+    .addEventListener('click', (e) => {
+      e.preventDefault();
+      sample5_execDaumPostcode();
+    });
+};
+
+/*-----------------------------------*\
+  # navigo router
+\*-----------------------------------*/
 router
   .on({
     '/': async () => {
@@ -636,13 +926,24 @@ router
     },
     '/cart': () => {
       $('.modal__addCart').style.display = 'none';
-      // ul태그 삽입
+      // 초기 템플릿, ul태그 삽입
       renderPage(renderInitCartPage);
       console.log('/cart');
       console.log('shoppingCartArr', shoppingCartArr);
 
       // 카트 페이지 렌더
       renderCartPage();
+    },
+    '/payment': () => {
+      $('.modal__addCart').style.display = 'none';
+      // renderPage(renderInitCartPage);
+      console.log('/payment');
+      console.log('shoppingCartArr', shoppingCartArr);
+
+      // 결제 페이지 렌더
+      renderPage(renderInitPaymentPage);
+      renderPaymentProductList(shoppingCartArr);
+      renderKaokaoMap();
     },
   })
   .resolve();
@@ -652,4 +953,11 @@ $('.app')
   ?.addEventListener('click', (e) => {
     console.log(e.target);
     router.navigate('/');
+  });
+
+$('.app')
+  .querySelector('.carPaymentBtn')
+  ?.addEventListener('click', (e) => {
+    console.log(e.target);
+    router.navigate('/payment');
   });
