@@ -1,6 +1,5 @@
 import calendar from './calendar';
 import { base_url, api_key, user_name, admin_email } from '../../db';
-import { doc } from 'prettier';
 calendar();
 //제품 정보
 const productsEl = document.querySelector('ul.products');
@@ -27,10 +26,8 @@ async function renderPage() {
 }
 
 //전체주문내역가져오기
-const orderhistoryURL =
-  'https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/transactions/details ';
 async function getOrderHistory() {
-  const res = await fetch(orderhistoryURL, {
+  const res = await fetch(`${base_url}/products/transactions/details`, {
     method: 'GET',
     headers: 'Authorization: Bearer <accessToken>',
   });
@@ -127,10 +124,8 @@ async function printOrderHistory(orderHistories) {
 }
 
 //상세주문내역(단일주문내역)불러오기
-const detailHistoryURL =
-  'https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/transactions/detail';
 async function getDetailHistory(item) {
-  const res = await fetch(orderhistoryURL, {
+  const res = await fetch(`${base_url}/products/transactions/details`, {
     method: 'POST',
     headers: 'Authorization: Bearer <accessToken>',
     body: JSON.stringify(item.id),
@@ -142,10 +137,8 @@ async function getDetailHistory(item) {
 }
 
 // 주문 취소하기
-const cancelUrl =
-  'https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/cancel';
 async function cancelOrder(item) {
-  await fetch(cancelUrl, {
+  await fetch(`${base_url}/products/cancel}`, {
     method: 'POST',
     headers: 'Authorization: Bearer <accessToken>',
     body: JSON.stringify(item.id),
@@ -153,10 +146,8 @@ async function cancelOrder(item) {
 }
 
 //주문 확정하기
-const orderfixUrl =
-  'https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/ok ';
 async function orderFix(item) {
-  await fetch(orderfixUrl, {
+  await fetch(`${base_url}/products/ok`, {
     method: 'POST',
     headers: 'Authorization: Bearer <accessToken>',
     body: JSON.stringify(item.id),

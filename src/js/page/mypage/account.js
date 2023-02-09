@@ -1,44 +1,14 @@
-// dotenv 사용 예시
-import dotenv from 'dotenv';
-import Navigo from 'navigo';
-import { base_url, api_key, user_name, admin_email } from '../db.js';
-dotenv.config();
-window.localStorage.clear(); // TODO : 삭제
-
-const router = new Navigo('/');
-
+import { base_url, api_key, user_name, admin_email } from '../../db.js';
+import { renderPage } from './mypage.js';
 const headers = {
   'content-type': 'application/json',
   apikey: api_key,
   username: user_name,
 };
-
-const btnGetList = document.querySelector('.getlist');
-const temporaryEl = document.querySelector('.temporary');
-const myPageAccountContainer = document.querySelector(
-  '.mypage__account__container',
-);
-// const loadingImgEl = document.querySelector('#img-lodingGIF');
 const divLoadingEl = document.querySelector('.loadingGif');
-btnGetList.textContent = '은행 목록 가져오기'; // 삭제 예정
 
-router.on({
-  '/mypage/order': () => {
-    myPageAccountContainer.innerHTML = '';
-  },
-  '/mypage/account': async () => {
-    renderPage(htmlMypage_Account);
-    await initFunc();
-  },
-  '/mypage/heart': () => {
-    myPageAccountContainer.innerHTML = '';
-  },
-  '/mypage/modify': () => {
-    myPageAccountContainer.innerHTML = '';
-  },
-});
-
-const htmlMypage_Account = `
+// HTML : mypage 계좌관리 탭
+export const htmlMypage_Account = /* html */ `
 <div class="mypage__account__wrapper">
   <div class="mypage__account__header">
     <h1>계좌 관리</h1>
@@ -92,12 +62,7 @@ const htmlMypage_Account = `
 </div>
 `;
 
-function renderPage(html) {
-  divLoadingEl.style.display = 'block';
-  myPageAccountContainer.innerHTML = html;
-}
-
-async function initFunc() {
+export async function initFunc() {
   const divUserAccount = document.querySelector('.user__account');
   const dicCreateAccount = document.querySelector('.create__account');
   const btnCloseModal = document.querySelector('#btnCloseModal');
@@ -140,12 +105,6 @@ async function initFunc() {
 
   divLoadingEl.style.display = 'none';
 }
-
-// 삭제 예정
-btnGetList.addEventListener('click', () => {
-  // mypage__account.style.backgroundImage = 'none';
-  temporaryEl.style.display = 'none';
-});
 
 // API : 은행 목록
 const getBankList = async () => {
@@ -334,93 +293,3 @@ const showDeleteAccountModal = (event) => {
     divDeleteAccount.style.display = 'none';
   });
 };
-
-// const
-
-// 엑세스 토큰때문에 임시..
-const idEl = document.querySelector('.id');
-const passwordEl = document.querySelector('.password');
-const displayNameEl = document.querySelector('.display-name');
-const submitEl = document.querySelector('.signup');
-const authorizationEl = document.querySelector('.authorization');
-const loginEl = document.querySelector('.login');
-// const btnLogout = document.querySelector('.logout')
-
-let id = '';
-let pw = '';
-let displayName = '';
-
-idEl.addEventListener('input', (event) => {
-  id = event.target.value;
-});
-passwordEl.addEventListener('input', (event) => {
-  pw = event.target.value;
-});
-displayNameEl.addEventListener('input', (event) => {
-  displayName = event.target.value;
-});
-submitEl.addEventListener('click', () => {
-  request({
-    url: 'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/signup',
-    method: 'POST',
-    data: {
-      email: id,
-      password: pw,
-      displayName: displayName,
-    },
-  });
-});
-authorizationEl.addEventListener('click', async () => {
-  request({
-    url: 'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/me',
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      masterKey: true,
-    },
-  });
-});
-loginEl.addEventListener('click', async () => {
-  loginEl.textContent = '로그인 시도 중...';
-  await request({
-    url: 'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/login',
-    method: 'POST',
-    data: {
-      email: id,
-      password: pw,
-    },
-  });
-  loginEl.textContent = '로그인 완료';
-});
-// btnLogout.addEventListener('click', () => {
-//   request({
-//     url: 'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/logout',
-//     method: 'POST',
-//     headers: {
-//       ...headers,
-//       Authorization: `Bearer ${window.localStorage.getItem('token')}`
-//     }
-//   })
-// })
-
-async function request(options) {
-  const defaultOptions = {
-    method: 'GET',
-    headers: {
-      'content-type': 'application/json',
-      apikey: 'FcKdtJs202301',
-      username: user_name,
-    },
-  };
-  const headers = options.headers || {};
-  const res = await fetch(options.url, {
-    method: options.method || defaultOptions.method,
-    headers: {
-      ...defaultOptions.headers,
-      ...headers,
-    },
-    body: options.data ? JSON.stringify(options.data) : undefined,
-  });
-  const json = await res.json();
-  window.localStorage.setItem('token', json.accessToken);
-}
