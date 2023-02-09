@@ -8,6 +8,8 @@ export const productHandler = async (page) => {
   let newProducts = paginate(products, activeIdx, itemsPerPage);
 
   const productList = page.querySelector('.product-container__list');
+  const checkProductAll = page.querySelector('.product-container__title input');
+
   displayProduct(productList, newProducts, activeIdx);
 
   const productPageBtn = page.querySelector('.product-container__btn-page');
@@ -36,14 +38,7 @@ export const productHandler = async (page) => {
     }
 
     productList.innerHTML = `
-      <li>
-        <input type="checkbox">
-        <span style='width: 5%;'>NO</span>
-        <span style='width: 10%;'>카테고리</span>
-        <span style='width: 10%;'>상품명</span>
-        <span style='width: 15%;'>가격</span>
-        <span style='width: 15%;'>품절여부</span>
-      </li>
+    
     `;
 
     displayPageBtn(productPageBtn, products, activeIdx, itemsPerPage);
@@ -57,11 +52,10 @@ export const productHandler = async (page) => {
     '.product-container__btn-delete',
   );
 
-  const productsEl = productList.querySelectorAll('li + li');
+  checkProductAll.addEventListener('change', () => {
+    const productsEl = productList.querySelectorAll('li');
 
-  const checkProuductAll = productList.querySelector('li:first-child input');
-  checkProuductAll.addEventListener('change', () => {
-    checkProuductAll.checked
+    checkProductAll.checked
       ? [...productsEl].forEach(
           (productEl) => (productEl.querySelector('input').checked = true),
         )
@@ -71,9 +65,14 @@ export const productHandler = async (page) => {
   });
 
   deleteBtn.addEventListener('click', async () => {
+    const productsEl = productList.querySelectorAll('li');
+
+    console.log('pEl', [...productsEl]);
     const newProductsEl = [...productsEl].filter(
       (productEl) => productEl.querySelector('input').checked === true,
     );
+
+    console.log('nEl', newProductsEl);
 
     if (newProductsEl.length === 0) {
       alert('상품을 선택해주세요.');
@@ -88,24 +87,15 @@ export const productHandler = async (page) => {
       );
 
       products = await getAllProduct();
-      productList.innerHTML = `
-      <li>
-        <input type="checkbox">
-        <span style='width: 5%;'>NO</span>
-        <span style='width: 10%;'>카테고리</span>
-        <span style='width: 10%;'>상품명</span>
-        <span style='width: 15%;'>가격</span>
-        <span style='width: 15%;'>품절여부</span>
-      </li>
-    `;
-
+      productList.innerHTML = '';
+      // productsEl = productList.querySelectorAll('li');
       alert('선택한 상품이 삭제되었습니다.');
     } else {
       return;
     }
+
     displayPageBtn(productPageBtn, products, activeIdx, itemsPerPage);
     newProducts = paginate(products, activeIdx, itemsPerPage);
-    console.log(newProducts);
     displayProduct(productList, newProducts, activeIdx);
   });
 };

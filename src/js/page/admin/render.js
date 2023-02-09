@@ -1,6 +1,5 @@
 import searchPNG from '../../../../public/search.png';
 
-
 export const dashboardPage = ` 
     <div class='dashboard-container' data-page='dashboard'>대시보드
     </div>
@@ -34,15 +33,16 @@ export const productPage = `
               </div>
             </div>
         </div>
+        <li class='product-container__title'>
+          <input type="checkbox">
+          <span style='width: 5%;'>NO</span>
+          <span style='width: 10%;'>카테고리</span>
+          <span style='width: 10%;'>상품명</span>
+          <span style='width: 15%;'>가격</span>
+          <span style='width: 15%;'>품절여부</span>
+        </li>
         <ul class='product-container__list'>
-            <li>
-                <input type="checkbox">
-                <span style='width: 5%;'>NO</span>
-                <span style='width: 10%;'>카테고리</span>
-                <span style='width: 10%;'>상품명</span>
-                <span style='width: 15%;'>가격</span>
-                <span style='width: 15%;'>품절여부</span>
-            </li>
+
         </ul>
         <div class='product-container__btn'>
             <button class='product-container__btn-delete'>삭제</button>
