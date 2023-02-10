@@ -170,7 +170,9 @@ export async function initFuncOrderHistory() {
 async function getOrderHistory() {
   const res = await fetch(`${base_url}/products/transactions/details`, {
     method: 'GET',
-    headers: 'Authorization: Bearer <accessToken>',
+    headers: {
+      Authorization: `${localStorage.getItem('token')}`,
+    },
   });
   const json = await res.json();
   console.log('전체주문내역', json);
@@ -179,7 +181,7 @@ async function getOrderHistory() {
 
 //전체주문내역출력하기
 async function printOrderHistory(orderHistories) {
-  orderHistories.forEach((orderHistory) => {
+  Array.from(orderHistories).forEach((orderHistory) => {
     const productEl = document.createElement('li');
     productEl.classList.add('product');
     if (orderHistory.isCanceled) {
@@ -269,7 +271,7 @@ async function printOrderHistory(orderHistories) {
 async function getDetailHistory(item) {
   const res = await fetch(`${base_url}/products/transactions/details`, {
     method: 'POST',
-    headers: 'Authorization: Bearer <accessToken>',
+    headers: { Authorization: Bearer`${localStorage.getItem('token')}` },
     body: JSON.stringify(item.id),
   });
   const json = await res.json();
@@ -282,7 +284,7 @@ async function getDetailHistory(item) {
 async function cancelOrder(item) {
   await fetch(`${base_url}/products/cancel}`, {
     method: 'POST',
-    headers: 'Authorization: Bearer <accessToken>',
+    headers: { Authorization: Bearer`${localStorage.getItem('token')}` },
     body: JSON.stringify(item.id),
   });
 }
@@ -291,13 +293,51 @@ async function cancelOrder(item) {
 async function orderFix(item) {
   await fetch(`${base_url}/products/ok`, {
     method: 'POST',
-    headers: 'Authorization: Bearer <accessToken>',
+    headers: { Authorization: Bearer`${localStorage.getItem('token')}` },
     body: JSON.stringify(item.id),
   });
 }
 
 //페이지 로드 시
-// window.addEventListener('load', () => {
-//   const orderHistories = getOrderHistory();
-//   printOrderHistory(orderHistories);
-// });
+window.addEventListener('load', () => {
+  const orderHistories = getOrderHistory();
+  printOrderHistory(orderHistories);
+});
+
+//주문취소버튼
+
+[...cancelBtns].forEach((item) => {
+  item.addEventListener('click', () => {
+    modalOrdercancelEl.classList.remove('nodisplay');
+  });
+});
+cancelNoBtn.addEventListener('click', () => {
+  modalOrdercancelEl.classList.add('nodisplay');
+});
+cancelYesBtn.addEventListener('click', () => {
+  //주문상태 취소로 변경
+  cancelOrder();
+  modalOrdercancelEl.classList.add('nodisplay');
+  modalOrderCancelFixEl.classList.remove('nodisplay');
+  cancelCloseBtn.addEventListener('click', () => {
+    modalOrderCancelFixEl.classList.add('nodisplay');
+  });
+});
+
+//주문확정버튼
+[...orderfixBtns].forEach((item) => {
+  item.addEventListener('click', () => {
+    modalOrderFixEl.classList.remove('nodisplay');
+  });
+});
+fixNoBtn.addEventListener('click', () => {
+  modalOrderFixEl.classList.add('nodisplay');
+});
+fixYesBtn.addEventListener('click', () => {
+  orderFix();
+  modalOrderFixEl.classList.add('nodisplay');
+  modalOrderFixFixEl.classList.remove('nodisplay');
+});
+orderfixCloseBtn.addEventListener('click', () => {
+  modalOrderFixFixEl.classList.add('nodisplay');
+});

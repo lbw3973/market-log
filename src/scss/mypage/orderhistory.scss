@@ -226,12 +226,39 @@
             }
             .product--info-numbers {
               display: flex;
-              font-size: 15px;
-              margin: 0 0 7px;
-              .product--price {
-              }
-              .product--order-date {
-                color: #999;
+              flex-wrap: wrap;
+
+              li {
+                @include center;
+                width: calc(100% / 7);
+                height: 34px;
+                &.inactive {
+                  color: #fff;
+                }
+                &.active:hover {
+                  background-color: var(--light-blue);
+                  color: #fff;
+                  border-radius: 50%;
+                  cursor: pointer;
+                }
+                &.today {
+                  background-color: var(--deps-blue);
+                  border-radius: 50%;
+                  color: #fff;
+                }
+                &.selected {
+                  background-color: var(--light-blue);
+                  color: #fff;
+                  border-radius: 50%;
+                }
+                // &::after {
+                //   content: '';
+                //   width: 34px;
+                //   height: 34px;
+                //   border-radius: 50%;
+                //   background-color: black;
+                //   z-index: 5;
+                // }
               }
             }
             .order-status {
