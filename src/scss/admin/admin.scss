@@ -79,42 +79,42 @@ main {
       font-weight: 600;
     }
 
-    & div {
+    &-container {
       display: flex;
       gap: 16px;
-    }
 
-    & select {
-      border: 1px solid #dadce0;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 15px;
-      padding: 10px;
-      width: 120px;
-    }
+      & select {
+        border: 1px solid #dadce0;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 15px;
+        padding: 10px;
+        width: 120px;
+      }
 
-    &-input {
-      position: relative;
-    }
+      &--input {
+        position: relative;
+      }
 
-    &-input input {
-      border: 1px solid #dadce0;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 15px;
-      padding: 10px;
-      width: 400px;
-    }
+      &--input input {
+        border: 1px solid #dadce0;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 15px;
+        padding: 10px;
+        width: 400px;
+      }
 
-    &-input img {
-      width: 24px;
-      height: 24px;
-      position: absolute;
-      cursor: pointer;
-      right: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      padding: 6px;
+      &--input img {
+        width: 24px;
+        height: 24px;
+        position: absolute;
+        cursor: pointer;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 6px;
+      }
     }
   }
 
