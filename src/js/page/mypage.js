@@ -19,35 +19,37 @@ let navliList;
 
 // HTML : mypage nav 목록
 const htmlMypage_Nav = /* html */ `
-<div class="mypage__container">
-  <div class="mypage__navbar">
-    <h1>마이페이지</h1>
-    <nav>
-      <ul>
-        <li>
-          <a href="/mypage/orderHistory" data-navigo id="mpOrderHistory">주문 내역
-            <img src="${chevronrightSVG}" alt="chevronright">
-          </a>
-        </li>
-        <li>
-          <a href="/mypage/account" data-navigo id="mpAccount">계좌 관리
-            <img src="${chevronrightSVG}" alt="chevronright">
-          </a>
-        </li>
-        <li>
-          <a href="/mypage/myHeart" data-navigo id="mpMyHeart">찜한 상품
-            <img src="${chevronrightSVG}" alt="chevronright">
-          </a>
-        </li>
-        <li>
-          <a href="/mypage/myPersonalInfoModify" data-navigo id="mpMyPersonalInfoModify">개인 정보 수정
-            <img src="${chevronrightSVG}" alt="chevronright">
-          </a>
-        </li>
-      </ul>
-    </nav>
-  </div>
+<div class="mypage__app">
+  <div class="mypage__container">
+    <div class="mypage__navbar">
+      <h1>마이페이지</h1>
+      <nav>
+        <ul>
+          <li>
+            <a href="/mypage/orderHistory" data-navigo id="mpOrderHistory">주문 내역
+              <img src="${chevronrightSVG}" alt="chevronright">
+            </a>
+          </li>
+          <li>
+            <a href="/mypage/account" data-navigo id="mpAccount">계좌 관리
+              <img src="${chevronrightSVG}" alt="chevronright">
+            </a>
+          </li>
+          <li>
+            <a href="/mypage/myHeart" data-navigo id="mpMyHeart">찜한 상품
+              <img src="${chevronrightSVG}" alt="chevronright">
+            </a>
+          </li>
+          <li>
+            <a href="/mypage/myPersonalInfoModify" data-navigo id="mpMyPersonalInfoModify">개인 정보 수정
+              <img src="${chevronrightSVG}" alt="chevronright">
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
   <div class="mypage__navigo__container"></div>
+</div>
 `;
 
 export function initFunc() {

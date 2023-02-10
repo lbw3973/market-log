@@ -708,14 +708,6 @@ const renderInitPaymentPage = `
                   class="pay__info--order-data-address"
                   required
                 />
-                <input
-                  placeholder="상세정보1"
-                  class="pay__info--order-data-detailInfo1"
-                />
-                <input
-                  placeholder="상세정보2"
-                  class="pay__info--order-data-detailInfo2"
-                />
               </div>
             </div>
 
