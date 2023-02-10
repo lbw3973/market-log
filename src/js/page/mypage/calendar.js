@@ -28,14 +28,13 @@ export default function () {
   const noContentEl = document.querySelector('.nocontent-box');
   const productsEl = document.querySelector('.products');
   const productArr = document.querySelectorAll('.product');
-  // const dayEl = calendar;
   const todayEl = document.querySelector('.today');
   const selectedEl = document.querySelector('.selected');
 
   calendarbtn.addEventListener('click', () => {
     if (calendarEl.classList.contains('nodisplay')) {
-      productsEl.classList.add('nodisplay');
-      noContentEl.classList.remove('nodisplay');
+      // productsEl.classList.add('nodisplay');
+      // noContentEl.classList.remove('nodisplay');
       calendarEl.classList.remove('nodisplay');
     } else {
       calendarEl.classList.add('nodisplay');
@@ -64,16 +63,17 @@ export default function () {
         currYear === date.getFullYear()
           ? 'today'
           : '';
-      liTag += `<li class="active ${isToday}">${i}</li>`;
+      liTag += `<li class="day active ${isToday}">${i}</li>`;
     }
-
+    // selected();
     currDate.innerText = `${monthsArr[currMonth]}, ${currYear}`;
     daysTag.innerHTML = liTag;
   };
   renderCalendar();
+  console.log(currYear, currMonth);
 
   //이전 달, 다음 달 버튼
-  prevNextBtns.forEach((icon) => {
+  [...prevNextBtns].forEach((icon) => {
     icon.addEventListener('click', () => {
       currMonth = icon.id === 'prev' ? currMonth - 1 : currMonth + 1;
 
@@ -88,3 +88,17 @@ export default function () {
     });
   });
 }
+// function selected() {
+//   const dayEl = document.querySelectorAll('.day'); //array
+//   console.log(dayEl);
+//   [...dayEl].forEach((day) => {
+//     day.addEventListener('click', () => {
+//       day.classList.add('selected')
+//       //selected 날짜 가져오기
+
+//       day.classList.remove('selected')
+//     });
+//   });
+// }
+// const dateDate = new Date().toISOString().slice(0, 10); === timePaid.slice(0,10)
+// console.log(dateDate);
