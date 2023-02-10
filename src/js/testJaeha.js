@@ -1,48 +1,24 @@
-//최상단버튼
-// let toTop = document.querySelector('#to-top');
-
-// window.addEventListener('scroll', () => {
-//   let scrollY = window.scrollY;
-//   if (scrollY > 200) {
-//     toTop.classList.add('on');
-//     if (scrollY < 200) {
-//       toTop.classList.add('on');
-//       // 색반전 주기
-//     } else {
-//       toTop.classList.remove('on');
-//     }
-//   }
-// });
-// toTop.addEventListener('click', (e) => {
-//   e.preventDefault();
-//   window.scrollTo({ top: 0, behavior: 'smooth' });
-// });
-
-// import * as signup from './page/signup';
-// import * as productDetail from './page/productDetail/productDetail';
 import { mpWeekly } from './renderMainPage.js';
-//import { mpBestDesign, mpNewProduct, mpWeekly } from './renderMainPage.js';
 import Navigo from 'navigo';
-import { render } from 'sass';
+const router = new Navigo('/');
 
 /** swiperjs */
 // core version + navigation, pagination modules:
 import Swiper, { Navigation, Pagination } from 'swiper';
 // import Swiper and modules styles
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+// import 'swiper/css';
+// import 'swiper/css/navigation';
+// import 'swiper/css/pagination';
 
 // init Swiper:
-const swiper = new Swiper('.swiper', {
-  // configure Swiper to use modules
-  modules: [Navigation, Pagination],
-});
+// const swiper = new Swiper('.swiper', {
+//   // configure Swiper to use modules
+//   modules: [Navigation, Pagination],
+// });
 
 const $ = (selector) => document.querySelector(selector);
 
 /** navigo router */
-const router = new Navigo('/');
 // router.on({
 //   '/': () => {
 //     renderPage(mpWeekly);
@@ -681,6 +657,20 @@ const renderProductTotalQty = () => {
   return renderProductTotalQty;
 };
 
+/** 결제이지 처음 렌더링 */
+let availableFirst = '불가능';
+export const availableIndex = [];
+const bankMatch = {
+  0: '케이뱅크',
+  1: '하나은행',
+  2: '카카오뱅크',
+  3: 'NH농협은행',
+  4: '신한은행',
+  5: '우리은행',
+  6: 'KB국민은행',
+};
+// 현재 선택한 계좌
+let currentSelectedPaymentAccount;
 const renderInitPaymentPage = `
 <section class="pay">
   <div class="pay__container">
@@ -810,13 +800,13 @@ const renderInitPaymentPage = `
       <div class="pay__info--orderItem pay__info--payment-method">
         <div class="payment-method">
           <h4>결제수단</h4>
-          <span>선택된 계좌: 신한은행</span>
+          <span class="payment-method__account-selected">선택된 계좌: 케이뱅크 (${availableFirst})</span>
         </div>
         <div class="payment-method__select-card">
           <div class="swiper payment-method__swiper-wrapper">
             <ul class="swiper-wrapper payment-method__card-lists"></ul>
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-prev payment-method__swiper-button-prev"></div>
+            <div class="swiper-button-next payment-method__swiper-button-next"></div>
           </div>
         </div>
         <div class="payment-method__final">
@@ -842,7 +832,7 @@ const renderInitPaymentPage = `
 </section>
 `;
 
-/** 결제페이지 제품 리스트 렌더링 */
+/** 결제페이지 구매할 제품 리스트 렌더링 */
 const renderPaymentProductList = (storage) => {
   const paymentProductListTemplate = storage
     .map((item) => {
@@ -880,7 +870,6 @@ const renderPaymentAccount = (items) => {
       const { id, bankName, bankCode, accountNumber, balance } = accounts;
 
       return `
-    
     <li class="swiper-slide payment-method__card-list" data-account-id="${id}">
       <img
         src="${kBankCardIMG}"
@@ -892,7 +881,7 @@ const renderPaymentAccount = (items) => {
       
       <p>${bankCode}</p>
       <p>${accountNumber}</p>
-      <p>${balance}</p>
+      <p>${balance.toLocaleString()} 원</p>
     </li>
     `;
     })
@@ -956,6 +945,7 @@ const renderKakaoMap = () => {
 /*-----------------------------------*\
   # navigo router
 \*-----------------------------------*/
+
 router
   .on({
     '/': async () => {
@@ -976,6 +966,13 @@ router
 
       // 카트 페이지 렌더
       renderCartPage();
+
+      $('.app')
+        .querySelector('.cartEmpty-goToShoppingBtn')
+        ?.addEventListener('click', (e) => {
+          console.log(e.target);
+          router.navigate('/');
+        });
 
       /** [장바구니 페이지] 결제하기 버튼 클릭 -> [결제 페이지]로 이동  */
       $('.app')
@@ -1002,9 +999,65 @@ router
   .resolve();
 
 /** [장바구니 페이지] 상품이 없을 때 계속 쇼핑하기 버튼 클릭 -> [메인페이지]로 이동  */
-$('.app')
-  .querySelector('.cartEmpty-goToShoppingBtn')
-  ?.addEventListener('click', (e) => {
-    console.log(e.target);
-    router.navigate('/');
-  });
+// $('.app')
+//   .querySelector('.cartEmpty-goToShoppingBtn')
+//   ?.addEventListener('click', (e) => {
+//     console.log(e.target);
+//     router.navigate('/');
+//   });
+
+let available = [];
+
+/** swiper js */
+// swiper 1
+// const paymentCardSwiper = new Swiper('.payment-method__swiper-wrapper', {
+//   modules: [Navigation, Pagination],
+//   slidesPerView: 3,
+//   spaceBetween: 25,
+//   loop: true,
+//   centerSlide: 'true',
+//   fade: 'true',
+//   grabCursor: 'true',
+//   pagination: {
+//     el: '.swiper-pagination',
+//     clickable: true,
+//     dynamicBullets: true,
+//   },
+//   navigation: {
+//     nextEl: '.swiper-button-next',
+//     prevEl: '.swiper-button-prev',
+//   },
+// });
+
+// swiper 2
+const paymentCardSwiper = new Swiper('.payment-method__swiper-wrapper', {
+  navigation: {
+    nextEl: '.payment-method__swiper-button-next',
+    prevEl: '.payment-method__swiper-button-prev',
+  },
+  slidesPerView: 'auto',
+  centeredSlides: true,
+  spaceBetween: 30,
+  on: {
+    slideChange: (e) => {
+      console.log(e.realIndex);
+      console.log('e', e);
+    },
+  },
+});
+
+function slideChange() {
+  const purchaseBtn = $('.payment-method__final-confirm--btn');
+  const currentPayment = $('.payment-method__account-selected');
+  const available = availableIndex.includes(this.realIndex) ? '가능' : '불가능';
+  currentPayment.textContent = `선택된 계좌: ${
+    bankMatch[this.realIndex]
+  } (${available})`;
+  if (available === '가능') {
+    purchaseBtn.style.filter = 'grayscale(0%)';
+    purchaseBtn.style.pointerEvents = 'auto';
+  } else {
+    purchaseBtn.style.filter = 'grayscale(100%)';
+    purchaseBtn.style.pointerEvents = 'none';
+  }
+}
