@@ -1,4 +1,6 @@
 @forward '../globals';
+@forward './account.scss';
+@forward './orderhistory.scss';
 
 label {
   display: block;
@@ -117,335 +119,95 @@ button {
   }
 }
 
-section {
-  .mypage {
+.app {
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+
+  .mypage__container {
     display: flex;
-    justify-content: center;
-    box-sizing: border-box;
+    margin-top: 2rem;
+    width: 74vw;
+    position: relative;
 
-    .mypage__container {
+    .mypage__navbar {
       display: flex;
-      margin-top: 2rem;
-      width: 74vw;
-      position: relative;
+      flex-direction: column;
+      gap: 2rem;
+      width: 25%;
+      // z-index: 200;
 
-      .mypage__navbar {
+      h1 {
+        font-size: 1.6rem;
+        // font-weight: 800;
+      }
+
+      nav {
         display: flex;
         flex-direction: column;
-        gap: 2rem;
-        width: 25%;
-        // z-index: 200;
 
-        h1 {
-          font-size: 1.6rem;
-          // font-weight: 800;
-        }
+        ul {
+          li {
+            border: 1px solid #eee;
+            border-bottom: none;
+            font-size: 0.9rem;
 
-        nav {
-          display: flex;
-          flex-direction: column;
-
-          ul {
-            li {
-              border: 1px solid #eee;
-              border-bottom: none;
-              font-size: 0.9rem;
-
-              a {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 1rem;
-
-                span {
-                  color: #000;
-                }
-              }
-            }
-
-            li:hover {
-              background-color: #fafafa;
-
-              span {
-                color: #5f0080;
-              }
-            }
-            li:last-child {
-              border-bottom: 1px solid #eee;
-            }
-          }
-        }
-      }
-      .mypage__account__container {
-        // background-color: skyblue;
-        margin-left: 2rem;
-        width: 80%;
-        height: 900px;
-
-        .mypage__account__wrapper {
-          .mypage__account__header {
-            border-bottom: 2px solid black;
-            padding-bottom: 1rem;
-
-            h1 {
-              font-size: 1.4rem;
-              // font-weight: bold;
-            }
-          }
-
-          .user__account {
-            .total__balance {
-              font-size: 14px;
-              margin-top: 20px;
-              text-align: right;
-
-              span {
-                color: #5f0080;
-                // font-weight: bold;
-              }
-            }
-
-            ul {
+            a {
               display: flex;
-              flex-direction: column;
-              gap: 20px;
-              margin: 10px 0;
-
-              li {
-                padding: 20px;
-                border: 1px solid #eee;
-                position: relative;
-                display: flex;
-                align-items: center;
-                background-color: #fafafa;
-                line-height: 36px;
-                flex-grow: row;
-                height: auto;
-
-                p {
-                  display: flex;
-                  margin: 0 20px;
-                  align-items: center;
-                }
-                p::before {
-                  background-color: #dadce0;
-                  content: '';
-                  height: 12px;
-                  margin-right: 20px;
-                  width: 1px;
-                }
-                p::after {
-                  background-color: #dadce0;
-                  content: '';
-                  height: 12px;
-                  margin-left: 20px;
-                  width: 1px;
-                }
-
-                span {
-                  display: block;
-                }
-
-                span::before {
-                }
-                span::after {
-                }
-
-                button {
-                  background-color: var(--logo-color);
-                  border: 0;
-                  border-radius: 3px;
-                  color: #fff;
-                  display: block;
-                  height: 36px;
-                  overflow: hidden;
-                  padding: 0 1rem;
-                  position: absolute;
-                  right: 30px;
-                  text-align: center;
-                  top: 20px;
-                }
-              }
-            }
-            div {
-              button {
-                background-color: var(--logo-color);
-                border: 0;
-                color: #fff;
-                display: block;
-                height: 44px;
-                margin: 40px auto 0;
-                overflow: hidden;
-                padding: 0 1rem;
-                text-align: center;
-              }
-            }
-          }
-        }
-
-        .create__account {
-          display: none;
-          position: fixed;
-          top: 0;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          width: 100%;
-          height: 100%;
-          background: rgba(0, 0, 0, 0.2);
-
-          &__modal {
-            position: relative;
-            top: 25%;
-            background-color: #fff;
-            border-radius: 10px;
-            border: 1px solid;
-            width: 550px;
-            margin: 0 auto;
-
-            .modal__container {
-              position: relative;
-              padding: 40px;
-
-              h2 {
-                font-size: 22px;
-                text-align: center;
-                margin-bottom: 40px;
-              }
-              ul {
-                display: grid;
-                grid-template-columns: repeat(2, 50%);
-                margin-bottom: 20px;
-
-                li {
-                  margin: 10px 0;
-                }
-              }
-
-              div {
-                display: flex;
-                align-items: center;
-                margin-bottom: 18px;
-
-                span {
-                  width: 120px;
-                }
-                .create__input {
-                  border: 1px solid #dadce0;
-                  border-radius: 4px;
-                  box-sizing: border-box;
-                  font-size: 14px;
-                  height: 40px;
-                  outline: none;
-                  padding: 0 10px;
-                  width: 100%;
-                }
-              }
-
-              .modal__notice {
-                display: block;
-
-                p {
-                  color: #c1c1c1;
-                  font-size: 13px;
-                  margin-bottom: 8px;
-                }
-
-                p:first-child {
-                  margin-top: 30px;
-                }
-              }
-
-              #btnFinalCreate {
-                margin: 40px auto 0;
-                bottom: 5px;
-                width: 80px;
-                height: 33px;
-                text-align: center;
-                background-color: var(--logo-color);
-                color: #fff;
-                border: 0;
-              }
-
-              #btnCloseModal {
-                position: absolute;
-                top: 0;
-                right: 0;
-                margin: 20px;
-                font-size: 30px;
-                border: none;
-              }
-            }
-          }
-        }
-
-        .delete__account {
-          display: none;
-          position: fixed;
-          top: 0;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          width: 100%;
-          height: 100%;
-          background: rgba(0, 0, 0, 0.2);
-
-          &__modal {
-            position: relative;
-            top: 40%;
-            background-color: #fff;
-            border-radius: 10px;
-            border: 1px solid;
-            width: 550px;
-            margin: 0 auto;
-
-            .modal__container {
-              padding: 40px;
-              display: flex;
-              flex-direction: column;
+              justify-content: space-between;
               align-items: center;
+              padding: 1rem;
+              color: #000;
+            }
+          }
 
-              h2 {
-                font-size: 22px;
-                text-align: center;
-                margin-bottom: 40px;
-              }
+          li:hover {
+            background-color: #fafafa;
 
-              button {
-                margin: 40px 10px 0;
-                bottom: 5px;
-                width: 80px;
-                height: 33px;
-                text-align: center;
-                background-color: var(--logo-color);
-                color: #fff;
-                border: 0;
-              }
+            a {
+              color: #5f0080;
+              font-weight: bold;
+            }
+          }
+          li:last-child {
+            border-bottom: 1px solid #eee;
+          }
+          li.active {
+            background-color: #fafafa;
+
+            a {
+              color: #5f0080;
+              font-weight: bold;
             }
           }
         }
       }
+    }
+    .mypage__navigo__container {
+      margin-left: 2rem;
+      width: 80%;
+      height: 900px;
     }
   }
+}
 
-  .loadingGif {
+.loadingGif {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(5px);
+  display: none;
+
+  #img-lodingGIF {
     position: fixed;
     top: 0;
-    width: 100%;
-    height: 100%;
-    backdrop-filter: blur(5px);
-    display: none;
-
-    #img-lodingGIF {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      margin: auto;
-      width: 200px;
-      height: 200px;
-    }
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: 200px;
+    height: 200px;
   }
 }
 
