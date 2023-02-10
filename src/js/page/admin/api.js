@@ -43,3 +43,16 @@ export const deleteProduct = async (id) => {
     },
   );
 };
+
+export const editProduct = async (id) => {
+  await fetch(
+    `https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/${id}`,
+    {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify({
+        isSoldOut: true,
+      }),
+    },
+  );
+};
