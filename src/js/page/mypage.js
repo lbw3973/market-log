@@ -9,39 +9,38 @@ import {
   htmlMypage_OrderHistory,
   initFuncOrderHistory,
 } from './mypage/orderhistory.js';
+import { renderPage } from '../main.js';
 dotenv.config();
 window.localStorage.clear(); // TODO : 삭제
+const $ = (selector) => document.querySelector(selector);
+const router = new Navigo('/');
 
 let navliList;
 
 // HTML : mypage nav 목록
-export const htmlMypage_Nav = /* html */ `
+const htmlMypage_Nav = /* html */ `
 <div class="mypage__container">
   <div class="mypage__navbar">
     <h1>마이페이지</h1>
     <nav>
       <ul>
         <li>
-          <a href="/mypage/orderHistory" data-navigo>
-            <button id="mpOrderHistory">주문 내역</button>
+          <a href="/mypage/orderHistory" data-navigo id="mpOrderHistory">주문 내역
             <img src="${chevronrightSVG}" alt="chevronright">
           </a>
         </li>
         <li>
-          <a href="/mypage/account" data-navigo id="mpAccount">
-            <button id="mpAccount">계좌 관리</button>
+          <a href="/mypage/account" data-navigo id="mpAccount">계좌 관리
             <img src="${chevronrightSVG}" alt="chevronright">
           </a>
         </li>
         <li>
-          <a href="/mypage/myHeart" data-navigo id="mpMyHeart">
-            <button id="mpMyHeart">찜한 상품</button>
+          <a href="/mypage/myHeart" data-navigo id="mpMyHeart">찜한 상품
             <img src="${chevronrightSVG}" alt="chevronright">
           </a>
         </li>
         <li>
-          <a href="/mypage/myPersonalInfoModify" data-navigo id="mpMyPersonalInfoModify">
-            <button id="mpMyPersonalInfoModify">개인 정보 수정</button>
+          <a href="/mypage/myPersonalInfoModify" data-navigo id="mpMyPersonalInfoModify">개인 정보 수정
             <img src="${chevronrightSVG}" alt="chevronright">
           </a>
         </li>
@@ -62,8 +61,8 @@ export function initFunc() {
   });
 }
 
-export function renderPage(html) {
-  document.querySelector('.mypage__navigo__container').innerHTML = html;
+export function renderMyPageNav(html) {
+  $('.app').querySelector('.mypage__navigo__container').innerHTML = html;
   resetliActive();
   // divLoadingEl.style.display = 'block';
 }
@@ -76,49 +75,30 @@ function resetliActive() {
 // 시작 지점
 // document.querySelector('.app').innerHTML = htmlMypage_Nav;
 
-const router = new Navigo('/');
 router
   .on({
+    '/mypage': () => {
+      $('.app').innerHTML = htmlMypage_Nav;
+      router.navigate('mypage/orderHistory');
+    },
     '/mypage/orderHistory': async () => {
-      renderPage(htmlMypage_OrderHistory);
+      renderMyPageNav(htmlMypage_OrderHistory);
       initFuncOrderHistory();
-      // renderPage('');
       navliList[0].classList.add('active');
-
-      document
-        .querySelector('#mpOrderHistory')
-        .addEventListener('click', () => {
-          router.navigate('/mypage/orderHistory');
-        });
     },
     '/mypage/account': async () => {
-      renderPage(htmlMypage_Account);
+      renderMyPageNav(htmlMypage_Account);
       initFuncAccount();
       navliList[1].classList.add('active');
-
-      document.querySelector('#mpAccount').addEventListener('click', () => {
-        router.navigate('/mypage/account');
-      });
     },
     '/mypage/myHeart': async () => {
-      renderPage(htmlMypage_MyHeart);
+      renderMyPageNav(htmlMypage_MyHeart);
       initFuncMyHeart();
-      // renderPage('');
       navliList[2].classList.add('active');
-
-      document.querySelector('#mpMyHeart').addEventListener('click', () => {
-        router.navigate('/mypage/myHeart');
-      });
     },
     '/mypage/myPersonalInfoModify': () => {
-      renderPage('');
+      renderMyPageNav('');
       navliList[3].classList.add('active');
-
-      document
-        .querySelector('#mpMyPersonalInfoModify')
-        .addEventListener('click', () => {
-          router.navigate('/mypage/myPersonalInfoModify');
-        });
     },
   })
   .resolve();

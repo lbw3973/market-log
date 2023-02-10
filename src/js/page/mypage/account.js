@@ -1,5 +1,4 @@
 import { base_url, api_key, user_name, admin_email } from '../../db.js';
-import { renderPage } from '../mypage.js';
 const headers = {
   'content-type': 'application/json',
   apikey: api_key,
@@ -62,6 +61,10 @@ export const htmlMypage_Account = /* html */ `
 </div>
 `;
 
+function renderPage(html) {
+  document.querySelector('.mypage__navigo__container').innerHTML = html;
+}
+
 export async function initFuncAccount() {
   const divUserAccount = document.querySelector('.user__account');
   const dicCreateAccount = document.querySelector('.create__account');
@@ -103,7 +106,7 @@ export async function initFuncAccount() {
     createUserAccount(bankCode);
   });
 
-  divLoadingEl.style.display = 'none';
+  // divLoadingEl.style.display = 'none';
 }
 
 // API : 은행 목록
@@ -154,7 +157,7 @@ const createUserAccount = async (bankCode) => {
     // router.navigate('/mypage/heart');
     // router.navigate('/mypage/account');
     renderPage(htmlMypage_Account);
-    initFunc();
+    initFuncAccount();
   }
 };
 
@@ -175,7 +178,7 @@ const deleteAccount = async (e) => {
 
   if (res.ok) {
     renderPage(htmlMypage_Account);
-    initFunc();
+    initFuncAccount();
   }
 
   const json = await res.json();

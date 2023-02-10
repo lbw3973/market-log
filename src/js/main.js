@@ -26,6 +26,7 @@ import Navigo from 'navigo';
 import { initFunc } from './page/mypage.js';
 import { base_url, api_key, user_name, admin_email } from '../js/db.js'; // 로그인 부분 지우면 필요없음
 const $ = (selector) => document.querySelector(selector);
+const router = new Navigo('/');
 
 const renderInitMainPage = () => {
   // renderMainPage('');
@@ -41,7 +42,7 @@ const renderMainPage = (html) => {
   //mainPageAll.innerHTML = '';
   //mainPageAll.append(html);
 };
-const renderPage = (html) => {
+export const renderPage = (html) => {
   console.log(html);
   const mainPageAll = document.querySelector('.app');
   mainPageAll.innerHTML = html;
@@ -144,9 +145,9 @@ const htmlMypage_Nav = /* html */ `
     <nav>
       <ul>
         <li>
-          <a href="/mypage/orderHistory" data-navigo>주문 내역
-            <img src="${chevronrightSVG}" alt="chevronright">
-          </a>
+          <button id="mpOrderHistory">주문 내역
+          <img src="${chevronrightSVG}" alt="chevronright">
+          </button>
         </li>
         <li>
           <a href="/mypage/account" data-navigo>계좌 관리
@@ -169,37 +170,22 @@ const htmlMypage_Nav = /* html */ `
   <div class="mypage__navigo__container"></div>
 `;
 
-$('#mypageNavigo').addEventListener('click', () => {
-  router.navigate('/mypage');
-});
-
 /** navigo router */
-const router = new Navigo('/');
+
 router
   .on({
     '/': () => {
       renderInitMainPage();
       console.log('contentsMainPage    contentsMainPage');
     },
-    '/signup': () => {
-      console.log('signup    signup');
-    },
-    '/login': () => {
-      console.log('login    login');
-    },
-    '/cart': () => {
-      console.log('cart    cart');
-    },
     '/mypage': () => {
-      console.log('innerHTML');
       $('.app').innerHTML = htmlMypage_Nav;
-      initFunc();
-    },
-    '/hart': () => {
-      console.log('hart    hart');
-    },
-    '/productDetail': () => {
-      console.log('productDetail    productDetail');
     },
   })
   .resolve();
+
+// $('.app')
+//   .querySelector('#mypageNavigo')
+//   .addEventListener('click', () => {
+//     router.navigate('/mypage');
+//   });
