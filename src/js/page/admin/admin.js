@@ -7,6 +7,7 @@ import {
 } from './render.js';
 import { productAddHandler } from './productAdd.js';
 import { productHandler } from './product.js';
+import { dashboardHandler } from './dashboard.js';
 
 let currentPage = 'dashboard';
 
@@ -37,6 +38,8 @@ const renderPage = (html) => {
     productHandler(page);
   } else if (page.className === 'productAdd-container') {
     productAddHandler(page);
+  } else if (page.className === 'dashboard-container') {
+    dashboardHandler(page);
   }
   currentPage = page.dataset.page;
   // page.addEventListener('click', pageClickHandler);
@@ -44,10 +47,6 @@ const renderPage = (html) => {
 
 const pageClickHandler = (e) => {
   const page = e.target.closest(`.${currentPage}-container`);
-
-  if (e.target.matches('.products-container__btn-delete')) {
-    console.log('상품 삭제');
-  }
 };
 
 renderPage(dashboardPage);
