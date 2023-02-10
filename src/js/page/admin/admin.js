@@ -7,7 +7,7 @@ import {
 } from './render.js';
 import { productAddHandler } from './productAdd.js';
 import { productHandler } from './product.js';
-import { dashboardHandler } from './dashboard.js';
+// import { dashboardHandler } from './dashboard.js';
 
 let currentPage = 'dashboard';
 
@@ -38,9 +38,10 @@ const renderPage = (html) => {
     productHandler(page);
   } else if (page.className === 'productAdd-container') {
     productAddHandler(page);
-  } else if (page.className === 'dashboard-container') {
-    dashboardHandler(page);
   }
+  //else if (page.className === 'dashboard-container') {
+  //   dashboardHandler(page);
+  // }
   currentPage = page.dataset.page;
   // page.addEventListener('click', pageClickHandler);
 };
