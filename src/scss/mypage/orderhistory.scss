@@ -331,6 +331,7 @@
                 }
                 &.active:hover {
                   background-color: var(--light-blue);
+                  color: #fff;
                   border-radius: 50%;
                   cursor: pointer;
                 }
@@ -341,6 +342,7 @@
                 }
                 &.selected {
                   background-color: var(--light-blue);
+                  color: #fff;
                   border-radius: 50%;
                 }
                 // &::after {

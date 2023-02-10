@@ -27,12 +27,14 @@ async function renderPage() {
 }
 
 //전체주문내역가져오기
-const orderhistoryURL =
-  'https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/transactions/details ';
+const historyURL =
+  'https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/transactions/details';
 async function getOrderHistory() {
-  const res = await fetch(orderhistoryURL, {
+  const res = await fetch(historyURL, {
     method: 'GET',
-    headers: 'Authorization: Bearer <accessToken>',
+    headers: {
+      Authorization: `${localStorage.getItem('token')}`,
+    },
   });
   const json = await res.json();
   console.log('전체주문내역', json);
@@ -41,7 +43,7 @@ async function getOrderHistory() {
 
 //전체주문내역출력하기
 async function printOrderHistory(orderHistories) {
-  orderHistories.forEach((orderHistory) => {
+  Array.from(orderHistories).forEach((orderHistory) => {
     const productEl = document.createElement('li');
     productEl.classList.add('product');
     if (orderHistory.isCanceled) {
@@ -130,9 +132,9 @@ async function printOrderHistory(orderHistories) {
 const detailHistoryURL =
   'https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/transactions/detail';
 async function getDetailHistory(item) {
-  const res = await fetch(orderhistoryURL, {
+  const res = await fetch(detailHistoryURL, {
     method: 'POST',
-    headers: 'Authorization: Bearer <accessToken>',
+    headers: { Authorization: Bearer`${localStorage.getItem('token')}` },
     body: JSON.stringify(item.id),
   });
   const json = await res.json();
@@ -147,7 +149,7 @@ const cancelUrl =
 async function cancelOrder(item) {
   await fetch(cancelUrl, {
     method: 'POST',
-    headers: 'Authorization: Bearer <accessToken>',
+    headers: { Authorization: Bearer`${localStorage.getItem('token')}` },
     body: JSON.stringify(item.id),
   });
 }
@@ -158,7 +160,7 @@ const orderfixUrl =
 async function orderFix(item) {
   await fetch(orderfixUrl, {
     method: 'POST',
-    headers: 'Authorization: Bearer <accessToken>',
+    headers: { Authorization: Bearer`${localStorage.getItem('token')}` },
     body: JSON.stringify(item.id),
   });
 }
@@ -170,7 +172,8 @@ window.addEventListener('load', () => {
 });
 
 //주문취소버튼
-cancelBtns.forEach((item) => {
+
+[...cancelBtns].forEach((item) => {
   item.addEventListener('click', () => {
     modalOrdercancelEl.classList.remove('nodisplay');
   });
@@ -189,7 +192,7 @@ cancelYesBtn.addEventListener('click', () => {
 });
 
 //주문확정버튼
-orderfixBtns.forEach((item) => {
+[...orderfixBtns].forEach((item) => {
   item.addEventListener('click', () => {
     modalOrderFixEl.classList.remove('nodisplay');
   });
