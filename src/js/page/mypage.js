@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import Navigo from 'navigo';
 import { base_url, api_key, user_name, admin_email } from '../db.js';
 dotenv.config();
-window.localStorage.clear(); // TODO : 삭제
+// window.localStorage.clear(); // TODO : 삭제
 
 const router = new Navigo('/');
 
@@ -160,7 +160,7 @@ const getBankList = async () => {
 
   return json;
 };
-
+console.log(window.localStorage.getItem('token'));
 // API : 계좌 조회
 const getUserAccounts = async () => {
   const res = await fetch(`${base_url}/account`, {

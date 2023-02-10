@@ -24,6 +24,21 @@ import { mpWeekly } from './renderMainPage.js';
 //import { mpBestDesign, mpNewProduct, mpWeekly } from './renderMainPage.js';
 import Navigo from 'navigo';
 import { render } from 'sass';
+
+/** swiperjs */
+// core version + navigation, pagination modules:
+import Swiper, { Navigation, Pagination } from 'swiper';
+// import Swiper and modules styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+
+// init Swiper:
+const swiper = new Swiper('.swiper', {
+  // configure Swiper to use modules
+  modules: [Navigation, Pagination],
+});
+
 const $ = (selector) => document.querySelector(selector);
 
 /** navigo router */
@@ -70,11 +85,25 @@ const HEADERS = {
   username: 'KDT4_Team3',
 };
 
+const masterKeyHEADERS = {
+  'content-type': 'application/json',
+  apikey: 'FcKdtJs202301',
+  username: 'KDT4_Team3',
+  masterKey: true,
+};
+// const tokenValue = localStorage.getItem('token');
+// const token = JSON.parse(tokenValue).value;
+// const tokenHEADERS = {
+//   'content-type': 'application/json',
+//   apikey: 'FcKdtJs202301',
+//   username: 'KDT4_Team3',
+//   Authorization: `Bearer ${localStorage.getItem('token')}`,
+// };
+
 const getAllProducts = async () => {
   try {
     const res = await fetch(`${BASE_URL}/products`, {
-      ...HEADERS,
-      masterKey: true,
+      headers: masterKeyHEADERS,
     });
     const data = await res.json();
     console.log(data);
@@ -183,14 +212,6 @@ const storeCart = (id, price, count, thumbnail, title, pricePerOne) => {
 //   apikey: 'FcKdtJs202301',
 //   username: 'KDT4_Team3',
 // };
-// const tokenValue = localStorage.getItem('token');
-// const token = JSON.parse(tokenValue).value;
-// console.log(token);
-
-// const accessTokenHEADERS = {
-//   ...HEADERS,
-//   Authorization: `Bearer ${token}`,
-// };
 
 /** 상세 제품 db에서 불러오기 */
 const getDetailProduct = async (productId) => {
@@ -207,14 +228,33 @@ const getDetailProduct = async (productId) => {
 };
 
 /** 계좌 목록 및 잔액 조회 db에서 불러오기 */
+
+const tokenHEADERS = {
+  'content-type': 'application/json',
+  apikey: 'FcKdtJs202301',
+  username: 'KDT4_Team3',
+  Authorization: `Bearer ${window.localStorage.getItem('token')}`,
+};
+
+const headers = {
+  'content-type': 'application/json',
+  apikey: 'FcKdtJs202301',
+  username: 'KDT4_Team3',
+};
+
 const getAccountDetail = async () => {
   try {
     const res = await fetch(`${BASE_URL}/account`, {
-      header: accessTokenHEADERS,
+      headers: {
+        ...headers,
+        Authorization: `Bearer ${window.localStorage.getItem('token')}`,
+      },
     });
     const data = await res.json();
     console.log(data);
-    return data;
+    const { accounts, totalBalance } = data;
+
+    return { accounts, totalBalance };
   } catch (err) {
     console.log(err);
     console.log('err: ', '계좌목록 조회 실패');
@@ -761,6 +801,7 @@ const renderInitPaymentPage = `
             </div>
             <div class="pay__info--container-totalPaymentPrice">
               <h6>총 결제 금액</h6>
+              <span class="payTotalAccountBalance"></span>
               <span class="payTotalPaymentPrice">${renderCartTotalPrice().toLocaleString()} 원</span>
             </div>
           </div>
@@ -829,11 +870,17 @@ const renderPaymentProductList = (storage) => {
 
 /** 계좌목록 및 잔액 조회 */
 const renderPaymentAccount = (items) => {
-  const paymentAccountListTemplate = items.map((item) => {
-    const { totalBalance, accounts } = item;
-    const { id, bankName, bankCode, accountNumber, balance } = accounts;
+  console.log(items);
+  const totalBalance = items.totalBalance;
+  const paymentAccountListTemplate = items.accounts
+    .map((accounts) => {
+      console.log(totalBalance);
+      console.log(accounts);
+      // const { totalBalance, accounts } = item;
+      const { id, bankName, bankCode, accountNumber, balance } = accounts;
 
-    return `
+      return `
+    
     <li class="swiper-slide payment-method__card-list" data-account-id="${id}">
       <img
         src="${kBankCardIMG}"
@@ -841,14 +888,15 @@ const renderPaymentAccount = (items) => {
         height="140"
         alt="${bankName}"
       />
-      <p class="payment-method__card-name">${account}</p>
-      <p>${totalBalance}</p>
+      <p class="payment-method__card-name">${bankName}</p>
+      
       <p>${bankCode}</p>
       <p>${accountNumber}</p>
       <p>${balance}</p>
     </li>
     `;
-  });
+    })
+    .join('');
   $('.app').querySelector('.payment-method__card-lists').innerHTML =
     paymentAccountListTemplate;
 };
@@ -928,34 +976,35 @@ router
 
       // 카트 페이지 렌더
       renderCartPage();
+
+      /** [장바구니 페이지] 결제하기 버튼 클릭 -> [결제 페이지]로 이동  */
+      $('.app')
+        .querySelector('.cartPaymentBtn')
+        ?.addEventListener('click', (e) => {
+          console.log(e.target);
+          router.navigate('/payment');
+        });
     },
     '/payment': async () => {
       $('.modal__addCart').style.display = 'none';
       // renderPage(renderInitCartPage);
       console.log('/payment');
       console.log('shoppingCartArr', shoppingCartArr);
-
+      console.log('token', window.localStorage.getItem('token'));
+      console.log(typeof window.localStorage.getItem('token'));
       // 결제 페이지 렌더
       renderPage(renderInitPaymentPage);
       renderPaymentProductList(shoppingCartArr);
-      // renderPaymentAccount(await getAccountDetail());
+      renderPaymentAccount(await getAccountDetail());
       renderKakaoMap();
     },
   })
   .resolve();
 
-/** [장바구니 페이지] 결제하기 버튼 클릭 -> [결제 페이지]로 이동  */
+/** [장바구니 페이지] 상품이 없을 때 계속 쇼핑하기 버튼 클릭 -> [메인페이지]로 이동  */
 $('.app')
   .querySelector('.cartEmpty-goToShoppingBtn')
   ?.addEventListener('click', (e) => {
     console.log(e.target);
     router.navigate('/');
-  });
-
-/** [장바구니 페이지] 결제하기 버튼 클릭 -> [결제 페이지]로 이동  */
-$('.app')
-  .querySelector('.cartPaymentBtn')
-  ?.addEventListener('click', (e) => {
-    console.log(e.target);
-    router.navigate('/payment');
   });
