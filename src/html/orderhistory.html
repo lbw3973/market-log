@@ -1,221 +1,137 @@
 <!DOCTYPE html>
 <html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>orderhistory</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
+    />
+    <link rel="stylesheet" href="../scss/mypage/orderhistory.scss" />
+    <script
+      defer
+      type="module"
+      src="../js/page/mypage/orderhistory.js"
+    ></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>orderhistory</title>
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-  <link rel="stylesheet" href="../scss/mypage/orderhistory.scss" />
-  <script defer type="module" src="../js/page/mypage/orderhistory.js"></script>
-</head>
-
-<body>
-  <header class="header-container">
-    <div class="header">
-      <nav class="header__user-login">
-        <ul class="header__user-login--ul">
-          <li class="header__user-login--li"><a href="#">회원가입</a></li>
-          <li class="header__user-login--li">
-            <a href="#"><strong id="header__user-login-name">테스트님</strong>
-              환영합니다</a>
-          </li>
-          <li class="header__user-login--li"><a href="#">로그인</a></li>
-        </ul>
-      </nav>
-      <nav class="header-main">
-        <a class="header-main__home-link" href="#">
-          <img class="header-main__logo" src="../../public/mainLogo.svg" alt="main logo" />
-          <!-- <h1 class="header-main__company-name">마켓로그</h1> -->
-        </a>
-        <div class="header-main__search">
-          <form class="header-main__search--form">
-            <input class="header-main__search--input" />
-            <button class="header-main__search--button">
-              <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
-                color="rgb(95, 0, 128)" height="24" width="24" xmlns="http://www.w3.org/2000/svg"
-                style="color: rgb(95, 0, 128);">
-                <path
-                  d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z">
-                </path>
-              </svg>
-            </button>
-          </form>
-        </div>
-        <div class="header-main__links">
-          <a href="#"><img class="header-main__links-img" src="../../public/heart.svg" alt="찜하기" /></a>
-          <a href="#"><img class="header-main__links-img" src="../../public/cart.svg" alt="카트" /></a>
-          <a href="#"><img class="header-main__links-img" src="../../public/member.svg" alt="회원가입" /></a>
-        </div>
-      </nav>
-      <nav class="header-nav-category">
-        <ul class="header-nav-category--ul">
-          <li class="header-nav-category--li"><a href="#">스마트</a></li>
-          <li class="header-nav-category--li"><a href="#">노트북</a></li>
-          <li class="header-nav-category--li"><a href="#">PC</a></li>
-          <li class="header-nav-category--li"><a href="#">음향</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-  <main class="mypage">
-    <div class="mypage__container">
-      <section class="mypage__navbar">
-        <h1>마이페이지</h1>
-        <nav>
-          <ul>
-            <li>
-              <a href="/mypage/order" data-navigo> 주문 내역
-                <img src="../../public/chevronrightpurple.svg" alt="chevronright">
-              </a>
+  <body>
+    <header class="header-container">
+      <div class="header">
+        <nav class="header__user-login">
+          <ul class="header__user-login--ul">
+            <li class="header__user-login--li"><a href="#">회원가입</a></li>
+            <li class="header__user-login--li">
+              <a href="#"
+                ><strong id="header__user-login-name">테스트님</strong>
+                환영합니다</a
+              >
             </li>
-            <li>
-              <a href="/mypage/account" data-navigo> 계좌 관리
-                <img src="../../public/chevronright.svg" alt="chevronright">
-              </a>
-            </li>
-            <li>
-              <a href="./myheart.html" data-navigo> 찜한 상품
-                <img src="../../public/chevronright.svg" alt="chevronright">
-              </a>
-            </li>
-            <li>
-              <a href="./mypersonalinfomodify.html" data-navigo> 개인 정보 수정
-                <img src="../../public/chevronright.svg" alt="chevronright">
-              </a>
-            </li>
+            <li class="header__user-login--li"><a href="#">로그인</a></li>
           </ul>
         </nav>
-      </section>
-      <section class="mypage__orderhistory">
-        <h2>주문 내역</h2>
-        <div class="calendar-box">
-          <input class="calendar-date"></input>
-          <img class="calendar-icon icon icon-tabler icon-tabler-calendar-event" src="../../public/calendar.svg"
-            alt="calendar icon">
-          <button><img src="../../public/reload.svg" alt="reload icon"></button>
-          <div class="calendar nodisplay">
-            <div class="wrapper">
-              <div class="curr-date ">
-                <span></span>
-                <span class="material-symbols-outlined" id="prev">
-                  chevron_left
-                </span>
-                <span class="material-symbols-outlined" id="next">
-                  chevron_right
-                </span>
-              </div>
-              <div class="curr-dates">
-                <ul class="weeks">
-                  <li>Sun</li>
-                  <li>Mon</li>
-                  <li>Tue</li>
-                  <li>Wed</li>
-                  <li>Thu</li>
-                  <li>Fri</li>
-                  <li>Sat</li>
-                </ul>
-                <ul class="days">
-                </ul>
-              </div>
-            </div>
+        <nav class="header-main">
+          <a class="header-main__home-link" href="#">
+            <img
+              class="header-main__logo"
+              src="../../public/mainLogo.svg"
+              alt="main logo"
+            />
+            <!-- <h1 class="header-main__company-name">마켓로그</h1> -->
+          </a>
+          <div class="header-main__search">
+            <form class="header-main__search--form">
+              <input class="header-main__search--input" />
+              <button class="header-main__search--button">
+                <svg
+                  stroke="currentColor"
+                  fill="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 24 24"
+                  color="rgb(95, 0, 128)"
+                  height="24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  style="color: rgb(95, 0, 128)"
+                >
+                  <path
+                    d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z"
+                  ></path>
+                </svg>
+              </button>
+            </form>
           </div>
-        </div>
-        <div class="products-container">
-          <div class="nocontent-box nodisplay">
-            <p>
-              <img src="../../public/exclamationmark.svg" alt="exclamationmark">
-              <span>주문내역이 존재하지 않습니다.</span>
-            </p>
+          <div class="header-main__links">
+            <a href="#"
+              ><img
+                class="header-main__links-img"
+                src="../../public/heart.svg"
+                alt="찜하기"
+            /></a>
+            <a href="#"
+              ><img
+                class="header-main__links-img"
+                src="../../public/cart.svg"
+                alt="카트"
+            /></a>
+            <a href="#"
+              ><img
+                class="header-main__links-img"
+                src="../../public/member.svg"
+                alt="회원가입"
+            /></a>
           </div>
-          <ul class="products">
-            <li class="product">
-              <a href="#"><img src="#" alt="product-image" class="product--img" /></a>
-              <div class="product--info">
-                <a href="./detailedorderlist.html" class="product--name">PLAY 트리 잭슨 프렌즈 토이</a>
-                <div class="product--info-numbers">
-                  <div class="product--price">10,000원</div>
-                  <div class="product--order-date">2023-02-01</div>
-                </div>
-                <span class="order-status"> 구매 완료 </span>
-                <span>구매가 완료 되었습니다.</span>
-                <span>구매 확정 이후에는 주문 취소가 불가능합니다.</span>
-              </div>
-              <div class="buttons">
-                <button class="button cancel-btn">주문 취소</button>
-                <button class="button orderfix-btn">구매 확정</button>
-              </div>
-            </li>
-            <li class="product">
-              <a href="#"><img src="#" alt="product-image" class="product--img" /></a>
-              <div class="product--info">
-                <a href="#" class="product--name">PLAY 트리 잭슨 프렌즈 토이</a>
-                <div class="product--info-numbers">
-                  <div class="product--price">10,000원</div>
-                  <div class="product--order-date">2023-02-01</div>
-                </div>
-                <span class="order-status"> 구매 완료 </span>
-                <span>구매가 완료 되었습니다.</span>
-                <span>구매 확정 이후에는 주문 취소가 불가능합니다.</span>
-              </div>
-              <div class="buttons">
-                <button class="button cancel-btn">주문 취소</button>
-                <button class="button orderfix-btn">구매 확정</button>
-              </div>
-            </li>
-
-
+        </nav>
+        <nav class="header-nav-category">
+          <ul class="header-nav-category--ul">
+            <li class="header-nav-category--li"><a href="#">스마트</a></li>
+            <li class="header-nav-category--li"><a href="#">노트북</a></li>
+            <li class="header-nav-category--li"><a href="#">PC</a></li>
+            <li class="header-nav-category--li"><a href="#">음향</a></li>
           </ul>
+        </nav>
+      </div>
+    </header>
+    <main class="app"></main>
+    <div class="modal modal-ordercancel nodisplay">
+      <div class="modal-wrap">
+        <img src="../../public/list.svg" alt="list icon" />
+        <span class="modal-text">주문을 취소 하시겠습니까?</span>
+        <div class="buttons">
+          <button class="cancel-yes-btn">확인</button>
+          <button class="cancel-no-btn">취소</button>
         </div>
-        <div class="order-history--pagination">
-          <img src="../../public/pagination-left.svg" alt="pagination-left">
-          <span>1</span>
-          <img src="../../public/pagination-right.svg" alt="pagination-right">
+      </div>
+    </div>
+    <div class="modal modal-ordercancel-fix nodisplay">
+      <div class="modal-wrap">
+        <img src="../../public/list.svg" alt="list icon" />
+        <span class="modal-text">주문이 취소되었습니다.</span>
+        <div class="buttons">
+          <button class="cancel-close-btn">close</button>
         </div>
-      </section>
-    </div>
-  </main>
-  <div class="modal modal-ordercancel nodisplay">
-    <div class="modal-wrap">
-      <img src="../../public/list.svg" alt="list icon">
-      <span class="modal-text">주문을 취소 하시겠습니까?</span>
-      <div class="buttons">
-        <button class="cancel-yes-btn">확인</button>
-        <button class="cancel-no-btn">취소</button>
       </div>
     </div>
-  </div>
-  <div class="modal modal-ordercancel-fix nodisplay">
-    <div class="modal-wrap">
-      <img src="../../public/list.svg" alt="list icon">
-      <span class="modal-text">주문이 취소되었습니다.</span>
-      <div class="buttons">
-        <button class="cancel-close-btn">close</button>
+    <div class="modal modal-orderfix nodisplay">
+      <div class="modal-wrap">
+        <img src="../../public/list.svg" alt="list icon" />
+        <span class="modal-text">구매를 확정 하시겠습니까?</span>
+        <div class="buttons">
+          <button class="fix-yes-btn">확정</button>
+          <button class="fix-no-btn">취소</button>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="modal modal-orderfix nodisplay">
-    <div class="modal-wrap">
-      <img src="../../public/list.svg" alt="list icon">
-      <span class="modal-text">구매를 확정 하시겠습니까?</span>
-      <div class="buttons">
-        <button class="fix-yes-btn">확정</button>
-        <button class="fix-no-btn">취소</button>
+    <div class="modal modal-orderfix-fix nodisplay">
+      <div class="modal-wrap">
+        <img src="../../public/list.svg" alt="list icon" />
+        <span class="modal-text">구매가 확정되었습니다</span>
+        <div class="buttons">
+          <button class="orderfix-close-btn">close</button>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="modal modal-orderfix-fix nodisplay">
-    <div class="modal-wrap">
-      <img src="../../public/list.svg" alt="list icon">
-      <span class="modal-text">구매가 확정되었습니다</span>
-      <div class="buttons">
-        <button class="orderfix-close-btn">close</button>
-      </div>
-    </div>
-  </div>
-</body>
-
-
+  </body>
 </html>

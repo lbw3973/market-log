@@ -1,5 +1,5 @@
 import { base_url, api_key, user_name, admin_email } from '../../db.js';
-import { renderPage } from './mypage.js';
+import { renderPage } from '../mypage.js';
 const headers = {
   'content-type': 'application/json',
   apikey: api_key,
@@ -62,7 +62,7 @@ export const htmlMypage_Account = /* html */ `
 </div>
 `;
 
-export async function initFunc() {
+export async function initFuncAccount() {
   const divUserAccount = document.querySelector('.user__account');
   const dicCreateAccount = document.querySelector('.create__account');
   const btnCloseModal = document.querySelector('#btnCloseModal');
