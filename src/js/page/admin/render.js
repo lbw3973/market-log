@@ -2,6 +2,7 @@ import searchPNG from '../../../../public/search.png';
 
 export const dashboardPage = ` 
     <div class='dashboard-container' data-page='dashboard'>대시보드
+      <button>상품수정</button>
     </div>
 `;
 
@@ -14,22 +15,22 @@ export const productPage = `
     <div class='product-container' data-page='product'>
         <div class ='product-container__search'>
             <h2>상품관리</h2>
-            <div>
-              <select>
+            <div class ='product-container__search-container'>
+              <select class="tags" name="tags">
                   <option value=''>카테고리</option>
-                  <option value>키보드</option>
-                  <option value>키보드</option>
-                  <option value>키보드</option>
-                  <option value>키보드</option>
+                  <option value='가전'>가전</option>
+                  <option value='pc'>pc</option>
+                  <option value='건강'>건강</option>
+                  <option value='케어'>케어</option>
               </select>
-              <select>
+              <select class="soldout" name="soldout">
                   <option value=''>품절여부</option>
                   <option value='true'>품절</option>
                   <option value='false'>판매가능</option>
               </select>
-              <div class='product-container__search-input'>
+              <div class='product-container__search-container--input'>
                   <input placeholder='상품명을 입력해 주세요.'>
-                  <img src=${searchPNG} alt='검색'>
+                  <img class="button" src=${searchPNG} alt='검색'>
               </div>
             </div>
         </div>
@@ -62,14 +63,10 @@ export const productAddPage = `
             <p>카테고리<span>*</span></p>
             <select name='tags' required>
               <option value=''>선택</option>
-              <option value='주식'>주식</option>
-              <option value='간식'>간식</option>
+              <option value='가전'>가전</option>
+              <option value='pc'>pc</option>
               <option value='건강'>건강</option>
               <option value='케어'>케어</option>
-              <option value='의류'>의류</option>
-              <option value='리빙'>리빙</option>
-              <option value='외출'>외출</option>
-              <option value='위생'>위생</option>
             </select>
           </div>  
           <div class='container-form__content--title'>
