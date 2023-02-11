@@ -6,8 +6,8 @@ import {
   productAddPage,
 } from './render.js';
 import { productAddHandler } from './productAdd.js';
-import { productHandler } from './product.js';
-// import { dashboardHandler } from './dashboard.js';
+import { initProductPage } from './product.js';
+import { dashboardHandler } from './dashboard.js';
 
 let currentPage = 'dashboard';
 
@@ -16,12 +16,15 @@ const router = new Navigo('/');
 const routerGate = router.on({
   '/admin': () => {
     renderPage(dashboardPage);
+    dashboardHandler();
   },
   '/admin/product': () => {
     renderPage(productPage);
+    initProductPage();
   },
   '/admin/order': () => {
     renderPage(orderPage);
+    // orderPageHandler();
   },
   '/admin/product/add': () => {
     renderPage(productAddPage);
@@ -31,23 +34,6 @@ const routerGate = router.on({
 const renderPage = (html) => {
   const content = document.querySelector('.main-container__content');
   content.innerHTML = html;
-
-  const page = content.querySelector('.main-container__content > div');
-
-  if (page.className === 'product-container') {
-    productHandler(page);
-  } else if (page.className === 'productAdd-container') {
-    productAddHandler(page);
-  }
-  //else if (page.className === 'dashboard-container') {
-  //   dashboardHandler(page);
-  // }
-  currentPage = page.dataset.page;
-  // page.addEventListener('click', pageClickHandler);
-};
-
-const pageClickHandler = (e) => {
-  const page = e.target.closest(`.${currentPage}-container`);
 };
 
 renderPage(dashboardPage);

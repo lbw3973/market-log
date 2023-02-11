@@ -1,28 +1,91 @@
 import { deleteProduct, getAllProduct } from './api.js';
+
 let products = [];
 
-export const productHandler = async (page) => {
-  // 초기화
+let activeIdx = 1;
+const itemsPerPage = 10;
+
+// 페이지네이션 버튼 렌더
+const renderPageBtn = (productPageBtn, products, activeIdx, itemsPerPage) => {
+  let buttonsEl = ``;
+
+  for (let i = 1; i <= Math.ceil(products.length / itemsPerPage); i++) {
+    buttonsEl += `<button class='product-container__btn-page--number ${
+      activeIdx === i ? 'active' : ''
+    }'>${i}</button>`;
+  }
+
+  productPageBtn.innerHTML = `
+            <button class='product-container__btn-page--prev'>이전</button>
+            ${buttonsEl}
+            <button class='product-container__btn-page--next'>다음</button>
+      `;
+};
+
+// 현재 페이지의 상품 목록 렌더
+const renderProduct = (productList, products, activeIdx) => {
+  const productsEl = products.map((product, idx) => {
+    const productEl = document.createElement('li');
+    productEl.dataset.id = `${product.id}`;
+    productEl.innerHTML = `
+          <input type="checkbox">
+          <span style='width: 5%;'>${idx + 1 + (activeIdx - 1) * 10}</span>
+          <span style='width: 10%;'>${product.tags[0]}</span>
+          <span style='width: 10%;'>${product.title}</span>
+          <span style='width: 15%;'>${product.price.toLocaleString()} 원</span>
+          <span style='width: 15%;'>${
+            product.isSoldOut ? '품절' : '판매가능'
+          }</span>
+        `;
+
+    return productEl;
+  });
+
+  productList.append(...productsEl);
+};
+
+// 현재 페이지의 상품목록 가져오기
+const getProductCurrentPage = (products, activeIdx, itemsPerPage) => {
+  const start = (activeIdx - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  const newProducts = products.slice(start, end);
+  return newProducts;
+};
+
+// 상품 목록 페이지 초기화
+const setUpUI = (productPageBtn, productList) => {
+  renderPageBtn(productPageBtn, products, activeIdx, itemsPerPage);
+  newProducts = getProductCurrentPage(products, activeIdx, itemsPerPage);
+  renderProduct(productList, newProducts, activeIdx);
+};
+
+let newProducts = getProductCurrentPage(products, activeIdx, itemsPerPage);
+
+// 상품관리 페이지 초기화
+export const initProductPage = async () => {
+  const productContainer = document.querySelector('.product-container');
+  const productList = productContainer.querySelector(
+    '.product-container__list',
+  );
+  const checkProductAll = productContainer.querySelector(
+    '.product-container__title input',
+  );
+  const productPageBtn = productContainer.querySelector(
+    '.product-container__btn-page',
+  );
+
   products = await getAllProduct();
-  const itemsPerPage = 10;
-  let activeIdx = 1;
-  let newProducts = paginate(products, activeIdx, itemsPerPage);
 
-  const productList = page.querySelector('.product-container__list');
-  const checkProductAll = page.querySelector('.product-container__title input');
+  setUpUI(productPageBtn, productList);
 
-  displayProduct(productList, newProducts, activeIdx);
-  const productPageBtn = page.querySelector('.product-container__btn-page');
-  displayPageBtn(productPageBtn, products, activeIdx, itemsPerPage);
-
-  //상품 검색
-  const searchContainer = page.querySelector(
+  const searchContainer = productContainer.querySelector(
     '.product-container__search-container--input',
   );
 
   const searchedProductInput = searchContainer.querySelector('input');
   const searchedProductBtn = searchContainer.querySelector('img');
 
+  // 상품 검색
   searchedProductBtn.addEventListener('click', async () => {
     keyword = searchedProductInput.value;
     const filteredProduct = products.filter((product) =>
@@ -31,9 +94,13 @@ export const productHandler = async (page) => {
 
     productList.innerHTML = ``;
     // console.log(productList.textContent);
-    displayPageBtn(productPageBtn, filteredProduct, activeIdx, itemsPerPage);
-    newProducts = paginate(filteredProduct, activeIdx, itemsPerPage);
-    displayProduct(productList, newProducts, activeIdx);
+    renderPageBtn(productPageBtn, filteredProduct, activeIdx, itemsPerPage);
+    newProducts = getProductCurrentPage(
+      filteredProduct,
+      activeIdx,
+      itemsPerPage,
+    );
+    renderProduct(productList, newProducts, activeIdx);
   });
 
   //버튼 클릭 페이지 이동
@@ -61,17 +128,17 @@ export const productHandler = async (page) => {
 
     productList.innerHTML = ``;
 
-    displayPageBtn(productPageBtn, products, activeIdx, itemsPerPage);
-    newProducts = paginate(products, activeIdx, itemsPerPage);
-    displayProduct(productList, newProducts, activeIdx);
+    setUpUI(productPageBtn, productList);
   });
 
-  // 체크리스트 모두 선택 및 해제
-  const productContainerBtn = page.querySelector('.product-container__btn');
+  const productContainerBtn = productContainer.querySelector(
+    '.product-container__btn',
+  );
   const deleteBtn = productContainerBtn.querySelector(
     '.product-container__btn-delete',
   );
 
+  // 체크리스트 모두 선택 및 해제
   checkProductAll.addEventListener('change', () => {
     const productsEl = productList.querySelectorAll('li');
 
@@ -115,63 +182,6 @@ export const productHandler = async (page) => {
       return;
     }
 
-    displayPageBtn(productPageBtn, products, activeIdx, itemsPerPage);
-    newProducts = paginate(products, activeIdx, itemsPerPage);
-    displayProduct(productList, newProducts, activeIdx);
+    setUpUI(productPageBtn, productList);
   });
 };
-
-//함수 정의
-const displayPageBtn = (productPageBtn, products, activeIdx, itemsPerPage) => {
-  let buttonsEl = ``;
-
-  for (let i = 1; i <= Math.ceil(products.length / itemsPerPage); i++) {
-    buttonsEl += `<button class='product-container__btn-page--number ${
-      activeIdx === i ? 'active' : ''
-    }'>${i}</button>`;
-  }
-
-  productPageBtn.innerHTML = `
-            <button class='product-container__btn-page--prev'>이전</button>
-            ${buttonsEl}
-            <button class='product-container__btn-page--next'>다음</button>
-      `;
-};
-
-const paginate = (products, activeIdx, itemsPerPage) => {
-  const start = (activeIdx - 1) * itemsPerPage;
-  const end = start + itemsPerPage;
-  const newProducts = products.slice(start, end);
-  return newProducts;
-};
-
-const displayProduct = (productList, products, activeIdx) => {
-  const productsEl = products.map((product, idx) => {
-    const productEl = document.createElement('li');
-    productEl.dataset.id = `${product.id}`;
-    productEl.innerHTML = `
-          <input type="checkbox">
-          <span style='width: 5%;'>${idx + 1 + (activeIdx - 1) * 10}</span>
-          <span style='width: 10%;'>${product.tags[0]}</span>
-          <span style='width: 10%;'>${product.title}</span>
-          <span style='width: 15%;'>${product.price.toLocaleString()} 원</span>
-          <span style='width: 15%;'>${
-            product.isSoldOut ? '품절' : '판매가능'
-          }</span>
-        `;
-
-    return productEl;
-  });
-
-  productList.append(...productsEl);
-};
-
-const setUpUI = () => {
-  displayPageBtn(productPageBtn, products, activeIdx, itemsPerPage);
-  newProducts = paginate(products, activeIdx, itemsPerPage);
-  displayProduct(productList, newProducts, activeIdx);
-};
-
-(async () => {
-  products = await getAllProduct();
-})();
