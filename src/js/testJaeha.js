@@ -1,32 +1,6 @@
-import { mpWeekly } from './renderMainPage.js';
 import Navigo from 'navigo';
 const router = new Navigo('/');
-
-/** swiperjs */
-// core version + navigation, pagination modules:
-import Swiper, { Navigation, Pagination } from 'swiper';
-// import Swiper and modules styles
-// import 'swiper/css';
-// import 'swiper/css/navigation';
-// import 'swiper/css/pagination';
-
-// init Swiper:
-// const swiper = new Swiper('.swiper', {
-//   // configure Swiper to use modules
-//   modules: [Navigation, Pagination],
-// });
-
 const $ = (selector) => document.querySelector(selector);
-
-/** navigo router */
-// router.on({
-//   '/': () => {
-//     renderPage(mpWeekly);
-//     // renderPage(mpNewProduct);
-//     // renderPage(mpBestDesign);
-//     console.log('contentsMainPage    contentsMainPage');
-//   },
-// });
 
 /** 렌더 함수 for navigo */
 const renderPage = (html) => {
@@ -35,20 +9,6 @@ const renderPage = (html) => {
   //mainPageAll.innerHTML = '';
   //mainPageAll.append(html);
 };
-
-const renderInitMainPage = () => {
-  renderPage(mpWeekly);
-  // renderPage(mpNewProduct);
-  // renderPage(mpBestDesign);
-};
-
-// renderInitMainPage();
-
-// /** 메인페이지 초기화 */
-const initMainPage = () => {
-  renderPage();
-};
-// initMainPage();
 
 /*-----------------------------------*\
   #메인 페이지에 상세 제품 불러오기 테스트
@@ -132,15 +92,9 @@ const initializeMainPage = async () => {
 
 // productDetail 제품 상세페이지
 // 라우터 라이브러리
-import Navigo from 'navigo';
-// const router = new Navigo('/');
-// import heart from '../../../../public/heart.svg';
-// import cartSVG from '../../../../public/cart.svg';
 import heart from '../../public/heart.svg';
 import cartSVG from '../../public/cart.svg';
 import kBankCardIMG from '../../public/cardImg/kakao.png';
-// import cartSVG from '../../../../public/cart.svg';
-// const $ = (selector) => document.querySelector(selector);
 
 /** 장바구니 localStorage */
 export const shoppingCartStore = {
@@ -648,6 +602,18 @@ const renderCartPage = () => {
 /*-----------------------------------*\
   # 결제 페이지 # pay js
 \*-----------------------------------*/
+import {
+  hanaBank,
+  kakaoBank,
+  kbBank,
+  nhBank,
+  shinhanBank,
+  wooriBank,
+} from '../js/page/pay/payIMG.js';
+import Swiper, { Navigation, Pagination } from 'swiper';
+
+let availableBankAccount;
+
 const renderProductTotalQty = () => {
   const paymentItemCount = shoppingCartArr.map((items) => items.count);
   const renderProductTotalQty = paymentItemCount.reduce((acc, val) => {
@@ -657,20 +623,7 @@ const renderProductTotalQty = () => {
   return renderProductTotalQty;
 };
 
-/** 결제이지 처음 렌더링 */
-let availableFirst = '불가능';
-export const availableIndex = [];
-const bankMatch = {
-  0: '케이뱅크',
-  1: '하나은행',
-  2: '카카오뱅크',
-  3: 'NH농협은행',
-  4: '신한은행',
-  5: '우리은행',
-  6: 'KB국민은행',
-};
-// 현재 선택한 계좌
-let currentSelectedPaymentAccount;
+/** 결제 페이지 처음 렌더링 */
 const renderInitPaymentPage = `
 <section class="pay">
   <div class="pay__container">
@@ -792,7 +745,7 @@ const renderInitPaymentPage = `
       <div class="pay__info--orderItem pay__info--payment-method">
         <div class="payment-method">
           <h4>결제수단</h4>
-          <span class="payment-method__account-selected">선택된 계좌: 케이뱅크 (${availableFirst})</span>
+          <span class="payment-method__account-selected">선택된 계좌: (${availableBankAccount})</span>
         </div>
         <div class="payment-method__select-card">
           <div class="swiper payment-method__swiper-wrapper">
@@ -851,7 +804,7 @@ const renderPaymentProductList = (storage) => {
 };
 
 /** 계좌목록 및 잔액 조회 */
-const renderPaymentAccount = (items) => {
+const renderPaymentAccount = async (items) => {
   console.log(items);
   const totalBalance = items.totalBalance;
   const paymentAccountListTemplate = items.accounts
@@ -959,6 +912,7 @@ router
       // 카트 페이지 렌더
       renderCartPage();
 
+      /** [장바구니 페이지] 상품이 없을 때 계속 쇼핑하기 버튼 클릭 -> [메인페이지]로 이동  */
       $('.app')
         .querySelector('.cartEmpty-goToShoppingBtn')
         ?.addEventListener('click', (e) => {
@@ -1001,40 +955,21 @@ router
 let available = [];
 
 /** swiper js */
-// swiper 1
-// const paymentCardSwiper = new Swiper('.payment-method__swiper-wrapper', {
-//   modules: [Navigation, Pagination],
-//   slidesPerView: 3,
-//   spaceBetween: 25,
-//   loop: true,
-//   centerSlide: 'true',
-//   fade: 'true',
-//   grabCursor: 'true',
-//   pagination: {
-//     el: '.swiper-pagination',
-//     clickable: true,
-//     dynamicBullets: true,
-//   },
-//   navigation: {
-//     nextEl: '.swiper-button-next',
-//     prevEl: '.swiper-button-prev',
-//   },
-// });
-
-// swiper 2
 const paymentCardSwiper = new Swiper('.payment-method__swiper-wrapper', {
   navigation: {
     nextEl: '.payment-method__swiper-button-next',
     prevEl: '.payment-method__swiper-button-prev',
   },
-  slidesPerView: 'auto',
+  slidesPerView: 3,
   centeredSlides: true,
   spaceBetween: 30,
   on: {
     slideChange: (e) => {
-      console.log(e.realIndex);
+      console.log(e.activeIndex);
       console.log('e', e);
     },
+
+    // slideChange: slideChange,
   },
 });
 
