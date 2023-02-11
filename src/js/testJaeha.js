@@ -4,10 +4,7 @@ const $ = (selector) => document.querySelector(selector);
 
 /** 렌더 함수 for navigo */
 const renderPage = (html) => {
-  const mainPageAll = document.querySelector('.app');
-  mainPageAll.innerHTML = html;
-  //mainPageAll.innerHTML = '';
-  //mainPageAll.append(html);
+  $('.app').innerHTML = html;
 };
 
 /*-----------------------------------*\
@@ -27,14 +24,6 @@ const masterKeyHEADERS = {
   username: 'KDT4_Team3',
   masterKey: true,
 };
-// const tokenValue = localStorage.getItem('token');
-// const token = JSON.parse(tokenValue).value;
-// const tokenHEADERS = {
-//   'content-type': 'application/json',
-//   apikey: 'FcKdtJs202301',
-//   username: 'KDT4_Team3',
-//   Authorization: `Bearer ${localStorage.getItem('token')}`,
-// };
 
 const getAllProducts = async () => {
   try {
@@ -83,7 +72,7 @@ const renderProductItem = (items) => {
 const initializeMainPage = async () => {
   renderPage(renderProductIteminMainPageTemplate);
   renderProductItem(await getAllProducts());
-  console.log('initialize');
+  console.log('initialize main page');
 };
 
 /*-----------------------------------*\
@@ -105,7 +94,7 @@ export const shoppingCartStore = {
     return JSON.parse(localStorage.getItem('shoppingCart')) || [];
   },
   removeLocalStorage() {
-    localStorage.removeItem('shoppingCart')[0];
+    localStorage.removeItem('shoppingCart');
   },
   clearLocalStorage() {
     localStorage.clear();
@@ -134,15 +123,6 @@ const storeCart = (id, price, count, thumbnail, title, pricePerOne) => {
   console.log(shoppingCartArr);
 };
 
-/** 토큰 오류 */
-
-// const BASE_URL = 'https://asia-northeast3-heropy-api.cloudfunctions.net/api';
-// const HEADERS = {
-//   'content-type': 'application/json',
-//   apikey: 'FcKdtJs202301',
-//   username: 'KDT4_Team3',
-// };
-
 /** 상세 제품 db에서 불러오기 */
 const getDetailProduct = async (productId) => {
   try {
@@ -158,13 +138,6 @@ const getDetailProduct = async (productId) => {
 };
 
 /** 계좌 목록 및 잔액 조회 db에서 불러오기 */
-
-const tokenHEADERS = {
-  'content-type': 'application/json',
-  apikey: 'FcKdtJs202301',
-  username: 'KDT4_Team3',
-  Authorization: `Bearer ${window.localStorage.getItem('token')}`,
-};
 
 const headers = {
   'content-type': 'application/json',
@@ -426,7 +399,7 @@ const renderInitCartPage = `
           <p class="cartTotalPaymentPrice">0 원</p>
         </div>
       </div>
-      <a href="/order" data-navigo
+      <a href="/payment" data-navigo
         ><button class="cart__price--paymentBtn cartPaymentBtn">
           결제하기
         </button></a
@@ -631,7 +604,7 @@ const renderInitPaymentPage = `
     <div class="pay__info">
       <div class="pay__info--header"><h3>주문정보</h3></div>
       <div class="pay__info--orderItem pay__info--order-item">
-        <h4>주문상품 <span class="paymentProductQty">${renderProductTotalQty()}</span>개</h4>
+        <h4>주문상품 <span class="paymentProductQty"></span>개</h4>
         <ul class="pay__info--orderItem-lists"></ul>
       </div>
       <div class="pay__info--orderItem pay__info--address-info">
@@ -657,7 +630,7 @@ const renderInitPaymentPage = `
               <h6>주소지</h6>
               <div class="pay__info--order-data">
                 <input
-                  placeholder="주소"
+                  placeholder="상세 주소"
                   class="pay__info--order-data-address"
                   required
                 />
@@ -745,7 +718,7 @@ const renderInitPaymentPage = `
       <div class="pay__info--orderItem pay__info--payment-method">
         <div class="payment-method">
           <h4>결제수단</h4>
-          <span class="payment-method__account-selected">선택된 계좌: (${availableBankAccount})</span>
+          선택된 계좌: <span class="payment-method__account-selected">신한</span>
         </div>
         <div class="payment-method__select-card">
           <div class="swiper payment-method__swiper-wrapper">
@@ -817,7 +790,23 @@ const renderPaymentAccount = async (items) => {
       return `
     <li class="swiper-slide payment-method__card-list" data-account-id="${id}">
       <img
-        src="${kBankCardIMG}"
+        src="${
+          bankCode === '081'
+            ? hanaBank
+            : bankCode === '089'
+            ? kbBank
+            : bankCode === '090'
+            ? kakaoBank
+            : bankCode === '011'
+            ? nhBank
+            : bankCode === '088'
+            ? shinhanBank
+            : bankCode === '020'
+            ? wooriBank
+            : bankCode === '004'
+            ? kbBank
+            : ''
+        }"
         width="210"
         height="140"
         alt="${bankName}"
@@ -834,6 +823,8 @@ const renderPaymentAccount = async (items) => {
   $('.app').querySelector('.payment-method__card-lists').innerHTML =
     paymentAccountListTemplate;
 };
+
+/**  */
 
 /** 카카오 맵 렌더링 */
 const renderKakaoMap = () => {
@@ -887,6 +878,60 @@ const renderKakaoMap = () => {
     });
 };
 
+/** swiper 결제 페이지 선택된 계좌 이름 렌더링 */
+const renderSelectedPayment = (e) => {
+  availableBankAccount = $('.app')
+    .querySelectorAll('.payment-method__card-list')
+    [e.activeIndex].querySelector('.payment-method__card-name').textContent;
+  console.log(availableBankAccount);
+
+  $('.app').querySelector('.payment-method__account-selected').innerHTML =
+    availableBankAccount;
+};
+
+/** 결제페이지에서 작동할 함수들 */
+const paymentPageRouterFunction = async () => {
+  // 1. 결제수단 불러오기
+  await renderPaymentAccount(await getAccountDetail());
+  // 2. 결제할 제품들 렌더링
+  renderPaymentProductList(shoppingCartArr);
+  // 3. 제품 개수
+  $('.app').querySelector('.paymentProductQty').innerHTML =
+    renderProductTotalQty();
+  // 4. 주소찾기 카카오api
+  renderKakaoMap();
+
+  // 5. swiper
+  var paymentCardSwiper = new Swiper('.payment-method__swiper-wrapper', {
+    // effect: 'cards',
+    // grabCursor: true,
+    on: {
+      slideChange: (e) => {
+        console.log('결제수단 activeIndex', e.activeIndex);
+        renderSelectedPayment(e);
+      },
+    },
+  });
+
+  // function slideChange() {
+  //   const purchaseBtn = $('.payment-method__final-confirm--btn');
+  //   const currentPayment = $('.payment-method__account-selected');
+  //   const available = availableIndex.includes(this.realIndex)
+  //     ? '가능'
+  //     : '불가능';
+  //   currentPayment.textContent = `선택된 계좌: ${
+  //     bankMatch[this.realIndex]
+  //   } (${available})`;
+  //   if (available === '가능') {
+  //     purchaseBtn.style.filter = 'grayscale(0%)';
+  //     purchaseBtn.style.pointerEvents = 'auto';
+  //   } else {
+  //     purchaseBtn.style.filter = 'grayscale(100%)';
+  //     purchaseBtn.style.pointerEvents = 'none';
+  //   }
+  // }
+};
+
 /*-----------------------------------*\
   # navigo router
 \*-----------------------------------*/
@@ -933,58 +978,20 @@ router
       // renderPage(renderInitCartPage);
       console.log('/payment');
       console.log('shoppingCartArr', shoppingCartArr);
-      console.log('token', window.localStorage.getItem('token'));
-      console.log(typeof window.localStorage.getItem('token'));
       // 결제 페이지 렌더
       renderPage(renderInitPaymentPage);
-      renderPaymentProductList(shoppingCartArr);
-      renderPaymentAccount(await getAccountDetail());
-      renderKakaoMap();
+      // 결제 페이지 렌더 후 실행할 함수들
+      await paymentPageRouterFunction();
     },
   })
   .resolve();
 
 /** [장바구니 페이지] 상품이 없을 때 계속 쇼핑하기 버튼 클릭 -> [메인페이지]로 이동  */
-// $('.app')
-//   .querySelector('.cartEmpty-goToShoppingBtn')
-//   ?.addEventListener('click', (e) => {
-//     console.log(e.target);
-//     router.navigate('/');
-//   });
+$('.app')
+  .querySelector('.cartEmpty-goToShoppingBtn')
+  ?.addEventListener('click', (e) => {
+    console.log(e.target);
+    router.navigate('/');
+  });
 
 let available = [];
-
-/** swiper js */
-const paymentCardSwiper = new Swiper('.payment-method__swiper-wrapper', {
-  navigation: {
-    nextEl: '.payment-method__swiper-button-next',
-    prevEl: '.payment-method__swiper-button-prev',
-  },
-  slidesPerView: 3,
-  centeredSlides: true,
-  spaceBetween: 30,
-  on: {
-    slideChange: (e) => {
-      console.log(e.activeIndex);
-      console.log('e', e);
-    },
-
-    // slideChange: slideChange,
-  },
-});
-
-function slideChange() {
-  const purchaseBtn = $('.payment-method__final-confirm--btn');
-  const currentPayment = $('.payment-method__account-selected');
-  const available = availableIndex.includes(this.realIndex) ? '가능' : '불가능';
-  currentPayment.textContent = `선택된 계좌: ${
-    bankMatch[this.realIndex]
-  } (${available})`;
-  if (available === '가능') {
-    purchaseBtn.style.filter = 'grayscale(0%)';
-    purchaseBtn.style.pointerEvents = 'auto';
-  } else {
-    purchaseBtn.style.filter = 'grayscale(100%)';
-    purchaseBtn.style.pointerEvents = 'none';
-  }
-}

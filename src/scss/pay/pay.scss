@@ -199,25 +199,31 @@
 // 결제수단 선택 scss
 .payment-method {
   &__select-card {
-    // display: none;
-    padding: 15px;
-    padding-bottom: 40px;
+    // width: 300px;
+    padding: 15px 15px 40px;
     background-color: #fff;
   }
   &__swiper-wrapper {
-    display: flex;
-    justify-content: center;
-    background-color: #fff;
+    margin-left: 20px;
+    padding: 10px;
+    width: 240px;
+    height: auto;
+    border: 1px solid var(--logo-color);
+    border-radius: 6px;
+    background-color: var(--division-line);
   }
   &__card-lists {
     display: flex;
-    gap: 50px;
-    margin: 0 10px;
+    // gap: 5px;
     img {
-      filter: grayscale(100%);
+      // filter: grayscale(100%);
     }
   }
   &__card-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // border: 10px solid blue;
   }
   &__card-name {
     margin-top: 10px;
