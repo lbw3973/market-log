@@ -461,7 +461,7 @@ const renderCartList = (storage) => {
               alt="${title}"
             /></div
         ></a>
-        <a href="#" data-navigo
+        <a href="/product/${id}" data-navigo
           ><span class="cart__item-info--title">
             ${title}
           </span></a
@@ -749,8 +749,8 @@ const renderInitPaymentPage = `
           <div class="payment-method__select-card">
             <div class="swiper payment-method__swiper-wrapper">
               <ul class="swiper-wrapper payment-method__card-lists"></ul>
-              <div class="swiper-button-prev payment-method__swiper-button-prev"></div>
-              <div class="swiper-button-next payment-method__swiper-button-next"></div>
+              <div class="swiper-pagination"></div>
+              
             </div>
           </div>
           <div class="payment-method__final">
@@ -948,6 +948,10 @@ const paymentPageFunction = async (e) => {
 
   // 5. swiper
   var paymentCardSwiper = new Swiper('.payment-method__swiper-wrapper', {
+    pagination: {
+      el: '.swiper-pagination',
+      type: 'bullets',
+    },
     grabCursor: true,
     on: {
       slideChange: (e) => {
@@ -955,6 +959,8 @@ const paymentPageFunction = async (e) => {
         renderSelectedPayment(e);
         activePaymentBtn();
       },
+      // <div class="swiper-button-prev payment-method__swiper-button-prev"></div>
+      // <div class="swiper-button-next payment-method__swiper-button-next"></div>
     },
   });
 };
@@ -1014,6 +1020,9 @@ router
       console.log('shoppingCartArr', shoppingCartArr);
       // 결제 페이지 렌더
       renderPage(renderInitPaymentPage);
+      $(
+        '.payment-method__final-confirm--btn',
+      ).innerHTML = `총 ${renderCartTotalPrice().toLocaleString()}원 결제하기`;
       // 결제 페이지 렌더 후 실행할 함수들
       await paymentPageFunction();
 
