@@ -75,13 +75,13 @@
     </header>
     <!-- 공통 헤더 끝 -->
     <main class="main">
-      <section class="pay">
+      <!-- <section class="pay">
         <div class="pay__container">
           <div class="pay__header"><h2>결제하기</h2></div>
           <div class="pay__info">
             <div class="pay__info--header"><h3>주문정보</h3></div>
-            <div class="pay__info--orderItem">
-              <h4>주문상품</h4>
+            <div class="pay__info--orderItem pay__info--order-item">
+              <h4>주문상품 <span>1개</span></h4>
               <ul class="pay__info--orderItem-lists">
                 <li class="pay__info--orderItem-list">
                   <img
@@ -107,7 +107,7 @@
                 </li>
               </ul>
             </div>
-            <div class="pay__info--orderItem">
+            <div class="pay__info--orderItem pay__info--address-info">
               <h4>배송지</h4>
               <div class="pay__info--address-container">
                 <form class="pay__info--address-form">
@@ -164,7 +164,7 @@
                 </form>
               </div>
             </div>
-            <div class="pay__info--orderItem">
+            <div class="pay__info--orderItem pay__info--payer-info">
               <h4>주문자 정보</h4>
               <div class="pay__info--payer--container">
                 <form class="pay__info--payer--form">
@@ -194,31 +194,126 @@
                 </form>
               </div>
             </div>
-            <div class="pay__info--orderItem">
-              <h4>결제금액</h4>
-              <div class="pay__info--payment--container">
-                <div class="pay__info--container-totalOrderPrice">
-                  <h6>총 주문금액</h6>
-                  <span class="payTotalOrderPrice">17,069,000 원</span>
-                </div>
-                <div class="pay__info--container-discountPrice">
-                  <h6>할인 금액</h6>
-                  <span class="payDiscountPrice">0 원</span>
-                </div>
-                <div class="pay__info--container-deliveryPrice">
-                  <h6>배송비</h6>
-                  <span class="payDeliveryPrice">0 원</span>
-                </div>
-                <div class="pay__info--container-totalPaymentPrice">
-                  <h6>배송비</h6>
-                  <span class="payTotalPaymentPrice">17,069,000 원</span>
+            <div class="pay__info--orderItem pay__info--price-sum">
+              <div class="pay__info--width400px">
+                <h4>결제 금액</h4>
+                <div class="pay__info--payment--container">
+                  <div class="pay__info--container-totalOrderPrice">
+                    <h6>총 주문 금액</h6>
+                    <span class="payTotalOrderPrice">17,069,000 원</span>
+                  </div>
+                  <div class="pay__info--container-discountPrice">
+                    <h6>할인 금액</h6>
+                    <span class="payDiscountPrice">0 원</span>
+                  </div>
+                  <div class="pay__info--container-deliveryPrice">
+                    <h6>배송비</h6>
+                    <span class="payDeliveryPrice">0 원</span>
+                  </div>
+                  <div class="pay__info--container-totalPaymentPrice">
+                    <h6>총 결제 금액</h6>
+                    <span class="payTotalPaymentPrice">17,069,000 원</span>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="pay__info--orderItem"><h4>결제수단</h4></div>
+            <div class="pay__info--orderItem pay__info--payment-method">
+              <div class="payment-method">
+                <h4>결제수단</h4>
+                <span>선택된 계좌: 신한은행</span>
+              </div>
+              <div class="payment-method__select-card">
+                <div class="swiper payment-method__swiper-wrapper">
+                  <ul class="swiper-wrapper payment-method__card-lists">
+                    <li class="swiper-slide payment-method__card-list">
+                      <img
+                        src="../../public/cardImg/kakao.png"
+                        width="210"
+                        height="140"
+                        alt="k뱅크"
+                      />
+                      <p class="payment-method__card-name">케이뱅크</p>
+                    </li>
+                    <li class="swiper-slide payment-method__card-list">
+                      <img
+                        src="../../public/cardImg/kakao.png"
+                        width="210"
+                        height="140"
+                        alt="k뱅크"
+                      />
+                      <p class="payment-method__card-name">하나은행</p>
+                    </li>
+                    <li class="swiper-slide payment-method__card-list">
+                      <img
+                        src="../../public/cardImg/kakao.png"
+                        width="210"
+                        height="140"
+                        alt="k뱅크"
+                      />
+                      <p class="payment-method__card-name">카카오뱅크</p>
+                    </li>
+                    <li class="swiper-slide payment-method__card-list">
+                      <img
+                        src="../../public/cardImg/kakao.png"
+                        width="210"
+                        height="140"
+                        alt="k뱅크"
+                      />
+                      <p class="payment-method__card-name">NH은행</p>
+                    </li>
+                    <li class="swiper-slide payment-method__card-list">
+                      <img
+                        src="../../public/cardImg/kakao.png"
+                        width="210"
+                        height="140"
+                        alt="k뱅크"
+                      />
+                      <p class="payment-method__card-name">신한은행</p>
+                    </li>
+                    <li class="swiper-slide payment-method__card-list">
+                      <img
+                        src="../../public/cardImg/kakao.png"
+                        width="210"
+                        height="140"
+                        alt="k뱅크"
+                      />
+                      <p class="payment-method__card-name">우리은행</p>
+                    </li>
+                    <li class="swiper-slide payment-method__card-list">
+                      <img
+                        src="../../public/cardImg/kakao.png"
+                        width="210"
+                        height="140"
+                        alt="k뱅크"
+                      />
+                      <p class="payment-method__card-name">KB은행</p>
+                    </li>
+                  </ul>
+                  <div class="swiper-button-next"></div>
+                  <div class="swiper-button-prev"></div>
+                </div>
+              </div>
+              <div class="payment-method__final">
+                <ul class="payment-method__final-alert">
+                  <li>
+                    - 최소 결제 가능 금액은 총 결제 금액에서 배송비를 제외한
+                    금액입니다.
+                  </li>
+                  <li>
+                    - 소액 결제의 경우 정책에 따라 결제 금액 제한이 있을 수
+                    있습니다.
+                  </li>
+                </ul>
+                <div class="payment-method__final-confirm--container">
+                  <button class="payment-method__final-confirm--btn">
+                    총 ${totalPrice.toLocaleString()}원 결제하기
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </section>
+      </section> -->
     </main>
     <!-- 공통 FOOTER 시작-->
     <div class="footer-container">
