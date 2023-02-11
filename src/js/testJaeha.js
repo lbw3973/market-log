@@ -83,7 +83,6 @@ const initializeMainPage = async () => {
 // 라우터 라이브러리
 import heart from '../../public/heart.svg';
 import cartSVG from '../../public/cart.svg';
-import kBankCardIMG from '../../public/cardImg/kakao.png';
 
 /** 장바구니 localStorage */
 export const shoppingCartStore = {
@@ -154,10 +153,9 @@ const getAccountDetail = async () => {
       },
     });
     const data = await res.json();
-    console.log(data);
     const { accounts, totalBalance } = data;
 
-    return { accounts, totalBalance };
+    return accounts;
   } catch (err) {
     console.log(err);
     console.log('err: ', '계좌목록 조회 실패');
@@ -585,8 +583,31 @@ import {
 } from '../js/page/pay/payIMG.js';
 import Swiper, { Navigation, Pagination } from 'swiper';
 
+const buyItemAPI = async (productId, accountId) => {
+  try {
+    const res = await fetch(`${BASE_URL}/products/buy`, {
+      method: 'POST',
+      headers: {
+        ...HEADERS,
+        Authorization: Bearer`${window.localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify({
+        productId,
+        accountId,
+      }),
+    });
+    const data = await res.json();
+    console.log('제품 결제', data);
+    return data;
+  } catch (err) {
+    console.log(err);
+    console.log('결제 실패');
+  }
+};
+
 let availableBankAccount;
 
+/** 제품 총 개수 렌더링 함수 */
 const renderProductTotalQty = () => {
   const paymentItemCount = shoppingCartArr.map((items) => items.count);
   const renderProductTotalQty = paymentItemCount.reduce((acc, val) => {
@@ -602,149 +623,151 @@ const renderInitPaymentPage = `
   <div class="pay__container">
     <div class="pay__header"><h2>결제하기</h2></div>
     <div class="pay__info">
-      <div class="pay__info--header"><h3>주문정보</h3></div>
-      <div class="pay__info--orderItem pay__info--order-item">
-        <h4>주문상품 <span class="paymentProductQty"></span>개</h4>
-        <ul class="pay__info--orderItem-lists"></ul>
-      </div>
-      <div class="pay__info--orderItem pay__info--address-info">
-        <h4>배송지</h4>
-        <div class="pay__info--address-container">
-          <form class="pay__info--address-form">
-            <div class="pay__info-zipcode">
-              <h6>우편번호</h6>
-              <div class="pay__info-zipcode--data">
+      <form class="paymentPage__submitForm">
+        <div class="pay__info--header"><h3>주문정보</h3></div>
+        <div class="pay__info--orderItem pay__info--order-item">
+          <h4>주문상품 <span class="paymentProductQty"></span>개</h4>
+          <ul class="pay__info--orderItem-lists"></ul>
+        </div>
+        <div class="pay__info--orderItem pay__info--address-info">
+          <h4>배송지</h4>
+          <div class="pay__info--address-container">
+            <div class="pay__info--address-form">
+              <div class="pay__info-zipcode">
+                <h6>우편번호</h6>
+                <div class="pay__info-zipcode--data">
+                  <input
+                    class="pay__info-zipcode--data-input"
+                    placeholder="우편번호"
+                    id="sample5_address"
+                    required
+                  />
+                  <button class="pay__info-zipcode--data-searchBtn">
+                    우편번호 찾기
+                  </button>
+                </div>
+              </div>
+
+              <div class="pay__info--order">
+                <h6>주소지</h6>
+                <div class="pay__info--order-data">
+                  <input
+                    placeholder="상세 주소"
+                    class="pay__info--order-data-address"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="pay__info--delivery">
+                <h6>배송메모</h6>
+                <div>
+                  <select>
+                    <option value="default">
+                      배송 메세지를 선택해주세요.
+                    </option>
+                    <option value="purchase-item">
+                      배송 전에 미리 연락 바랍니다.
+                    </option>
+                    <option value="purchase-item">
+                      부재시 경비실에 맡겨 주세요.
+                    </option>
+                    <option value="purchase-item">
+                      부재시 전화 주시거나 문자 남겨 주세요.
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
+            </div>
+          </div>
+        </div>
+        <div class="pay__info--orderItem pay__info--payer-info">
+          <h4>주문자 정보</h4>
+          <div class="pay__info--payer--container">
+            <form class="pay__info--payer--form">
+              <div class="pay__info--payer--name">
+                <h6>주문자</h6>
                 <input
-                  class="pay__info-zipcode--data-input"
-                  placeholder="우편번호"
-                  id="sample5_address"
+                  class="pay__info--payer--name-input"
+                  placeholder="이름을 입력해주세요"
                   required
                 />
-                <button class="pay__info-zipcode--data-searchBtn">
-                  우편번호 찾기
-                </button>
               </div>
-            </div>
-
-            <div class="pay__info--order">
-              <h6>주소지</h6>
-              <div class="pay__info--order-data">
+              <div class="pay__info--payer--email">
+                <h6>이메일</h6>
                 <input
-                  placeholder="상세 주소"
-                  class="pay__info--order-data-address"
-                  required
+                  class="pay__info--payer--email-input"
+                  type="email"
+                  placeholder="이메일을 입력해주세요"
                 />
               </div>
-            </div>
-
-            <div class="pay__info--delivery">
-              <h6>배송메모</h6>
-              <div>
-                <select>
-                  <option value="default">
-                    배송 메세지를 선택해주세요.
-                  </option>
-                  <option value="purchase-item">
-                    배송 전에 미리 연락 바랍니다.
-                  </option>
-                  <option value="purchase-item">
-                    부재시 경비실에 맡겨 주세요.
-                  </option>
-                  <option value="purchase-item">
-                    부재시 전화 주시거나 문자 남겨 주세요.
-                  </option>
-                </select>
+              <div class="pay__info--payer--phoneNum">
+                <h6>휴대폰</h6>
+                <input
+                  class="pay__info--payer--phoneNum-input"
+                  type="tel"
+                  placeholder="휴대폰 번호를 입력해주세요"
+                />
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="pay__info--orderItem pay__info--price-sum">
+          <div class="pay__info--width400px">
+            <h4>결제 금액</h4>
+            <div class="pay__info--payment--container">
+              <div class="pay__info--container-totalOrderPrice">
+                <h6>총 주문 금액</h6>
+                <span class="payTotalOrderPrice">${renderCartTotalPrice().toLocaleString()} 원</span>
+              </div>
+              <div class="pay__info--container-discountPrice">
+                <h6>할인 금액</h6>
+                <span class="payDiscountPrice">${cartDiscountPrice.toLocaleString()} 원</span>
+              </div>
+              <div class="pay__info--container-deliveryPrice">
+                <h6>배송비</h6>
+                <span class="payDeliveryPrice">${cartDiscountPrice.toLocaleString()} 원</span>
+              </div>
+              <div class="pay__info--container-totalPaymentPrice">
+                <h6>총 결제 금액</h6>
+                <span class="payTotalAccountBalance"></span>
+                <span class="payTotalPaymentPrice">${renderCartTotalPrice().toLocaleString()} 원</span>
               </div>
             </div>
-            <div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
-          </form>
+          </div>
         </div>
-      </div>
-      <div class="pay__info--orderItem pay__info--payer-info">
-        <h4>주문자 정보</h4>
-        <div class="pay__info--payer--container">
-          <form class="pay__info--payer--form">
-            <div class="pay__info--payer--name">
-              <h6>주문자</h6>
-              <input
-                class="pay__info--payer--name-input"
-                placeholder="이름을 입력해주세요"
-                required
-              />
+        <div class="pay__info--orderItem pay__info--payment-method">
+          <div class="payment-method">
+            <h4>결제수단</h4>
+            선택된 계좌: <span class="payment-method__account-selected"></span>
+          </div>
+          <div class="payment-method__select-card">
+            <div class="swiper payment-method__swiper-wrapper">
+              <ul class="swiper-wrapper payment-method__card-lists"></ul>
+              <div class="swiper-button-prev payment-method__swiper-button-prev"></div>
+              <div class="swiper-button-next payment-method__swiper-button-next"></div>
             </div>
-            <div class="pay__info--payer--email">
-              <h6>이메일</h6>
-              <input
-                class="pay__info--payer--email-input"
-                type="email"
-                placeholder="이메일을 입력해주세요"
-              />
-            </div>
-            <div class="pay__info--payer--phoneNum">
-              <h6>휴대폰</h6>
-              <input
-                class="pay__info--payer--phoneNum-input"
-                type="tel"
-                placeholder="휴대폰 번호를 입력해주세요"
-              />
-            </div>
-          </form>
-        </div>
-      </div>
-      <div class="pay__info--orderItem pay__info--price-sum">
-        <div class="pay__info--width400px">
-          <h4>결제 금액</h4>
-          <div class="pay__info--payment--container">
-            <div class="pay__info--container-totalOrderPrice">
-              <h6>총 주문 금액</h6>
-              <span class="payTotalOrderPrice">${renderCartTotalPrice().toLocaleString()} 원</span>
-            </div>
-            <div class="pay__info--container-discountPrice">
-              <h6>할인 금액</h6>
-              <span class="payDiscountPrice">${cartDiscountPrice.toLocaleString()} 원</span>
-            </div>
-            <div class="pay__info--container-deliveryPrice">
-              <h6>배송비</h6>
-              <span class="payDeliveryPrice">${cartDiscountPrice.toLocaleString()} 원</span>
-            </div>
-            <div class="pay__info--container-totalPaymentPrice">
-              <h6>총 결제 금액</h6>
-              <span class="payTotalAccountBalance"></span>
-              <span class="payTotalPaymentPrice">${renderCartTotalPrice().toLocaleString()} 원</span>
+          </div>
+          <div class="payment-method__final">
+            <ul class="payment-method__final-alert">
+              <li>
+                - 최소 결제 가능 금액은 총 결제 금액에서 배송비를 제외한
+                금액입니다.
+              </li>
+              <li>
+                - 소액 결제의 경우 정책에 따라 결제 금액 제한이 있을 수
+                있습니다.
+              </li>
+            </ul>
+            <div class="payment-method__final-confirm--container">
+              <button class="payment-method__final-confirm--btn">
+                총 ${renderCartTotalPrice().toLocaleString()}원 결제하기
+              </button>
             </div>
           </div>
         </div>
-      </div>
-      <div class="pay__info--orderItem pay__info--payment-method">
-        <div class="payment-method">
-          <h4>결제수단</h4>
-          선택된 계좌: <span class="payment-method__account-selected">신한</span>
-        </div>
-        <div class="payment-method__select-card">
-          <div class="swiper payment-method__swiper-wrapper">
-            <ul class="swiper-wrapper payment-method__card-lists"></ul>
-            <div class="swiper-button-prev payment-method__swiper-button-prev"></div>
-            <div class="swiper-button-next payment-method__swiper-button-next"></div>
-          </div>
-        </div>
-        <div class="payment-method__final">
-          <ul class="payment-method__final-alert">
-            <li>
-              - 최소 결제 가능 금액은 총 결제 금액에서 배송비를 제외한
-              금액입니다.
-            </li>
-            <li>
-              - 소액 결제의 경우 정책에 따라 결제 금액 제한이 있을 수
-              있습니다.
-            </li>
-          </ul>
-          <div class="payment-method__final-confirm--container">
-            <button class="payment-method__final-confirm--btn">
-              총 ${renderCartTotalPrice().toLocaleString()}원 결제하기
-            </button>
-          </div>
-        </div>
-      </div>
+      </form>
     </div>
   </div>
 </section>
@@ -779,13 +802,12 @@ const renderPaymentProductList = (storage) => {
 /** 계좌목록 및 잔액 조회 */
 const renderPaymentAccount = async (items) => {
   console.log(items);
-  const totalBalance = items.totalBalance;
-  const paymentAccountListTemplate = items.accounts
-    .map((accounts) => {
-      console.log(totalBalance);
-      console.log(accounts);
+
+  const paymentAccountListTemplate = items
+    .map((item) => {
+      console.log(item);
       // const { totalBalance, accounts } = item;
-      const { id, bankName, bankCode, accountNumber, balance } = accounts;
+      const { id, bankName, bankCode, accountNumber, balance } = item;
 
       return `
     <li class="swiper-slide payment-method__card-list" data-account-id="${id}">
@@ -878,6 +900,25 @@ const renderKakaoMap = () => {
     });
 };
 
+/** 결제하기 버튼 활성화/비활성화 */
+const activePaymentBtn = () => {
+  const finalPaymentBtn = $('.app').querySelector(
+    '.payment-method__final-confirm--btn',
+  );
+  const selectedPaymentAccount = $('.app').querySelector(
+    '.payment-method__account-selected',
+  );
+  console.log(selectedPaymentAccount.textContent);
+
+  if (selectedPaymentAccount.textContent) {
+    finalPaymentBtn.style.backgroundColor = 'var(--logo-color)';
+    finalPaymentBtn.style.cursor = 'pointer';
+  } else if (!selectedPaymentAccount.textContent) {
+    finalPaymentBtn.style.backgroundColor = 'gray';
+    // finalPaymentBtn.style.pointerEvents = 'auto';
+  }
+};
+
 /** swiper 결제 페이지 선택된 계좌 이름 렌더링 */
 const renderSelectedPayment = (e) => {
   availableBankAccount = $('.app')
@@ -903,33 +944,15 @@ const paymentPageRouterFunction = async () => {
 
   // 5. swiper
   var paymentCardSwiper = new Swiper('.payment-method__swiper-wrapper', {
-    // effect: 'cards',
-    // grabCursor: true,
+    grabCursor: true,
     on: {
       slideChange: (e) => {
         console.log('결제수단 activeIndex', e.activeIndex);
         renderSelectedPayment(e);
+        activePaymentBtn();
       },
     },
   });
-
-  // function slideChange() {
-  //   const purchaseBtn = $('.payment-method__final-confirm--btn');
-  //   const currentPayment = $('.payment-method__account-selected');
-  //   const available = availableIndex.includes(this.realIndex)
-  //     ? '가능'
-  //     : '불가능';
-  //   currentPayment.textContent = `선택된 계좌: ${
-  //     bankMatch[this.realIndex]
-  //   } (${available})`;
-  //   if (available === '가능') {
-  //     purchaseBtn.style.filter = 'grayscale(0%)';
-  //     purchaseBtn.style.pointerEvents = 'auto';
-  //   } else {
-  //     purchaseBtn.style.filter = 'grayscale(100%)';
-  //     purchaseBtn.style.pointerEvents = 'none';
-  //   }
-  // }
 };
 
 /*-----------------------------------*\
@@ -994,4 +1017,41 @@ $('.app')
     router.navigate('/');
   });
 
-let available = [];
+let balanceOfselectedBankAccount;
+/** 현재 선택한 은행계좌의 잔액 확인해주는 함수 */
+const checkBalanceOfselectedBankAccount = async (id) => {
+  const availableAccount = await getAccountDetail();
+  console.log(availableAccount);
+  const checkCurrentSelectedBankId = availableAccount.filter((item) => {
+    return item.id === id;
+  });
+  console.log('checkCurrentSelectedBankId', checkCurrentSelectedBankId);
+};
+
+/** 결제 버튼 클릭시 결제 진행 */
+$('.app')
+  .querySelector('.payment-method__final-confirm--btn')
+  .addEventListener('click', async (e) => {
+    e.preventDefault();
+
+    const currentSelectedBankId = $('.swiper-slide-active').dataset.accountId;
+    const productIds = shoppingCartArr.map((items) => {
+      return items.id;
+    });
+    const totalProductPrice = renderCartTotalPrice();
+    console.log(totalProductPrice);
+    console.log('현재 선택한 계좌 id', currentSelectedBankId);
+    console.log('결제할 제품 id', ...productIds);
+    const currentSelectedAccountBalance =
+      await checkBalanceOfselectedBankAccount(currentSelectedBankId);
+    console.log(currentSelectedAccountBalance);
+
+    if (currentSelectedAccountBalance >= totalProductPrice) {
+      productIds.map(async (productId) => {
+        return await buyItemAPI(productId, currentSelectedBankId);
+      });
+    } else if (currentSelectedAccountBalance < totalProductPrice) {
+      alert('해당 계좌의 잔액이 부족합니다.');
+      return;
+    }
+  });
