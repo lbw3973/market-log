@@ -263,3 +263,14 @@
     }
   }
 }
+.swiper-pagination {
+  display: block;
+  position: absolute;
+  text-align: center;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  transition: opacity 0.3s;
+  z-index: 10000;
+  bottom: 25px;
+  left: 120px;
+}

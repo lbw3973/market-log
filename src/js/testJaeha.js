@@ -280,6 +280,7 @@ const updateInfo = async (e, productId) => {
       productDetailProductQty = 1;
     }
     renderDetailProduct(productId);
+    // renderCartPage();
     return;
   }
   // 구매수량 +
@@ -287,6 +288,7 @@ const updateInfo = async (e, productId) => {
     productDetailProductQty += 1;
 
     renderDetailProduct(productId);
+    // renderCartPage();
     return;
   }
   shoppingCartStore.setLocalStorage(shoppingCartArr);
@@ -585,6 +587,7 @@ import {
   wooriBank,
 } from '../js/page/pay/payIMG.js';
 import Swiper, { Navigation, Pagination } from 'swiper';
+Swiper.use([Navigation, Pagination]);
 
 const buyItemAPI = async (productId, accountId) => {
   try {
@@ -925,7 +928,7 @@ const activePaymentBtn = () => {
 const renderSelectedPayment = (e) => {
   availableBankAccount = $('.app')
     .querySelectorAll('.payment-method__card-list')
-    [e.activeIndex].querySelector('.payment-method__card-name').textContent;
+    [e.realIndex].querySelector('.payment-method__card-name').textContent;
   console.log(availableBankAccount);
 
   $('.app').querySelector('.payment-method__account-selected').innerHTML =
@@ -954,8 +957,8 @@ const paymentPageFunction = async (e) => {
     },
     grabCursor: true,
     on: {
-      slideChange: (e) => {
-        console.log('결제수단 activeIndex', e.activeIndex);
+      afterInit: (e) => {
+        console.log('결제수단 realIndex', e.realIndex);
         renderSelectedPayment(e);
         activePaymentBtn();
       },
@@ -1020,11 +1023,11 @@ router
       console.log('shoppingCartArr', shoppingCartArr);
       // 결제 페이지 렌더
       renderPage(renderInitPaymentPage);
+      await paymentPageFunction();
       $(
         '.payment-method__final-confirm--btn',
       ).innerHTML = `총 ${renderCartTotalPrice().toLocaleString()}원 결제하기`;
       // 결제 페이지 렌더 후 실행할 함수들
-      await paymentPageFunction();
 
       /** 결제 버튼 클릭시 결제 진행 */
       $('.app')
@@ -1097,7 +1100,7 @@ const handlePaymentBtnLogic = async (e) => {
       shoppingCartStore.removeLocalStorage();
       router.navigate('/');
       // 결제 성공 모달
-      alert('결제가 성공적으로 되었습니다.');
+      alert('결제가 성공적으로 되었습니다. 구매내역으로 이동합니다.');
       return;
     });
   } else if (getCurrentSelectedAccountBalance < totalProductPrice) {
