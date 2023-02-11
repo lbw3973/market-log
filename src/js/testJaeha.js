@@ -93,7 +93,7 @@ export const shoppingCartStore = {
     return JSON.parse(localStorage.getItem('shoppingCart')) || [];
   },
   removeLocalStorage() {
-    localStorage.removeItem('shoppingCart');
+    return localStorage.removeItem('shoppingCart');
   },
   clearLocalStorage() {
     localStorage.clear();
@@ -299,7 +299,10 @@ $('.app').addEventListener('click', (e) => {
 
 /** 장바구니 담기 핸들 함수 */
 const pushInCart = (e) => {
-  if (e.target.classList.contains('addCartBtn')) {
+  if (
+    e.target.classList.contains('addCartBtn') ||
+    e.target.classList.contains('buyBtn')
+  ) {
     const id = e.target.closest('.main-container').dataset.productId;
     console.log(id);
     const price = productDetailTotalPrice;
@@ -333,8 +336,8 @@ const handleModal = (e) => {
     return;
   }
 
-  // '장바구니 바로가기' 버튼 클릭 시, navigo 장바구니로 가기
-  if (e.target === $('.goToCart') || $('.modal-keepShopping')) {
+  // 모달 '장바구니로 바로가기' or '계속 쇼핑하기' 클릭 시 모달 닫기
+  if (e.target === $('.goToCart') || e.target === $('.modal-keepShopping')) {
     $('.modal__addCart').style.display = 'none';
     return;
   }
@@ -589,7 +592,7 @@ const buyItemAPI = async (productId, accountId) => {
       method: 'POST',
       headers: {
         ...HEADERS,
-        Authorization: Bearer`${window.localStorage.getItem('token')}`,
+        Authorization: `Bearer ${window.localStorage.getItem('token')}`,
       },
       body: JSON.stringify({
         productId,
@@ -638,8 +641,9 @@ const renderInitPaymentPage = `
                 <div class="pay__info-zipcode--data">
                   <input
                     class="pay__info-zipcode--data-input"
-                    placeholder="우편번호"
+                    placeholder="우편번호 찾기를 버튼을 클릭하세요"
                     id="sample5_address"
+                    readonly
                     required
                   />
                   <button class="pay__info-zipcode--data-searchBtn">
@@ -846,8 +850,6 @@ const renderPaymentAccount = async (items) => {
     paymentAccountListTemplate;
 };
 
-/**  */
-
 /** 카카오 맵 렌더링 */
 const renderKakaoMap = () => {
   var mapContainer = document.getElementById('map'), // 지도를 표시할 div
@@ -930,8 +932,10 @@ const renderSelectedPayment = (e) => {
     availableBankAccount;
 };
 
-/** 결제페이지에서 작동할 함수들 */
-const paymentPageRouterFunction = async () => {
+/** 결제페이지에서 작동하는 함수들 */
+const paymentPageFunction = async (e) => {
+  // 결제가격 재렌더링
+  renderCartTotalPrice();
   // 1. 결제수단 불러오기
   await renderPaymentAccount(await getAccountDetail());
   // 2. 결제할 제품들 렌더링
@@ -969,6 +973,13 @@ router
     '/product/:id': async (params) => {
       console.log('product/:id route is working');
       await renderDetailProduct(params.data.id);
+
+      $('.app')
+        .querySelector('.buyBtn')
+        ?.addEventListener('click', (e) => {
+          console.log(e.target);
+          router.navigate('/payment');
+        });
     },
     '/cart': () => {
       $('.modal__addCart').style.display = 'none';
@@ -1004,7 +1015,26 @@ router
       // 결제 페이지 렌더
       renderPage(renderInitPaymentPage);
       // 결제 페이지 렌더 후 실행할 함수들
-      await paymentPageRouterFunction();
+      await paymentPageFunction();
+
+      /** 결제 버튼 클릭시 결제 진행 */
+      $('.app')
+        .querySelector('.payment-method__final-confirm--btn')
+        .addEventListener('click', async (e) => {
+          e.preventDefault();
+          if ($('.pay__info-zipcode--data-input').value === '') {
+            $('.pay__info-zipcode--data-input').focus();
+            alert('우편번호를 입력해주세요');
+            return;
+          }
+          if ($('.pay__info--payer--name-input').value === '') {
+            $('.pay__info--payer--name-input').focus();
+            alert('주문자 이름을 입력해주세요.');
+            return;
+          }
+          // 결제가 성공하면 구매내역 페이지로 라우팅 (지금은 홈으로 이동)
+          await handlePaymentBtnLogic(e);
+        });
     },
   })
   .resolve();
@@ -1016,6 +1046,12 @@ $('.app')
     console.log(e.target);
     router.navigate('/');
   });
+$('.app')
+  .querySelector('.buyBtn')
+  ?.addEventListener('click', (e) => {
+    console.log(e.target);
+    router.navigate('/cart');
+  });
 
 let balanceOfselectedBankAccount;
 /** 현재 선택한 은행계좌의 잔액 확인해주는 함수 */
@@ -1025,33 +1061,49 @@ const checkBalanceOfselectedBankAccount = async (id) => {
   const checkCurrentSelectedBankId = availableAccount.filter((item) => {
     return item.id === id;
   });
-  console.log('checkCurrentSelectedBankId', checkCurrentSelectedBankId);
+  return checkCurrentSelectedBankId;
+};
+
+const handlePaymentBtnLogic = async (e) => {
+  const currentSelectedBankId = $('.swiper-slide-active').dataset.accountId;
+  const productIds = shoppingCartArr.map((items) => {
+    return items.id;
+  });
+  const totalProductPrice = renderCartTotalPrice();
+  console.log(totalProductPrice);
+  console.log('현재 선택한 계좌 id', currentSelectedBankId);
+  console.log('결제할 제품 id', ...productIds);
+  const getCurrentSelectedAccount = await checkBalanceOfselectedBankAccount(
+    currentSelectedBankId,
+  );
+  console.log('getCurrentSelectedAccount', getCurrentSelectedAccount);
+  const getCurrentSelectedAccountBalance =
+    getCurrentSelectedAccount[0]['balance'];
+
+  // 결제 성공
+  if (getCurrentSelectedAccountBalance >= totalProductPrice) {
+    productIds.map(async (productId) => {
+      await buyItemAPI(productId, currentSelectedBankId);
+      // localStorage shoppingCart 비워주기
+      shoppingCartStore.removeLocalStorage();
+      router.navigate('/');
+      // 결제 성공 모달
+      alert('결제가 성공적으로 되었습니다.');
+      return;
+    });
+  } else if (getCurrentSelectedAccountBalance < totalProductPrice) {
+    // 결제 실패
+    alert('해당 계좌의 잔액이 부족합니다.');
+    return;
+  }
 };
 
 /** 결제 버튼 클릭시 결제 진행 */
-$('.app')
-  .querySelector('.payment-method__final-confirm--btn')
-  .addEventListener('click', async (e) => {
-    e.preventDefault();
+// $('.app')
+//   .querySelector('.payment-method__final-confirm--btn')
+//   .addEventListener('click', async (e) => {
+//     e.preventDefault();
+//     await handlePaymentBtnLogic(e);
+//   });
 
-    const currentSelectedBankId = $('.swiper-slide-active').dataset.accountId;
-    const productIds = shoppingCartArr.map((items) => {
-      return items.id;
-    });
-    const totalProductPrice = renderCartTotalPrice();
-    console.log(totalProductPrice);
-    console.log('현재 선택한 계좌 id', currentSelectedBankId);
-    console.log('결제할 제품 id', ...productIds);
-    const currentSelectedAccountBalance =
-      await checkBalanceOfselectedBankAccount(currentSelectedBankId);
-    console.log(currentSelectedAccountBalance);
-
-    if (currentSelectedAccountBalance >= totalProductPrice) {
-      productIds.map(async (productId) => {
-        return await buyItemAPI(productId, currentSelectedBankId);
-      });
-    } else if (currentSelectedAccountBalance < totalProductPrice) {
-      alert('해당 계좌의 잔액이 부족합니다.');
-      return;
-    }
-  });
+/** 결제페이지에서 작동할 함수들 */
