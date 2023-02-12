@@ -194,6 +194,64 @@ const renderEachCategoryData = async (items) => {
   # 카테고리 페이지 # category js
 \*-----------------------------------*/
 
+const renderInitCategoryPage = `
+<div class="categoryPage">
+  <div class="categoryPage__container">
+    <!-- aside -->
+    <aside class="categoryPage__aside--sort">
+      <div class="categoryPage__aside--sortByPrice">price</div>
+      <div class="categoryPage__aside--sortByAvailable">Availability</div>
+    </aside>
+    <!-- category main -->
+    <div class="categoryPage__main">
+      <div class="categoryPage__main--container">
+        <div class="categoryPage__main--filter">
+          <div class="categoryPage__main--filter-totalQty">
+            9 products
+          </div>
+          <div class="categoryPage__main--filter-sort">
+            <select class="categoryPage__main--filter-select">
+              <option selected>정렬</option>
+              <option value="1">낮은 가격 순</option>
+              <option value="2">높은 가격 순</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <ul class="categoryPage__product--lists"></ul>
+    </div>
+  </div>
+</div>
+`;
+
+const renderCategoryProductList = (items) => {
+  const categoryProductListTemplate = items
+    .map((item) => {
+      const { id, price, thumbnail, title } = item;
+
+      return `
+    <li class="categoryPage__product--list" data-product-id="${id}">
+      <a href="/product/${id}">
+        <div class="categoryPage__product--img">
+          <img src="${thumbnail}" alt="${title}" />
+        </div>
+        <div class="categoryPage__product--info">
+          <h3 class="categoryPage__product--info-title">
+            ${title}
+          </h3>
+          <span class="categoryPage__product--info-price">
+            ${price.toLocaleString()} 원
+          </span>
+        </div>
+      </a>
+    </li>
+    `;
+    })
+    .join('');
+
+  $('.categoryPage__product--lists').innerHTML = categoryProductListTemplate;
+};
+
 /*-----------------------------------*\
   제품 상세 페이지  #productDetail js
 \*-----------------------------------*/
@@ -1161,26 +1219,34 @@ router
       $('.modal__addCart').style.display = 'none';
       console.log('/category/keyboards');
 
-      // const getKeyBoardCategory = await getProductTags();
+      renderPage(renderInitCategoryPage);
+      const getKeyBoardCategory = await getProductTags();
       // renderEachCategoryData(await getKeyBoardCategory[0]);
+      renderCategoryProductList(await getKeyBoardCategory[0]);
     },
     '/category/keycaps': async () => {
       $('.modal__addCart').style.display = 'none';
       console.log('/category/keycaps');
       const getKeyBoardCategory = await getProductTags();
-      renderEachCategoryData(await getKeyBoardCategory[1]);
+      renderPage(renderInitCategoryPage);
+      // renderEachCategoryData(await getKeyBoardCategory[1]);
+      renderCategoryProductList(await getKeyBoardCategory[1]);
     },
     '/category/switches': async () => {
       $('.modal__addCart').style.display = 'none';
       console.log('/category/switches');
       const getKeyBoardCategory = await getProductTags();
-      renderEachCategoryData(await getKeyBoardCategory[2]);
+      renderPage(renderInitCategoryPage);
+      // renderEachCategoryData(await getKeyBoardCategory[2]);
+      renderCategoryProductList(await getKeyBoardCategory[2]);
     },
     '/category/accessories': async () => {
       $('.modal__addCart').style.display = 'none';
       console.log('/category/accessories');
       const getKeyBoardCategory = await getProductTags();
-      renderEachCategoryData(await getKeyBoardCategory[3]);
+      renderPage(renderInitCategoryPage);
+      // renderEachCategoryData(await getKeyBoardCategory[3]);
+      renderCategoryProductList(await getKeyBoardCategory[3]);
     },
   })
   .resolve();

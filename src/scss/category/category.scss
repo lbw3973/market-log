@@ -52,14 +52,14 @@
   &__product {
     &--lists {
       display: flex;
-      justify-content: center;
+      flex-wrap: wrap;
       gap: 16px;
     }
     &--list {
     }
     &--img {
       width: 280px;
-      margin-bottom: 16px;
+
       img {
         width: 100%;
         border-radius: 16px;
