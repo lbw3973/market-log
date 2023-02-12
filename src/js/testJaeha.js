@@ -9,10 +9,25 @@ const renderPage = (html) => {
 };
 
 const BASE_URL = 'https://asia-northeast3-heropy-api.cloudfunctions.net/api';
-const HEADERS = {
+const headers = {
   'content-type': 'application/json',
   apikey: 'FcKdtJs202301',
   username: 'KDT4_Team3',
+};
+
+const getAllProducts = async () => {
+  try {
+    const res = await fetch(`${BASE_URL}/products`, {
+      headers: {
+        ...headers,
+        masterKey: true,
+      },
+    });
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 /*-----------------------------------*\
@@ -118,32 +133,64 @@ const renderMainPageTemplate = `
   </div>
 </div>
 `;
+// renderPage(renderMainPageTemplate);
 
-renderPage(renderMainPageTemplate);
+/*-----------------------------------*\
+  #카테고리 페이지
+\*-----------------------------------*/
+
+const getProductTags = async () => {
+  const allProductArray = await getAllProducts();
+  // const allTags = allProductArray.map((items) => {
+  //   return items.tags;
+  // });
+  const filterKeyboardTag = allProductArray.filter((item) => {
+    return item.tags[0] === '키보드';
+  });
+
+  const filterKeycapTag = allProductArray.filter((item) => {
+    return item.tags[0] === '키캡';
+  });
+  const filterSwitchTag = allProductArray.filter((item) => {
+    return item.tags[0] === '스위치';
+  });
+  const filterAccessoryTag = allProductArray.filter((item) => {
+    return item.tags[0] === '액세서리';
+  });
+  return [
+    filterKeyboardTag,
+    filterKeycapTag,
+    filterSwitchTag,
+    filterAccessoryTag,
+  ];
+};
+
+const renderEachCategoryData = async (items) => {
+  const categoryDataTemplate = items
+    .map((item) => {
+      const { id, price, thumbnail, title, description, isSoldOut } = item;
+
+      return `
+    <li class="productDetailList" data-product-id="${id}">
+      <a href="/product/${id}" data-navigo>
+        <div>${id}</div>
+        <div>${title}</div>
+        <div>${price}</div>
+        <img src="${thumbnail}" alt="${title}" width="200px"/>
+        <div>${description}</div>
+        <div>${isSoldOut}</div>
+      </a>
+    </li>
+    `;
+    })
+    .join('');
+
+  $('.app').innerHTML = categoryDataTemplate;
+};
 
 /*-----------------------------------*\
   #메인 페이지에 상세 제품 불러오기 테스트
 \*-----------------------------------*/
-
-const masterKeyHEADERS = {
-  'content-type': 'application/json',
-  apikey: 'FcKdtJs202301',
-  username: 'KDT4_Team3',
-  masterKey: true,
-};
-
-const getAllProducts = async () => {
-  try {
-    const res = await fetch(`${BASE_URL}/products`, {
-      headers: masterKeyHEADERS,
-    });
-    const data = await res.json();
-    console.log(data);
-    return data;
-  } catch (err) {
-    console.log(err);
-  }
-};
 
 const renderProductIteminMainPageTemplate = `
   <div>
@@ -162,7 +209,7 @@ const renderProductItem = (items) => {
         <div>${id}</div>
         <div>${title}</div>
         <div>${price}</div>
-        <div>${thumbnail}</div>
+        <img src="${thumbnail}" alt="${title}" width="200px"/>
         <div>${description}</div>
         <div>${isSoldOut}</div>
       </a>
@@ -233,7 +280,7 @@ const storeCart = (id, price, count, thumbnail, title, pricePerOne) => {
 const getDetailProduct = async (productId) => {
   try {
     const res = await fetch(`${BASE_URL}/products/${productId}`, {
-      headers: HEADERS,
+      headers,
     });
     const data = await res.json();
     return data;
@@ -244,12 +291,6 @@ const getDetailProduct = async (productId) => {
 };
 
 /** 계좌 목록 및 잔액 조회 db에서 불러오기 */
-
-const headers = {
-  'content-type': 'application/json',
-  apikey: 'FcKdtJs202301',
-  username: 'KDT4_Team3',
-};
 
 const getAccountDetail = async () => {
   try {
@@ -1089,7 +1130,7 @@ router
       $('.modal__addCart').style.display = 'none';
       console.log('/ route is working');
       renderPage(renderMainPageTemplate);
-      // await initializeMainPage();
+      await initializeMainPage();
     },
     '/product/:id': async (params) => {
       console.log('product/:id route is working');
@@ -1143,6 +1184,32 @@ router
           // 결제가 성공하면 구매내역 페이지로 라우팅 (지금은 홈으로 이동)
           await handlePaymentBtnLogic(e);
         });
+    },
+    '/category/keyboards': async () => {
+      $('.modal__addCart').style.display = 'none';
+      console.log('/category/keyboards');
+      // console.log(await getProductTags());
+      const getKeyBoardCategory = await getProductTags();
+      renderEachCategoryData(await getKeyBoardCategory[0]);
+      // console.log(await getKeyBoardCategory[0]);
+    },
+    '/category/keycaps': async () => {
+      $('.modal__addCart').style.display = 'none';
+      console.log('/category/keycaps');
+      const getKeyBoardCategory = await getProductTags();
+      renderEachCategoryData(await getKeyBoardCategory[1]);
+    },
+    '/category/switches': async () => {
+      $('.modal__addCart').style.display = 'none';
+      console.log('/category/switches');
+      const getKeyBoardCategory = await getProductTags();
+      renderEachCategoryData(await getKeyBoardCategory[2]);
+    },
+    '/category/accessories': async () => {
+      $('.modal__addCart').style.display = 'none';
+      console.log('/category/accessories');
+      const getKeyBoardCategory = await getProductTags();
+      renderEachCategoryData(await getKeyBoardCategory[3]);
     },
   })
   .resolve();

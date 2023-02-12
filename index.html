@@ -58,10 +58,12 @@
             <h1 class="header-main__company-name">마켓로그</h1>
           </a>
 
-          <!-- navigo, filtering 적용필 -->
           <div class="header-main__search">
             <form class="header-main__search--form">
-              <input class="header-main__search--input" />
+              <input
+                class="header-main__search--input"
+                placeholder="검색어를 입력해주세요."
+              />
               <button class="header-main__search--button">
                 <img src="./public/search.png" alt="search button" />
               </button>
@@ -69,7 +71,7 @@
           </div>
 
           <div class="header-main__links">
-            <a href="/hart" data-navigo
+            <a href="/heart" data-navigo
               ><img
                 class="header-main__links-img"
                 src="./public/heart.svg"
@@ -90,61 +92,21 @@
           </div>
         </nav>
 
-        <!-- 카테고리메뉴 : 뉴아이템, 베스트아이템, 다중 필터링-->
-        <!-- navigo 적용필 -->
-        <nav class="header-nav-category">
-          <div class="header-nav-category--dropdown">
-            <nav href="/pc" data-navigo class="header-nav-category--dropitem">
-              PC
-            </nav>
-            <div class="header-nav-category--dropdown-content">
-              <a href="/mouse" data-navigo>마우스</a>
-              <a href="/keyboard" data-navigo>키보드</a>
-              <a href="/hub" data-navigo>허브</a>
-            </div>
-          </div>
-          <div class="header-nav-category--dropdown">
-            <nav
-              href="/smart"
-              data-navigo
-              class="header-nav-category--dropitem"
+        <nav class="header-nav__category">
+          <ul class="header-nav__category--lists">
+            <a href="/category/keyboards" data-navigo
+              ><li class="header-nav__category--list">키보드</li>
+            </a>
+            <a href="/category/keycaps" data-navigo
+              ><li class="header-nav__category--list">키캡</li></a
             >
-              스마트
-            </nav>
-            <div class="header-nav-category--dropdown-content">
-              <a href="/adapter">어댑터</a>
-              <a href="/charge">충전</a>
-              <a href="/smart-etc">기타</a>
-            </div>
-          </div>
-          <div class="header-nav-category--dropdown">
-            <nav
-              href="/notebook"
-              data-navigo
-              class="header-nav-category--dropitem"
+            <a href="/category/switches" data-navigo
+              ><li class="header-nav__category--list">스위치</li></a
             >
-              노트북
-            </nav>
-            <div class="header-nav-category--dropdown-content">
-              <a href="/keypad">키패드</a>
-              <a href="/notbookstand">노트북스탠드</a>
-              <a href="/lock">도난방지</a>
-            </div>
-          </div>
-          <div class="header-nav-category--dropdown">
-            <nav
-              href="/sound"
-              data-navigo
-              class="header-nav-category--dropitem"
+            <a href="/category/accessories" data-navigo
+              ><li class="header-nav__category--list">액세서리</li></a
             >
-              음향
-            </nav>
-            <div class="header-nav-category--dropdown-content">
-              <a href="/earhead">헤드셋</a>
-              <a href="/speaker">스피커</a>
-              <a href="/kids">키즈</a>
-            </div>
-          </div>
+          </ul>
         </nav>
       </div>
     </header>
