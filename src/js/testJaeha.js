@@ -136,7 +136,7 @@ const renderMainPageTemplate = `
 // renderPage(renderMainPageTemplate);
 
 /*-----------------------------------*\
-  #카테고리 페이지
+  #카테고리 페이지 # category js
 \*-----------------------------------*/
 
 /** 카테고리 태그 필터링 함수 */
@@ -166,34 +166,7 @@ const getProductTags = async () => {
   ];
 };
 
-/** 카테고리에 맞는 Data 불러오는 함수 */
-const renderEachCategoryData = async (items) => {
-  const categoryDataTemplate = items
-    .map((item) => {
-      const { id, price, thumbnail, title, description, isSoldOut } = item;
-
-      return `
-    <li class="productDetailList" data-product-id="${id}">
-      <a href="/product/${id}" data-navigo>
-        <div>${id}</div>
-        <div>${title}</div>
-        <div>${price}</div>
-        <img src="${thumbnail}" alt="${title}" width="200px"/>
-        <div>${description}</div>
-        <div>${isSoldOut}</div>
-      </a>
-    </li>
-    `;
-    })
-    .join('');
-
-  $('.app').innerHTML = categoryDataTemplate;
-};
-
-/*-----------------------------------*\
-  # 카테고리 페이지 # category js
-\*-----------------------------------*/
-
+/** 카테고리 페이지 초기 템플릿 */
 const renderInitCategoryPage = `
 <div class="categoryPage">
   <div class="categoryPage__container">
@@ -224,6 +197,7 @@ const renderInitCategoryPage = `
 </div>
 `;
 
+/** 카테고리 페이지 제품 db에서 불러오기 */
 const renderCategoryProductList = (items) => {
   const categoryProductListTemplate = items
     .map((item) => {
