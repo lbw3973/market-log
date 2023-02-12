@@ -191,6 +191,10 @@ const renderEachCategoryData = async (items) => {
 };
 
 /*-----------------------------------*\
+  # 카테고리 페이지 # category js
+\*-----------------------------------*/
+
+/*-----------------------------------*\
   제품 상세 페이지  #productDetail js
 \*-----------------------------------*/
 
@@ -375,8 +379,8 @@ const init = () => {
 
 /** 구매수량 추가 핸들링 이벤트 */
 $('.app').addEventListener('click', (e) => {
-  const detailProductId =
-    e.target.closest('.main-container')?.dataset.productId;
+  const detailProductId = e.target.closest('.section__container')?.dataset
+    .productId;
   updateInfo(e, detailProductId);
 });
 
@@ -1081,6 +1085,19 @@ const paymentPageFunction = async (e) => {
   });
 };
 
+/** 결제 페이지 최종 결제 버튼의 결제 가격 재렌더링 함수 */
+const renderFinalPaymentPrice = () => {
+  $(
+    '.payment-method__final-confirm--btn',
+  ).innerHTML = `총 ${renderCartTotalPrice().toLocaleString()}원 결제하기`;
+  $(
+    '.payTotalOrderPrice',
+  ).innerHTML = `${renderCartTotalPrice().toLocaleString()}원`;
+  $(
+    '.payTotalPaymentPrice',
+  ).innerHTML = `${renderCartTotalPrice().toLocaleString()}원`;
+};
+
 /*-----------------------------------*\
   # navigo router
 \*-----------------------------------*/
@@ -1117,14 +1134,9 @@ router
       $('.modal__addCart').style.display = 'none';
       // 초기 결제 페이지 렌더
       renderPage(renderInitPaymentPage);
-
+      renderFinalPaymentPrice();
       // 결제 페이지 렌더 후 실행할 함수들
       await paymentPageFunction();
-
-      // 결제 페이지 최종 결제 버튼의 결제 가격 재렌더링
-      $(
-        '.payment-method__final-confirm--btn',
-      ).innerHTML = `총 ${renderCartTotalPrice().toLocaleString()}원 결제하기`;
 
       /** 결제 버튼 클릭시 결제 진행 (리팩토링 예정)*/
       $('.app')
@@ -1148,8 +1160,8 @@ router
     '/category/keyboards': async () => {
       $('.modal__addCart').style.display = 'none';
       console.log('/category/keyboards');
-      // console.log(await getProductTags());
-      const getKeyBoardCategory = await getProductTags();
+
+      // const getKeyBoardCategory = await getProductTags();
       // renderEachCategoryData(await getKeyBoardCategory[0]);
     },
     '/category/keycaps': async () => {

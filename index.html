@@ -12,12 +12,6 @@
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
     />
     <link rel="stylesheet" href="./src/scss/main.scss" />
-    <!-- <link
-      rel="stylesheet"
-      href="./src/scss/productDetail/productsDetail.scss"
-    />
-    <link rel="stylesheet" href="./src/scss/cart/cart.scss" />
-    <link rel="stylesheet" href="./src/scss/pay/pay.scss" /> -->
     <link rel="stylesheet" href="./src/scss/jaehaForward/jaeha.scss" />
     <!-- 다음 우편번호 찾기 api -->
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -115,7 +109,84 @@
 
     <!-- 메인페이지 라우터 -->
     <main class="app">
-      <div>123</div>
+      <div class="categoryPage">
+        <div class="categoryPage__container">
+          <!-- aside -->
+          <aside class="categoryPage__aside--sort">
+            <div class="categoryPage__aside--sortByPrice">price</div>
+            <div class="categoryPage__aside--sortByAvailable">Availability</div>
+          </aside>
+          <!-- category main -->
+          <div class="categoryPage__main">
+            <div class="categoryPage__main--container">
+              <div class="categoryPage__main--filter">
+                <div class="categoryPage__main--filter-totalQty">
+                  9 products
+                </div>
+                <div class="categoryPage__main--filter-sort">
+                  <select class="categoryPage__main--filter-select">
+                    <option selected>정렬</option>
+                    <option value="1">낮은 가격 순</option>
+                    <option value="2">높은 가격 순</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <ul class="categoryPage__product--lists">
+              <!-- 1 -->
+              <li class="categoryPage__product--list" data-product-id="">
+                <a href="product/:id">
+                  <div class="categoryPage__product--img">
+                    <img src="./public/IMGproductDetail/air60.webp" alt="" />
+                  </div>
+                  <div class="categoryPage__product--info">
+                    <h3 class="categoryPage__product--info-title">
+                      Air96 Wireless Mechanical Keyboard
+                    </h3>
+                    <span class="categoryPage__product--info-price">
+                      130,000 원
+                    </span>
+                  </div>
+                </a>
+              </li>
+
+              <!-- 2 -->
+              <li class="categoryPage__product--list" data-product-id="">
+                <a href="#">
+                  <div class="categoryPage__product--img">
+                    <img src="./public/IMGproductDetail/air60.webp" alt="" />
+                  </div>
+                  <div class="categoryPage__product--info">
+                    <h3 class="categoryPage__product--info-title">
+                      Air96 Wireless Mechanical Keyboard
+                    </h3>
+                    <span class="categoryPage__product--info-price">
+                      130,000 원
+                    </span>
+                  </div>
+                </a>
+              </li>
+
+              <!-- 3 -->
+              <li class="categoryPage__product--list" data-product-id="">
+                <a href="#">
+                  <div class="categoryPage__product--img">
+                    <img src="./public/IMGproductDetail/air60.webp" alt="" />
+                  </div>
+                  <div class="categoryPage__product--info">
+                    <h3 class="categoryPage__product--info-title">
+                      Air96 Wireless Mechanical Keyboard
+                    </h3>
+                    <span class="categoryPage__product--info-price">
+                      130,000 원
+                    </span>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </main>
     <!-- 메인페이지 끝 -->
 
