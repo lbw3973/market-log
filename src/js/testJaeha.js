@@ -179,9 +179,7 @@ const renderInitCategoryPage = `
     <div class="categoryPage__main">
       <div class="categoryPage__main--container">
         <div class="categoryPage__main--filter">
-          <div class="categoryPage__main--filter-totalQty">
-            9 products
-          </div>
+          <div class="categoryPage__main--filter-totalQty"></div>
           <div class="categoryPage__main--filter-sort">
             <select class="categoryPage__main--filter-select">
               <option selected>정렬</option>
@@ -224,6 +222,15 @@ const renderCategoryProductList = (items) => {
     .join('');
 
   $('.categoryPage__product--lists').innerHTML = categoryProductListTemplate;
+};
+
+/** 카테고리별 상품 개수 렌더링 */
+const renderCategoryProductQty = async (i) => {
+  const getKeyBoardCategory = await getProductTags();
+  const categoryTotalQty = await getKeyBoardCategory[i];
+  $(
+    '.categoryPage__main--filter-totalQty',
+  ).innerHTML = `${categoryTotalQty.length}개 상품`;
 };
 
 /*-----------------------------------*\
@@ -1192,35 +1199,34 @@ router
     '/category/keyboards': async () => {
       $('.modal__addCart').style.display = 'none';
       console.log('/category/keyboards');
-
       renderPage(renderInitCategoryPage);
       const getKeyBoardCategory = await getProductTags();
-      // renderEachCategoryData(await getKeyBoardCategory[0]);
       renderCategoryProductList(await getKeyBoardCategory[0]);
+      await renderCategoryProductQty(0);
     },
     '/category/keycaps': async () => {
       $('.modal__addCart').style.display = 'none';
       console.log('/category/keycaps');
       const getKeyBoardCategory = await getProductTags();
       renderPage(renderInitCategoryPage);
-      // renderEachCategoryData(await getKeyBoardCategory[1]);
       renderCategoryProductList(await getKeyBoardCategory[1]);
+      await renderCategoryProductQty(1);
     },
     '/category/switches': async () => {
       $('.modal__addCart').style.display = 'none';
       console.log('/category/switches');
       const getKeyBoardCategory = await getProductTags();
       renderPage(renderInitCategoryPage);
-      // renderEachCategoryData(await getKeyBoardCategory[2]);
       renderCategoryProductList(await getKeyBoardCategory[2]);
+      await renderCategoryProductQty(2);
     },
     '/category/accessories': async () => {
       $('.modal__addCart').style.display = 'none';
       console.log('/category/accessories');
       const getKeyBoardCategory = await getProductTags();
       renderPage(renderInitCategoryPage);
-      // renderEachCategoryData(await getKeyBoardCategory[3]);
       renderCategoryProductList(await getKeyBoardCategory[3]);
+      await renderCategoryProductQty(3);
     },
   })
   .resolve();
