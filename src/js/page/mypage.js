@@ -9,6 +9,8 @@ import {
   htmlMypage_OrderHistory,
   initFuncOrderHistory,
 } from './mypage/orderhistory.js';
+import { htmlLogin } from './login.js';
+import { htmlSingup, initFuncSignup } from './signup.js';
 import { renderPage } from '../main.js';
 dotenv.config();
 window.localStorage.clear(); // TODO : 삭제
@@ -19,35 +21,37 @@ let navliList;
 
 // HTML : mypage nav 목록
 const htmlMypage_Nav = /* html */ `
-<div class="mypage__container">
-  <div class="mypage__navbar">
-    <h1>마이페이지</h1>
-    <nav>
-      <ul>
-        <li>
-          <a href="/mypage/orderHistory" data-navigo id="mpOrderHistory">주문 내역
-            <img src="${chevronrightSVG}" alt="chevronright">
-          </a>
-        </li>
-        <li>
-          <a href="/mypage/account" data-navigo id="mpAccount">계좌 관리
-            <img src="${chevronrightSVG}" alt="chevronright">
-          </a>
-        </li>
-        <li>
-          <a href="/mypage/myHeart" data-navigo id="mpMyHeart">찜한 상품
-            <img src="${chevronrightSVG}" alt="chevronright">
-          </a>
-        </li>
-        <li>
-          <a href="/mypage/myPersonalInfoModify" data-navigo id="mpMyPersonalInfoModify">개인 정보 수정
-            <img src="${chevronrightSVG}" alt="chevronright">
-          </a>
-        </li>
-      </ul>
-    </nav>
-  </div>
+<div class="mypage__app">
+  <div class="mypage__container">
+    <div class="mypage__navbar">
+      <h1>마이페이지</h1>
+      <nav>
+        <ul>
+          <li>
+            <a href="/mypage/orderHistory" data-navigo id="mpOrderHistory">주문 내역
+              <img src="${chevronrightSVG}" alt="chevronright">
+            </a>
+          </li>
+          <li>
+            <a href="/mypage/account" data-navigo id="mpAccount">계좌 관리
+              <img src="${chevronrightSVG}" alt="chevronright">
+            </a>
+          </li>
+          <li>
+            <a href="/mypage/myHeart" data-navigo id="mpMyHeart">찜한 상품
+              <img src="${chevronrightSVG}" alt="chevronright">
+            </a>
+          </li>
+          <li>
+            <a href="/mypage/myPersonalInfoModify" data-navigo id="mpMyPersonalInfoModify">개인 정보 수정
+              <img src="${chevronrightSVG}" alt="chevronright">
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
   <div class="mypage__navigo__container"></div>
+</div>
 `;
 
 export function initFunc() {
@@ -72,33 +76,47 @@ function resetliActive() {
   navliList.forEach((x) => x.classList.remove('active'));
 }
 
-// 시작 지점
-// document.querySelector('.app').innerHTML = htmlMypage_Nav;
-
 router
   .on({
+    // mypage
     '/mypage': () => {
+      console.log('route to mypage!!');
       $('.app').innerHTML = htmlMypage_Nav;
       router.navigate('mypage/orderHistory');
     },
     '/mypage/orderHistory': async () => {
+      console.log('route to mypage/orderHistory!!');
       renderMyPageNav(htmlMypage_OrderHistory);
       initFuncOrderHistory();
       navliList[0].classList.add('active');
     },
     '/mypage/account': async () => {
+      console.log('route to mypage/account!!');
       renderMyPageNav(htmlMypage_Account);
       initFuncAccount();
       navliList[1].classList.add('active');
     },
     '/mypage/myHeart': async () => {
+      console.log('route to mypage/myHeart!!');
       renderMyPageNav(htmlMypage_MyHeart);
       initFuncMyHeart();
       navliList[2].classList.add('active');
     },
     '/mypage/myPersonalInfoModify': () => {
+      console.log('route to mypage/myPersonalInfoModify!!');
       renderMyPageNav('');
       navliList[3].classList.add('active');
+    },
+    // login
+    '/login': () => {
+      console.log('route to /login!!');
+      $('.app').innerHTML = htmlLogin;
+    },
+    // signup
+    '/signup': () => {
+      console.log('route to /signup!!');
+      $('.app').innerHTML = htmlSingup;
+      initFuncSignup();
     },
   })
   .resolve();

@@ -29,7 +29,7 @@
 // // const renderCartPage = () => {
 // // const cartSection = document.createElement('section');
 // // cartSection.classList.add('cart');
-// // $('.main').append(cartSection);
+// // $('.app').append(cartSection);
 
 // // const cartHeader = document.createElement('div');
 // // cartHeader.classList.add('cart__header');

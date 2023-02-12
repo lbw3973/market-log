@@ -299,45 +299,45 @@ async function orderFix(item) {
 }
 
 //페이지 로드 시
-window.addEventListener('load', () => {
-  const orderHistories = getOrderHistory();
-  printOrderHistory(orderHistories);
-});
+// window.addEventListener('load', () => {
+//   const orderHistories = getOrderHistory();
+//   printOrderHistory(orderHistories);
+// });
 
 //주문취소버튼
 
-[...cancelBtns].forEach((item) => {
-  item.addEventListener('click', () => {
-    modalOrdercancelEl.classList.remove('nodisplay');
-  });
-});
-cancelNoBtn.addEventListener('click', () => {
-  modalOrdercancelEl.classList.add('nodisplay');
-});
-cancelYesBtn.addEventListener('click', () => {
-  //주문상태 취소로 변경
-  cancelOrder();
-  modalOrdercancelEl.classList.add('nodisplay');
-  modalOrderCancelFixEl.classList.remove('nodisplay');
-  cancelCloseBtn.addEventListener('click', () => {
-    modalOrderCancelFixEl.classList.add('nodisplay');
-  });
-});
+// [...cancelBtns].forEach((item) => {
+//   item.addEventListener('click', () => {
+//     modalOrdercancelEl.classList.remove('nodisplay');
+//   });
+// });
+// cancelNoBtn.addEventListener('click', () => {
+//   modalOrdercancelEl.classList.add('nodisplay');
+// });
+// cancelYesBtn.addEventListener('click', () => {
+//   //주문상태 취소로 변경
+//   cancelOrder();
+//   modalOrdercancelEl.classList.add('nodisplay');
+//   modalOrderCancelFixEl.classList.remove('nodisplay');
+//   cancelCloseBtn.addEventListener('click', () => {
+//     modalOrderCancelFixEl.classList.add('nodisplay');
+//   });
+// });
 
-//주문확정버튼
-[...orderfixBtns].forEach((item) => {
-  item.addEventListener('click', () => {
-    modalOrderFixEl.classList.remove('nodisplay');
-  });
-});
-fixNoBtn.addEventListener('click', () => {
-  modalOrderFixEl.classList.add('nodisplay');
-});
-fixYesBtn.addEventListener('click', () => {
-  orderFix();
-  modalOrderFixEl.classList.add('nodisplay');
-  modalOrderFixFixEl.classList.remove('nodisplay');
-});
-orderfixCloseBtn.addEventListener('click', () => {
-  modalOrderFixFixEl.classList.add('nodisplay');
-});
+// //주문확정버튼
+// [...orderfixBtns].forEach((item) => {
+//   item.addEventListener('click', () => {
+//     modalOrderFixEl.classList.remove('nodisplay');
+//   });
+// });
+// fixNoBtn.addEventListener('click', () => {
+//   modalOrderFixEl.classList.add('nodisplay');
+// });
+// fixYesBtn.addEventListener('click', () => {
+//   orderFix();
+//   modalOrderFixEl.classList.add('nodisplay');
+//   modalOrderFixFixEl.classList.remove('nodisplay');
+// });
+// orderfixCloseBtn.addEventListener('click', () => {
+//   modalOrderFixFixEl.classList.add('nodisplay');
+// });

@@ -138,54 +138,26 @@ async function request(options) {
   const json = await res.json();
   window.localStorage.setItem('token', json.accessToken);
 }
-const htmlMypage_Nav = /* html */ `
-<div class="mypage__container">
-  <div class="mypage__navbar">
-    <h1>마이페이지</h1>
-    <nav>
-      <ul>
-        <li>
-          <button id="mpOrderHistory">주문 내역
-          <img src="${chevronrightSVG}" alt="chevronright">
-          </button>
-        </li>
-        <li>
-          <a href="/mypage/account" data-navigo>계좌 관리
-            <img src="${chevronrightSVG}" alt="chevronright">
-          </a>
-        </li>
-        <li>
-          <a href="/mypage/myHeart" data-navigo>찜한 상품
-            <img src="${chevronrightSVG}" alt="chevronright">
-          </a>
-        </li>
-        <li>
-          <a href="/mypage/myPersonalInfoModify" data-navigo>개인 정보 수정
-            <img src="${chevronrightSVG}" alt="chevronright">
-          </a>
-        </li>
-      </ul>
-    </nav>
-  </div>
-  <div class="mypage__navigo__container"></div>
-`;
 
 /** navigo router */
 
 router
   .on({
     '/': () => {
+      console.log();
       renderInitMainPage();
       console.log('contentsMainPage    contentsMainPage');
     },
-    '/mypage': () => {
-      $('.app').innerHTML = htmlMypage_Nav;
-    },
+    // '/login': () => {
+    //   console.log('route to login!!');
+    //   $('.app').innerHTML = `
+    //   <div>asdasdasdasd</div>
+    //   <a href="/login/asd" data-navigo>wwww</a>
+    // `;
+    // },
+    // '/mypage': () => {
+    //   console.log('go to mypage!!');
+    //   $('.app').innerHTML = htmlMypage_Nav;
+    // },
   })
   .resolve();
-
-// $('.app')
-//   .querySelector('#mypageNavigo')
-//   .addEventListener('click', () => {
-//     router.navigate('/mypage');
-//   });

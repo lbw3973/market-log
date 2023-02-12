@@ -1,12 +1,32 @@
 @forward 'globals';
 @forward 'swiper.scss';
-@forward './mypage/mypage.scss';
+@forward '../scss/mypage/mypage.scss';
+@forward '../scss/login/login.scss';
+@forward '../scss/signup/signup.scss';
 
 @mixin section-header {
   font-size: 50px;
   font-weight: 600;
   color: var(--logo-color);
 }
+
+// .app {
+//   width: 1300px;
+// }
+
+.mypage__app {
+  display: grid;
+  place-content: center;
+  width: 1440px;
+}
+
+// body {
+//   width: 100%;
+//   min-width: 1540px;
+//   height: auto;
+//   justify-content: center;
+//   align-content: center;
+// }
 
 img {
   cursor: pointer;
@@ -390,21 +410,4 @@ img {
       }
     }
   }
-}
-
-#to-top {
-  width: 42px;
-  height: 42px;
-  background-color: var(--logo-color);
-  color: #fff;
-  border: 2px solid var(--logo-color);
-  border-radius: 50px;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  bottom: 30px;
-  right: 20px;
-  z-index: 9;
 }
