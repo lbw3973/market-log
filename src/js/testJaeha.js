@@ -273,7 +273,7 @@ $('.app').addEventListener('click', (e) => {
 
 /** 구매수량 핸들링 함수 */
 const updateInfo = async (e, productId) => {
-  // 구매수량 -
+  // 구매 수량 -
   if (e.target.classList.contains('minusQtyBtn')) {
     productDetailProductQty -= 1;
     if (productDetailProductQty === 0) {
@@ -283,7 +283,7 @@ const updateInfo = async (e, productId) => {
     // renderCartPage();
     return;
   }
-  // 구매수량 +
+  // 구매 수량 +
   if (e.target.classList.contains('addQtyBtn')) {
     productDetailProductQty += 1;
 
@@ -442,6 +442,7 @@ const renderCartOrderPrice = () => {
     결제하기
   </button>
 `;
+
   $('.app').querySelector('.cart__price').innerHTML = cartOrderPriceTemplate;
 };
 
@@ -506,15 +507,17 @@ const storeLocalStorage = (id) => {
 /** 장바구니 페이지에서 수량 핸들링 */
 $('.app').addEventListener('click', (e) => {
   const id = e.target.closest('li')?.dataset.productId;
+
+  // 구매 수량 +
   if (e.target.classList.contains('cart-addQtyBtn')) {
     storeLocalStorage(id);
     shoppingCartStore.setLocalStorage(shoppingCartArr);
     // 카트 페이지 렌더
     renderCartPage();
-    // return;
+    return;
   }
 
-  // 구매수량 -
+  // 구매 수량 -
   if (e.target.classList.contains('cart-minusQtyBtn')) {
     const existingItem = shoppingCartArr.find((item) => item.id === id);
     console.log('existingItem', existingItem);
@@ -999,35 +1002,19 @@ router
 
       // 카트 페이지 렌더
       renderCartPage();
-
-      /** [장바구니 페이지] 상품이 없을 때 계속 쇼핑하기 버튼 클릭 -> [메인페이지]로 이동  */
-      $('.app')
-        .querySelector('.cartEmpty-goToShoppingBtn')
-        ?.addEventListener('click', (e) => {
-          console.log(e.target);
-          router.navigate('/');
-        });
-
-      /** [장바구니 페이지] 결제하기 버튼 클릭 -> [결제 페이지]로 이동  */
-      $('.app')
-        .querySelector('.cartPaymentBtn')
-        ?.addEventListener('click', (e) => {
-          console.log(e.target);
-          router.navigate('/payment');
-        });
     },
     '/payment': async () => {
       $('.modal__addCart').style.display = 'none';
-      // renderPage(renderInitCartPage);
-      console.log('/payment');
-      console.log('shoppingCartArr', shoppingCartArr);
       // 결제 페이지 렌더
       renderPage(renderInitPaymentPage);
+
+      // 결제 페이지 렌더 후 실행할 함수들
       await paymentPageFunction();
+
+      // 결제 페이지 최종 결제 버튼의 결제 가격 재렌더링
       $(
         '.payment-method__final-confirm--btn',
       ).innerHTML = `총 ${renderCartTotalPrice().toLocaleString()}원 결제하기`;
-      // 결제 페이지 렌더 후 실행할 함수들
 
       /** 결제 버튼 클릭시 결제 진행 */
       $('.app')
@@ -1051,21 +1038,37 @@ router
   })
   .resolve();
 
-/** [장바구니 페이지] 상품이 없을 때 계속 쇼핑하기 버튼 클릭 -> [메인페이지]로 이동  */
-$('.app')
-  .querySelector('.cartEmpty-goToShoppingBtn')
-  ?.addEventListener('click', (e) => {
+/** 버튼 요소 핸들링 이벤트 */
+$('.app').addEventListener('click', (e) => {
+  // [장바구니 페이지]에서 장바구니에 상품이 없을 때, '계속 쇼핑하기' 버튼 클릭 -> [메인페이지]로 이동
+  if (e.target.classList.contains('cartEmpty-goToShoppingBtn')) {
     console.log(e.target);
     router.navigate('/');
-  });
-$('.app')
-  .querySelector('.buyBtn')
-  ?.addEventListener('click', (e) => {
+    return;
+  }
+
+  // [제품 상세 페이지]에서 '장바구니로 바로가기' 버튼 클릭 클릭 -> [장바구니 페이지]로 이동
+  if (e.target.classList.contains('goToCart')) {
     console.log(e.target);
     router.navigate('/cart');
-  });
+    return;
+  }
 
-let balanceOfselectedBankAccount;
+  // [제품 상세 페이지]에서 '구매하기' 버튼 클릭 클릭 -> [결제 페이지]로 이동
+  if (e.target.classList.contains('buyBtn')) {
+    console.log(e.target);
+    router.navigate('/payment');
+    return;
+  }
+
+  // [장바구니]에서 '구매하기' 버튼 클릭 클릭 -> [결제 페이지]로 이동
+  if (e.target.classList.contains('cartPaymentBtn')) {
+    console.log(e.target);
+    router.navigate('/payment');
+    return;
+  }
+});
+
 /** 현재 선택한 은행계좌의 잔액 확인해주는 함수 */
 const checkBalanceOfselectedBankAccount = async (id) => {
   const availableAccount = await getAccountDetail();
@@ -1109,13 +1112,3 @@ const handlePaymentBtnLogic = async (e) => {
     return;
   }
 };
-
-/** 결제 버튼 클릭시 결제 진행 */
-// $('.app')
-//   .querySelector('.payment-method__final-confirm--btn')
-//   .addEventListener('click', async (e) => {
-//     e.preventDefault();
-//     await handlePaymentBtnLogic(e);
-//   });
-
-/** 결제페이지에서 작동할 함수들 */
