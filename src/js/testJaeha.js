@@ -39,7 +39,7 @@ const renderMainPageTemplate = `
   <div class="mainPage__container">
     <div class="mainPage__content">
       <div class="mainPage__hero">
-        <a href="/category">
+        <a href="/category/keyboards">
           <img
             class="mainPage__hero--img"
             src="${halo96}"
@@ -54,7 +54,7 @@ const renderMainPageTemplate = `
       </div>
       <!-- Halo 75 -->
       <div class="mainPage__hero">
-        <a href="/category">
+        <a href="/category/keyboards">
           <img
             class="mainPage__hero--img"
             src="${halo75}"
@@ -72,7 +72,7 @@ const renderMainPageTemplate = `
 
       <!-- Halo 65 -->
       <div class="mainPage__hero">
-        <a href="/category">
+        <a href="/category/keyboards">
           <div class="mainPage__img-container">
             <img
               class="mainPage__hero--img"
@@ -92,7 +92,7 @@ const renderMainPageTemplate = `
 
       <!-- Air 60 -->
       <div class="mainPage__hero">
-        <a href="/category">
+        <a href="/category/keyboards">
           <div class="mainPage__img-container">
             <img
               class="mainPage__hero--img"
@@ -112,7 +112,7 @@ const renderMainPageTemplate = `
 
       <!-- Air 75 -->
       <div class="mainPage__hero">
-        <a href="/category">
+        <a href="/category/keyboards">
           <div class="mainPage__img-container">
             <img
               class="mainPage__hero--img"
@@ -139,6 +139,7 @@ const renderMainPageTemplate = `
   #카테고리 페이지
 \*-----------------------------------*/
 
+/** 카테고리 태그 필터링 함수 */
 const getProductTags = async () => {
   const allProductArray = await getAllProducts();
   // const allTags = allProductArray.map((items) => {
@@ -165,6 +166,7 @@ const getProductTags = async () => {
   ];
 };
 
+/** 카테고리에 맞는 Data 불러오는 함수 */
 const renderEachCategoryData = async (items) => {
   const categoryDataTemplate = items
     .map((item) => {
@@ -186,47 +188,6 @@ const renderEachCategoryData = async (items) => {
     .join('');
 
   $('.app').innerHTML = categoryDataTemplate;
-};
-
-/*-----------------------------------*\
-  #메인 페이지에 상세 제품 불러오기 테스트
-\*-----------------------------------*/
-
-const renderProductIteminMainPageTemplate = `
-  <div>
-    <ul class="productDetailLists"></ul>
-  </div>
-`;
-
-const renderProductItem = (items) => {
-  const productItemTemplate = items
-    .map((item) => {
-      const { id, price, thumbnail, title, description, isSoldOut } = item;
-
-      return `
-    <li class="productDetailList" data-product-id="${id}">
-      <a href="/product/${id}" data-navigo>
-        <div>${id}</div>
-        <div>${title}</div>
-        <div>${price}</div>
-        <img src="${thumbnail}" alt="${title}" width="200px"/>
-        <div>${description}</div>
-        <div>${isSoldOut}</div>
-      </a>
-    </li>
-    `;
-    })
-    .join('');
-
-  $('.app').querySelector('.productDetailLists').innerHTML =
-    productItemTemplate;
-};
-
-// 첫 화면 보여줄때
-const initializeMainPage = async () => {
-  renderPage(renderProductIteminMainPageTemplate);
-  renderProductItem(await getAllProducts());
-  console.log('initialize main page');
 };
 
 /*-----------------------------------*\
@@ -338,7 +299,7 @@ const renderDetailProduct = async (productId) => {
 
   /** 상세 제품 레이아웃 html */
   const detailProductTemplate = /* html */ `
-  <div class="main-container" data-product-id="${id}">
+  <div class="section__container" data-product-id="${id}">
     <section class="section__productDetail">
       <img
         src="${thumbnail}"
@@ -453,7 +414,7 @@ const pushInCart = (e) => {
     e.target.classList.contains('addCartBtn') ||
     e.target.classList.contains('buyBtn')
   ) {
-    const id = e.target.closest('.main-container').dataset.productId;
+    const id = e.target.closest('.section__container').dataset.productId;
     console.log(id);
     const price = productDetailTotalPrice;
     const count = productDetailProductQty;
@@ -746,7 +707,7 @@ const buyItemAPI = async (productId, accountId) => {
     const res = await fetch(`${BASE_URL}/products/buy`, {
       method: 'POST',
       headers: {
-        ...HEADERS,
+        ...headers,
         Authorization: `Bearer ${window.localStorage.getItem('token')}`,
       },
       body: JSON.stringify({
@@ -1130,7 +1091,6 @@ router
       $('.modal__addCart').style.display = 'none';
       console.log('/ route is working');
       renderPage(renderMainPageTemplate);
-      await initializeMainPage();
     },
     '/product/:id': async (params) => {
       console.log('product/:id route is working');
@@ -1155,7 +1115,7 @@ router
     },
     '/payment': async () => {
       $('.modal__addCart').style.display = 'none';
-      // 결제 페이지 렌더
+      // 초기 결제 페이지 렌더
       renderPage(renderInitPaymentPage);
 
       // 결제 페이지 렌더 후 실행할 함수들
@@ -1166,7 +1126,7 @@ router
         '.payment-method__final-confirm--btn',
       ).innerHTML = `총 ${renderCartTotalPrice().toLocaleString()}원 결제하기`;
 
-      /** 결제 버튼 클릭시 결제 진행 */
+      /** 결제 버튼 클릭시 결제 진행 (리팩토링 예정)*/
       $('.app')
         .querySelector('.payment-method__final-confirm--btn')
         .addEventListener('click', async (e) => {
@@ -1190,8 +1150,7 @@ router
       console.log('/category/keyboards');
       // console.log(await getProductTags());
       const getKeyBoardCategory = await getProductTags();
-      renderEachCategoryData(await getKeyBoardCategory[0]);
-      // console.log(await getKeyBoardCategory[0]);
+      // renderEachCategoryData(await getKeyBoardCategory[0]);
     },
     '/category/keycaps': async () => {
       $('.modal__addCart').style.display = 'none';

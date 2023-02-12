@@ -187,16 +187,17 @@ img {
 }
 
 // 메인 페이지 hero
+
 .mainPage {
   display: flex;
   justify-content: center;
-  width: 1200px;
+  width: 1400px;
   margin: 0 auto;
   padding: 40px;
 
   &__container {
     // margin: 0 20px;
-    width: 90%;
+    width: 1200px;
   }
 
   &__content {

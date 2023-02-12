@@ -1,4 +1,4 @@
-@forward '../globals';
+// @forward '../globals';
 
 // 버튼 클릭했을 때 효과
 @mixin btnEffect($backColor, $color: white) {
@@ -23,12 +23,6 @@
   cursor: pointer;
 }
 
-@mixin section-header {
-  font-size: 55px;
-  font-weight: 600;
-  color: var(--logo-color);
-}
-
 // body {
 //   width: 100%;
 //   min-width: 1540px;
@@ -47,22 +41,14 @@ img {
   width: 100%;
 }
 
-// main
-.main {
-  width: 95%;
-  margin: 0 auto;
-  margin-top: 30px;
-  height: 100vh;
-
-  &-container {
+// section
+.section {
+  &__container {
+    margin: 60px 0;
     display: grid;
     justify-content: center;
     grid-template-columns: 45% 40%;
   }
-}
-
-// section
-.section {
   &__productDetail {
     display: flex;
     justify-content: center;
