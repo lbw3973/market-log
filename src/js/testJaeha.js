@@ -7,16 +7,22 @@ const renderPage = (html) => {
   $('.app').innerHTML = html;
 };
 
-/*-----------------------------------*\
-  #메인 페이지에 상세 제품 불러오기 테스트
-\*-----------------------------------*/
-
 const BASE_URL = 'https://asia-northeast3-heropy-api.cloudfunctions.net/api';
 const HEADERS = {
   'content-type': 'application/json',
   apikey: 'FcKdtJs202301',
   username: 'KDT4_Team3',
 };
+
+/*-----------------------------------*\
+  #메인 페이지
+\*-----------------------------------*/
+
+// renderPage()
+
+/*-----------------------------------*\
+  #메인 페이지에 상세 제품 불러오기 테스트
+\*-----------------------------------*/
 
 const masterKeyHEADERS = {
   'content-type': 'application/json',
@@ -980,7 +986,7 @@ router
     '/': async () => {
       $('.modal__addCart').style.display = 'none';
       console.log('/ route is working');
-      await initializeMainPage();
+      // await initializeMainPage();
     },
     '/product/:id': async (params) => {
       console.log('product/:id route is working');
