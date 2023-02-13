@@ -254,6 +254,7 @@ const getSortedHighToLowPriceProduct = async () => {
 //   $('#categoryPage-filterByPrice').selectIndex
 // ].text;
 
+/** select option에 의해 정렬 */
 const renderCategoryProductBySelect = async (condition) => {
   if (condition === 'LowToHigh') {
     return await getSortedLowToHighPriceProduct();
@@ -261,18 +262,6 @@ const renderCategoryProductBySelect = async (condition) => {
     return await getSortedHighToLowPriceProduct();
   }
 };
-
-$('.app')
-  .querySelector('#categoryPage-filterByPrice')
-  ?.addEventListener('change', async (e) => {
-    console.log(e.target);
-    const renderCategory = renderCategoryProductBySelect(
-      $('#categoryPage-filterByPrice').options[
-        $('#categoryPage-filterByPrice').selectIndex
-      ].text,
-    );
-    $('.categoryPage__product--lists').innerHTML(renderCategory);
-  });
 
 /** 카테고리별 상품 개수 렌더링 */
 const renderCategoryProductQty = async (i) => {
