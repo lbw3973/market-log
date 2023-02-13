@@ -34,6 +34,10 @@ label {
     nav {
       display: flex;
       flex-direction: column;
+      // gap: 2rem;
+      // width: 25%;
+      // // z-index: 200;
+      // flex-shrink: 0;
 
       ul {
         li {
@@ -71,11 +75,12 @@ label {
         }
       }
     }
-  }
-  .mypage__navigo__container {
-    margin-left: 2rem;
-    width: 80%;
-    height: 900px;
+    .mypage__navigo__container {
+      margin-left: 2rem;
+      width: 80%;
+      height: 900px;
+      flex-shrink: 0;
+    }
   }
 }
 
