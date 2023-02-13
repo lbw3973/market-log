@@ -26,7 +26,7 @@ export const dashboardPage = `
 export const orderPage = `
     <div class='order-container' data-page='order'>
       <div class ='order-container__search'>
-          <h2>상품관리</h2>
+          <h2>거래 내역 관리</h2>
           <div class='order-container__search-container--input'>
               <input placeholder='거래자명을 입력해 주세요.'>
               <img class="button" src=${searchPNG} alt='검색'>
@@ -55,7 +55,7 @@ export const orderPage = `
 export const productPage = `
     <div class='product-container' data-page='product'>
         <div class ='product-container__search'>
-            <h2>상품관리</h2>
+            <h2>상품 관리</h2>
             <div class='product-container__search-container--input'>
                 <input placeholder='상품명을 입력해 주세요.'>
                 <img class="button" src=${searchPNG} alt='검색'>
@@ -91,10 +91,10 @@ export const productAddPage = `
             <p>카테고리<span>*</span></p>
             <select name='tags' required>
               <option value=''>선택</option>
-              <option value='가전'>가전</option>
-              <option value='pc'>pc</option>
-              <option value='건강'>건강</option>
-              <option value='케어'>케어</option>
+              <option value='키보드'>키보드</option>
+              <option value='키캡'>키캡</option>
+              <option value='스위치'>스위치</option>
+              <option value='액세서리'>액세서리</option>
             </select>
           </div>  
           <div class='container-form__content--title'>
@@ -123,6 +123,7 @@ export const productAddPage = `
           <button type='submit' class='container-form__btn--add'>추가</button>
           <a href ='/admin/product/' data-navigo class='container-form__btn--cancel'>취소</a> 
         </div>
+        
       </div>    
     </form>
   </div>
@@ -141,19 +142,12 @@ export const productDetailPage = `
 `;
 
 export const productEditPage = `
-  <div class='productEdit-container'>
-    <div class='wrap'>
-      
-    </div>  
-    
-    <div class='productEdit-container--btn'>
-      <button class='productEdit-container--edit-done'>수정 완료</button>
-      <button class='productEdit-container--cancel'>최소</button>
-    </div>
+  <div class='wrap'>
+
   </div>
 `;
 
-export const orderDetailPage =`
+export const orderDetailPage = `
   <div class='orderDetail-container'>
     <h2>거래 내역 상세</h2>
     <div class='wrap'>
@@ -164,4 +158,4 @@ export const orderDetailPage =`
 
     </div>
   </div>
-`
+`;
