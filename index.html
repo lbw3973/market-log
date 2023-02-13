@@ -19,15 +19,16 @@
     <link rel="stylesheet" href="./src/scss/cart/cart.scss" />
     <link rel="stylesheet" href="./src/scss/pay/pay.scss" />
     <!-- 다음 우편번호 찾기 api -->
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=26e53c394ca0000e128fe5483eb64985&libraries=services"></script>
+    <!-- <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=26e53c394ca0000e128fe5483eb64985&libraries=services"></script> -->
     <!-- js -->
     <!-- test js -->
     <!-- <script type="module" src="./src/js/testJaeha.js" defer></script> -->
     <!-- 병욱님, 영은님 -->
-    <script type="module" src="./src/js/main.js" defer></script>
+    <!-- <script type="module" src="./src/js/main.js" defer></script> -->
+    <!-- 찬영님-->
+    <script type="module" src="./src/js/testChanYoung.js" defer></script>
   </head>
-
   <body>
     <!-- 공통 헤더 시작 -->
     <header class="header-container">
@@ -45,9 +46,11 @@
             <li class="header__user-login--li">
               <a href="/login" data-navigo> 로그인 </a>
             </li>
+            <li class="header__admin-page--li">
+              <a href="/admin" data-navigo> 관리자 페이지 </a>
+            </li>
           </ul>
         </nav>
-
         <nav class="header-main">
           <a class="header-main__home-link" href="/" data-navigo>
             <img
@@ -57,7 +60,6 @@
             />
             <h1 class="header-main__company-name">마켓로그</h1>
           </a>
-
           <!-- navigo, filtering 적용필 -->
           <div class="header-main__search">
             <form class="header-main__search--form">
@@ -67,7 +69,6 @@
               </button>
             </form>
           </div>
-
           <div class="header-main__links">
             <a href="/hart" data-navigo
               ><img
@@ -89,7 +90,6 @@
             /></a>
           </div>
         </nav>
-
         <!-- 카테고리메뉴 : 뉴아이템, 베스트아이템, 다중 필터링-->
         <!-- navigo 적용필 -->
         <nav class="header-nav-category">
@@ -149,11 +149,9 @@
       </div>
     </header>
     <!-- 공통 헤더 끝 -->
-
     <!-- 메인페이지 라우터 -->
     <main class="app"></main>
     <!-- 메인페이지 끝 -->
-
     <!-- 공통 FOOTER 시작-->
     <div class="footer-container">
       <footer>
@@ -185,7 +183,6 @@
       </footer>
     </div>
     <!-- 공통 FOOTER 끝-->
-
     <!-- TEMPORARY -->
     <div class="temporary">
       <label>
@@ -205,7 +202,6 @@
       <button class="login">로그인!</button>
       <button class="getlist"></button>
     </div>
-
     <!-- 각 페이지 진입점!! 건들지 말 것! -->
     <div>
       <ul>
@@ -240,7 +236,6 @@
         <div>test</div>
       </ul>
     </div>
-
     <!-- 상품 정보 -->
     <!-- <div>
       <ul class="productDetailLists">
@@ -255,7 +250,6 @@
         </li>
       </ul>
     </div> -->
-
     <!-- 장바구니 modal -->
     <div class="modal__addCart">
       <div class="modal__addCart-container">
