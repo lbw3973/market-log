@@ -24,18 +24,18 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    border: 1px solid;
 
     &--container {
       display: flex;
       flex-direction: column;
-      margin-bottom: 26px;
+      margin-bottom: 12px;
     }
 
     &--filter {
       display: flex;
       justify-content: space-between;
-      padding: 0 10px;
+      align-items: center;
+      margin: 0 10px;
       &-totalQty {
       }
 
@@ -43,8 +43,9 @@
       }
 
       &-select {
-        border: none;
-        padding: 6px 20px;
+        padding: 6px 8px;
+        border: 1px solid var(--logo-color);
+        border-radius: 6px;
       }
     }
   }
