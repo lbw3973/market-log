@@ -1,7 +1,18 @@
 import Navigo from 'navigo';
 const router = new Navigo('/');
 const $ = (selector) => document.querySelector(selector);
-import { air60, air75, halo65, halo75, halo96 } from './importIMGFiles.js';
+import {
+  air60,
+  air75,
+  halo65,
+  halo75,
+  halo96,
+  halo96,
+  air96,
+  nufolio,
+  twilight,
+  xmas,
+} from './importIMGFiles.js';
 
 /** 렌더 함수 for navigo */
 const renderPage = (html) => {
@@ -144,9 +155,30 @@ const renderInitCategoryPage = `
   <div class="categoryPage">
     <div class="categoryPage__container">
       <!-- aside -->
-      <aside class="categoryPage__aside--sort">
-        <div class="categoryPage__aside--sortByPrice">price</div>
-        <div class="categoryPage__aside--sortByAvailable">Availability</div>
+      <aside class="categoryPage__aside">
+        <div class="categoryPage__aside--container categoryPageSwiper">
+          <div class="categoryPage__aside--wrapper swiper-wrapper">
+            <div class="categoryPage__aside--img swiper-slide">
+              <img src="${halo96}" alt="" />
+            </div>
+            <div class="categoryPage__aside--img swiper-slide">
+              <img src="${halo75}" alt="" />
+            </div>
+            <div class="categoryPage__aside--img swiper-slide">
+              <img src="${air96}" alt="" />
+            </div>
+            <div class="categoryPage__aside--img swiper-slide">
+              <img src="${nufolio}" alt="" />
+            </div>
+            <div class="categoryPage__aside--img swiper-slide">
+              <img src="${twilight}" alt="" />
+            </div>
+            <div class="categoryPage__aside--img swiper-slide">
+              <img src="${xmas}" alt="" />
+            </div>
+          </div>
+        </div>
+        <div class="categoryPage-pagination"></div>
       </aside>
       <!-- category main -->
       <div class="categoryPage__main">
@@ -155,7 +187,7 @@ const renderInitCategoryPage = `
             <div class="categoryPage__main--filter-totalQty"></div>
             <div class="categoryPage__main--filter-sort">
               <select class="categoryPage__main--filter-select" id="categoryPage-filterByPrice">
-                <option selected>정렬</option>
+                <option selected value="reset">정렬</option>
                 <option value="LowToHigh">낮은 가격 순</option>
                 <option value="HighToLow">높은 가격 순</option>
               </select>
@@ -250,12 +282,13 @@ const getSortedHighToLowPriceProduct = async (i) => {
   return;
 };
 
-// $('#categoryPage-filterByPrice').options[
-//   $('#categoryPage-filterByPrice').selectIndex
-// ].text;
-
 /** select option에 의해 정렬 */
 const renderCategoryProductBySelect = async (condition, i) => {
+  const getKeyBoardCategory = await getProductTags();
+
+  if (condition === 'reset') {
+    return renderCategoryProductList(await getKeyBoardCategory[i]);
+  }
   if (condition === 'LowToHigh') {
     return await getSortedLowToHighPriceProduct(i);
   } else if (condition === 'HighToLow') {
@@ -1282,6 +1315,22 @@ router
             1,
           );
         });
+
+      // const categorySwiper = new Swiper('.categoryPageSwiper', {
+      //   direction: 'vertical',
+      //   effect: 'slide',
+      //   pagination: {
+      //     el: '.swiper-pagination',
+      //     clickable: true,
+      //   },
+      //   grabCursor: true,
+      //   slidesPerView: 5,
+      //   autoplay: {
+      //     delay: 3000,
+      //   },
+      //   spaceBetween: 1,
+      //   loop: true,
+      // });
     },
     '/category/switches': async () => {
       $('.modal__addCart').style.display = 'none';
@@ -1333,7 +1382,7 @@ $('.app').addEventListener('click', (e) => {
   // [장바구니 페이지]에서 장바구니에 상품이 없을 때, '계속 쇼핑하기' 버튼 클릭 -> [메인페이지]로 이동
   if (e.target.classList.contains('cartEmpty-goToShoppingBtn')) {
     console.log(e.target);
-    router.navigate('/');
+    router.navigate('/category/keyboards');
     return;
   }
 
