@@ -139,60 +139,33 @@ const renderMainPageTemplate = `
   #카테고리 페이지 # category js
 \*-----------------------------------*/
 
-/** 카테고리 태그 필터링 함수 */
-const getProductTags = async () => {
-  const allProductArray = await getAllProducts();
-  // const allTags = allProductArray.map((items) => {
-  //   return items.tags;
-  // });
-  const filterKeyboardTag = allProductArray.filter((item) => {
-    return item.tags[0] === '키보드';
-  });
-
-  const filterKeycapTag = allProductArray.filter((item) => {
-    return item.tags[0] === '키캡';
-  });
-  const filterSwitchTag = allProductArray.filter((item) => {
-    return item.tags[0] === '스위치';
-  });
-  const filterAccessoryTag = allProductArray.filter((item) => {
-    return item.tags[0] === '액세서리';
-  });
-  return [
-    filterKeyboardTag,
-    filterKeycapTag,
-    filterSwitchTag,
-    filterAccessoryTag,
-  ];
-};
-
 /** 카테고리 페이지 초기 템플릿 */
 const renderInitCategoryPage = `
-<div class="categoryPage">
-  <div class="categoryPage__container">
-    <!-- aside -->
-    <aside class="categoryPage__aside--sort">
-      <div class="categoryPage__aside--sortByPrice">price</div>
-      <div class="categoryPage__aside--sortByAvailable">Availability</div>
-    </aside>
-    <!-- category main -->
-    <div class="categoryPage__main">
-      <div class="categoryPage__main--container">
-        <div class="categoryPage__main--filter">
-          <div class="categoryPage__main--filter-totalQty"></div>
-          <div class="categoryPage__main--filter-sort">
-            <select class="categoryPage__main--filter-select">
-              <option selected>정렬</option>
-              <option value="1">낮은 가격 순</option>
-              <option value="2">높은 가격 순</option>
-            </select>
+  <div class="categoryPage">
+    <div class="categoryPage__container">
+      <!-- aside -->
+      <aside class="categoryPage__aside--sort">
+        <div class="categoryPage__aside--sortByPrice">price</div>
+        <div class="categoryPage__aside--sortByAvailable">Availability</div>
+      </aside>
+      <!-- category main -->
+      <div class="categoryPage__main">
+        <div class="categoryPage__main--container">
+          <div class="categoryPage__main--filter">
+            <div class="categoryPage__main--filter-totalQty"></div>
+            <div class="categoryPage__main--filter-sort">
+              <select class="categoryPage__main--filter-select" id="categoryPage-filterByPrice">
+                <option selected>정렬</option>
+                <option value="LowToHigh">낮은 가격 순</option>
+                <option value="HighToLow">높은 가격 순</option>
+              </select>
+            </div>
           </div>
         </div>
+        <ul class="categoryPage__product--lists"></ul>
       </div>
-      <ul class="categoryPage__product--lists"></ul>
     </div>
   </div>
-</div>
 `;
 
 /** 카테고리 페이지 제품 db에서 불러오기 */
@@ -222,6 +195,72 @@ const renderCategoryProductList = (items) => {
     .join('');
 
   $('.categoryPage__product--lists').innerHTML = categoryProductListTemplate;
+};
+
+/** 카테고리 태그 필터링 함수 */
+const getProductTags = async () => {
+  const allProductArray = await getAllProducts();
+  // const allTags = allProductArray.map((items) => {
+  //   return items.tags;
+  // });
+  const filterKeyboardTag = allProductArray.filter((item) => {
+    return item.tags[0] === '키보드';
+  });
+
+  const filterKeycapTag = allProductArray.filter((item) => {
+    return item.tags[0] === '키캡';
+  });
+  const filterSwitchTag = allProductArray.filter((item) => {
+    return item.tags[0] === '스위치';
+  });
+  const filterAccessoryTag = allProductArray.filter((item) => {
+    return item.tags[0] === '액세서리';
+  });
+  return [
+    filterKeyboardTag,
+    filterKeycapTag,
+    filterSwitchTag,
+    filterAccessoryTag,
+  ];
+};
+
+/** 가격낮은순 정렬 후 렌더링 함수 */
+const getSortedLowToHighPriceProduct = async () => {
+  const getKeyBoardCategory = await getProductTags();
+  const keyboardCategoryProduct = await getKeyBoardCategory[0];
+  const LowToHighPrice = keyboardCategoryProduct.sort((a, b) => {
+    return a.price - b.price;
+  });
+  console.log('LowToHighPrice', LowToHighPrice);
+  // $('.categoryPage__product--lists').innerHTML = LowToHighPrice;
+  // return keyboardCategoryProduct;
+  renderCategoryProductList(await LowToHighPrice);
+  return;
+};
+
+/** 가격높은순 정렬 후 렌더링 함수 */
+const getSortedHighToLowPriceProduct = async () => {
+  const getKeyBoardCategory = await getProductTags();
+  const keyboardCategoryProduct = await getKeyBoardCategory[0];
+  const HighToLowPrice = keyboardCategoryProduct.sort((a, b) => {
+    return b.price - a.price;
+  });
+  console.log('HighToLowPrice', HighToLowPrice);
+  renderCategoryProductList(await HighToLowPrice);
+  return;
+};
+
+// $('#categoryPage-filterByPrice').options[
+//   $('#categoryPage-filterByPrice').selectIndex
+// ].text;
+
+/** select option에 의해 정렬 */
+const renderCategoryProductBySelect = async (condition) => {
+  if (condition === 'LowToHigh') {
+    return await getSortedLowToHighPriceProduct();
+  } else if (condition === 'HighToLow') {
+    return await getSortedHighToLowPriceProduct();
+  }
 };
 
 /** 카테고리별 상품 개수 렌더링 */
@@ -1203,6 +1242,23 @@ router
       const getKeyBoardCategory = await getProductTags();
       renderCategoryProductList(await getKeyBoardCategory[0]);
       await renderCategoryProductQty(0);
+      console.log(await getKeyBoardCategory[0]);
+      console.log(
+        $('#categoryPage-filterByPrice').options[
+          $('#categoryPage-filterByPrice').selectedIndex
+        ].value,
+      );
+
+      $('.app')
+        .querySelector('#categoryPage-filterByPrice')
+        ?.addEventListener('change', async (e) => {
+          console.log(e.target);
+          return renderCategoryProductBySelect(
+            await $('#categoryPage-filterByPrice').options[
+              $('#categoryPage-filterByPrice').selectedIndex
+            ].value,
+          );
+        });
     },
     '/category/keycaps': async () => {
       $('.modal__addCart').style.display = 'none';
