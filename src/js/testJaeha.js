@@ -225,9 +225,9 @@ const getProductTags = async () => {
 };
 
 /** 가격낮은순 정렬 후 렌더링 함수 */
-const getSortedLowToHighPriceProduct = async () => {
+const getSortedLowToHighPriceProduct = async (i) => {
   const getKeyBoardCategory = await getProductTags();
-  const keyboardCategoryProduct = await getKeyBoardCategory[0];
+  const keyboardCategoryProduct = await getKeyBoardCategory[i];
   const LowToHighPrice = keyboardCategoryProduct.sort((a, b) => {
     return a.price - b.price;
   });
@@ -239,9 +239,9 @@ const getSortedLowToHighPriceProduct = async () => {
 };
 
 /** 가격높은순 정렬 후 렌더링 함수 */
-const getSortedHighToLowPriceProduct = async () => {
+const getSortedHighToLowPriceProduct = async (i) => {
   const getKeyBoardCategory = await getProductTags();
-  const keyboardCategoryProduct = await getKeyBoardCategory[0];
+  const keyboardCategoryProduct = await getKeyBoardCategory[i];
   const HighToLowPrice = keyboardCategoryProduct.sort((a, b) => {
     return b.price - a.price;
   });
@@ -255,11 +255,11 @@ const getSortedHighToLowPriceProduct = async () => {
 // ].text;
 
 /** select option에 의해 정렬 */
-const renderCategoryProductBySelect = async (condition) => {
+const renderCategoryProductBySelect = async (condition, i) => {
   if (condition === 'LowToHigh') {
-    return await getSortedLowToHighPriceProduct();
+    return await getSortedLowToHighPriceProduct(i);
   } else if (condition === 'HighToLow') {
-    return await getSortedHighToLowPriceProduct();
+    return await getSortedHighToLowPriceProduct(i);
   }
 };
 
@@ -1249,6 +1249,7 @@ router
         ].value,
       );
 
+      // 가격 정렬 이벤트
       $('.app')
         .querySelector('#categoryPage-filterByPrice')
         ?.addEventListener('change', async (e) => {
@@ -1257,6 +1258,7 @@ router
             await $('#categoryPage-filterByPrice').options[
               $('#categoryPage-filterByPrice').selectedIndex
             ].value,
+            0,
           );
         });
     },
@@ -1267,6 +1269,19 @@ router
       renderPage(renderInitCategoryPage);
       renderCategoryProductList(await getKeyBoardCategory[1]);
       await renderCategoryProductQty(1);
+
+      // 가격 정렬 이벤트
+      $('.app')
+        .querySelector('#categoryPage-filterByPrice')
+        ?.addEventListener('change', async (e) => {
+          console.log(e.target);
+          return renderCategoryProductBySelect(
+            await $('#categoryPage-filterByPrice').options[
+              $('#categoryPage-filterByPrice').selectedIndex
+            ].value,
+            1,
+          );
+        });
     },
     '/category/switches': async () => {
       $('.modal__addCart').style.display = 'none';
@@ -1275,6 +1290,19 @@ router
       renderPage(renderInitCategoryPage);
       renderCategoryProductList(await getKeyBoardCategory[2]);
       await renderCategoryProductQty(2);
+
+      // 가격 정렬 이벤트
+      $('.app')
+        .querySelector('#categoryPage-filterByPrice')
+        ?.addEventListener('change', async (e) => {
+          console.log(e.target);
+          return renderCategoryProductBySelect(
+            await $('#categoryPage-filterByPrice').options[
+              $('#categoryPage-filterByPrice').selectedIndex
+            ].value,
+            2,
+          );
+        });
     },
     '/category/accessories': async () => {
       $('.modal__addCart').style.display = 'none';
@@ -1283,6 +1311,19 @@ router
       renderPage(renderInitCategoryPage);
       renderCategoryProductList(await getKeyBoardCategory[3]);
       await renderCategoryProductQty(3);
+
+      // 가격 정렬 이벤트
+      $('.app')
+        .querySelector('#categoryPage-filterByPrice')
+        ?.addEventListener('change', async (e) => {
+          console.log(e.target);
+          return renderCategoryProductBySelect(
+            await $('#categoryPage-filterByPrice').options[
+              $('#categoryPage-filterByPrice').selectedIndex
+            ].value,
+            3,
+          );
+        });
     },
   })
   .resolve();
