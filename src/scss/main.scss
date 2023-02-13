@@ -8,14 +8,15 @@
   color: var(--logo-color);
 }
 
-// .app {
-//   width: 1300px;
-// }
+.app {
+  height: auto;
+}
 
 .mypage__app {
   display: grid;
   place-content: center;
   width: 1440px;
+  margin: 0 auto;
 }
 
 img {

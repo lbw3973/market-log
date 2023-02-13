@@ -26,6 +26,7 @@ const headers = {
   username: 'KDT4_Team3',
 };
 
+/** 전체 제품 가져오기api */
 const getAllProducts = async () => {
   try {
     const res = await fetch(`${BASE_URL}/products`, {
@@ -303,6 +304,96 @@ const renderCategoryProductQty = async (i) => {
   $(
     '.categoryPage__main--filter-totalQty',
   ).innerHTML = `${categoryTotalQty.length}개 상품`;
+};
+
+/*-----------------------------------*\
+  검색 페이지  #search
+\*-----------------------------------*/
+
+/** 검색한 제품, 태그 가져오기 */
+const getSearchedProducts = async (title = '') => {
+  try {
+    const res = await fetch(`${BASE_URL}/products/search`, {
+      method: 'POST',
+      headers: {
+        ...headers,
+      },
+      body: JSON.stringify({
+        searchText: title,
+      }),
+    });
+    const data = await res.json();
+    console.log(data);
+    return data;
+  } catch (err) {
+    console.log(err);
+    console.log('제품 검색을 실패했습니다.');
+  }
+};
+
+/** 제품 이름 검색 */
+const renderSearchedProductList = (title = '') => {
+  const categoryProductListTemplate = title
+    .map((item) => {
+      const { id, price, thumbnail, title } = item;
+
+      return `
+    <li class="categoryPage__product--list" data-product-id="${id}">
+      <a href="/product/${id}">
+        <div class="categoryPage__product--img">
+          <img src="${thumbnail}" alt="${title}" />
+        </div>
+        <div class="categoryPage__product--info">
+          <h3 class="categoryPage__product--info-title">
+            ${title}
+          </h3>
+          <span class="categoryPage__product--info-price">
+            ${price.toLocaleString()} 원
+          </span>
+        </div>
+      </a>
+    </li>
+    `;
+    })
+    .join('');
+
+  $('.categoryPage__product--lists').innerHTML = categoryProductListTemplate;
+};
+
+const searchPageNoSearchResultTemplate = `
+  <div class="searchPage__noResult--container">
+    <span class="searchPage__noResult--inputValue"></span> 관련 상품이 없습니다.
+    추천 검색어: 
+    <a class="searchPage__noResult--button" href="/category/keyboards">키보드</a> 
+    <a class="searchPage__noResult--button" href="/category/keycaps">Nuphy</a>
+    <a class="searchPage__noResult--button" href="/category/switches">Xmas</a>
+    <a class="searchPage__noResult--button" href="/category/accessories">Nufolio</a>
+  </div>
+`;
+
+/** input 값이 입력된 제품 찾기 함수 */
+const findProduct = async () => {
+  $inputValue = $('.header-main__search--input').value;
+  console.log('inputValue', $inputValue);
+  return await getSearchedProducts($inputValue);
+};
+
+/** 검색한 제품의 유/무 예외처리 핸들링 함수 */
+const handleSearchPageResult = async () => {
+  const findProductArr = await findProduct();
+  if (findProductArr.length === 0) {
+    renderPage(renderInitCategoryPage);
+    // '검색 결과 없음'의 초기 템플릿 init
+    $('.categoryPage__product--lists').innerHTML =
+      searchPageNoSearchResultTemplate;
+    // 검색한 단어 화면에 표시
+    $('.searchPage__noResult--inputValue').innerHTML = $(
+      '.header-main__search--input',
+    ).value;
+  } else if (findProductArr.length >= 1) {
+    renderPage(renderInitCategoryPage);
+    renderSearchedProductList(await findProduct());
+  }
 };
 
 /*-----------------------------------*\
@@ -1220,6 +1311,15 @@ router
       console.log('/ route is working');
       renderPage(renderMainPageTemplate);
     },
+    '/products/search': async () => {
+      $('.modal__addCart').style.display = 'none';
+      console.log('/products/search route is working');
+      // 제품 검색
+      // renderPage(renderInitCategoryPage);
+      // renderSearchedProductList(await findProduct());
+      // renderSearchedProductLength();
+      await handleSearchPageResult();
+    },
     '/product/:id': async (params) => {
       console.log('product/:id route is working');
       await renderDetailProduct(params.data.id);
@@ -1316,6 +1416,7 @@ router
           );
         });
 
+      // swiper
       // const categorySwiper = new Swiper('.categoryPageSwiper', {
       //   direction: 'vertical',
       //   effect: 'slide',
@@ -1408,6 +1509,33 @@ $('.app').addEventListener('click', (e) => {
   }
 });
 
+/** 검색창 폼 태그 새로고침 방지 */
+$('.header-main__search--form').addEventListener('submit', (e) => {
+  e.preventDefault();
+});
+
+/** [모든 페이지]에서 제품 검색 버튼 'click' 이벤트 */
+$('.header-main__search--button').addEventListener('click', async (e) => {
+  e.preventDefault();
+  router.navigate('/products/search');
+  // renderPage(renderInitCategoryPage);
+  // renderSearchedProductList(await findProduct());
+  await handleSearchPageResult();
+  return;
+});
+
+/** [모든 페이지]에서 제품 검색 버튼 'Enter'이벤트 */
+$('.header-main__search--button').addEventListener('keypress', async (e) => {
+  // if (e.key !== 'Enter') return;
+  if (e.key === 'Enter') {
+    router.navigate('/products/search');
+    // findProduct();
+    // renderPage(renderInitCategoryPage);
+    // renderSearchedProductList(await findProduct());
+    await handleSearchPageResult();
+  }
+});
+
 /** 현재 선택한 은행계좌의 잔액 확인해주는 함수 */
 const checkBalanceOfselectedBankAccount = async (id) => {
   const availableAccount = await getAccountDetail();
@@ -1418,6 +1546,7 @@ const checkBalanceOfselectedBankAccount = async (id) => {
   return checkCurrentSelectedBankId;
 };
 
+/** [결제 페이지] 결제버튼 로직 */
 const handlePaymentBtnLogic = async (e) => {
   const currentSelectedBankId = $('.swiper-slide-active').dataset.accountId;
   const productIds = shoppingCartArr.map((items) => {
