@@ -1,48 +1,11 @@
 import { deleteProduct, getAllProduct } from './api.js';
 
+import { renderPageBtn, renderProduct } from './renderDetail.js';
+
 let products = [];
 
 let activeIdx = 1;
 const itemsPerPage = 10;
-
-// 페이지네이션 버튼 렌더
-const renderPageBtn = (productPageBtn, products, activeIdx, itemsPerPage) => {
-  let buttonsEl = ``;
-
-  for (let i = 1; i <= Math.ceil(products.length / itemsPerPage); i++) {
-    buttonsEl += `<button class='product-container__btn-page--number ${
-      activeIdx === i ? 'active' : ''
-    }'>${i}</button>`;
-  }
-
-  productPageBtn.innerHTML = `
-            <button class='product-container__btn-page--prev'>이전</button>
-            ${buttonsEl}
-            <button class='product-container__btn-page--next'>다음</button>
-      `;
-};
-
-// 현재 페이지의 상품 목록 렌더
-const renderProduct = (productList, products, activeIdx) => {
-  const productsEl = products.map((product, idx) => {
-    const productEl = document.createElement('li');
-    productEl.dataset.id = `${product.id}`;
-    productEl.innerHTML = `
-          <input type="checkbox">
-          <span style='width: 5%;'>${idx + 1 + (activeIdx - 1) * 10}</span>
-          <span style='width: 10%;'>${product.tags[0]}</span>
-          <span style='width: 10%;'>${product.title}</span>
-          <span style='width: 15%;'>${product.price.toLocaleString()} 원</span>
-          <span style='width: 15%;'>${
-            product.isSoldOut ? '품절' : '판매가능'
-          }</span>
-        `;
-
-    return productEl;
-  });
-
-  productList.append(...productsEl);
-};
 
 // 현재 페이지의 상품목록 가져오기
 const getProductCurrentPage = (products, activeIdx, itemsPerPage) => {
@@ -62,7 +25,7 @@ const setUpUI = (productPageBtn, productList) => {
 let newProducts = getProductCurrentPage(products, activeIdx, itemsPerPage);
 
 // 상품관리 페이지 초기화
-export const initProductPage = async () => {
+export const productHandler = async () => {
   const productContainer = document.querySelector('.product-container');
   const productList = productContainer.querySelector(
     '.product-container__list',
@@ -93,7 +56,6 @@ export const initProductPage = async () => {
     );
 
     productList.innerHTML = ``;
-    // console.log(productList.textContent);
     renderPageBtn(productPageBtn, filteredProduct, activeIdx, itemsPerPage);
     newProducts = getProductCurrentPage(
       filteredProduct,
@@ -107,19 +69,19 @@ export const initProductPage = async () => {
   productPageBtn.addEventListener('click', (e) => {
     if (e.target.classList.contains('product-container__btn-delete')) return;
 
-    if (e.target.classList.contains('product-container__btn-page--number')) {
+    if (e.target.classList.contains('btn-page--number')) {
       let numberBtn = e.target;
       activeIdx = parseInt(numberBtn.textContent);
     }
 
-    if (e.target.classList.contains('product-container__btn-page--next')) {
+    if (e.target.classList.contains('btn-page--next')) {
       activeIdx++;
       if (activeIdx > Math.ceil(products.length / itemsPerPage) - 1) {
         activeIdx = Math.ceil(products.length / itemsPerPage);
       }
     }
 
-    if (e.target.classList.contains('product-container__btn-page--prev')) {
+    if (e.target.classList.contains('btn-page--prev')) {
       activeIdx--;
       if (activeIdx < 1) {
         activeIdx = 1;
