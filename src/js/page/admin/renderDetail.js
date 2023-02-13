@@ -1,20 +1,29 @@
 export const renderEditProduct = (productEdit) => {
-  const { description, isSoldOut, photo, price, tags, title, thumbnail } =
+  const { id, description, isSoldOut, price, tags, title, thumbnail } =
     productEdit;
 
-  const productEditEl = `
-      <form class='container-form'>
+  console.log(tags);
+  return `
+      <div class='productEdit-container'>
+        <form class='container-form'>
         <h2 class='container-form__header'>상품 등록</h2>
         <div class='container-form__content'>
 
             <div class='container-form__content--tags'>
               <p>카테고리<span>*</span></p>
-              <select name='tags' required value='${tags}'>
-                <option value=''>선택</option>
-                <option value='가전'>가전</option>
-                <option value='pc'>pc</option>
-                <option value='건강'>건강</option>
-                <option value='케어'>케어</option>
+              <select name='tags' required>
+                <option value='키보드' ${
+                  tags[0] === '키보드' ? 'selected' : ''
+                }>키보드</option>
+                <option value='키캡'  ${
+                  tags[0] === '키캡' ? 'selected' : ''
+                }>키캡</option>
+                <option value='스위치'  ${
+                  tags[0] === '스위치' ? 'selected' : ''
+                }>스위치</option>
+                <option value='액세서리'  ${
+                  tags[0] === '액세서리' ? 'selected' : ''
+                }>액세서리</option>
               </select>
             </div>  
             <div class='container-form__content--title'>
@@ -27,36 +36,51 @@ export const renderEditProduct = (productEdit) => {
             </div>  
             <div class='container-form__content--description'>
               <p>제품상세설명<span>*</span></p>
-              <textarea type='text' name='description' placeholder='제품 상세 설명' required value='${description}'></textarea>
+              <textarea type='text' name='description' placeholder='제품 상세 설명' required>${description}</textarea>
             </div>
+            <div class='container-form__content--soldout'>
+              <p>품절 여부<span>*</span></p>
+              <select name='tags' required>
+                <option value='true' '${
+                  isSoldOut ? 'selected' : ''
+                }'>품절</option>
+                <option value='false' '${
+                  isSoldOut ? 'selected' : ''
+                }'>판매가능</option>
+              </select>
+            </div> 
             <div class='container-form__content--thumbnail'>
               <div class='container-form__content--thumbnail--box'>
                 <p>썸네일 이미지 <span>*</span></p>
                 <input type="file" required src="${thumbnail}">
               </div>
               <div class='container-form__content--thumbnail--preview'>
-                <img src=''>
+                <img src='${thumbnail}' alt='${title}'>
               </div>
             </div>
           </div>
-        </div>    
-      </form>
+        </div>
+        <div class='container-form__btn'>
+          <button type='submit' class='container-form__btn--edit'>수정 완료</button>
+          <button>테스트</button>
+          <a href ='/admin/product/${id}' data-navigo class='container-form__btn--cancel'>취소</a> 
+        </div>
+        </form>
+      </div> 
     `;
-
-  document.querySelector('.wrap').innerHTML = productEditEl;
 };
 
 export const renderDetailProduct = (productDetail) => {
-  const { description, isSoldOut, photo, price, tags, title, thumbnail } =
+  const { description, isSoldOut, price, tags, title, thumbnail } =
     productDetail;
 
   const productDetailEl = `
-      <img src="${thumbnail}" alt="{title}">
+      <img src="${thumbnail}" alt="${title}">
       <div class="productDetail-container">
         <div class="productDetail-container__info">
           <div class="productDetail-container__info--category">
             <h2>카테고리</h2>
-            <p>${tags}</P>
+            <p>${tags[0]}</P>
           </div>
           <div class="productDetail-container__info--title">
             <h2>상품명</h2>
@@ -68,7 +92,7 @@ export const renderDetailProduct = (productDetail) => {
           </div>
           <div class="productDetail-container__info--soldout">
             <h2>품절 여부</h2>
-            <p>${isSoldOut}</P>
+            <p>${isSoldOut ? '품절' : '판매가능'}</P>
           </div>
           <div class="productDetail-container__info--descripiton">
             <h2>상품 설명</h2>
@@ -82,10 +106,9 @@ export const renderDetailProduct = (productDetail) => {
 };
 
 export const orderDetailProduct = (orderDetail) => {
-  const { detailId,user,accoun } =
-    orderDetail;
+  const { detailId, user, account } = orderDetail;
 
-  const productDetailEl = `
+  const orderDetailEl = `
       <img src="${thumbnail}" alt="{title}">
       <div class="productDetail-container">
         <div class="productDetail-container__info">
@@ -103,7 +126,7 @@ export const orderDetailProduct = (orderDetail) => {
           </div>
           <div class="productDetail-container__info--soldout">
             <h2>품절 여부</h2>
-            <p>${isSoldOut}</P>
+            <p>${isSoldOut ? '품절' : '판매가능'}</P>
           </div>
           <div class="productDetail-container__info--descripiton">
             <h2>상품 설명</h2>
@@ -113,7 +136,7 @@ export const orderDetailProduct = (orderDetail) => {
       </div>
     `;
 
-  document.querySelector('.wrap').innerHTML = productDetailEl;
+  document.querySelector('.wrap').innerHTML = orderDetailEl;
 };
 
 // 페이지네이션 버튼 렌더
@@ -186,4 +209,13 @@ export const renderOrder = (orderList, orders, activeIdx) => {
     .join('');
 
   orderList.innerHTML = ordersEl;
+};
+
+export const renderOrderDetailBtn = (detailId) => {
+  const btnsEl = `
+      <button class='orderDetail-container--edit'>수정</button>
+      <button class='orderDetail-container--delete'>삭제</button>
+      `;
+
+  document.querySelector('.orderDetail-container').innerHTML = btnsEl;
 };
