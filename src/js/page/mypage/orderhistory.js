@@ -15,18 +15,17 @@ const headers = {
 };
 // calendar();
 
-export const htmlMypage_OrderHistory = `
-<div class="mypage__container">
+export const htmlMypage_OrderHistory = /* html */ `
   <div class="mypage__orderhistory">
     <h2>주문 내역</h2>
     <div class="calendar-box">
-      <input class="calendar-date"></input>
+      <input class="calendar-date" />
       <img class="calendar-icon icon icon-tabler icon-tabler-calendar-event" src="${calendar}"
         alt="calendar icon">
       <button><img src="${reload}" alt="reload icon"></button>
       <div class="calendar nodisplay">
         <div class="wrapper">
-          <div class="curr-date ">
+          <div class="curr-date">
             <span></span>
             <span class="material-symbols-outlined" id="prev">
               chevron_left
@@ -60,9 +59,9 @@ export const htmlMypage_OrderHistory = `
       </div>
       <ul class="products">
         <li class="product">
-          <a href="#"><img src="#" alt="product-image" class="product--img" /></a>
+        <a href=""><img src="" alt="product-image" class="product--img" /></a>
           <div class="product--info">
-            <a href="./detailedorderlist.html" class="product--name">PLAY 트리 잭슨 프렌즈 토이</a>
+            <a href="" class="product--name">PLAY 트리 잭슨 프렌즈 토이</a>
             <div class="product--info-numbers">
               <div class="product--price">10,000원</div>
               <div class="product--order-date">2023-02-01</div>
@@ -101,7 +100,6 @@ export const htmlMypage_OrderHistory = `
       <img src="${paginationRight}" alt="pagination-right">
     </div>
   </div>
-</div>
 `;
 export async function initFuncOrderHistory() {
   //제품 정보

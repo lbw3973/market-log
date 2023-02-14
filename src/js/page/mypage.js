@@ -12,9 +12,10 @@ import { htmlLogin, initFuncLogin } from './login.js';
 import { htmlSingup, initFuncSignup } from './signup.js';
 import { renderPage } from '../main.js';
 dotenv.config();
-window.localStorage.clear(); // TODO : 삭제
+// window.localStorage.clear(); // TODO : 삭제
 const $ = (selector) => document.querySelector(selector);
 export const router = new Navigo('/');
+const divLoadingEl = document.querySelector('.loadingGif');
 
 let navliList;
 
@@ -67,7 +68,6 @@ export function initFunc() {
 export function renderMyPageNav(html) {
   $('.app').querySelector('.mypage__navigo__container').innerHTML = html;
   resetliActive();
-  // divLoadingEl.style.display = 'block';
 }
 
 function resetliActive() {
@@ -77,8 +77,10 @@ function resetliActive() {
 
 router
   .on({
+    '/': () => {
+      router.navigate('/');
+    },
     // mypage
-    '/': () => {},
     '/mypage': () => {
       console.log('route to mypage!!');
       $('.app').innerHTML = htmlMypage_Nav;
@@ -91,9 +93,11 @@ router
       navliList[0].classList.add('active');
     },
     '/mypage/account': async () => {
+      divLoadingEl.style.display = 'block';
       console.log('route to mypage/account!!');
       renderMyPageNav(htmlMypage_Account);
-      initFuncAccount();
+      await initFuncAccount();
+      divLoadingEl.style.display = 'none';
       navliList[1].classList.add('active');
     },
     '/mypage/myHeart': async () => {

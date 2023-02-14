@@ -3,6 +3,7 @@
     margin-bottom: 52px;
   }
   .user__account {
+    position: relative;
     .total__balance {
       font-size: 14px;
       margin-top: 20px;
@@ -14,6 +15,7 @@
     ul {
       display: flex;
       flex-direction: column;
+      justify-content: center;
       gap: 20px;
       margin: 10px 0;
       li {
@@ -53,29 +55,23 @@
         button {
           position: absolute;
           right: 30px;
-          top: 20px;
-          border: 1px solid var(--light-purple);
-          border-radius: 5px;
-          background-color: var(--light-purple);
-          margin: 7px 0;
-          padding: 7px;
-          width: 81px;
-          height: 30px;
-          text-align: center;
-          color: #fff;
         }
       }
     }
     button {
-      border: 1px solid var(--light-purple);
+      display: flex;
+      justify-content: center;
+      align-items: center;
       border-radius: 5px;
       background-color: var(--light-purple);
-      margin: 7px 0;
-      padding: 7px;
+      padding: 5px;
       width: 81px;
       height: 30px;
-      text-align: center;
       color: #fff;
+    }
+
+    .btn__create__account {
+      margin: 20px auto;
     }
   }
 }

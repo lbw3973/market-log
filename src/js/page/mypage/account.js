@@ -4,7 +4,6 @@ const headers = {
   apikey: api_key,
   username: user_name,
 };
-const divLoadingEl = document.querySelector('.loadingGif');
 
 // HTML : mypage 계좌관리 탭
 export const htmlMypage_Account = /* html */ `
@@ -19,7 +18,7 @@ export const htmlMypage_Account = /* html */ `
 <div class="create__account">
   <div class="create__account__modal">
     <div class="modal__container">
-      <h2>계좌 추가</h2>
+      <h3>계좌 추가</h3>
       <ul></ul>
       <div class="accountNumber">
         <span>계좌 번호</span>
@@ -46,7 +45,7 @@ export const htmlMypage_Account = /* html */ `
 <div class="delete__account">
   <div class="delete__account__modal">
     <div class="modal__container">
-      <h2>계좌 삭제</h2>
+      <h3>계좌 삭제</h3>
       <span>정말로 삭제 하시겠습니까?</span>
       <div>
         <button id="delete-ok">예</button>
