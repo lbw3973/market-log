@@ -569,7 +569,7 @@ const renderWishListProductList = (store) => {
 };
 
 $('.app').addEventListener('click', (e) => {
-  const id = e.target.closest('li').dataset.productId;
+  const id = e.target.closest('li')?.dataset.productId;
   console.log(e.target);
   if (e.target.classList.contains('removeFromWishListBtn')) {
     wishListArr = wishListArr.filter((item) => item.id !== id);
@@ -591,6 +591,25 @@ const renderWishListPage = () => {
     return;
   }
 };
+
+$('.app').addEventListener('click', (e) => {
+  const id = e.target.closest('li')?.dataset.productId;
+  if (e.target.classList.contains('wishList-AddToCartBtn')) {
+    const wishListAddToCart = wishListArr.filter((item) => item.id === id);
+
+    const wishListInfo = wishListAddToCart[0];
+    storeCart(
+      wishListInfo.id,
+      wishListInfo.pricePerOne,
+      wishListInfo.count,
+      wishListInfo.thumbnail,
+      wishListInfo.title,
+      wishListInfo.pricePerOne,
+    );
+    shoppingCartStore.setLocalStorage(shoppingCartArr);
+    console.log(shoppingCartArr);
+  }
+});
 
 /*-----------------------------------*\
   제품 상세 페이지  #productDetail js
@@ -822,7 +841,10 @@ document.body.addEventListener('click', (e) => {
 /** 모달 핸들 함수 */
 const handleModal = (e) => {
   // '장바구니에 담기' 버튼 클릭 시, 모달 오픈
-  if (e.target.classList.contains('addCartBtn')) {
+  if (
+    e.target.classList.contains('addCartBtn') ||
+    e.target.classList.contains('wishList-AddToCartBtn')
+  ) {
     $('.modal__addCart').style.display = 'block';
     return;
   }
@@ -1523,10 +1545,7 @@ router
     '/': async () => {
       // $('.modal__addCart').style.display = 'none';
       // console.log('/ route is working');
-      // renderPage(renderMainPageTemplate);
-      renderPage(renderInitMypageTemplate);
-      wishListArr = wishListStore.getLocalStorage();
-      renderWishListProductList(wishListArr);
+      renderPage(renderMainPageTemplate);
     },
     '/products/search': async () => {
       $('.modal__addCart').style.display = 'none';
@@ -1694,9 +1713,8 @@ router
         });
     },
 
-    '/mypage/wishlist': async () => {
+    '/mypage/wishlist': () => {
       renderPage(renderInitMypageTemplate);
-      // renderWishListProductList(wishListStore.getLocalStorage());
       renderWishListPage();
     },
   })
