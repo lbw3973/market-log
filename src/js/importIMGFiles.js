@@ -7,7 +7,11 @@ import air96 from '../../public/mainPageIMG/air96.png';
 import nufolio from '../../public/mainPageIMG/nufolio.png';
 import twilight from '../../public/mainPageIMG/twilight.png';
 import xmas from '../../public/mainPageIMG/xmas.png';
-import wish from '../../public/wish.png';
+import heart from '../../public/heart.svg';
+import addHeart from '../../public/addHeart.svg';
+import hearted from '../../public/hearted.svg';
+import removeHeart from '../../public/removeHeart.svg';
+import emptyHeart from '../../public/emptyHeart.svg';
 
 export {
   air60,
@@ -19,5 +23,9 @@ export {
   nufolio,
   twilight,
   xmas,
-  wish,
+  addHeart,
+  hearted,
+  removeHeart,
+  heart,
+  emptyHeart,
 };

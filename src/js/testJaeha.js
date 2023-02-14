@@ -12,10 +12,12 @@ import {
   nufolio,
   twilight,
   xmas,
-  wish,
+  addHeart,
+  removeHeart,
+  emptyHeart,
 } from './importIMGFiles.js';
 
-/** 렌더 함수 for navigo */
+/** Navigo innerHTML template */
 const renderPage = (html) => {
   $('.app').innerHTML = html;
 };
@@ -422,6 +424,11 @@ let wishListArr = [];
 wishListArr = wishListStore.getLocalStorage();
 console.log(wishListArr);
 
+const checkWhetherAddWishList = (id) => {
+  const existingItem = wishListArr.find((item) => item.id === id);
+  return existingItem ? addHeart : emptyHeart;
+};
+
 /** 찜하기 목록에 저장 */
 const storeWishList = (id, count, thumbnail, title, pricePerOne) => {
   const existingItem = wishListArr.find((item) => item.id === id);
@@ -429,14 +436,12 @@ const storeWishList = (id, count, thumbnail, title, pricePerOne) => {
   if (!existingItem) {
     wishListArr.push({ id, count, thumbnail, title, pricePerOne });
     console.log('wishListArr', wishListArr);
-    $('.aside__productDetail--info-wishlistImg').style.backgroundColor =
-      'var(--deps-pink)';
+    wishListStore.setLocalStorage(wishListArr);
     return;
   } else if (existingItem) {
     wishListArr = wishListArr.filter((item) => item.id !== id);
     console.log('wishListArr 이미 찜', wishListArr);
     wishListStore.setLocalStorage(wishListArr);
-    $('.aside__productDetail--info-wishlistImg').style.backgroundColor = 'none';
     return;
   }
   console.log('wishListArr2', wishListArr);
@@ -456,6 +461,7 @@ $('.app').addEventListener('click', (e) => {
     storeWishList(id, count, thumbnail, title, pricePerOne);
     wishListStore.setLocalStorage(wishListArr);
     console.log('wishListArr.push', wishListArr);
+    renderDetailProduct(id);
   }
 });
 
@@ -465,7 +471,6 @@ $('.app').addEventListener('click', (e) => {
 
 // productDetail 제품 상세페이지
 // 라우터 라이브러리
-import heart from '../../public/heart.svg';
 import cartSVG from '../../public/cart.svg';
 
 /** 장바구니 localStorage */
@@ -587,7 +592,8 @@ const renderDetailProduct = async (productId) => {
           </div>
           <div class="aside__productDetail--info-sec-wishlist">
             <button class="aside__productDetail--info-wishlistBtn">
-              <img class="aside__productDetail--info-wishlistImg" src="${wish}" alt="찜하기 버튼" />
+              <img class="aside__productDetail--info-wishlistImg" 
+                src="${checkWhetherAddWishList(id)}" alt="찜하기 버튼" />
             </button>
           </div>
         </div>
