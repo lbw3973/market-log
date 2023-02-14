@@ -1,7 +1,6 @@
 // dotenv 사용 예시
 import dotenv from 'dotenv';
 import Navigo from 'navigo';
-import { base_url, api_key, user_name, admin_email } from '../db.js'; // 로그인 부분 지우면 필요없음
 import chevronrightSVG from '../../../public/chevronright.svg';
 import { htmlMypage_Account, initFuncAccount } from './mypage/account.js';
 import { htmlMypage_MyHeart, initFuncMyHeart } from './mypage/myheart.js';
@@ -9,13 +8,13 @@ import {
   htmlMypage_OrderHistory,
   initFuncOrderHistory,
 } from './mypage/orderhistory.js';
-import { htmlLogin } from './login.js';
+import { htmlLogin, initFuncLogin } from './login.js';
 import { htmlSingup, initFuncSignup } from './signup.js';
 import { renderPage } from '../main.js';
 dotenv.config();
 window.localStorage.clear(); // TODO : 삭제
 const $ = (selector) => document.querySelector(selector);
-const router = new Navigo('/');
+export const router = new Navigo('/');
 
 let navliList;
 
@@ -79,6 +78,7 @@ function resetliActive() {
 router
   .on({
     // mypage
+    '/': () => {},
     '/mypage': () => {
       console.log('route to mypage!!');
       $('.app').innerHTML = htmlMypage_Nav;
@@ -111,6 +111,7 @@ router
     '/login': () => {
       console.log('route to /login!!');
       $('.app').innerHTML = htmlLogin;
+      initFuncLogin();
     },
     // signup
     '/signup': () => {
