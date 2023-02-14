@@ -26,13 +26,45 @@ import { initFunc } from './page/mypage.js';
 import { base_url, api_key, user_name, admin_email } from '../js/db.js'; // 로그인 부분 지우면 필요없음
 const $ = (selector) => document.querySelector(selector);
 const router = new Navigo('/');
+const ulEl = $('.header__user-login--ul');
+// ulEl.innerHTML = /* html */ `
+//   <li class="header__user-login--li">
+//     <a href="/login" data-navigo id="btnlogin"> 로그인 </a>
+//   </li>
+// `;
 
-const renderInitMainPage = () => {
-  // renderMainPage('');
-  // renderMainPage(mpWeekly);
-  // renderMainPage(mpNewProduct);
-  // renderMainPage(mpBestDesign);
-};
+async function renderInitMainPage() {
+  const author = await authorization();
+  if (author == '유효한 사용자가 아닙니다.') {
+    ulEl.innerHTML = /* html */ `
+      <li class="header__user-login--li">
+        <a href="/login" data-navigo id="btnlogin"> 로그인 </a>
+      </li>
+    `;
+  } else {
+    ulEl.innerHTML = /* html */ `
+      <li class="header__user-login--li">
+        <a href="/mypage" data-navigo>
+          <strong strong id="header__user-login-name">${author.displayName}</strong>님 환영합니다
+        </a>
+      </li>
+      <li class="header__user-login--li">
+        <button id="btnlogout"> 로그아웃 </button>
+      </li>
+    `;
+    $('#btnlogout').addEventListener('click', async () => {
+      const logoutJSON = await logout();
+      if (logoutJSON === true) {
+        localStorage.removeItem('token');
+        ulEl.innerHTML = /* html */ `
+          <li class="header__user-login--li">
+            <a href="/login" data-navigo id="btnlogin"> 로그인 </a>
+          </li>
+        `;
+      }
+    });
+  }
+}
 /** 렌더 함수 for navigo */
 const renderMainPage = (html) => {
   console.log(html);
@@ -83,16 +115,6 @@ submitEl.addEventListener('click', () => {
     },
   });
 });
-authorizationEl.addEventListener('click', async () => {
-  request({
-    url: 'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/me',
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      masterKey: true,
-    },
-  });
-});
 loginEl.addEventListener('click', async () => {
   loginEl.textContent = '로그인 시도 중...';
   await request({
@@ -139,6 +161,29 @@ async function request(options) {
   console.log(json.accessToken);
 }
 
+async function authorization() {
+  const res = await fetch(`${base_url}/auth/me`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  });
+  const json = await res.json();
+  return json;
+}
+async function logout() {
+  const res = await fetch(`${base_url}/auth/logout`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  });
+  const json = await res.json();
+  return json;
+}
+
 /** navigo router */
 
 router
@@ -148,13 +193,10 @@ router
       renderInitMainPage();
       console.log('contentsMainPage    contentsMainPage');
     },
-    // '/login': () => {
-    //   console.log('route to login!!');
-    //   $('.app').innerHTML = `
-    //   <div>asdasdasdasd</div>
-    //   <a href="/login/asd" data-navigo>wwww</a>
-    // `;
-    // },
+    '/login': () => {
+      console.log('route to login!!');
+      router.navigate('/login');
+    },
     // '/mypage': () => {
     //   console.log('go to mypage!!');
     //   $('.app').innerHTML = htmlMypage_Nav;

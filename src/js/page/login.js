@@ -6,6 +6,7 @@ const headers = {
   username: user_name,
 };
 const $ = (selector) => document.querySelector(selector);
+const userHeaderUL = $('.header__user-login--ul');
 
 export const htmlLogin = /* html */ `
   <div class="login__container">
@@ -28,16 +29,25 @@ export const htmlLogin = /* html */ `
 `;
 
 export function initFuncLogin() {
+  userHeaderUL.innerHTML = /* html */ `
+  <li class="header__user-login--li">
+    <a href="/login" data-navigo id="btnlogin"> 로그인 </a>
+  </li>
+  `;
   const btnLogin = $('.login-btn');
   btnLogin.addEventListener('click', async () => {
-    const loginJSON = await login();
-    localStorage.setItem('token', loginJSON.accessToken);
-    router.navigate('/');
+    try {
+      const loginJSON = await login();
+      displayUserName(loginJSON.user.displayName);
+      localStorage.setItem('token', loginJSON.accessToken);
+      router.navigate('/');
+    } catch (exception) {
+      alert(exception);
+    }
   });
 }
 
 async function login() {
-  // console.log('로그인 시작', $('#inputID').value, $('#inputPW').value);
   const res = await fetch(`${base_url}/auth/login`, {
     method: 'POST',
     headers: {
@@ -49,6 +59,44 @@ async function login() {
     }),
   });
   const json = await res.json();
+  return json;
+}
 
+function displayUserName(displayName) {
+  userHeaderUL.innerHTML = /* html */ `
+    <li class="header__user-login--li">
+      <a href="/mypage" data-navigo>
+        <strong strong id="header__user-login-name">${displayName}</strong>님 환영합니다
+      </a>
+    </li>
+    <li class="header__user-login--li">
+      <button id="btnlogout"> 로그아웃 </button>
+    </li>
+  `;
+
+  $('#btnlogout').addEventListener('click', async () => {
+    const logoutJSON = await logout();
+    if (logoutJSON === true) {
+      localStorage.removeItem('token');
+      userHeaderUL.innerHTML = /* html */ `
+      <li class="header__user-login--li">
+        <a href="/login" data-navigo id="btnlogin"> 로그인 </a>
+      </li>
+    `;
+      router.navigate('/');
+    }
+  });
+}
+
+async function logout() {
+  const res = await fetch(`${base_url}/auth/logout`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  });
+  const json = await res.json();
+  console.log(json);
   return json;
 }
