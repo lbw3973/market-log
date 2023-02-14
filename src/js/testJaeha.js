@@ -977,8 +977,6 @@ const buyItemAPI = async (productId, accountId) => {
   }
 };
 
-let availableBankAccount;
-
 /** 제품 총 개수 렌더링 함수 */
 const renderProductTotalQty = () => {
   const paymentItemCount = shoppingCartArr.map((items) => items.count);
@@ -1219,6 +1217,28 @@ const renderPaymentAccount = async (items) => {
     paymentAccountListTemplate;
 };
 
+/** 연결된 계좌가 없을 때 예외처리 */
+const renderNoPaymentAccount = () => {
+  const NoPaymentAccountTemplate = `
+  <li class="swiper-slide payment-method__card-list">
+    <img class="payment-method__card-list--noPaymentBankAccount"
+      src="${kakaoBank}"
+      width="210"
+      height="140"
+      alt="결제 정보 없음"
+    />
+    <a href="/" data-navigo>
+      <button class="payment-method__card-list--goToLinkBankAccount-button">
+        계좌 연결하러 가기
+      </button>
+    </a>
+  </li>
+  `;
+
+  $('.app').querySelector('.payment-method__card-lists').innerHTML =
+    NoPaymentAccountTemplate;
+};
+
 /** 카카오 맵 렌더링 */
 const renderKakaoMap = () => {
   var mapContainer = document.getElementById('map'), // 지도를 표시할 div
@@ -1272,7 +1292,7 @@ const renderKakaoMap = () => {
 };
 
 /** 결제하기 버튼 활성화/비활성화 */
-const activePaymentBtn = () => {
+const activePaymentBtn = async () => {
   const finalPaymentBtn = $('.app').querySelector(
     '.payment-method__final-confirm--btn',
   );
@@ -1280,33 +1300,36 @@ const activePaymentBtn = () => {
     '.payment-method__account-selected',
   );
   console.log(selectedPaymentAccount.textContent);
-
-  if (selectedPaymentAccount.textContent) {
+  const accountList = await getAccountDetail();
+  if (accountList.length >= 1) {
     finalPaymentBtn.style.backgroundColor = 'var(--logo-color)';
     finalPaymentBtn.style.cursor = 'pointer';
-  } else if (!selectedPaymentAccount.textContent) {
+  } else if (accountList.length === 0) {
     finalPaymentBtn.style.backgroundColor = 'gray';
-    // finalPaymentBtn.style.pointerEvents = 'auto';
+    finalPaymentBtn.setAttribute('disabled', true);
   }
 };
 
 /** swiper 결제 페이지 선택된 계좌 이름 렌더링 */
 const renderSelectedPayment = (e) => {
-  availableBankAccount = $('.app')
+  const availableBankAccount = $('.app')
     .querySelectorAll('.payment-method__card-list')
-    [e.realIndex].querySelector('.payment-method__card-name').textContent;
+    [e.realIndex]?.querySelector('.payment-method__card-name')?.textContent;
   console.log(availableBankAccount);
 
-  $('.app').querySelector('.payment-method__account-selected').innerHTML =
-    availableBankAccount;
+  if (availableBankAccount === undefined) {
+    $('.app').querySelector('.payment-method__account-selected').innerHTML =
+      '등록된 계좌가 없습니다.';
+  } else {
+    $('.app').querySelector('.payment-method__account-selected').innerHTML =
+      availableBankAccount;
+  }
 };
 
 /** 결제페이지에서 작동하는 함수들 */
 const paymentPageFunction = async (e) => {
-  // 결제가격 재렌더링
+  // 1. 결제가격 재렌더링
   renderCartTotalPrice();
-  // 1. 결제수단 불러오기
-  await renderPaymentAccount(await getAccountDetail());
   // 2. 결제할 제품들 렌더링
   renderPaymentProductList(shoppingCartArr);
   // 3. 제품 개수
@@ -1314,6 +1337,13 @@ const paymentPageFunction = async (e) => {
     renderProductTotalQty();
   // 4. 주소찾기 카카오api
   renderKakaoMap();
+  // 5. 결제수단 불러오기
+  // 예외처리: 불러올 결제수단이 없으면 '계좌 연결하러 가기 버튼 생성'
+  const accountList = await getAccountDetail();
+  console.log(accountList);
+  accountList.length === 0
+    ? renderNoPaymentAccount()
+    : await renderPaymentAccount(await getAccountDetail());
 
   // 5. swiper
   var paymentCardSwiper = new Swiper('.payment-method__swiper-wrapper', {
@@ -1322,14 +1352,18 @@ const paymentPageFunction = async (e) => {
       type: 'bullets',
     },
     grabCursor: true,
+    spaceBetween: 30,
     on: {
       afterInit: (e) => {
-        console.log('결제수단 realIndex', e.realIndex);
+        console.log('afterInit 결제수단 realIndex', e.realIndex);
         renderSelectedPayment(e);
         activePaymentBtn();
       },
-      // <div class="swiper-button-prev payment-method__swiper-button-prev"></div>
-      // <div class="swiper-button-next payment-method__swiper-button-next"></div>
+      slideChange: (e) => {
+        console.log('slideChange 결제수단 realIndex', e.realIndex);
+        renderSelectedPayment(e);
+        activePaymentBtn();
+      },
     },
   });
 };

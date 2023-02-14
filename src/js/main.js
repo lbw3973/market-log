@@ -1,47 +1,10 @@
-//최상단버튼
-// let toTop = document.querySelector('#to-top');
-
-// window.addEventListener('scroll', () => {
-//   let scrollY = window.scrollY;
-//   if (scrollY > 200) {
-//     toTop.classList.add('on');
-//     if (scrollY < 200) {
-//       toTop.classList.add('on');
-//       // 색반전 주기
-//     } else {
-//       toTop.classList.remove('on');
-//     }
-//   }
-// });
-// toTop.addEventListener('click', (e) => {
-//   e.preventDefault();
-//   window.scrollTo({ top: 0, behavior: 'smooth' });
-// });
-
-// import * as signup from './page/signup';
-// import * as productDetail from './page/productDetail/productDetail';
 import chevronrightSVG from '../../public/chevronright.svg';
-import { mpBestDesign, mpNewProduct, mpWeekly } from './renderMainPage.js';
 import Navigo from 'navigo';
 import { initFunc } from './page/mypage.js';
 import { base_url, api_key, user_name, admin_email } from '../js/db.js'; // 로그인 부분 지우면 필요없음
 const $ = (selector) => document.querySelector(selector);
 const router = new Navigo('/');
 
-const renderInitMainPage = () => {
-  // renderMainPage('');
-  // renderMainPage(mpWeekly);
-  // renderMainPage(mpNewProduct);
-  // renderMainPage(mpBestDesign);
-};
-/** 렌더 함수 for navigo */
-const renderMainPage = (html) => {
-  console.log(html);
-  const mainPageAll = document.querySelector('.app');
-  mainPageAll.innerHTML += html;
-  //mainPageAll.innerHTML = '';
-  //mainPageAll.append(html);
-};
 export const renderPage = (html) => {
   console.log(html);
   const mainPageAll = document.querySelector('.app');

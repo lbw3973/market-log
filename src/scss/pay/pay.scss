@@ -198,34 +198,50 @@
 
 // 결제수단 선택 scss
 .payment-method {
-  &__swiper-wrapper {
-  }
   &__select-card {
     // width: 300px;
     padding: 15px 15px 40px;
     background-color: #fff;
   }
   &__swiper-wrapper {
+    overflow: hidden;
     margin-left: 20px;
     padding: 10px;
     width: 240px;
-    height: auto;
+    height: 260px;
     border: 1px solid var(--logo-color);
     border-radius: 6px;
     background-color: var(--division-line);
   }
   &__card-lists {
     display: flex;
-    // gap: 5px;
+    margin-left: 16px;
+    gap: 30px;
 
     img {
-      // filter: grayscale(100%);
+      margin: 10px 0 16px;
     }
   }
   &__card-list {
     display: flex;
     flex-direction: column;
     align-items: center;
+    &--noPaymentBankAccount {
+      filter: grayscale(100%);
+    }
+    &--goToLinkBankAccount-button {
+      margin-top: 20px;
+      padding: 6px 10px;
+      border: 1px solid var(--logo-color);
+      border-radius: 6px;
+      color: black;
+
+      &:active,
+      &:hover {
+        color: #fff;
+        background-color: var(--deps-blue);
+      }
+    }
   }
   &__card-name {
     margin-top: 10px;
@@ -264,13 +280,11 @@
   }
 }
 .swiper-pagination {
-  display: block;
+  width: 100%;
   position: absolute;
   text-align: center;
-  -webkit-transform: translateZ(0);
   transform: translateZ(0);
   transition: opacity 0.3s;
-  z-index: 10000;
-  bottom: 25px;
-  left: 120px;
+  color: black;
+  left: 350px;
 }
