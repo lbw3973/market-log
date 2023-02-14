@@ -15,6 +15,7 @@ import {
   addHeart,
   removeHeart,
   emptyHeart,
+  shoppingCart,
 } from './importIMGFiles.js';
 
 /** Navigo innerHTML template */
@@ -39,6 +40,7 @@ const getAllProducts = async () => {
       },
     });
     const data = await res.json();
+    console.log('jaehaData', data);
     return data;
   } catch (err) {
     console.log(err);
@@ -206,13 +208,14 @@ const renderInitCategoryPage = `
 `;
 
 /** 카테고리 페이지 제품 db에서 불러오기 */
+
 const renderCategoryProductList = (items) => {
   const categoryProductListTemplate = items
     .map((item) => {
-      const { id, price, thumbnail, title } = item;
+      const { id, price, thumbnail, title, tags } = item;
 
       return `
-    <li class="categoryPage__product--list" data-product-id="${id}">
+    <li class="categoryPage__product--list" data-product-id="${id}" data-category-tag="${tags}">
       <a href="/product/${id}">
         <div class="categoryPage__product--img">
           <img src="${thumbnail}" alt="${title}" />
@@ -464,6 +467,130 @@ $('.app').addEventListener('click', (e) => {
     renderDetailProduct(id);
   }
 });
+
+/*-----------------------------------*\
+  마이 페이지 - 찜하기 페이지 / 찜한 상품 페이지 #wishList js
+\*-----------------------------------*/
+
+const renderInitMypageTemplate = `
+      <div class="mypage__app">
+        <div class="mypage__container">
+          <div class="mypage__navbar">
+            <h1>마이페이지</h1>
+            <nav>
+              <ul>
+                <li>
+                  <button id="mpOrderHistory">
+                    주문 내역
+                    <img src="./public/chevronright.svg" alt="chevronright" />
+                  </button>
+                </li>
+                <li>
+                  <a href="/mypage/account" data-navigo
+                    >계좌 관리
+                    <img src="./public/chevronright.svg" alt="chevronright" />
+                  </a>
+                </li>
+                <li>
+                  <a href="/mypage/myHeart" data-navigo
+                    >찜한 상품
+                    <img src="./public/chevronright.svg" alt="chevronright" />
+                  </a>
+                </li>
+                <li>
+                  <a href="/mypage/myPersonalInfoModify" data-navigo
+                    >개인 정보 수정
+                    <img src="./public/chevronright.svg" alt="chevronright" />
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          <div class="mypage__navigo__container">
+            <div class="mypage__wishlist">
+              <div class="mypage__wishlist--container">
+                <h3>찜한 상품</h3>
+                <ul class="wishlist__product--lists">
+                  <div class="cart__empty">
+                    <img src="${cartSVG}" alt="빈 장바구니" />
+                    <h3>찜하기 목록이 비었습니다.</h3>
+                    <a href="/category/keyboards">쇼핑하러 가기</a>
+                  </div>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+`;
+
+const renderWishListProductList = (store) => {
+  console.log(store);
+  const wishListProductListTemplate = store
+    .map((item) => {
+      const { id, pricePerOne, thumbnail, title } = item;
+
+      return `
+    <li class="wishlist__product--list" data-product-id="${id}">
+      <div class="wishlist__product--list-container">
+        <img src="${thumbnail}" alt="${title}" />
+        <div class="wishlist__product--info">
+          <h4 class="wishlist__product--info-desc">
+            <a
+              href="/product/${id}"
+              data-navigo
+              class="wishlist__product--info-title"
+            >
+              ${title}
+            </a>
+            <div class="wishlist__product--info-price">
+              ${pricePerOne.toLocaleString()} 원
+            </div>
+          </h4>
+        </div>
+      </div>
+      <div class="wishlist__product--list-AddRemoveBtn">
+        <button
+          class="wishlist__product--list-removeFromWishListBtn removeFromWishListBtn"
+        >
+          삭제
+        </button>
+        <button class="wishlist__product--list-AddToCartBtn wishList-AddToCartBtn">
+          <img src="${shoppingCart}" alt="shopping cart" />
+          담기
+        </button>
+      </div>
+    </li>
+    `;
+    })
+    .join('');
+
+  $('.wishlist__product--lists').innerHTML = wishListProductListTemplate;
+};
+
+$('.app').addEventListener('click', (e) => {
+  const id = e.target.closest('li').dataset.productId;
+  console.log(e.target);
+  if (e.target.classList.contains('removeFromWishListBtn')) {
+    wishListArr = wishListArr.filter((item) => item.id !== id);
+    console.log('removeEvent', wishListArr);
+    wishListStore.setLocalStorage(wishListArr);
+    renderWishListPage();
+  }
+});
+
+/** 찜한 상품이 없을 때 / 있을 때 예외처리 */
+const renderWishListPage = () => {
+  if (wishListArr.length === 0) {
+    renderWishListProductList(wishListArr);
+    renderPage(renderInitMypageTemplate);
+    return;
+  } else if (wishListArr.length >= 1) {
+    // 장바구니에 넣은 상품 렌더링
+    renderWishListProductList(wishListArr);
+    return;
+  }
+};
 
 /*-----------------------------------*\
   제품 상세 페이지  #productDetail js
@@ -1394,9 +1521,12 @@ const renderFinalPaymentPrice = () => {
 router
   .on({
     '/': async () => {
-      $('.modal__addCart').style.display = 'none';
-      console.log('/ route is working');
-      renderPage(renderMainPageTemplate);
+      // $('.modal__addCart').style.display = 'none';
+      // console.log('/ route is working');
+      // renderPage(renderMainPageTemplate);
+      renderPage(renderInitMypageTemplate);
+      wishListArr = wishListStore.getLocalStorage();
+      renderWishListProductList(wishListArr);
     },
     '/products/search': async () => {
       $('.modal__addCart').style.display = 'none';
@@ -1409,6 +1539,7 @@ router
     },
     '/product/:id': async (params) => {
       console.log('product/:id route is working');
+      console.log('params', params);
       await renderDetailProduct(params.data.id);
 
       $('.app')
@@ -1561,6 +1692,12 @@ router
             3,
           );
         });
+    },
+
+    '/mypage/wishlist': async () => {
+      renderPage(renderInitMypageTemplate);
+      // renderWishListProductList(wishListStore.getLocalStorage());
+      renderWishListPage();
     },
   })
   .resolve();

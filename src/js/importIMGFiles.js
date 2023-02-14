@@ -12,6 +12,7 @@ import addHeart from '../../public/addHeart.svg';
 import hearted from '../../public/hearted.svg';
 import removeHeart from '../../public/removeHeart.svg';
 import emptyHeart from '../../public/emptyHeart.svg';
+import shoppingCart from '../../public/shoppingCart.svg';
 
 export {
   air60,
@@ -28,4 +29,5 @@ export {
   removeHeart,
   heart,
   emptyHeart,
+  shoppingCart,
 };
