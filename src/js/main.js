@@ -21,7 +21,6 @@
 // import * as signup from './page/signup';
 // import * as productDetail from './page/productDetail/productDetail';
 import chevronrightSVG from '../../public/chevronright.svg';
-import { mpBestDesign, mpNewProduct, mpWeekly } from './renderMainPage.js';
 import Navigo from 'navigo';
 import { initFunc } from './page/mypage.js';
 import { base_url, api_key, user_name, admin_email } from '../js/db.js'; // 로그인 부분 지우면 필요없음
@@ -137,6 +136,7 @@ async function request(options) {
   });
   const json = await res.json();
   window.localStorage.setItem('token', json.accessToken);
+  console.log(json.accessToken);
 }
 
 /** navigo router */

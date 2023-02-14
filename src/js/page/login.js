@@ -37,7 +37,7 @@ export function initFuncLogin() {
 }
 
 async function login() {
-  console.log('로그인 시작', $('#inputID').value, $('#inputPW').value);
+  // console.log('로그인 시작', $('#inputID').value, $('#inputPW').value);
   const res = await fetch(`${base_url}/auth/login`, {
     method: 'POST',
     headers: {

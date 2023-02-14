@@ -8,16 +8,12 @@ const divLoadingEl = document.querySelector('.loadingGif');
 
 // HTML : mypage 계좌관리 탭
 export const htmlMypage_Account = /* html */ `
-<div class="mypage__account__wrapper">
-  <div class="mypage__account__header">
-    <h1>계좌 관리</h1>
-  </div>
+<div class="mypage__account">
+  <h2>계좌 관리</h2>
   <div class="user__account">
     <p class="total__balance"></p>
     <ul></ul>
-    <div>
-      <button class="btn__create__account">계좌추가!</button>
-    </div>
+    <button class="btn__create__account">계좌추가!</button>
   </div>
 </div>
 <div class="create__account">

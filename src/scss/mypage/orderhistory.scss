@@ -1,69 +1,10 @@
-@import '../globals/';
-@import './mixin.scss';
-@import './modal.scss';
-
 .nodisplay {
   display: none;
 }
-
 .mypage__container {
   display: flex;
-  margin-top: 2rem;
-  // width: 1200px;
-  // width: 74vw;
-
-  // .mypage__navbar {
-  //   @include straight;
-  //   gap: 2rem;
-  //   width: 20%;
-  //   z-index: 200;
-
-  //   h1 {
-  //     font-size: 1.6rem;
-  //     // font-weight: 800;
-  //   }
-
-  //   nav {
-  //     @include straight;
-  //     ul {
-  //       li {
-  //         border: 1px solid #fafafa;
-  //         border-bottom: none;
-  //         font-size: 0.9rem;
-  //         &:first-child {
-  //           background-color: #fafafa;
-  //           a {
-  //             color: var(--light-purple);
-  //           }
-  //         }
-  //         a {
-  //           display: flex;
-  //           justify-content: space-between;
-  //           align-items: center;
-  //           padding: 1rem;
-  //           color: #000;
-  //           &:hover {
-  //             background-color: #fafafa;
-  //             color: var(--light-purple);
-  //           }
-  //         }
-  //         // a:visited {
-  //         //   text-decoration: none;
-  //         //   color: var(--light-purple);
-  //         // }
-  //       }
-  //     }
-  //   }
-  // }
+  margin-top: 30px;
   .mypage__orderhistory {
-    // padding-left: 80px;
-    width: 80%;
-    min-height: 450px;
-    h2 {
-      font-size: 22.4px;
-      padding: 0 0 16px;
-      border-bottom: 2px solid #000;
-    }
     .calendar-box {
       position: relative;
       display: flex;
@@ -89,19 +30,22 @@
         height: 30px;
         border: 1px solid var(--light-purple);
         border-radius: 5px;
-        @include center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
         img {
+          width: 20px;
+          height: 20px;
           color: var(--light-purple);
-        }
-        &:hover {
-          cursor: pointer;
         }
       }
       .calendar .wrapper {
         position: absolute;
         top: 50px;
         right: 50px;
-        @include straight;
+        display: flex;
+        flex-direction: column;
         align-items: center;
         width: 256px;
         box-sizing: border-box;
@@ -121,7 +65,9 @@
           text-align: left;
           font-weight: 600;
           .material-symbols-outlined {
-            @include center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             margin-left: 15px;
             width: 34px;
             height: 34px;
@@ -138,16 +84,19 @@
             display: flex;
             margin: 10px 0 10px;
             li {
-              @include center;
+              display: flex;
+              justify-content: center;
+              align-items: center;
               width: calc(100% / 7);
             }
           }
           .days {
             display: flex;
             flex-wrap: wrap;
-
             li {
-              @include center;
+              display: flex;
+              justify-content: center;
+              align-items: center;
               width: calc(100% / 7);
               height: 34px;
               &.inactive {
@@ -167,14 +116,6 @@
                 background-color: var(--light-blue);
                 border-radius: 50%;
               }
-              // &::after {
-              //   content: '';
-              //   width: 34px;
-              //   height: 34px;
-              //   border-radius: 50%;
-              //   background-color: black;
-              //   z-index: 5;
-              // }
             }
           }
         }
@@ -189,7 +130,8 @@
         bottom: 50%;
         left: 39%;
         p {
-          @include straight;
+          display: flex;
+          flex-direction: column;
           align-items: center;
           color: var(--light-purple);
           img {
@@ -199,17 +141,18 @@
       }
       .products {
         .product {
+          border: 1px solid #f5f5f5;
+          margin: 25px 0;
+          padding: 5px 0;
           display: grid;
           grid-template-columns: 1fr 3fr 1fr;
           grid-template-rows: 162px;
-          border: 1px solid #f5f5f5;
-          padding: 5px 0;
-          margin: 25px 0;
           a img {
             background-color: red;
           }
           &--info {
-            @include straight;
+            display: flex;
+            flex-direction: column;
             justify-content: space-evenly;
             .product--name {
               width: 350px;
@@ -219,40 +162,6 @@
             }
             .product--info-numbers {
               display: flex;
-              flex-wrap: wrap;
-
-              li {
-                @include center;
-                width: calc(100% / 7);
-                height: 34px;
-                &.inactive {
-                  color: #fff;
-                }
-                &.active:hover {
-                  background-color: var(--light-blue);
-                  color: #fff;
-                  border-radius: 50%;
-                  cursor: pointer;
-                }
-                &.today {
-                  background-color: var(--deps-blue);
-                  border-radius: 50%;
-                  color: #fff;
-                }
-                &.selected {
-                  background-color: var(--light-blue);
-                  color: #fff;
-                  border-radius: 50%;
-                }
-                // &::after {
-                //   content: '';
-                //   width: 34px;
-                //   height: 34px;
-                //   border-radius: 50%;
-                //   background-color: black;
-                //   z-index: 5;
-                // }
-              }
             }
             .order-status {
               font-size: 13px;
@@ -261,24 +170,22 @@
             }
           }
           .buttons {
-            @include straight;
+            display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             .button {
+              border: 1px solid var(--light-purple);
+              border-radius: 5px;
+              margin: 7px 0;
+              padding: 7px;
               width: 81px;
               height: 30px;
               text-align: center;
-              padding: 7px;
-              margin: 7px 0;
-              border: 1px solid var(--light-purple);
-              border-radius: 5px;
               color: var(--light-purple);
               &:nth-child(2) {
                 background-color: var(--light-purple);
                 color: #fff;
-              }
-              &:hover {
-                cursor: pointer;
               }
             }
           }
@@ -286,7 +193,8 @@
       }
     }
     .order-history--pagination {
-      @include row-center;
+      display: flex;
+      justify-content: center;
       margin: 10px 0;
     }
   }

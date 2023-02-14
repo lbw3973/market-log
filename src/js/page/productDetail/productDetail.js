@@ -18,7 +18,7 @@ export const shoppingCartStore = {
     localStorage.removeItem('shoppingCart')[0];
   },
   clearLocalStorage() {
-    localStorage.clear();
+    // localStorage.clear();
   },
 };
 let shoppingCartArr = [];
