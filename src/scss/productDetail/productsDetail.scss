@@ -44,10 +44,13 @@ img {
 // section
 .section {
   &__container {
-    margin: 60px 0;
+    display: flex;
+    justify-content: center;
+    width: 1400px;
+    margin: 60px auto;
     display: grid;
     justify-content: center;
-    grid-template-columns: 45% 40%;
+    grid-template-columns: 600px 500px;
   }
   &__productDetail {
     display: flex;
@@ -82,17 +85,16 @@ img {
         &-price {
           font-size: 20px;
         }
+      }
 
-        &-wishlist {
-          img {
-            height: 36px;
-            cursor: pointer;
-
-            &:active {
-              transform: scale(0.98);
-            }
-          }
+      &-wishlistBtn {
+        &:active {
+          transform: scale(0.9);
         }
+      }
+      &-wishlistImg {
+        height: 26px;
+        background-color: var(--deps-blue);
       }
 
       &-desc {

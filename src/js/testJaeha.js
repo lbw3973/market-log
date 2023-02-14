@@ -12,6 +12,7 @@ import {
   nufolio,
   twilight,
   xmas,
+  wish,
 } from './importIMGFiles.js';
 
 /** 렌더 함수 for navigo */
@@ -46,6 +47,7 @@ const getAllProducts = async () => {
   #메인 페이지
 \*-----------------------------------*/
 
+/** 메인 페이지 초기 템플릿 */
 const renderMainPageTemplate = `
 <div class="mainPage">
   <div class="mainPage__container">
@@ -400,6 +402,67 @@ const handleSearchPageResult = async () => {
   제품 상세 페이지  #productDetail js
 \*-----------------------------------*/
 
+/** 찜하기 목록 localStorage */
+export const wishListStore = {
+  setLocalStorage(product) {
+    localStorage.setItem('wishList', JSON.stringify(product));
+  },
+  getLocalStorage() {
+    return JSON.parse(localStorage.getItem('wishList')) || [];
+  },
+  removeLocalStorage() {
+    return localStorage.removeItem('wishList');
+  },
+  clearLocalStorage() {
+    localStorage.clear();
+  },
+};
+
+let wishListArr = [];
+wishListArr = wishListStore.getLocalStorage();
+console.log(wishListArr);
+
+/** 찜하기 목록에 저장 */
+const storeWishList = (id, count, thumbnail, title, pricePerOne) => {
+  const existingItem = wishListArr.find((item) => item.id === id);
+
+  if (!existingItem) {
+    wishListArr.push({ id, count, thumbnail, title, pricePerOne });
+    console.log('wishListArr', wishListArr);
+    $('.aside__productDetail--info-wishlistImg').style.backgroundColor =
+      'var(--deps-pink)';
+    return;
+  } else if (existingItem) {
+    wishListArr = wishListArr.filter((item) => item.id !== id);
+    console.log('wishListArr 이미 찜', wishListArr);
+    wishListStore.setLocalStorage(wishListArr);
+    $('.aside__productDetail--info-wishlistImg').style.backgroundColor = 'none';
+    return;
+  }
+  console.log('wishListArr2', wishListArr);
+};
+
+/** 제품 상세 페이지 찜하기 버튼 핸들링 이벤트  */
+$('.app').addEventListener('click', (e) => {
+  console.log(e.target);
+  if (e.target.classList.contains('aside__productDetail--info-wishlistImg')) {
+    const id = e.target.closest('.section__container').dataset.productId;
+    console.log(id);
+    const count = productDetailProductQty;
+    const title = productDetailTitle;
+    const thumbnail = productDetailThumbnail;
+    const pricePerOne = productDetailPricePerOne;
+
+    storeWishList(id, count, thumbnail, title, pricePerOne);
+    wishListStore.setLocalStorage(wishListArr);
+    console.log('wishListArr.push', wishListArr);
+  }
+});
+
+/*-----------------------------------*\
+  제품 상세 페이지  #productDetail js
+\*-----------------------------------*/
+
 // productDetail 제품 상세페이지
 // 라우터 라이브러리
 import heart from '../../public/heart.svg';
@@ -420,6 +483,7 @@ export const shoppingCartStore = {
     localStorage.clear();
   },
 };
+
 let shoppingCartArr = [];
 shoppingCartArr = shoppingCartStore.getLocalStorage();
 console.log(shoppingCartArr);
@@ -522,8 +586,8 @@ const renderDetailProduct = async (productId) => {
             ${price.toLocaleString()} 원
           </div>
           <div class="aside__productDetail--info-sec-wishlist">
-            <button>
-              <img src="${heart}" alt="찜하기 버튼" />
+            <button class="aside__productDetail--info-wishlistBtn">
+              <img class="aside__productDetail--info-wishlistImg" src="${wish}" alt="찜하기 버튼" />
             </button>
           </div>
         </div>
@@ -561,23 +625,6 @@ const renderDetailProduct = async (productId) => {
 
   $('.app').innerHTML = detailProductTemplate;
 };
-
-const init = () => {
-  if (shoppingCartStore.getLocalStorage().length > 0) {
-    shoppingCartArr = shoppingCartStore.getLocalStorage();
-  }
-
-  renderDetailProduct('4mZdaj6ioV9b0yXqLPKK');
-  // renderDetailProduct('UcGtdmglg7bzIFDosY9D');
-  // shoppingCartStore.setLocalStorage(shoppingCartArr);
-};
-// init();
-
-/** 렌더 함수 for navigo */
-
-// const renderPage = (html) => {
-//   $('.app').innerHTML = html;
-// };
 
 /** 구매수량 추가 핸들링 이벤트 */
 $('.app').addEventListener('click', (e) => {
