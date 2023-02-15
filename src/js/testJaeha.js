@@ -16,6 +16,12 @@ import {
   removeHeart,
   emptyHeart,
   shoppingCart,
+  calendar,
+  reload,
+  exclamationmark,
+  paginationLeft,
+  paginationRight,
+  chevronrightSVG,
 } from './importIMGFiles.js';
 
 /** Navigo innerHTML template */
@@ -44,6 +50,7 @@ const getAllProducts = async () => {
     return data;
   } catch (err) {
     console.log(err);
+    console.log('제품 가져오기 실패');
   }
 };
 
@@ -612,6 +619,296 @@ $('.app').addEventListener('click', (e) => {
 });
 
 /*-----------------------------------*\
+  마이 페이지 - 주문내역 페이지  # mypage/order
+\*-----------------------------------*/
+const htmlMypage_Nav = /* html */ `
+<div class="mypage__app">
+  <div class="mypage__container">
+    <div class="mypage__navbar">
+      <h1>마이페이지</h1>
+      <nav>
+        <ul>
+          <li>
+            <a href="/mypage/orderHistory" data-navigo id="mpOrderHistory">주문 내역
+              <img src="${chevronrightSVG}" alt="chevronright">
+            </a>
+          </li>
+          <li>
+            <a href="/mypage/account" data-navigo id="mpAccount">계좌 관리
+              <img src="${chevronrightSVG}" alt="chevronright">
+            </a>
+          </li>
+          <li>
+            <a href="/mypage/myHeart" data-navigo id="mpMyHeart">찜한 상품
+              <img src="${chevronrightSVG}" alt="chevronright">
+            </a>
+          </li>
+          <li>
+            <a href="/mypage/myPersonalInfoModify" data-navigo id="mpMyPersonalInfoModify">개인 정보 수정
+              <img src="${chevronrightSVG}" alt="chevronright">
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  <div class="mypage__navigo__container"></div>
+</div>
+`;
+
+const htmlMypage_OrderHistory = `
+<div class="mypage__app">
+  <div class="mypage__container">
+    <div class="mypage__navbar">
+      <h1>마이페이지</h1>
+      <nav>
+        <ul>
+          <li>
+            <a href="/mypage/orderHistory" data-navigo id="mpOrderHistory">주문 내역
+              <img src="${chevronrightSVG}" alt="chevronright">
+            </a>
+          </li>
+          <li>
+            <a href="/mypage/account" data-navigo id="mpAccount">계좌 관리
+              <img src="${chevronrightSVG}" alt="chevronright">
+            </a>
+          </li>
+          <li>
+            <a href="/mypage/myHeart" data-navigo id="mpMyHeart">찜한 상품
+              <img src="${chevronrightSVG}" alt="chevronright">
+            </a>
+          </li>
+          <li>
+            <a href="/mypage/myPersonalInfoModify" data-navigo id="mpMyPersonalInfoModify">개인 정보 수정
+              <img src="${chevronrightSVG}" alt="chevronright">
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+<div class="mypage__container">
+  <div class="mypage__orderhistory">
+    <h2>주문 내역</h2>
+    <div class="calendar-box">
+      <input class="calendar-date"></input>
+      <img class="calendar-icon icon icon-tabler icon-tabler-calendar-event" src="${calendar}"
+        alt="calendar icon">
+      <button><img src="${reload}" alt="reload icon"></button>
+      <div class="calendar nodisplay">
+        <div class="wrapper">
+          <div class="curr-date ">
+            <span></span>
+            <span class="material-symbols-outlined" id="prev">
+              chevron_left
+            </span>
+            <span class="material-symbols-outlined" id="next">
+              chevron_right
+            </span>
+          </div>
+          <div class="curr-dates">
+            <ul class="weeks">
+              <li>Sun</li>
+              <li>Mon</li>
+              <li>Tue</li>
+              <li>Wed</li>
+              <li>Thu</li>
+              <li>Fri</li>
+              <li>Sat</li>
+            </ul>
+            <ul class="days">
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="products-container">
+      <div class="nocontent-box nodisplay">
+        <p>
+          <img src="${exclamationmark}" alt="exclamationmark">
+          <span>주문내역이 존재하지 않습니다.</span>
+        </p>
+      </div>
+      <ul class="products orderHistory__lists">
+        <div class="cart__empty">
+          <img src="${cartSVG}" alt="빈 장바구니" />
+          <h3>찜하기 목록이 비었습니다.</h3>
+          <a href="/category/keyboards">쇼핑하러 가기</a>
+        </div>
+      </ul>
+    </div>
+    <div class="order-history--pagination">
+      <img src="${paginationLeft}" alt="pagination-left">
+      <span>1</span>
+      <img src="${paginationRight}" alt="pagination-right">
+    </div>
+  </div>
+</div>
+</div>
+`;
+
+const getAllTransactions = async () => {
+  try {
+    const res = await fetch(`${BASE_URL}/products/transactions/details`, {
+      headers: {
+        ...headers,
+        Authorization: `Bearer ${window.localStorage.getItem('token')}`,
+      },
+    });
+    const data = await res.json();
+    console.log('거래내역', data);
+    return data;
+  } catch (err) {
+    console.log('거래내역 가져오기 실패', err);
+  }
+};
+
+const confirmTransactionAPI = async (detailId) => {
+  try {
+    const res = await fetch(`${BASE_URL}/products/ok`, {
+      method: 'POST',
+      headers: {
+        ...headers,
+        Authorization: `Bearer ${window.localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify({
+        detailId,
+      }),
+    });
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.log('구매 확정 실패', err);
+  }
+};
+
+const cancelTransactionAPI = async (detailId) => {
+  try {
+    const res = await fetch(`${BASE_URL}/products/cancel`, {
+      method: 'POST',
+      headers: {
+        ...headers,
+        Authorization: `Bearer ${window.localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify({
+        detailId,
+      }),
+    });
+    const data = await res.json();
+    return data;
+    // return data;
+  } catch (err) {
+    console.log('구매 취소 실패', err);
+  }
+};
+
+export const formatDate = (target) => {
+  const date = new Date(target);
+  const year = String(date.getFullYear()).padStart(2, 0);
+  const month = String(date.getMonth() + 1).padStart(2, 0);
+  const today = String(date.getDate()).padStart(2, 0);
+  const hour = String(date.getHours()).padStart(2, 0);
+  const min = String(date.getMinutes()).padStart(2, 0);
+  return `${year}.${month}.${today} | ${hour}:${min}`;
+};
+export const formatPrice = (target) => {
+  if (target) {
+    let result = target.toLocaleString('ko-KR');
+    return result;
+  }
+};
+
+/** 제품 구매 내역 */
+const renderOrderedProductList = (orderedItems) => {
+  const orderedProductListTemplate = orderedItems
+    .map((item) => {
+      const { detailId, product, timePaid, done } = item;
+      console.log(item);
+      const { productId, title, price, thumbnail } = product;
+      console.log('product', product);
+
+      return `
+      <li class="product orderHistory__list" data-product-id="${productId}" data-detail-id="${detailId}">
+        <img src="${thumbnail}" alt="${title}" class="product--img orderHistory__list--img" />
+        <div class="product--info">
+          <a href="./detailedorderlist.html" class="product--name orderHistory__list--name">PLAY 트리 잭슨 프렌즈 토이</a>
+          <div class="product--info-numbers orderHistory__list--info">
+            <div class="product--price orderHistory__list--info-price">${price.toLocaleString()} 원</div>
+            <div class="product--order-date orderHistory__list--info-date">${formatDate(
+              timePaid,
+            )}</div>
+          </div>
+          <span class="order-status orderHistory__list--orderStatus">구매 확정 대기</span>
+          <span>구매 확정 이후에는 주문 취소가 불가능합니다.</span>
+          <span class="orderHistory__list--confirmed-order"></span>
+        </div>
+        <div class="buttons orderHistory__list--buttons">
+          ${checkWhetherTransactionIsDone(done)}
+        </div>
+      </li>
+    `;
+    })
+    .join('');
+
+  $('.orderHistory__lists').innerHTML = orderedProductListTemplate;
+};
+
+/** 제품 구매 내역 유/무 예외처리 */
+const renderOrderedListPage = async () => {
+  const transactionArr = await getAllTransactions();
+  console.log('transactionArr', transactionArr);
+  if (transactionArr.length === 0) {
+    // renderOrderedProductList();
+    renderPage(htmlMypage_OrderHistory);
+    return;
+  } else if (transactionArr.length >= 1) {
+    // 장바구니에 넣은 상품 렌더링
+    renderPage(htmlMypage_OrderHistory);
+    renderOrderedProductList(transactionArr);
+    return;
+  }
+};
+
+$('.app').addEventListener('click', (e) => {
+  console.log(e.target);
+  const detailId = e.target.closest('li')?.dataset.detailId;
+  console.log('detailId', detailId);
+  if (e.target.classList.contains('orderHistory__list--confirmBtn')) {
+    confirmTransactionAPI(detailId);
+    e.target
+      .closest('li')
+      .querySelector('.orderHistory__list--confirmed-order').innerHTML =
+      '구매가 확정되었습니다.';
+    $('.app').querySelector(
+      '.orderHistory__list--confirmed-order',
+    ).style.display = 'none';
+    return;
+  }
+
+  if (e.target.classList.contains('orderHistory__list--cancelBtn')) {
+    cancelTransactionAPI(detailId);
+    e.target.closest('li').querySelector('.').innerHTML =
+      '구매가 취소되었습니다.';
+    $('.app').querySelector('.orderHistory__list--buttons').style.display =
+      'none';
+    return;
+  }
+});
+
+const checkWhetherTransactionIsDone = (done) => {
+  const buttons = `<button class="button cancel-btn orderHistory__list--cancelBtn">주문 취소</button>
+                  <button class="button orderfix-btn orderHistory__list--confirmBtn">구매 확정</button>`;
+  const emptyButtons = ``;
+  if (done) {
+    return emptyButtons;
+  } else if (!done) {
+    return buttons;
+  }
+};
+
+/*-----------------------------------*\
+  마이 페이지 - 주문내역 상세 페이지  # mypage/order/:id
+\*-----------------------------------*/
+
+/*-----------------------------------*\
   제품 상세 페이지  #productDetail js
 \*-----------------------------------*/
 
@@ -808,7 +1105,7 @@ const updateInfo = async (e, productId) => {
   shoppingCartStore.setLocalStorage(shoppingCartArr);
 };
 
-/** 장바구니 담기 핸들 이벤트 */
+/** 장바구니 담기 핸들링 이벤트 */
 $('.app').addEventListener('click', (e) => {
   pushInCart(e);
 });
@@ -1006,6 +1303,7 @@ const renderCartList = (storage) => {
   $('.app').querySelector('.cart__list').innerHTML = cartListTemplate;
 };
 
+/** 장바구니 localStorage에 저장하는 함수 - 찜하기 페이지에서 재활용 */
 const storeLocalStorage = (id) => {
   const existingItem = shoppingCartArr.find((item) => item.id === id);
   console.log('existingItem', existingItem);
@@ -1543,9 +1841,13 @@ const renderFinalPaymentPrice = () => {
 router
   .on({
     '/': async () => {
-      // $('.modal__addCart').style.display = 'none';
-      // console.log('/ route is working');
+      $('.modal__addCart').style.display = 'none';
+      console.log('/ route is working');
       renderPage(renderMainPageTemplate);
+      // renderPage(htmlMypage_Nav);
+      // $('.app').querySelector('.mypage__navigo__container').innerHTML =
+      //   htmlMypage_OrderHistory;
+      // renderOrderedProductList(await getAllTransactions());
     },
     '/products/search': async () => {
       $('.modal__addCart').style.display = 'none';
@@ -1712,10 +2014,18 @@ router
           );
         });
     },
-
+    // 마이페이지 찜하기 목록
     '/mypage/wishlist': () => {
       renderPage(renderInitMypageTemplate);
       renderWishListPage();
+    },
+    // 마이페이지 주문내역 목록
+    '/mypage/order': async () => {
+      // renderPage(htmlMypage_Nav);
+      renderPage(htmlMypage_OrderHistory);
+      // $('.app').querySelector('.mypage__navigo__container').innerHTML =
+      //   htmlMypage_OrderHistory;
+      await renderOrderedListPage();
     },
   })
   .resolve();

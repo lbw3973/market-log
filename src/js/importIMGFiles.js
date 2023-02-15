@@ -13,6 +13,12 @@ import hearted from '../../public/hearted.svg';
 import removeHeart from '../../public/removeHeart.svg';
 import emptyHeart from '../../public/emptyHeart.svg';
 import shoppingCart from '../../public/shoppingCart.svg';
+import calendar from '../../public/calendar.svg';
+import reload from '../../public/reload.svg';
+import exclamationmark from '../../public/exclamationmark.svg';
+import paginationLeft from '../../public/pagination-left.svg';
+import paginationRight from '../../public/pagination-right.svg';
+import chevronrightSVG from '../../public/chevronright.svg';
 
 export {
   air60,
@@ -30,4 +36,10 @@ export {
   heart,
   emptyHeart,
   shoppingCart,
+  calendar,
+  reload,
+  exclamationmark,
+  paginationLeft,
+  paginationRight,
+  chevronrightSVG,
 };
