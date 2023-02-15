@@ -80,7 +80,7 @@ export const renderDetailProduct = (productDetail) => {
       <img src="${thumbnail}" alt="${title}">
       <div class="productDetail-container">
         <div class="productDetail-container__info">
-          <div class="productDetail-container__info--category"
+          <div class="productDetail-container__info--category">
             <h2>카테고리</h2>
             <p>${tags[0]}</P>
           </div>
