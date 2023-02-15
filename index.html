@@ -1,160 +1,188 @@
 <!DOCTYPE html>
 <html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="public/favicon.svg" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Market.log | MainPage</title>
+    <!-- scss -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+    />
+    <link rel="stylesheet" href="./src/scss/main.scss" />
+    <link rel="stylesheet" href="./src/scss/jaehaForward/jaeha.scss" />
+    <!-- 다음 우편번호 찾기 api -->
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=26e53c394ca0000e128fe5483eb64985&libraries=services"></script>
+    <!-- js -->
+    <!-- test js -->
+    <!-- <script type="module" src="./src/js/testJaeha.js" defer></script> -->
+    <!-- 병욱님, 영은님 -->
+    <script type="module" src="./src/js/main.js" defer></script>
+    <!-- <script type="module" src="./src/js/testChanYoung.js" defer></script> -->
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="public/favicon.svg" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Market.log | MainPage</title>
-  <!-- scss -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
-  <link rel="stylesheet" href="./src/scss/main.scss" />
-  <link rel="stylesheet" href="./src/scss/jaehaForward/jaeha.scss" />
-  <!-- 다음 우편번호 찾기 api -->
-  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-  <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=26e53c394ca0000e128fe5483eb64985&libraries=services"></script>
-  <!-- js -->
-  <!-- test js -->
-  <!-- <script type="module" src="./src/js/testJaeha.js" defer></script> -->
-  <!-- 병욱님, 영은님 -->
-  <script type="module" src="./src/js/main.js" defer></script>
-  <!-- <script type="module" src="./src/js/testChanYoung.js" defer></script> -->
-
-</head>
-
-<body>
-  <!-- 공통 헤더 시작 -->
-  <header class="header-container">
-    <div class="header">
-      <nav class="header__user-login">
-        <ul class="header__user-login--ul">
-          <!-- <li class="header__user-login--li">
+  <body>
+    <!-- 공통 헤더 시작 -->
+    <header class="header-container">
+      <div class="header">
+        <nav class="header__user-login">
+          <ul class="header__user-login--ul">
+            <!-- <li class="header__user-login--li">
             <a href="/login" data-navigo id="btnlogin"> 로그인 </a>
           </li> -->
-        </ul>
-      </nav>
+          </ul>
+        </nav>
 
-      <nav class="header-main">
-        <a class="header-main__home-link" href="#" data-navigo>
-          <img class="header-main__logo" src="./public/mainLogo.svg" alt="main logo" />
-          <h1 class="header-main__company-name">마켓로그</h1>
-        </a>
+        <nav class="header-main">
+          <a class="header-main__home-link" href="#" data-navigo>
+            <img
+              class="header-main__logo"
+              src="./public/mainLogo.svg"
+              alt="main logo"
+            />
+            <h1 class="header-main__company-name">마켓로그</h1>
+          </a>
 
-        <div class="header-main__search">
-          <form class="header-main__search--form">
-            <input class="header-main__search--input" placeholder="검색어를 입력해주세요." />
-            <button class="header-main__search--button">
-              <img src="./public/search.png" alt="search button" />
-            </button>
-          </form>
-        </div>
+          <div class="header-main__search">
+            <form class="header-main__search--form">
+              <input
+                class="header-main__search--input"
+                placeholder="검색어를 입력해주세요."
+              />
+              <button class="header-main__search--button">
+                <img src="./public/search.png" alt="search button" />
+              </button>
+            </form>
+          </div>
 
-        <div class="header-main__links">
-          <a href="/mypage/wishlist" data-navigo><img class="header-main__links-img" src="./public/hearted.svg"
-              alt="찜하기" /></a>
-          <a href="/cart" data-navigo><img class="header-main__links-img" src="./public/cart.svg" alt="카트" /></a>
-          <a href="/mypage" data-navigo><img class="header-main__links-img" src="./public/member.svg" alt="마이페이지" /></a>
-        </div>
-      </nav>
+          <div class="header-main__links">
+            <a href="/mypage/wishlist" data-navigo
+              ><img
+                class="header-main__links-img"
+                src="./public/hearted.svg"
+                alt="찜하기"
+            /></a>
+            <a href="/cart" data-navigo
+              ><img
+                class="header-main__links-img"
+                src="./public/cart.svg"
+                alt="카트"
+            /></a>
+            <a href="/mypage" data-navigo
+              ><img
+                class="header-main__links-img"
+                src="./public/member.svg"
+                alt="마이페이지"
+            /></a>
+          </div>
+        </nav>
 
-      <nav class="header-nav__category">
-        <ul class="header-nav__category--lists">
-          <a href="/category/keyboards" data-navigo>
-            <li class="header-nav__category--list">키보드</li>
-          </a>
-          <a href="/category/keycaps" data-navigo>
-            <li class="header-nav__category--list">키캡</li>
-          </a>
-          <a href="/category/switches" data-navigo>
-            <li class="header-nav__category--list">스위치</li>
-          </a>
-          <a href="/category/accessories" data-navigo>
-            <li class="header-nav__category--list">액세서리</li>
-          </a>
-        </ul>
-      </nav>
+        <nav class="header-nav__category">
+          <ul class="header-nav__category--lists">
+            <a href="/category/keyboards" data-navigo>
+              <li class="header-nav__category--list">키보드</li>
+            </a>
+            <a href="/category/keycaps" data-navigo>
+              <li class="header-nav__category--list">키캡</li>
+            </a>
+            <a href="/category/switches" data-navigo>
+              <li class="header-nav__category--list">스위치</li>
+            </a>
+            <a href="/category/accessories" data-navigo>
+              <li class="header-nav__category--list">액세서리</li>
+            </a>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <!-- 공통 헤더 끝 -->
+
+    <!-- 메인페이지 라우터 -->
+    <main class="app"></main>
+    <div class="loadingGif">
+      <img src="public/loading.svg" alt="로딩.." id="img-loadingGIF" />
     </div>
-  </header>
-  <!-- 공통 헤더 끝 -->
+    <!-- 메인페이지 끝 -->
 
-  <!-- 메인페이지 라우터 -->
-  <main class="app"></main>
-  <div class="loadingGif">
-    <img src="public/loading.svg" alt="로딩.." id="img-loadingGIF" />
-  </div>
-  <!-- 메인페이지 끝 -->
-
-  <!-- 공통 FOOTER 시작-->
-  <div class="footer-container">
-    <footer>
-      <div class="footer-left">
-        <div class="footer-menu">
-          <a href="" class="footer-menu__home"><span>홈 | </span></a>
-          <a href="" class="footer-menu__home"><span> 회사소개 | </span></a>
-          <a href="" class="footer-menu__home"><span> 이용약관 | </span></a>
-          <a href="" class="footer-menu__home"><span> 개인정보처리방침</span></a>
-        </div>
-        <div class="footer-info">
-          <span class="footer-info__company-name">(주)merge | </span>
-          <span class="footer-info__company-ceo"> 대표: 로그 킴 | </span>
-          <span class="footer-info__business-email">
-            비즈니스: logkim@marketlog.co.kr</span>
-        </div>
-        <div class="footer-right">
-          <div class="footer-cs-center">
-            <div class="footer-cs-center__addresse">
-              서울특별시 이상구 해결동 200-ok
+    <!-- 공통 FOOTER 시작-->
+    <div class="footer-container">
+      <footer>
+        <div class="footer-left">
+          <div class="footer-menu">
+            <a href="" class="footer-menu__home"><span>홈 | </span></a>
+            <a href="" class="footer-menu__home"><span> 회사소개 | </span></a>
+            <a href="" class="footer-menu__home"><span> 이용약관 | </span></a>
+            <a href="" class="footer-menu__home"
+              ><span> 개인정보처리방침</span></a
+            >
+          </div>
+          <div class="footer-info">
+            <span class="footer-info__company-name">(주)merge | </span>
+            <span class="footer-info__company-ceo"> 대표: 로그 킴 | </span>
+            <span class="footer-info__business-email">
+              비즈니스: logkim@marketlog.co.kr</span
+            >
+          </div>
+          <div class="footer-right">
+            <div class="footer-cs-center">
+              <div class="footer-cs-center__addresse">
+                서울특별시 이상구 해결동 200-ok
+              </div>
+              <div class="footer-cs-center__email">help@marketlog.co.kr</div>
             </div>
-            <div class="footer-cs-center__email">help@marketlog.co.kr</div>
           </div>
         </div>
-      </div>
-    </footer>
-  </div>
-  <!-- 공통 FOOTER 끝-->
+      </footer>
+    </div>
+    <!-- 공통 FOOTER 끝-->
 
-  <!-- TEMPORARY -->
-  <div class="temporary">
-    <label>
-      아이디(이메일)
-      <input type="text" class="id" />
-    </label>
-    <label>
-      비밀번호
-      <input type="password" class="password" />
-    </label>
-    <label>
-      사용자 이름!
-      <input type="text" class="display-name" />
-    </label>
-    <button class="signup">회원가입!</button>
-    <button class="authorization">인증확인!</button>
-    <button class="login">로그인!</button>
-    <button class="getlist"></button>
-    <li class="header__admin-page--li">
-      <a href="/admin" data-navigo> 관리자 페이지 </a>
-    </li>
-  </div>
+    <!-- TEMPORARY -->
+    <div class="temporary">
+      <label>
+        아이디(이메일)
+        <input type="text" class="id" />
+      </label>
+      <label>
+        비밀번호
+        <input type="password" class="password" />
+      </label>
+      <label>
+        사용자 이름!
+        <input type="text" class="display-name" />
+      </label>
+      <button class="signup">회원가입!</button>
+      <button class="authorization">인증확인!</button>
+      <button class="login">로그인!</button>
+      <button class="getlist"></button>
+      <li class="header__admin-page--li">
+        <a href="/admin" data-navigo> 관리자 페이지 </a>
+      </li>
+    </div>
 
-  <!-- 장바구니 modal -->
-  <div class="modal__addCart">
-    <div class="modal__addCart-container">
-      <div class="modal__addCart--info">
-        <img src="./public/cart.svg" alt="장바구니 추가 완료" />
-        <h4>장바구니에 추가되었습니다.</h4>
-      </div>
-      <div class="modal__addCart--btns">
-        <a class="modal__addCart--btn modal-keepShopping"><button>계속 쇼핑하기</button></a>
-        <a href="/cart" data-navigo class="modal__addCart--btn goToCart"><button>장바구니 바로가기</button></a>
+    <!-- 장바구니 modal -->
+    <div class="modal__addCart">
+      <div class="modal__addCart-container">
+        <div class="modal__addCart--info">
+          <img src="./public/cart.svg" alt="장바구니 추가 완료" />
+          <h4>장바구니에 추가되었습니다.</h4>
+        </div>
+        <div class="modal__addCart--btns">
+          <a class="modal__addCart--btn modal-keepShopping"
+            ><button>계속 쇼핑하기</button></a
+          >
+          <a href="/cart" data-navigo class="modal__addCart--btn goToCart"
+            ><button>장바구니 바로가기</button></a
+          >
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- alert modal -->
-  <div class="alertModal">
-    <div class="alertModal__container"></div>
-  </div>
-</body>
-
+    <!-- alert modal -->
+    <div class="alertModal">
+      <div class="alertModal__container"></div>
+    </div>
+  </body>
 </html>
