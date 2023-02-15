@@ -18,6 +18,7 @@ import {
   renderDetailProduct,
   renderEditProduct,
   renderOrderDetailBtn,
+  renderOrderDetail,
 } from './page/admin/renderDetail';
 
 import {
@@ -25,7 +26,13 @@ import {
   deleteProduct,
   getDetailProduct,
   editProduct,
+  getAllOrder,
+  editDoneOrder,
+  editCancelOrder,
 } from '../js/page/admin/api';
+import { doc } from 'prettier';
+
+let orders = [];
 
 const router = new Navigo('/');
 
@@ -36,9 +43,7 @@ const render = (html) => {
 
 const initPage = (page) => {
   render(sideBar);
-  document
-    .querySelector('.aside-container')
-    .insertAdjacentHTML('beforeend', page);
+  document.querySelector('.app').insertAdjacentHTML('beforeend', page);
 };
 
 export const productAddHandler = () => {
@@ -130,9 +135,7 @@ const productEditHandler = async (productId) => {
   console.log(product);
 
   const form = document.querySelector('.container-form');
-  const cacncelProductBtn = document.querySelector(
-    '.container-form__btn--edit',
-  );
+
   const titleInput = form.querySelector(
     '.container-form__content--title input',
   );
@@ -191,9 +194,54 @@ const productEditHandler = async (productId) => {
 };
 
 const orderDetailHandler = async (detailId) => {
-  renderOrderDetailBtn(detailId);
+  const orders = await getAllOrder();
+  let order = orders.filter((order) => order.detailId === detailId)[0];
+  renderOrderDetail(order);
+  renderOrderDetailBtn(order);
 
-  const orderCancelBtn = document.querySelector('.order-Container')
+  const orderCancelBtn = document.querySelector(
+    '.orderDetail-container__btn--cancel',
+  );
+
+  const orderDoneBtn = document.querySelector(
+    '.orderDetail-container__btn--done',
+  );
+
+  orderCancelBtn.addEventListener('click', async () => {
+    if (
+      confirm(
+        `${
+          order.isCanceled
+            ? '거래 취소를 해제 처리하시겠습니까?'
+            : `거래를 취소 처리하시겠습니까?`
+        }`,
+      )
+    ) {
+      await editCancelOrder(order);
+      order.isCanceled = !order.isCanceled;
+      orderCancelBtn.textContent = order.isCanceled
+        ? '거래 취소 해제'
+        : '거래 취소';
+      renderOrderDetail(order);
+    }
+  });
+
+  orderDoneBtn.addEventListener('click', async () => {
+    if (
+      confirm(
+        `${
+          order.isCanceled
+            ? '거래 완료를 해제 처리하시겠습니까?'
+            : `거래를 완료 처리하시겠습니까?`
+        }`,
+      )
+    ) {
+      await editDoneOrder(order);
+      order.done = !order.done;
+      orderDoneBtn.textContent = order.done ? '거래 완료 해제' : '거래 완료';
+      renderOrderDetail(order);
+    }
+  });
 };
 
 router
@@ -211,7 +259,7 @@ router
     },
     '/admin/order': () => {
       initPage(orderPage);
-      orderHandler();
+      orderHandler(orders);
     },
     '/admin/order/:id': (params) => {
       initPage(orderDetailPage);
