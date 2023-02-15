@@ -5,13 +5,13 @@ export const sideBar = `
       <aside class="aside-container">
         <ul>
           <li class="aside-container__list">
-            <a href="/admin" data-navigo><span>대시보드</span></a>
+            <a href="/admin" data-navigo>대시보드</a>
           </li>
           <li class="aside-container__list">
-            <a href="/admin/product" data-navigo><span>상품관리</span></a>
+            <a href="/admin/product" data-navigo>상품관리</a>
           </li>
           <li class="aside-container__list">
-            <a href="/admin/order" data-navigo><span>거래내역</span></a>
+            <a href="/admin/order" data-navigo>거래내역</a>
           </li>
         </ul>
       </aside>
