@@ -1,7 +1,7 @@
 // productDetail 제품 상세페이지
 // 라우터 라이브러리
 import Navigo from 'navigo';
-const router = new Navigo('/');
+// const router = new Navigo('/');
 import heart from '../../../../public/heart.svg';
 import cartSVG from '../../../../public/cart.svg';
 const $ = (selector) => document.querySelector(selector);
@@ -18,7 +18,7 @@ export const shoppingCartStore = {
     localStorage.removeItem('shoppingCart')[0];
   },
   clearLocalStorage() {
-    localStorage.clear();
+    // localStorage.clear();
   },
 };
 let shoppingCartArr = [];
@@ -364,18 +364,18 @@ const renderCartList = (storage) => {
   $('.app').querySelector('.cart__list').innerHTML = cartListTemplate;
 };
 
-router.on({
-  '/cart': () => {
-    $('.modal__addCart').style.display = 'none';
-    // ul태그 삽입
-    renderPage(renderInitCartPage);
-    console.log('/cart');
-    console.log('shoppingCartArr', shoppingCartArr);
+// router.on({
+//   '/cart': () => {
+//     $('.modal__addCart').style.display = 'none';
+//     // ul태그 삽입
+//     renderPage(renderInitCartPage);
+//     console.log('/cart');
+//     console.log('shoppingCartArr', shoppingCartArr);
 
-    // 카트 페이지 렌더
-    renderCartPage();
-  },
-});
+//     // 카트 페이지 렌더
+//     renderCartPage();
+//   },
+// });
 
 // const cartListTemplate = shoppingCartArr
 //   .map((item) => {
@@ -487,12 +487,12 @@ const renderInitEmptyCartPage = `
   `;
 
 /** 로운님한테 innerHTML 로직 요청 */
-router.on({
-  '/': () => {
-    // main 홈페이지로 이동
-    console.log('쇼핑하러 가기');
-  },
-});
+// router.on({
+//   '/': () => {
+//     // main 홈페이지로 이동
+//     console.log('쇼핑하러 가기');
+//   },
+// });
 
 /** 빈 장바구니일 때, 상품이 있는 장바구니일 때 */
 const renderCartPage = () => {

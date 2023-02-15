@@ -4,26 +4,21 @@ const headers = {
   apikey: api_key,
   username: user_name,
 };
-const divLoadingEl = document.querySelector('.loadingGif');
 
 // HTML : mypage 계좌관리 탭
 export const htmlMypage_Account = /* html */ `
-<div class="mypage__account__wrapper">
-  <div class="mypage__account__header">
-    <h1>계좌 관리</h1>
-  </div>
+<div class="mypage__account">
+  <h2>계좌 관리</h2>
   <div class="user__account">
     <p class="total__balance"></p>
     <ul></ul>
-    <div>
-      <button class="btn__create__account">계좌추가!</button>
-    </div>
+    <button class="btn__create__account">계좌추가!</button>
   </div>
 </div>
 <div class="create__account">
   <div class="create__account__modal">
     <div class="modal__container">
-      <h2>계좌 추가</h2>
+      <h3>계좌 추가</h3>
       <ul></ul>
       <div class="accountNumber">
         <span>계좌 번호</span>
@@ -50,7 +45,7 @@ export const htmlMypage_Account = /* html */ `
 <div class="delete__account">
   <div class="delete__account__modal">
     <div class="modal__container">
-      <h2>계좌 삭제</h2>
+      <h3>계좌 삭제</h3>
       <span>정말로 삭제 하시겠습니까?</span>
       <div>
         <button id="delete-ok">예</button>
@@ -66,6 +61,9 @@ function renderPage(html) {
 }
 
 export async function initFuncAccount() {
+  const active = document.querySelector('#mpAccount');
+  active.parentElement.classList.add('active');
+
   const divUserAccount = document.querySelector('.user__account');
   const dicCreateAccount = document.querySelector('.create__account');
   const btnCloseModal = document.querySelector('#btnCloseModal');

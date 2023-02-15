@@ -18,9 +18,9 @@
     <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=26e53c394ca0000e128fe5483eb64985&libraries=services"></script>
     <!-- js -->
     <!-- test js -->
-    <script type="module" src="./src/js/testJaeha.js" defer></script>
+    <!-- <script type="module" src="./src/js/testJaeha.js" defer></script> -->
     <!-- 병욱님, 영은님 -->
-    <!-- <script type="module" src="./src/js/main.js" defer></script> -->
+    <script type="module" src="./src/js/main.js" defer></script>
   </head>
 
   <body>
@@ -29,22 +29,14 @@
       <div class="header">
         <nav class="header__user-login">
           <ul class="header__user-login--ul">
-            <li class="header__user-login--li">
-              <a href="/signup" data-navigo>회원가입</a>
-            </li>
-            <li class="header__user-login--li">
-              <a href="/myPage" data-navigo>
-                <strong id="header__user-login-name">테스트님</strong>환영합니다
-              </a>
-            </li>
-            <li class="header__user-login--li">
-              <a href="/login" data-navigo> 로그인 </a>
-            </li>
+            <!-- <li class="header__user-login--li">
+            <a href="/login" data-navigo id="btnlogin"> 로그인 </a>
+          </li> -->
           </ul>
         </nav>
 
         <nav class="header-main">
-          <a class="header-main__home-link" href="/" data-navigo>
+          <a class="header-main__home-link" href="#" data-navigo>
             <img
               class="header-main__logo"
               src="./public/mainLogo.svg"
@@ -82,7 +74,7 @@
               ><img
                 class="header-main__links-img"
                 src="./public/member.svg"
-                alt="회원가입"
+                alt="마이페이지"
             /></a>
           </div>
         </nav>
@@ -108,51 +100,10 @@
     <!-- 공통 헤더 끝 -->
 
     <!-- 메인페이지 라우터 -->
-    <main class="app">
-      <!-- <div class="mypage__app">
-        <div class="mypage__container">
-          <div class="mypage__navbar">
-            <h1>마이페이지</h1>
-            <nav>
-              <ul>
-                <li>
-                  <button id="mpOrderHistory">
-                    주문 내역
-                    <img src="./public/chevronright.svg" alt="chevronright" />
-                  </button>
-                </li>
-                <li>
-                  <a href="/mypage/account" data-navigo
-                    >계좌 관리
-                    <img src="./public/chevronright.svg" alt="chevronright" />
-                  </a>
-                </li>
-                <li>
-                  <a href="/mypage/myHeart" data-navigo
-                    >찜한 상품
-                    <img src="./public/chevronright.svg" alt="chevronright" />
-                  </a>
-                </li>
-                <li>
-                  <a href="/mypage/myPersonalInfoModify" data-navigo
-                    >개인 정보 수정
-                    <img src="./public/chevronright.svg" alt="chevronright" />
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-          <div class="mypage__navigo__container">
-            <div class="mypage__wishlist">
-              <div class="mypage__wishlist--container">
-                <h3>찜한 상품</h3>
-                <ul class="wishlist__product--lists"></ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> -->
-    </main>
+    <main class="app"></main>
+    <div class="loadingGif">
+      <img src="public/loading.svg" alt="로딩.." id="img-loadingGIF" />
+    </div>
     <!-- 메인페이지 끝 -->
 
     <!-- 공통 FOOTER 시작-->
@@ -205,41 +156,6 @@
       <button class="authorization">인증확인!</button>
       <button class="login">로그인!</button>
       <button class="getlist"></button>
-    </div>
-
-    <!-- 각 페이지 진입점!! 건들지 말 것! -->
-    <div>
-      <ul>
-        <!-- 제품 상세페에지 html -->
-        <li>
-          <a href="./src/html/productDetail.html">제품 상세페에지 html</a>
-        </li>
-        <!-- 관리자 페이지 html -->
-        <li>
-          <a href="./src/html/admin.html">관리자 페이지 html</a>
-        </li>
-        <!-- 회원가입 페이지 html -->
-        <li>
-          <a href="./src/html/signup.html">회원가입 페이지 html</a>
-        </li>
-        <!-- 마이페이지 html -->
-        <li>
-          <a href="./src/html/mypage.html">마이페이지 html</a>
-        </li>
-        <!-- 장바구니 페이지 html -->
-        <li>
-          <a href="./src/html/cart.html">장바구니 페이지 html</a>
-        </li>
-        <!-- 결제 페이지 html -->
-        <li>
-          <a href="./src/html/pay.html">결제 페이지 html</a>
-        </li>
-        <!-- 주문내역 페이지 html -->
-        <li>
-          <a href="./src/html/orderhistory.html">주문내역 페이지 html</a>
-        </li>
-        <div>test</div>
-      </ul>
     </div>
 
     <!-- 장바구니 modal -->

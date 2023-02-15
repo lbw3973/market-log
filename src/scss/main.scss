@@ -1,6 +1,7 @@
 @forward 'globals';
-
 @forward '../scss/mypage/mypage.scss';
+@forward '../scss/login/login.scss';
+@forward '../scss/signup/signup.scss';
 
 @mixin section-header {
   font-size: 50px;
@@ -8,15 +9,10 @@
   color: var(--logo-color);
 }
 
-.app {
-  height: auto;
-}
-
 .mypage__app {
   display: grid;
   place-content: center;
   width: 1440px;
-  margin: 0 auto;
 }
 
 img {
@@ -145,6 +141,25 @@ img {
         padding: 12px 16px;
       }
     }
+  }
+}
+.loadingGif {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(5px);
+  display: none;
+
+  #img-loadingGIF {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: 200px;
+    height: 200px;
   }
 }
 
