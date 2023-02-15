@@ -107,7 +107,6 @@ img {
 
         &-tag {
           padding: 6px;
-          background-color: var(--light-purple);
           color: #000;
           border: 1px solid var(--logo-color);
           border-radius: 6px;
@@ -140,9 +139,7 @@ img {
         padding: 6px 10px;
         border: 1px solid var(--logo-color);
         border-radius: 6px;
-        background-color: var(--light-purple);
         color: #000;
-
         @include btnEffect(var(--logo-color), #fff);
       }
     }

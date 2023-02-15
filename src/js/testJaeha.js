@@ -836,7 +836,9 @@ const renderOrderedProductList = (orderedItems) => {
               timePaid,
             )}</div>
           </div>
-          <span class="order-status orderHistory__list--orderStatus">구매 확정 대기</span>
+          <span class="order-status orderHistory__list--orderStatus">${
+            done ? '구매 확정' : '대기'
+          }</span>
           <span>구매 확정 이후에는 주문 취소가 불가능합니다.</span>
           <span class="orderHistory__list--confirmed-order"></span>
         </div>

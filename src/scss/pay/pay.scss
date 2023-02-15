@@ -199,61 +199,6 @@
 // 결제수단 선택 scss
 .payment-method {
   &__select-card {
-    // display: none;
-    padding: 15px;
-    padding-bottom: 40px;
-    background-color: #fff;
-  }
-  &__swiper-wrapper {
-    display: flex;
-    justify-content: center;
-    background-color: #fff;
-  }
-  &__card-lists {
-    display: flex;
-    gap: 50px;
-    margin: 0 10px;
-    img {
-      filter: grayscale(100%);
-    }
-  }
-  &__card-list {
-  }
-  &__card-name {
-    margin-top: 10px;
-    text-align: center;
-  }
-
-  &__final {
-    margin-top: 20px;
-    &-alert {
-      padding: 10px 20px;
-      color: gray;
-    }
-
-    &-confirm {
-      &--container {
-        display: flex;
-        justify-content: center;
-        padding: 20px 50px;
-      }
-
-      &--btn {
-        width: 50%;
-        height: 80px;
-        text-align: center;
-        background-color: var(--logo-color);
-        // background-color: var(--deps-pink);
-        color: #fff;
-        border-radius: 6px;
-      }
-    }
-  }
-}
-
-// 결제수단 선택 scss
-.payment-method {
-  &__select-card {
     // width: 300px;
     padding: 15px 15px 40px;
     background-color: #fff;
