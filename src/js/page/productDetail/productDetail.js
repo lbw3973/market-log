@@ -1,7 +1,7 @@
 // productDetail 제품 상세페이지
 // 라우터 라이브러리
 import Navigo from 'navigo';
-const router = new Navigo('/');
+// const router = new Navigo('/');
 import heart from '../../../../public/heart.svg';
 import cartSVG from '../../../../public/cart.svg';
 const $ = (selector) => document.querySelector(selector);
@@ -18,7 +18,7 @@ export const shoppingCartStore = {
     localStorage.removeItem('shoppingCart')[0];
   },
   clearLocalStorage() {
-    localStorage.clear();
+    // localStorage.clear();
   },
 };
 let shoppingCartArr = [];
@@ -146,7 +146,7 @@ const renderDetailProduct = async (productId) => {
   </div>
   `;
 
-  $('.main').innerHTML = detailProductTemplate;
+  $('.app').innerHTML = detailProductTemplate;
 };
 
 const init = () => {
@@ -154,8 +154,8 @@ const init = () => {
     shoppingCartArr = shoppingCartStore.getLocalStorage();
   }
 
-  // renderDetailProduct('4mZdaj6ioV9b0yXqLPKK');
-  renderDetailProduct('UcGtdmglg7bzIFDosY9D');
+  renderDetailProduct('4mZdaj6ioV9b0yXqLPKK');
+  // renderDetailProduct('UcGtdmglg7bzIFDosY9D');
   // shoppingCartStore.setLocalStorage(shoppingCartArr);
 };
 init();
@@ -163,11 +163,11 @@ init();
 /** 렌더 함수 for navigo */
 
 const renderPage = (html) => {
-  $('.main').innerHTML = html;
+  $('.app').innerHTML = html;
 };
 
 /** 구매수량 추가 핸들링 이벤트 */
-$('.main').addEventListener('click', (e) => {
+$('.app').addEventListener('click', (e) => {
   updateInfo(e);
 });
 
@@ -180,8 +180,8 @@ const updateInfo = async (e) => {
       productDetailProductQty = 1;
     }
 
-    // renderDetailProduct('4mZdaj6ioV9b0yXqLPKK');
-    renderDetailProduct('UcGtdmglg7bzIFDosY9D');
+    renderDetailProduct('4mZdaj6ioV9b0yXqLPKK');
+    // renderDetailProduct('UcGtdmglg7bzIFDosY9D');
     // shoppingCartStore.setLocalStorage(shoppingCartArr);
     return;
   }
@@ -189,15 +189,15 @@ const updateInfo = async (e) => {
   if (e.target.classList.contains('addQtyBtn')) {
     productDetailProductQty += 1;
 
-    // renderDetailProduct('4mZdaj6ioV9b0yXqLPKK');
-    renderDetailProduct('UcGtdmglg7bzIFDosY9D');
+    renderDetailProduct('4mZdaj6ioV9b0yXqLPKK');
+    // renderDetailProduct('UcGtdmglg7bzIFDosY9D');
     return;
   }
   shoppingCartStore.setLocalStorage(shoppingCartArr);
 };
 
 /** 장바구니 담기 핸들 이벤트 */
-$('.main').addEventListener('click', (e) => {
+$('.app').addEventListener('click', (e) => {
   pushInCart(e);
 });
 
@@ -318,7 +318,7 @@ const renderCartOrderPrice = () => {
     </button></a
   >
 `;
-  $('.main').querySelector('.cart__price').innerHTML = cartOrderPriceTemplate;
+  $('.app').querySelector('.cart__price').innerHTML = cartOrderPriceTemplate;
 };
 
 const renderCartList = (storage) => {
@@ -361,21 +361,21 @@ const renderCartList = (storage) => {
 
   renderCartPrice();
   renderCartOrderPrice();
-  $('.main').querySelector('.cart__list').innerHTML = cartListTemplate;
+  $('.app').querySelector('.cart__list').innerHTML = cartListTemplate;
 };
 
-router.on({
-  '/cart': () => {
-    $('.modal__addCart').style.display = 'none';
-    // ul태그 삽입
-    renderPage(renderInitCartPage);
-    console.log('/cart');
-    console.log('shoppingCartArr', shoppingCartArr);
+// router.on({
+//   '/cart': () => {
+//     $('.modal__addCart').style.display = 'none';
+//     // ul태그 삽입
+//     renderPage(renderInitCartPage);
+//     console.log('/cart');
+//     console.log('shoppingCartArr', shoppingCartArr);
 
-    // 카트 페이지 렌더
-    renderCartPage();
-  },
-});
+//     // 카트 페이지 렌더
+//     renderCartPage();
+//   },
+// });
 
 // const cartListTemplate = shoppingCartArr
 //   .map((item) => {
@@ -431,7 +431,7 @@ const storeLocalStorage = (id) => {
 };
 
 /** 장바구니 페이지에서 수량 핸들링 */
-$('.main').addEventListener('click', (e) => {
+$('.app').addEventListener('click', (e) => {
   const id = e.target.closest('li')?.dataset.productId;
   if (e.target.classList.contains('cart-addQtyBtn')) {
     storeLocalStorage(id);
@@ -487,17 +487,17 @@ const renderInitEmptyCartPage = `
   `;
 
 /** 로운님한테 innerHTML 로직 요청 */
-router.on({
-  '/': () => {
-    // main 홈페이지로 이동
-    console.log('쇼핑하러 가기');
-  },
-});
+// router.on({
+//   '/': () => {
+//     // main 홈페이지로 이동
+//     console.log('쇼핑하러 가기');
+//   },
+// });
 
 /** 빈 장바구니일 때, 상품이 있는 장바구니일 때 */
 const renderCartPage = () => {
   if (shoppingCartArr.length === 0) {
-    $('.main').querySelector('.cart__list').innerHTML = renderInitEmptyCartPage;
+    $('.app').querySelector('.cart__list').innerHTML = renderInitEmptyCartPage;
     // renderCartPrice();
     return;
   } else if (shoppingCartArr.length > 0) {

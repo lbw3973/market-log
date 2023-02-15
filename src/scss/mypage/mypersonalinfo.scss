@@ -1,6 +1,15 @@
-@import '../globals/';
-@import './mixin.scss';
-@import './modal.scss';
+@mixin row-center {
+  display: flex;
+  justify-content: center;
+}
+@mixin center {
+  display: flex;
+  flex-direction: column;
+}
+@mixin straight {
+  display: flex;
+  flex-direction: column;
+}
 
 .nodisplay {
   display: none;

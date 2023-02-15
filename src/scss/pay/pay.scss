@@ -1,4 +1,4 @@
-@forward '../globals';
+// @forward '../globals';
 
 @mixin alignGap10px {
   display: flex;
@@ -249,4 +249,152 @@
       }
     }
   }
+}
+
+// 결제수단 선택 scss
+.payment-method {
+  &__select-card {
+    // display: none;
+    padding: 15px;
+    padding-bottom: 40px;
+    background-color: #fff;
+  }
+  &__swiper-wrapper {
+    display: flex;
+    justify-content: center;
+    background-color: #fff;
+  }
+  &__card-lists {
+    display: flex;
+    gap: 50px;
+    margin: 0 10px;
+    img {
+      filter: grayscale(100%);
+    }
+  }
+  &__card-list {
+  }
+  &__card-name {
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  &__final {
+    margin-top: 20px;
+    &-alert {
+      padding: 10px 20px;
+      color: gray;
+    }
+
+    &-confirm {
+      &--container {
+        display: flex;
+        justify-content: center;
+        padding: 20px 50px;
+      }
+
+      &--btn {
+        width: 50%;
+        height: 80px;
+        text-align: center;
+        background-color: var(--logo-color);
+        // background-color: var(--deps-pink);
+        color: #fff;
+        border-radius: 6px;
+      }
+    }
+  }
+}
+
+// 결제수단 선택 scss
+.payment-method {
+  &__select-card {
+    // width: 300px;
+    padding: 15px 15px 40px;
+    background-color: #fff;
+  }
+  &__swiper-wrapper {
+    overflow: hidden;
+    margin-left: 20px;
+    padding: 10px;
+    width: 240px;
+    height: 260px;
+    border: 1px solid var(--logo-color);
+    border-radius: 6px;
+    background-color: var(--division-line);
+  }
+  &__card-lists {
+    display: flex;
+    margin-left: 16px;
+    gap: 30px;
+
+    img {
+      margin: 10px 0 16px;
+    }
+  }
+  &__card-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    &--noPaymentBankAccount {
+      filter: grayscale(100%);
+    }
+    &--goToLinkBankAccount-button {
+      margin-top: 20px;
+      padding: 6px 10px;
+      border: 1px solid var(--logo-color);
+      border-radius: 6px;
+      color: black;
+
+      &:active,
+      &:hover {
+        color: #fff;
+        background-color: var(--deps-blue);
+      }
+    }
+  }
+  &__card-name {
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  &__final {
+    margin-top: 20px;
+    &-alert {
+      padding: 10px 20px;
+      color: gray;
+    }
+
+    &-confirm {
+      &--container {
+        display: flex;
+        justify-content: center;
+        padding: 20px 50px;
+      }
+
+      &--btn {
+        width: 50%;
+        height: 80px;
+        text-align: center;
+        background-color: var(--division-line);
+        // background-color: var(--deps-pink);
+        color: #fff;
+        border-radius: 6px;
+        cursor: not-allowed;
+
+        &:active {
+          transform: scale(0.98);
+        }
+      }
+    }
+  }
+}
+.swiper-pagination {
+  width: 100%;
+  position: absolute;
+  text-align: center;
+  transform: translateZ(0);
+  transition: opacity 0.3s;
+  color: black;
+  left: 350px;
 }

@@ -1,244 +1,94 @@
-/* 헤더 시작*/
 @forward '../globals';
 
-.header-container {
-  display: flex;
-  justify-content: center;
-}
-.header {
-  display: flex;
-  flex-direction: column;
-  width: 1440px;
-  padding: 20px 200px 20px;
-  border-bottom: 1px solid;
-  box-shadow: var(--box-shadow);
-
-  &__user {
-    display: flex;
-    justify-content: flex-end;
-
-    &-login {
-      display: flex;
-      justify-content: flex-end;
-
-      &--ul {
-        display: flex;
-        gap: 5px;
-      }
-    }
-  }
-
-  &-main {
-    margin-top: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    &__home-link {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    &__logo {
-      height: 80px;
-    }
-
-    &__company-name {
-      font-size: 30px;
-    }
-
-    // &__search {
-    //   width: 50%;
-    //   border: 1px solid;
-
-    //   &--form {
-    //     display: flex;
-    //     justify-content: center;
-    //     align-items: center;
-    //     width: 100%;
-    //     height: 50px;
-    //     border: 1px solid var(--logo-color);
-    //   }
-
-    //   &--input {
-    //     width: 100%;
-    //     height: 80%;
-    //     border-radius: 3px;
-    //     border: none;
-
-    //     &:focus,
-    //     &:active {
-    //       outline: none;
-    //     }
-    //   }
-
-    //   &--button {
-    //     img {
-    //       height: 30px;
-    //       margin-right: 10px;
-    //       color: var(--logo-color);
-    //       cursor: pointer;
-    //     }
-    //   }
-    // }
-
-    &__links-img {
-      height: 40px;
-    }
-  }
-
-  &-nav {
-    &-category {
-      margin-top: 40px;
-      &--ul {
-        display: flex;
-        justify-content: space-between;
-      }
-
-      &--li {
-        a {
-          font-size: 20px;
-        }
-      }
-    }
-  }
-}
-
-/* 헤더 끝 */
-
-/*푸터 시작*/
-.footer-container {
-  min-width: 100%;
-  height: 255px;
-  background-color: var(--logo-color);
-  color: #fff;
-
-  footer {
-    padding: 40px;
-    display: grid;
-    grid-template-columns: 500px 500px;
-    justify-content: space-between;
-
-    .footer-left {
-      .footer-menu {
-        margin-bottom: 14px;
-        a {
-          span {
-            color: #fff;
-            margin-right: 8px;
-          }
-        }
-      }
-      .footer-info {
-        margin-bottom: 12px;
-        span {
-          margin-right: 10px;
-        }
-      }
-    }
-
-    .footer-right {
-      .footer-cs-center {
-        margin-bottom: 12px;
-      }
-    }
-  }
-}
-/* 푸터 끝*/
-
-/*내꺼 시작*/
-.container {
-  // background-color: blue;
+.signup__container {
   text-align: center;
   margin: 20px;
-  ul {
-    p {
-      font-size: 12px;
-      // background-color: grey;
-      display: block;
-      padding: 5px;
-    }
-    li {
-      // background-color: blue;
-    }
-    input {
-      display: block;
-      height: 54px;
-      width: 460px;
-      box-sizing: border-box;
-      margin: 12px auto;
-      padding: 0 9px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h1 {
+    margin-bottom: 30px;
+    font-size: 30px;
+  }
+
+  &__input {
+    display: flex;
+    justify-content: center;
+
+    ul {
+      p {
+        font-size: 12px;
+        display: block;
+        padding: 5px;
+      }
+      input {
+        display: block;
+        height: 54px;
+        width: 460px;
+        box-sizing: border-box;
+        margin: 12px auto;
+        padding: 0 9px;
+      }
+
+      input {
+        border: 1px rgba(0, 0, 0, 0.2) solid;
+      }
     }
   }
-}
 
-.title {
-  margin: 70px;
-  font-size: 30px;
-}
+  &__checkbox {
+    display: flex;
+    width: 460px;
+    flex-direction: column;
+    align-items: start;
+    gap: 5px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    border-top: 1px dotted #000;
 
-#asd {
-  // margin: 120px;
-  color: rgb(158, 158, 158);
-}
-.box {
-  text-align: center;
-}
-label {
-  // vertical-align: -1px;font-size: 14px;
-  color: rgb(102, 102, 102);
-}
-.input_chk {
-  width: 13px;
-  height: 13px;
-  vertical-align: text-top;
-  text-align: center;
-}
-.submit-btn {
-  display: block;
-  background-color: rgb(54, 30, 27);
-  color: white;
-  text-align: center;
-  height: 45px;
-  width: 460px;
-  margin: 40px auto;
-  border-radius: 3px;
-}
-.gongback {
-  margin: 10px 159px;
-}
-.gongback1 {
-  margin: 100px 119.5px;
-}
-hr {
-  border: none;
-  border-top: 1px dotted black;
-  color: #fff;
-  background-color: #fff;
-  height: 1px;
-  width: 462px;
-  margin: 20px auto;
-}
-.title-gongback {
-  margin: 0 100px;
-}
-a {
-  font-size: 1em;
-  text-decoration: underline;
-}
-input[type='text'] {
-  border: 1px rgba(0, 0, 0, 0.2) solid;
-}
-input[type='password'] {
-  border: 1px rgba(0, 0, 0, 0.2) solid;
-}
+    .box {
+      display: flex;
+      gap: 10px;
+      width: 100%;
 
-// 지워야함
-.qwe {
-  font-size: 130px;
-}
+      .input_chk {
+        width: 13px;
+        height: 13px;
+      }
 
-.pilsu {
-  font-size: 14px;
+      span {
+        color: rgb(102, 102, 102);
+        font-size: 14px;
+        font-weight: bold;
+
+        span {
+          color: #000;
+        }
+      }
+
+      a {
+        color: rgb(163, 163, 163);
+        font-size: 13px;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      a:hover {
+        color: #000;
+      }
+    }
+    .box:nth-child(3) {
+      padding-bottom: 20px;
+      border-bottom: 1px dotted #000;
+    }
+
+    .submit-btn {
+      background-color: rgb(54, 30, 27);
+      color: white;
+      height: 45px;
+      width: 100%;
+      margin: 20px auto;
+      border-radius: 3px;
+    }
+  }
 }
