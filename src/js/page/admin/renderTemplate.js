@@ -18,9 +18,17 @@ export const sideBar = `
   `;
 
 export const dashboardPage = ` 
-    <div class='dashboard-container' data-page='dashboard'>대시보드
-      <button>상품수정</button>
-    </div>
+    <div class='dashboard-container' data-page='dashboard'>
+
+      <div class='dashboard-container__current'>
+        
+      </div>
+
+      <div class='dashboard-container__chart'>
+       
+      </div>
+
+  </div>
 `;
 
 export const orderPage = `
@@ -150,11 +158,10 @@ export const productEditPage = `
 export const orderDetailPage = `
   <div class='orderDetail-container'>
     <h2>거래 내역 상세</h2>
-    <div class='wrap'>
-      
-    </div>  
+    <div class="orderDetail-container__info">
 
-    <div class='orderDetail-container--btn'>
+    </div>
+    <div class='orderDetail-container__btn'>
 
     </div>
   </div>
