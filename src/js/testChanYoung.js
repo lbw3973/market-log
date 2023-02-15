@@ -30,20 +30,23 @@ import {
   editDoneOrder,
   editCancelOrder,
 } from '../js/page/admin/api';
-import { doc } from 'prettier';
 
 let orders = [];
 
 const router = new Navigo('/');
 
+const renderContainer = () => {
+  document.querySelector('.app').innerHTML = `<div class="container"></div>`;
+};
+
 const render = (html) => {
-  const app = document.querySelector('.app');
-  app.innerHTML = html;
+  document.querySelector('.container').innerHTML = html;
 };
 
 const initPage = (page) => {
+  renderContainer();
   render(sideBar);
-  document.querySelector('.app').insertAdjacentHTML('beforeend', page);
+  document.querySelector('.container').insertAdjacentHTML('beforeend', page);
 };
 
 export const productAddHandler = () => {
@@ -247,7 +250,8 @@ const orderDetailHandler = async (detailId) => {
 router
   .on({
     '/': () => {
-      render(`<div>메인페이지</div>`);
+      initPage(dashboardPage);
+      dashboardHandler();
     },
     '/admin': () => {
       initPage(dashboardPage);
