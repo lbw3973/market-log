@@ -48,8 +48,10 @@ export const orderHandler = async () => {
   searchedOrderBtn.addEventListener('click', async () => {
     keyword = searchedOrderInput.value;
     const filteredOrder = orders.filter((order) =>
-      order.title.includes(keyword),
+      order.user.displayName.includes(keyword),
     );
+
+    console.log(filteredOrder);
 
     orderList.innerHTML = ``;
     // console.log(orderList.textContent);
