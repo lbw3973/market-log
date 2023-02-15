@@ -96,9 +96,11 @@ export const getAllOrder = async () => {
   }
 };
 
-export const editDoneOrder = async (detailId) => {
+export const editDoneOrder = async (order) => {
+  const { detailId, done } = order;
+  console.log(done);
   try {
-    await fetch(
+    const res = await fetch(
       `https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/transactions/${detailId}`,
       {
         method: 'PUT',
@@ -108,13 +110,18 @@ export const editDoneOrder = async (detailId) => {
         }),
       },
     );
+    const data = await res.json();
+    return data;
   } catch (err) {
     console.log(err);
-    console.log('err: ', '거래 내역 완료 실패');
+    console.log('err: ', '거래 내역 완료/완료해제 실패');
   }
 };
 
-export const editCancelOrder = async (detailId) => {
+export const editCancelOrder = async (order) => {
+  const { detailId, isCanceled } = order;
+
+  console.log(isCanceled);
   try {
     await fetch(
       `https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/transactions/${detailId}`,
@@ -128,6 +135,6 @@ export const editCancelOrder = async (detailId) => {
     );
   } catch (err) {
     console.log(err);
-    console.log('err: ', '거래 내역 취소 실패');
+    console.log('err: ', '거래 내역 취소/취소해제 실패');
   }
 };
