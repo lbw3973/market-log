@@ -1,23 +1,73 @@
-.nodisplay {
-  display: none;
-}
-.mypage__myheart {
-  h2 {
-    margin-bottom: 77px;
+.wishlist__product--list {
+  img {
+    width: 150px;
   }
-  .heartproducts-container {
-    position: relative;
-    min-height: 450px;
+}
 
-    /*찜한상품없음*/
-    .nocontent-box {
-      position: absolute;
-      bottom: 42%;
-      left: 42%;
-      p {
+.mypage__wishlist {
+  &--container {
+    h3 {
+      font-size: 23px;
+      margin-bottom: 30px;
+    }
+  }
+}
+
+.wishlist {
+  &__product {
+    &--lists {
+    }
+
+    &--list {
+      padding: 10px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--division-line);
+
+      &-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      &-AddRemoveBtn {
         display: flex;
         flex-direction: column;
         align-items: center;
+        gap: 20px;
+        margin: 20px;
+        button {
+          width: 85px;
+          height: 35px;
+          padding: 3px 6px;
+          text-align: center;
+          border: 1px solid;
+          border-radius: 6px;
+          img {
+            width: 20px;
+            height: 20px;
+          }
+
+          &:active {
+            transform: scale(0.95);
+          }
+        }
+      }
+
+      &-AddToCartBtn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+      }
+    }
+
+    &--info {
+      &-desc {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
         color: var(--light-purple);
         img {
           margin: 20px 0;

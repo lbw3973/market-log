@@ -3,7 +3,7 @@
 }
 .mypage__container {
   display: flex;
-  margin-top: 30px;
+  margin-top : 30px;
   .mypage__orderhistory {
     .calendar-box {
       position: relative;
@@ -162,6 +162,7 @@
             }
             .product--info-numbers {
               display: flex;
+              gap: 10px;
             }
             .order-status {
               font-size: 13px;
@@ -199,4 +200,11 @@
     }
   }
 }
-// }
+.orderHistory__list {
+  img {
+    width: 160px;
+    height: 160px;
+    object-fit: contain;
+    margin-right: 20px;
+  }
+}
