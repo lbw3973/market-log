@@ -61,6 +61,9 @@ function renderPage(html) {
 }
 
 export async function initFuncAccount() {
+  const active = document.querySelector('#mpAccount');
+  active.parentElement.classList.add('active');
+
   const divUserAccount = document.querySelector('.user__account');
   const dicCreateAccount = document.querySelector('.create__account');
   const btnCloseModal = document.querySelector('#btnCloseModal');

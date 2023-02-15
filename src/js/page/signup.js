@@ -1,4 +1,4 @@
-export const htmlSingup = /* html */ `
+export const htmlSignup = /* html */ `
   <div class="signup__container">
     <h1 class="title">회원가입</h1>
     <div class="signup__container__input">

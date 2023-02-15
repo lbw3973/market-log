@@ -1,5 +1,5 @@
 import { base_url, api_key, user_name, admin_email } from '../db.js';
-import { router } from './mypage.js';
+import Navigo from 'navigo';
 const headers = {
   'content-type': 'application/json',
   apikey: api_key,
@@ -7,6 +7,7 @@ const headers = {
 };
 const $ = (selector) => document.querySelector(selector);
 const userHeaderUL = $('.header__user-login--ul');
+// const router = new Navigo('/');
 
 export const htmlLogin = /* html */ `
   <div class="login__container">
@@ -40,7 +41,7 @@ export function initFuncLogin() {
       const loginJSON = await login();
       displayUserName(loginJSON.user.displayName);
       localStorage.setItem('token', loginJSON.accessToken);
-      router.navigate('/');
+      // router.navigate('/');
     } catch (exception) {
       alert(exception);
     }
@@ -83,7 +84,7 @@ function displayUserName(displayName) {
         <a href="/login" data-navigo id="btnlogin"> 로그인 </a>
       </li>
     `;
-      router.navigate('/');
+      // router.navigate('/');
     }
   });
 }

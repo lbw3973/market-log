@@ -102,6 +102,8 @@ export const htmlMypage_OrderHistory = /* html */ `
   </div>
 `;
 export async function initFuncOrderHistory() {
+  const active = document.querySelector('#mpOrderHistory');
+  active.parentElement.classList.add('active');
   //제품 정보
   const productEl = document.querySelector('.product');
 

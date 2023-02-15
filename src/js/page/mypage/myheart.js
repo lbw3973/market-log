@@ -42,6 +42,9 @@ export const htmlMypage_MyHeart = `
 `;
 
 export async function initFuncMyHeart() {
+  const active = document.querySelector('#mpMyHeart');
+  active.parentElement.classList.add('active');
+
   const deleteBtns = document.querySelectorAll('.delete-btn');
   // 모달창
   const modalEl = document.querySelector('.modal');

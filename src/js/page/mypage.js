@@ -14,13 +14,13 @@ import { renderPage } from '../main.js';
 dotenv.config();
 // window.localStorage.clear(); // TODO : 삭제
 const $ = (selector) => document.querySelector(selector);
-export const router = new Navigo('/');
+// export const router = new Navigo('/');
 const divLoadingEl = document.querySelector('.loadingGif');
 
 let navliList;
 
 // HTML : mypage nav 목록
-const htmlMypage_Nav = /* html */ `
+export const htmlMypage_Nav = /* html */ `
 <div class="mypage__app">
   <div class="mypage__container">
     <div class="mypage__navbar">
@@ -66,150 +66,12 @@ export function initFunc() {
 }
 
 export function renderMyPageNav(html) {
+  $('.app').innerHTML = htmlMypage_Nav;
   $('.app').querySelector('.mypage__navigo__container').innerHTML = html;
   resetliActive();
 }
 
 function resetliActive() {
-  navliList = document.querySelectorAll('.mypage__navbar nav ul li');
-  navliList.forEach((x) => x.classList.remove('active'));
+  navliList = document.querySelectorAll('.mypage__navbar nav ul li a');
+  navliList.forEach((navli) => navli.classList.remove('active'));
 }
-
-router
-  .on({
-    '/': () => {
-      router.navigate('/');
-    },
-    // mypage
-    '/mypage': () => {
-      console.log('route to mypage!!');
-      $('.app').innerHTML = htmlMypage_Nav;
-      router.navigate('mypage/orderHistory');
-    },
-    '/mypage/orderHistory': async () => {
-      console.log('route to mypage/orderHistory!!');
-      renderMyPageNav(htmlMypage_OrderHistory);
-      initFuncOrderHistory();
-      navliList[0].classList.add('active');
-    },
-    '/mypage/account': async () => {
-      divLoadingEl.style.display = 'block';
-      console.log('route to mypage/account!!');
-      renderMyPageNav(htmlMypage_Account);
-      await initFuncAccount();
-      divLoadingEl.style.display = 'none';
-      navliList[1].classList.add('active');
-    },
-    '/mypage/myHeart': async () => {
-      console.log('route to mypage/myHeart!!');
-      renderMyPageNav(htmlMypage_MyHeart);
-      initFuncMyHeart();
-      navliList[2].classList.add('active');
-    },
-    '/mypage/myPersonalInfoModify': () => {
-      console.log('route to mypage/myPersonalInfoModify!!');
-      renderMyPageNav('');
-      navliList[3].classList.add('active');
-    },
-    // login
-    '/login': () => {
-      console.log('route to /login!!');
-      $('.app').innerHTML = htmlLogin;
-      initFuncLogin();
-    },
-    // signup
-    '/signup': () => {
-      console.log('route to /signup!!');
-      $('.app').innerHTML = htmlSingup;
-      initFuncSignup();
-    },
-  })
-  .resolve();
-
-// 엑세스 토큰때문에 임시..
-// const idEl = document.querySelector('.id');
-// const passwordEl = document.querySelector('.password');
-// const displayNameEl = document.querySelector('.display-name');
-// const submitEl = document.querySelector('.signup');
-// const authorizationEl = document.querySelector('.authorization');
-// const loginEl = document.querySelector('.login');
-// // const btnLogout = document.querySelector('.logout')
-
-// let id = '';
-// let pw = '';
-// let displayName = '';
-
-// idEl.addEventListener('input', (event) => {
-//   id = event.target.value;
-// });
-// passwordEl.addEventListener('input', (event) => {
-//   pw = event.target.value;
-// });
-// displayNameEl.addEventListener('input', (event) => {
-//   displayName = event.target.value;
-// });
-// submitEl.addEventListener('click', () => {
-//   request({
-//     url: 'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/signup',
-//     method: 'POST',
-//     data: {
-//       email: id,
-//       password: pw,
-//       displayName: displayName,
-//     },
-//   });
-// });
-// authorizationEl.addEventListener('click', async () => {
-//   request({
-//     url: 'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/me',
-//     method: 'POST',
-//     headers: {
-//       Authorization: `Bearer ${accessToken}`,
-//       masterKey: true,
-//     },
-//   });
-// });
-// loginEl.addEventListener('click', async () => {
-//   loginEl.textContent = '로그인 시도 중...';
-//   await request({
-//     url: 'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/login',
-//     method: 'POST',
-//     data: {
-//       email: id,
-//       password: pw,
-//     },
-//   });
-//   loginEl.textContent = '로그인 완료';
-// });
-// // btnLogout.addEventListener('click', () => {
-// //   request({
-// //     url: 'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/logout',
-// //     method: 'POST',
-// //     headers: {
-// //       ...headers,
-// //       Authorization: `Bearer ${window.localStorage.getItem('token')}`
-// //     }
-// //   })
-// // })
-
-// async function request(options) {
-//   const defaultOptions = {
-//     method: 'GET',
-//     headers: {
-//       'content-type': 'application/json',
-//       apikey: 'FcKdtJs202301',
-//       username: user_name,
-//     },
-//   };
-//   const headers = options.headers || {};
-//   const res = await fetch(options.url, {
-//     method: options.method || defaultOptions.method,
-//     headers: {
-//       ...defaultOptions.headers,
-//       ...headers,
-//     },
-//     body: options.data ? JSON.stringify(options.data) : undefined,
-//   });
-//   const json = await res.json();
-//   window.localStorage.setItem('token', json.accessToken);
-// }
