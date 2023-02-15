@@ -12,7 +12,19 @@
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
     />
     <link rel="stylesheet" href="./src/scss/main.scss" />
+    <link
+      rel="stylesheet"
+      href="./src/scss/productDetail/productsDetail.scss"
+    />
+    <link rel="stylesheet" href="./src/scss/cart/cart.scss" />
+    <link rel="stylesheet" href="./src/scss/pay/pay.scss" />
+    <!-- 다음 우편번호 찾기 api -->
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=26e53c394ca0000e128fe5483eb64985&libraries=services"></script>
     <!-- js -->
+    <!-- test js -->
+    <!-- <script type="module" src="./src/js/testJaeha.js" defer></script> -->
+    <!-- 병욱님, 영은님 -->
     <script type="module" src="./src/js/main.js" defer></script>
   </head>
 
@@ -22,22 +34,14 @@
       <div class="header">
         <nav class="header__user-login">
           <ul class="header__user-login--ul">
-            <li class="header__user-login--li">
-              <a href="/signup" data-navigo>회원가입</a>
-            </li>
-            <li class="header__user-login--li">
-              <a href="/myPage" data-navigo>
-                <strong id="header__user-login-name">테스트님</strong>환영합니다
-              </a>
-            </li>
-            <li class="header__user-login--li">
-              <a href="/login" data-navigo> 로그인 </a>
-            </li>
+            <!-- <li class="header__user-login--li">
+            <a href="/login" data-navigo id="btnlogin"> 로그인 </a>
+          </li> -->
           </ul>
         </nav>
 
         <nav class="header-main">
-          <a class="header-main__home-link" href="/" data-navigo>
+          <a class="header-main__home-link" href="#" data-navigo>
             <img
               class="header-main__logo"
               src="./public/mainLogo.svg"
@@ -69,11 +73,11 @@
                 src="./public/cart.svg"
                 alt="카트"
             /></a>
-            <a href="/mypage" data-navigo id="mypageNavigo"
+            <a href="/mypage" data-navigo
               ><img
                 class="header-main__links-img"
                 src="./public/member.svg"
-                alt="회원가입"
+                alt="마이페이지"
             /></a>
           </div>
         </nav>
@@ -140,6 +144,9 @@
 
     <!-- 메인페이지 라우터 -->
     <main class="app"></main>
+    <div class="loadingGif">
+      <img src="public/loading.svg" alt="로딩.." id="img-lodingGIF" />
+    </div>
     <!-- 메인페이지 끝 -->
 
     <!-- 공통 FOOTER 시작-->
@@ -197,14 +204,6 @@
     <!-- 각 페이지 진입점!! 건들지 말 것! -->
     <div>
       <ul>
-        <!-- example html -->
-        <li>
-          <a href="./src/example/index.html">link to example's index.html</a>
-        </li>
-        <!-- 진짜 메인페이지 html -->
-        <li>
-          <a href="./src/example/index.html">진짜 메인페이지 html</a>
-        </li>
         <!-- 제품 상세페에지 html -->
         <li>
           <a href="./src/html/productDetail.html">제품 상세페에지 html</a>
@@ -235,6 +234,39 @@
         </li>
         <div>test</div>
       </ul>
+    </div>
+
+    <!-- 상품 정보 -->
+    <!-- <div>
+      <ul class="productDetailLists">
+        <li class="productDetailList" data-product-id="${id}">
+          <a href="/${id}" data-navigo>
+            <div>${title}</div>
+            <div>${price}</div>
+            <div>${thumbnail}</div>
+            <div>${description}</div>
+            <div>${isSoldOut}</div>
+          </a>
+        </li>
+      </ul>
+    </div> -->
+
+    <!-- 장바구니 modal -->
+    <div class="modal__addCart">
+      <div class="modal__addCart-container">
+        <div class="modal__addCart--info">
+          <img src="./public/cart.svg" alt="장바구니 추가 완료" />
+          <h4>장바구니에 추가되었습니다.</h4>
+        </div>
+        <div class="modal__addCart--btns">
+          <a class="modal__addCart--btn modal-keepShopping"
+            ><button>계속 쇼핑하기</button></a
+          >
+          <a href="/cart" data-navigo class="modal__addCart--btn goToCart"
+            ><button>장바구니 바로가기</button></a
+          >
+        </div>
+      </div>
     </div>
   </body>
 </html>

@@ -5,13 +5,28 @@
   align-items: center;
   gap: 10px;
 }
+@mixin paymentInfoAlign {
+  @include alignGap10px();
+  justify-content: space-between;
+}
 
 .pay {
   display: flex;
   justify-content: center;
   margin: 0 auto;
-  height: 100%;
+  height: auto;
   padding: 60px;
+  @mixin payBorderCustomize {
+    border: none;
+    border: 1px solid var(--division-line);
+    border-radius: 6px;
+  }
+  input {
+    @include payBorderCustomize();
+  }
+  select {
+    @include payBorderCustomize();
+  }
   h2 {
     font-size: 30px;
   }
@@ -21,12 +36,10 @@
   h4 {
     font-size: 20px;
   }
-  border: 1px solid;
 
   &__container {
     text-align: start;
     width: 90%;
-    border: 1px solid;
   }
 
   &__header {
@@ -58,6 +71,7 @@
       margin: 30px;
       padding: 30px;
       border-bottom: 1px solid var(--division-line);
+      overflow-x: hidden;
       h4 {
         margin-bottom: 30px;
       }
@@ -152,24 +166,86 @@
         }
       }
     }
+    &--width400px {
+      width: 370px;
+    }
 
-    &--payment-container {
+    &--payment--container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      // justify-content: space-between;
     }
     &--container {
       &-totalOrderPrice {
-        @include alignGap10px();
+        @include paymentInfoAlign();
       }
 
       &-discountPrice {
-        @include alignGap10px();
+        @include paymentInfoAlign();
       }
 
       &-deliveryPrice {
-        @include alignGap10px();
+        @include paymentInfoAlign();
       }
 
       &-totalPaymentPrice {
-        @include alignGap10px();
+        @include paymentInfoAlign();
+      }
+    }
+  }
+}
+
+// 결제수단 선택 scss
+.payment-method {
+  &__select-card {
+    // display: none;
+    padding: 15px;
+    padding-bottom: 40px;
+    background-color: #fff;
+  }
+  &__swiper-wrapper {
+    display: flex;
+    justify-content: center;
+    background-color: #fff;
+  }
+  &__card-lists {
+    display: flex;
+    gap: 50px;
+    margin: 0 10px;
+    img {
+      filter: grayscale(100%);
+    }
+  }
+  &__card-list {
+  }
+  &__card-name {
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  &__final {
+    margin-top: 20px;
+    &-alert {
+      padding: 10px 20px;
+      color: gray;
+    }
+
+    &-confirm {
+      &--container {
+        display: flex;
+        justify-content: center;
+        padding: 20px 50px;
+      }
+
+      &--btn {
+        width: 50%;
+        height: 80px;
+        text-align: center;
+        background-color: var(--logo-color);
+        // background-color: var(--deps-pink);
+        color: #fff;
+        border-radius: 6px;
       }
     }
   }

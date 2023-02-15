@@ -1,7 +1,6 @@
 export const htmlMypage_MyHeart = `
-<div class="mypage__container">
   <div class="mypage__myheart">
-    <h2>찜한 상품 (0)</h2>
+    <h2>찜한 상품</h2>
     <div class="heartproducts-container">
       <div class="nocontent-box nodisplay">
         <p>
@@ -11,37 +10,20 @@ export const htmlMypage_MyHeart = `
       </div>
       <ul class="heart-products">
         <li class="heart-product">
-          <a href="#"
-            ><img class="product--img" src="#" alt="product image"
-          /></a>
-          <div class="product-info">
+          <a href="#">
+            <img class="heart-product--img" src="#" alt="product image"/>
+          </a>
+          <div class="heart-product--info">
             <a href="#">
-              <span class="product--name"
-                >플로리스 펫샴푸 퀸즈가든 300ML</span
-              >
-              <span class="product--price">23,000원</span>
+              <span class="heart-product--name">플로리스 펫샴푸 퀸즈가든 300ML</span>
+            </a>
+            <a>
+              <span class="heart-product--price">23,000원</span>
             </a>
           </div>
           <div class="buttons">
             <button>삭제</button>
             <button>담기</button>
-          </div>
-        </li>
-        <li class="heart-product">
-          <a href="#"
-            ><img class="product--img" src="#" alt="product image"
-          /></a>
-          <div class="product-info">
-            <a href="#">
-              <span class="product--name"
-                >플로리스 펫샴푸 퀸즈가든 300ML</span
-              >
-              <span class="product--price">23,000원</span>
-            </a>
-          </div>
-          <div class="buttons">
-            <button class="delete-btn">삭제</button>
-            <button class="cart-btn">담기</button>
           </div>
         </li>
       </ul>
@@ -57,10 +39,12 @@ export const htmlMypage_MyHeart = `
       <button class="cart-btn"><a href="#">장바구니 보기</a></button>
     </div>
   </div>
-</div>
 `;
 
 export async function initFuncMyHeart() {
+  const active = document.querySelector('#mpMyHeart');
+  active.parentElement.classList.add('active');
+
   const deleteBtns = document.querySelectorAll('.delete-btn');
   // 모달창
   const modalEl = document.querySelector('.modal');
