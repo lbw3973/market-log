@@ -172,25 +172,25 @@ const renderInitCategoryPage = `
       <!-- aside -->
       <aside class="categoryPage__aside">
         <div class="categoryPage__aside--container categoryPageSwiper">
-          <div class="categoryPage__aside--wrapper swiper-wrapper">
-            <div class="categoryPage__aside--img swiper-slide">
-              <img src="${halo96}" alt="" />
-            </div>
-            <div class="categoryPage__aside--img swiper-slide">
-              <img src="${halo75}" alt="" />
-            </div>
-            <div class="categoryPage__aside--img swiper-slide">
-              <img src="${air96}" alt="" />
-            </div>
-            <div class="categoryPage__aside--img swiper-slide">
-              <img src="${nufolio}" alt="" />
-            </div>
-            <div class="categoryPage__aside--img swiper-slide">
-              <img src="${twilight}" alt="" />
-            </div>
-            <div class="categoryPage__aside--img swiper-slide">
-              <img src="${xmas}" alt="" />
-            </div>
+          <div class="categoryPage__aside--wrapper">
+            <li class="categoryPage__aside--img">
+              <img src="${halo96}" alt=halo96" />
+            </li>
+            <li class="categoryPage__aside--img">
+              <img src="${halo75}" alt="halo75" />
+            </li>
+            <li class="categoryPage__aside--img">
+              <img src="${air96}" alt="air96" />
+            </li>
+            <li class="categoryPage__aside--img">
+              <img src="${nufolio}" alt="nufolio" />
+            </li>
+            <li class="categoryPage__aside--img">
+              <img src="${twilight}" alt="twilight" />
+            </li>
+            <li class="categoryPage__aside--img">
+              <img src="${xmas}" alt="xmas" />
+            </li>
           </div>
         </div>
         <div class="categoryPage-pagination"></div>
@@ -320,6 +320,7 @@ const getSortedHighToLowPriceProduct = async (i) => {
 
 /** select option에 의해 정렬 */
 const renderCategoryProductBySelect = async (condition, i) => {
+  renderSkeletonUIinCategoryPage();
   const getKeyBoardCategory = await getProductTags();
 
   if (condition === 'reset') {
@@ -2087,7 +2088,8 @@ router
         .querySelector('#categoryPage-filterByPrice')
         ?.addEventListener('change', async (e) => {
           console.log(e.target);
-          return renderCategoryProductBySelect(
+
+          renderCategoryProductBySelect(
             await $('#categoryPage-filterByPrice').options[
               $('#categoryPage-filterByPrice').selectedIndex
             ].value,
@@ -2213,14 +2215,26 @@ $('.app').addEventListener('click', (e) => {
   // [제품 상세 페이지]에서 '구매하기' 버튼 클릭 클릭 -> [결제 페이지]로 이동
   if (e.target.classList.contains('buyBtn')) {
     console.log(e.target);
-    router.navigate('/payment');
+    if (window.localStorage.getItem('token')) {
+      router.navigate('/payment');
+    } else {
+      alert('로그인이 필요한 페이지 입니다. 로그인 페이지로 이동합니다.');
+      // 로그인 페이지로 이동
+      router.navigate('/');
+    }
     return;
   }
 
   // [장바구니]에서 '구매하기' 버튼 클릭 클릭 -> [결제 페이지]로 이동
   if (e.target.classList.contains('cartPaymentBtn')) {
     console.log(e.target);
-    router.navigate('/payment');
+    if (window.localStorage.getItem('token')) {
+      router.navigate('/payment');
+    } else {
+      alert('로그인이 필요한 페이지 입니다. 로그인 페이지로 이동합니다.');
+      // 로그인 페이지로 이동
+      router.navigate('/');
+    }
     return;
   }
 });
