@@ -2132,9 +2132,9 @@ const handlePaymentBtnLogic = async (e) => {
       await buyItemAPI(productId, currentSelectedBankId);
       // localStorage shoppingCart 비워주기
       shoppingCartStore.removeLocalStorage();
-      // 결제 성공 모달
       return;
     });
+    // 결제 성공 alert
     alert('결제가 성공적으로 되었습니다. 구매내역으로 이동합니다.');
     router.navigate('/');
   } else if (getCurrentSelectedAccountBalance < totalProductPrice) {
