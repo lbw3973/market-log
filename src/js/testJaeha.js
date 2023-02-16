@@ -2126,19 +2126,19 @@ const handlePaymentBtnLogic = async (e) => {
   const getCurrentSelectedAccountBalance =
     getCurrentSelectedAccount[0]['balance'];
 
-  // 결제 성공
+  // 결제 성공 했을 때
   if (getCurrentSelectedAccountBalance >= totalProductPrice) {
     productIds.map(async (productId) => {
       await buyItemAPI(productId, currentSelectedBankId);
       // localStorage shoppingCart 비워주기
       shoppingCartStore.removeLocalStorage();
-      router.navigate('/');
       // 결제 성공 모달
-      alert('결제가 성공적으로 되었습니다. 구매내역으로 이동합니다.');
       return;
     });
+    alert('결제가 성공적으로 되었습니다. 구매내역으로 이동합니다.');
+    router.navigate('/');
   } else if (getCurrentSelectedAccountBalance < totalProductPrice) {
-    // 결제 실패
+    // 결제 실패 했을 때
     alert('해당 계좌의 잔액이 부족합니다.');
     return;
   }

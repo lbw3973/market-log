@@ -151,12 +151,14 @@
       }
       &--name {
         @include alignGap10px();
+        margin-bottom: 10px;
         &-input {
         }
       }
 
       &--email {
         @include alignGap10px();
+        margin-bottom: 10px;
         &-input {
         }
       }
