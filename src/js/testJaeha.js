@@ -215,8 +215,28 @@ const renderInitCategoryPage = `
   </div>
 `;
 
-/** 카테고리 페이지 제품 db에서 불러오기 */
+/** skeleton ui 초기 렌더링 */
+const renderSkeletonUIinCategoryPage = () => {
+  const skeletonUITemplate = `
+  <li class="categoryPage__skeleton">
+    <div class="categoryPage__skeleton--img"></div>
+    <div class="categoryPage__product--info">
+      <h3 class="categoryPage__skeleton--title"></h3>
+    </div>
+  </li>
+`;
 
+  const skeletonUI12 = Array(12)
+    .fill(skeletonUITemplate)
+    .map((v, i) => {
+      return v;
+    })
+    .join('');
+
+  $('.categoryPage__product--lists').innerHTML = skeletonUI12;
+};
+
+/** 카테고리 페이지 제품 db에서 불러오기 */
 const renderCategoryProductList = (items) => {
   const categoryProductListTemplate = items
     .map((item) => {
@@ -2000,15 +2020,10 @@ router
       $('.modal__addCart').style.display = 'none';
       console.log('/category/keyboards');
       renderPage(renderInitCategoryPage);
+      renderSkeletonUIinCategoryPage();
       const getKeyBoardCategory = await getProductTags();
       renderCategoryProductList(await getKeyBoardCategory[0]);
       await renderCategoryProductQty(0);
-      console.log(await getKeyBoardCategory[0]);
-      console.log(
-        $('#categoryPage-filterByPrice').options[
-          $('#categoryPage-filterByPrice').selectedIndex
-        ].value,
-      );
 
       // 가격 정렬 이벤트
       $('.app')
@@ -2026,8 +2041,9 @@ router
     '/category/keycaps': async () => {
       $('.modal__addCart').style.display = 'none';
       console.log('/category/keycaps');
-      const getKeyBoardCategory = await getProductTags();
       renderPage(renderInitCategoryPage);
+      renderSkeletonUIinCategoryPage();
+      const getKeyBoardCategory = await getProductTags();
       renderCategoryProductList(await getKeyBoardCategory[1]);
       await renderCategoryProductQty(1);
 
@@ -2064,8 +2080,9 @@ router
     '/category/switches': async () => {
       $('.modal__addCart').style.display = 'none';
       console.log('/category/switches');
-      const getKeyBoardCategory = await getProductTags();
       renderPage(renderInitCategoryPage);
+      renderSkeletonUIinCategoryPage();
+      const getKeyBoardCategory = await getProductTags();
       renderCategoryProductList(await getKeyBoardCategory[2]);
       await renderCategoryProductQty(2);
 
@@ -2085,8 +2102,9 @@ router
     '/category/accessories': async () => {
       $('.modal__addCart').style.display = 'none';
       console.log('/category/accessories');
-      const getKeyBoardCategory = await getProductTags();
       renderPage(renderInitCategoryPage);
+      renderSkeletonUIinCategoryPage();
+      const getKeyBoardCategory = await getProductTags();
       renderCategoryProductList(await getKeyBoardCategory[3]);
       await renderCategoryProductQty(3);
 

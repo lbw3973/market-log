@@ -99,3 +99,33 @@
     }
   }
 }
+@mixin skeletonUI($width, $height) {
+  opacity: 0.7;
+  animation: skeleton-loading 0.5s linear infinite alternate;
+  border-radius: 6px;
+  width: $width;
+  height: $height;
+}
+@keyframes skeleton-loading {
+  0% {
+    background-color: hsl(200, 20%, 70%);
+  }
+
+  100% {
+    background-color: hsl(200, 20%, 95%);
+  }
+}
+
+.categoryPage {
+  &__skeleton {
+    &--img {
+      @include skeletonUI(260px, 260px);
+    }
+    &--title {
+      @include skeletonUI(100px, 40px);
+    }
+    // &--price {
+    //   @include skeletonUI(100px, 40px);
+    // }
+  }
+}
