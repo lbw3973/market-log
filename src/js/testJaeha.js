@@ -452,30 +452,28 @@ export const wishListStore = {
   },
 };
 
-let wishListArr = [];
-wishListArr = wishListStore.getLocalStorage();
-console.log(wishListArr);
-
 /** 찜하기 상품 유/무에 따라 다른 초기화면 렌더링 */
 const checkWhetherAddWishList = (id) => {
+  let wishListArr = wishListStore.getLocalStorage();
+  // console.log('wishListArr', wishListArr);
   const existingItem = wishListArr.find((item) => item.id === id);
+  // console.log('existingItem', existingItem);
   return existingItem ? addHeart : emptyHeart;
 };
 
 /** 찜하기 목록에 저장 */
 const storeWishList = (id, count, thumbnail, title, pricePerOne) => {
+  let wishListArr = wishListStore.getLocalStorage();
   const existingItem = wishListArr.find((item) => item.id === id);
 
   if (!existingItem) {
     wishListArr.push({ id, count, thumbnail, title, pricePerOne });
-    console.log('wishListArr', wishListArr);
     wishListStore.setLocalStorage(wishListArr);
-    return;
+    console.log('wishListArr', wishListArr);
   } else if (existingItem) {
     wishListArr = wishListArr.filter((item) => item.id !== id);
     console.log('wishListArr 이미 찜', wishListArr);
     wishListStore.setLocalStorage(wishListArr);
-    return;
   }
   console.log('wishListArr2', wishListArr);
 };
@@ -483,7 +481,7 @@ const storeWishList = (id, count, thumbnail, title, pricePerOne) => {
 /** 제품 상세 페이지 찜하기 버튼 핸들링 이벤트  */
 $('.app').addEventListener('click', (e) => {
   if (e.target.classList.contains('aside__productDetail--info-wishlistImg')) {
-    const id = e.target.closest('.section__container').dataset.productId;
+    const id = e.target.closest('.section__container')?.dataset.productId;
     console.log(id);
     const count = productDetailProductQty;
     const title = productDetailTitle;
@@ -491,8 +489,7 @@ $('.app').addEventListener('click', (e) => {
     const pricePerOne = productDetailPricePerOne;
 
     storeWishList(id, count, thumbnail, title, pricePerOne);
-    wishListStore.setLocalStorage(wishListArr);
-    console.log('wishListArr.push', wishListArr);
+    wishListStore.setLocalStorage(wishListStore.getLocalStorage());
     renderDetailProduct(id);
   }
 });
@@ -602,10 +599,11 @@ const renderWishListProductList = (store) => {
 
 /** 찜하기에서 제품 제거 버튼 이벤트, 함수 */
 $('.app').addEventListener('click', (e) => {
+  let wishListArr = wishListStore.getLocalStorage();
   const id = e.target.closest('li')?.dataset.productId;
   if (e.target.classList.contains('removeFromWishListBtn')) {
     wishListArr = wishListArr.filter((item) => item.id !== id);
-    console.log('removeEvent', wishListArr);
+    console.log('removeItem from wishListArr', wishListArr);
     wishListStore.setLocalStorage(wishListArr);
     renderWishListPage();
   }
@@ -626,17 +624,16 @@ const handleEmptyWishlistInit = () => {
 
 /** 찜한 상품이 (없을 때 / 있을 때) 예외처리 */
 const renderWishListPage = () => {
-  if (wishListArr.length === 0) {
-    // renderWishListProductList(wishListArr);
+  if (wishListStore.getLocalStorage().length === 0) {
     renderPage(renderInitMypageTemplate);
     handleWishListInitTemplate();
     handleEmptyWishlistInit();
     return;
-  } else if (wishListArr.length >= 1) {
+  } else if (wishListStore.getLocalStorage().length >= 1) {
     // 장바구니에 넣은 상품 렌더링
     renderPage(renderInitMypageTemplate);
     handleWishListInitTemplate();
-    renderWishListProductList(wishListArr);
+    renderWishListProductList(wishListStore.getLocalStorage());
     return;
   }
 };
@@ -644,7 +641,7 @@ const renderWishListPage = () => {
 /** [찜하기 페이지]에서 '카트에 담기' 버튼 클릭 시, 해당 제품을 장바구니에 저장  */
 $('.app').addEventListener('click', (e) => {
   const id = e.target.closest('li')?.dataset.productId;
-  const wishListArr = wishListStore.getLocalStorage();
+  let wishListArr = wishListStore.getLocalStorage();
   if (e.target.classList.contains('wishList-AddToCartBtn')) {
     const wishListAddToCart = wishListArr.filter((item) => item.id === id);
 
@@ -666,6 +663,7 @@ $('.app').addEventListener('click', (e) => {
   마이 페이지 - 주문 내역 페이지  # mypage/order
 \*-----------------------------------*/
 
+/** 구매내역 초기 템플릿 */
 const handleOrderHistoryInitTemplate = () => {
   const renderOrderHistoryPageInitTemplate = `
   <div class="mypage__orderhistory">
@@ -723,6 +721,7 @@ const handleOrderHistoryInitTemplate = () => {
     renderOrderHistoryPageInitTemplate;
 };
 
+/** 구매내역 확인 API */
 const getAllTransactions = async () => {
   try {
     const res = await fetch(`${BASE_URL}/products/transactions/details`, {
@@ -739,6 +738,7 @@ const getAllTransactions = async () => {
   }
 };
 
+/** 구매 확정 API */
 const confirmTransactionAPI = async (detailId) => {
   try {
     const res = await fetch(`${BASE_URL}/products/ok`, {
@@ -758,6 +758,7 @@ const confirmTransactionAPI = async (detailId) => {
   }
 };
 
+/** 구매 취소 API */
 const cancelTransactionAPI = async (detailId) => {
   try {
     const res = await fetch(`${BASE_URL}/products/cancel`, {
@@ -778,6 +779,7 @@ const cancelTransactionAPI = async (detailId) => {
   }
 };
 
+/** 날짜 format 함수 */
 export const formatDate = (target) => {
   const date = new Date(target);
   const year = String(date.getFullYear()).padStart(2, 0);
@@ -920,6 +922,7 @@ const checkWhetherTransactionIsDone = (done, isCanceled) => {
 /*-----------------------------------*\
   마이 페이지 - 주문내역 상세 페이지  # mypage/order/:id
 \*-----------------------------------*/
+
 /** 주문 상세정보 구매확정/취소/완료 체크 함수 */
 const checkWhetherDetailOrderTransactionIsDone = (done, isCanceled) => {
   if (done) {
@@ -1043,17 +1046,12 @@ const renderSkeletonUIinDetailOrderHistoryPage = () => {
   $('.mypage__navigo__container').innerHTML = skeletonUI12;
 };
 
+/** 상세 주문내역 핸들링 함수 */
 const renderDetailOrderPage = async (id) => {
   renderPage(renderInitMypageTemplate);
   renderSkeletonUIinDetailOrderHistoryPage();
   await renderDetailOrderProduct(id);
 };
-
-// $('.app').addEventListener('click', (e) => {
-//   const detailId = e.target.contains('li')?.dataset.detailId;
-//   console.log(detailId);
-//   renderDetailOrderProduct(detailId);
-// });
 
 /*-----------------------------------*\
   제품 상세 페이지  #productDetail js
