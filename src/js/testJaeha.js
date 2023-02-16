@@ -215,7 +215,7 @@ const renderInitCategoryPage = `
   </div>
 `;
 
-/** skeleton ui 초기 렌더링 */
+/** 카테고리 페이지 skeleton ui 초기 렌더링 */
 const renderSkeletonUIinCategoryPage = () => {
   const skeletonUITemplate = `
   <li class="categoryPage__skeleton">
@@ -427,6 +427,7 @@ const handleSearchPageResult = async () => {
     ).value;
   } else if (findProductArr.length >= 1) {
     renderPage(renderInitCategoryPage);
+    renderSkeletonUIinCategoryPage();
     renderSearchedProductList(await findProduct());
   }
 };
@@ -658,7 +659,7 @@ $('.app').addEventListener('click', (e) => {
 });
 
 /*-----------------------------------*\
-  마이 페이지 - 주문내역 페이지  # mypage/order
+  마이 페이지 - 주문 내역 페이지  # mypage/order
 \*-----------------------------------*/
 
 const handleOrderHistoryInitTemplate = () => {
@@ -828,6 +829,22 @@ const renderOrderedProductList = (orderedItems) => {
   $('.orderHistory__lists').innerHTML = orderedProductListTemplate;
 };
 
+/** 주문 내역 skeleton ui 초기 렌더링 */
+const renderSkeletonUIinOrderHistoryPage = () => {
+  const skeletonUITemplate = `
+  <li class="orderHistoryPage__skeleton"></li>
+`;
+
+  const skeletonUI12 = Array(12)
+    .fill(skeletonUITemplate)
+    .map((v, i) => {
+      return v;
+    })
+    .join('');
+
+  $('.orderHistory__lists').innerHTML = skeletonUI12;
+};
+
 /** 구매내역이 없을 경우 render 핸들링 함수, 빈 구매내역 template */
 const emptyOrderHistory = () => {
   const emptyOrderHistoryTemplate = `
@@ -842,18 +859,16 @@ const emptyOrderHistory = () => {
 
 /** 제품 구매 내역 유/무 예외처리 */
 const renderOrderedListPage = async () => {
+  renderPage(renderInitMypageTemplate);
+  handleOrderHistoryInitTemplate();
+  renderSkeletonUIinOrderHistoryPage();
   const transactionArr = await getAllTransactions();
   console.log('transactionArr', transactionArr);
   if (transactionArr.length === 0) {
-    renderPage(renderInitMypageTemplate);
-    handleOrderHistoryInitTemplate();
     emptyOrderHistory();
-
     return;
   } else if (transactionArr.length >= 1) {
     // 장바구니에 넣은 상품 렌더링
-    renderPage(renderInitMypageTemplate);
-    handleOrderHistoryInitTemplate();
     renderOrderedProductList(transactionArr);
     return;
   }
@@ -939,7 +954,7 @@ const renderDetailOrderProduct = async (id) => {
   const detailOrderProduct = await getDetailOrderProduct(id);
   const { detailId, product, account, timePaid, isCanceled, done } =
     detailOrderProduct;
-  const { bankName, bankCode, accountNumber } = account;
+  const { bankName, accountNumber } = account;
   const { productId, title, price, thumbnail } = product;
 
   const detailOrderTemplate = `
@@ -1010,8 +1025,25 @@ const renderDetailOrderProduct = async (id) => {
   $('.mypage__navigo__container').innerHTML = detailOrderTemplate;
 };
 
+/** 상세 주문 내역 skeleton ui 초기 렌더링 */
+const renderSkeletonUIinDetailOrderHistoryPage = () => {
+  const skeletonUITemplate = `
+  <li class="orderHistoryPage__skeleton"></li>
+`;
+
+  const skeletonUI12 = Array(2)
+    .fill(skeletonUITemplate)
+    .map((v, i) => {
+      return v;
+    })
+    .join('');
+
+  $('.mypage__navigo__container').innerHTML = skeletonUI12;
+};
+
 const renderDetailOrderPage = async (id) => {
   renderPage(renderInitMypageTemplate);
+  renderSkeletonUIinDetailOrderHistoryPage();
   await renderDetailOrderProduct(id);
 };
 
@@ -1049,6 +1081,30 @@ let shoppingCartArr = [];
 shoppingCartArr = shoppingCartStore.getLocalStorage();
 console.log(shoppingCartArr);
 
+/** 상세 주문 내역 skeleton ui 초기 렌더링 */
+const renderSkeletonUIinDetailProductPage = () => {
+  const skeletonUITemplate = `
+    <div class="productDetail__skeleton--container">
+      <div class="productDetail__skeleton--img"></div>
+      <div class="productDetail__skeleton--aside">
+        <div class="productDetail__skeleton--aside-desc"></div>
+        <div class="productDetail__skeleton--aside-desc"></div>
+        <div class="productDetail__skeleton--aside-desc"></div>
+        <div class="productDetail__skeleton--aside-desc"></div>
+      </div>
+    </div>
+`;
+
+  const skeletonUI12 = Array(1)
+    .fill(skeletonUITemplate)
+    .map((v, i) => {
+      return v;
+    })
+    .join('');
+
+  $('.app').innerHTML = skeletonUI12;
+};
+
 /** 장바구니에 저장 */
 const storeCart = (id, price, count, thumbnail, title, pricePerOne) => {
   // id 값을 찾고
@@ -1083,7 +1139,6 @@ const getDetailProduct = async (productId) => {
 };
 
 /** 계좌 목록 및 잔액 조회 db에서 불러오기 */
-
 const getAccountDetail = async () => {
   try {
     const res = await fetch(`${BASE_URL}/account`, {
@@ -1110,6 +1165,7 @@ let productDetailTitle;
 let productDetailThumbnail;
 let productDetailPricePerOne;
 
+/** 제품 상세페이지 렌더링 함수 */
 const renderDetailProduct = async (productId) => {
   const productDetail = await getDetailProduct(productId);
   const { description, id, isSoldOut, photo, price, tags, title, thumbnail } =
@@ -1970,6 +2026,7 @@ router
     '/product/:id': async (params) => {
       console.log('product/:id route is working');
       console.log('params', params);
+      renderSkeletonUIinDetailProductPage();
       await renderDetailProduct(params.data.id);
 
       $('.app')

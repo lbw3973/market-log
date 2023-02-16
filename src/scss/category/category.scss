@@ -124,8 +124,32 @@
     &--title {
       @include skeletonUI(100px, 40px);
     }
-    // &--price {
-    //   @include skeletonUI(100px, 40px);
-    // }
+  }
+}
+
+.orderHistoryPage__skeleton {
+  @include skeletonUI(900px, 160px);
+  margin: 30px 0;
+}
+
+.productDetail__skeleton {
+  &--container {
+    display: flex;
+    margin: 100px 0;
+  }
+
+  &--img {
+    margin-left: 200px;
+    @include skeletonUI(500px, 500px);
+  }
+
+  &--aside {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    &-desc {
+      margin-left: 100px;
+      @include skeletonUI(500px, 60px);
+    }
   }
 }
