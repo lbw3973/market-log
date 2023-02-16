@@ -738,11 +738,6 @@ const htmlMypage_OrderHistory = `
         </p>
       </div>
       <ul class="products orderHistory__lists">
-        <div class="cart__empty">
-          <img src="${cartSVG}" alt="빈 장바구니" />
-          <h3>찜하기 목록이 비었습니다.</h3>
-          <a href="/category/keyboards">쇼핑하러 가기</a>
-        </div>
       </ul>
     </div>
     <div class="order-history--pagination">
@@ -863,6 +858,18 @@ const renderOrderedProductList = (orderedItems) => {
   $('.orderHistory__lists').innerHTML = orderedProductListTemplate;
 };
 
+/** 구매내역이 없을 경우 render 핸들링 함수, 빈 구매내역 template */
+const emptyOrderHistory = () => {
+  const emptyOrderHistoryTemplate = `
+    <div class="cart__empty">
+      <img src="${cartSVG}" alt="빈 구매내역" />
+      <h3>구매내역이 없습니다.</h3>
+      <a href="/category/keyboards">쇼핑하러 가기</a>
+    </div>
+  `;
+  $('.orderHistory__lists').innerHTML = emptyOrderHistoryTemplate;
+};
+
 /** 제품 구매 내역 유/무 예외처리 */
 const renderOrderedListPage = async () => {
   const transactionArr = await getAllTransactions();
@@ -870,6 +877,8 @@ const renderOrderedListPage = async () => {
   if (transactionArr.length === 0) {
     // renderOrderedProductList();
     renderPage(htmlMypage_OrderHistory);
+    emptyOrderHistory();
+
     return;
   } else if (transactionArr.length >= 1) {
     // 장바구니에 넣은 상품 렌더링
@@ -1856,10 +1865,6 @@ router
       $('.modal__addCart').style.display = 'none';
       console.log('/ route is working');
       renderPage(renderMainPageTemplate);
-      // renderPage(htmlMypage_Nav);
-      // $('.app').querySelector('.mypage__navigo__container').innerHTML =
-      //   htmlMypage_OrderHistory;
-      // renderOrderedProductList(await getAllTransactions());
     },
     '/products/search': async () => {
       $('.modal__addCart').style.display = 'none';
