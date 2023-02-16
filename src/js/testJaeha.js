@@ -488,10 +488,10 @@ const renderInitMypageTemplate = `
             <nav>
               <ul>
                 <li>
-                  <button id="mpOrderHistory">
-                    주문 내역
+                  <a href="/mypage/order" data-navigo
+                    >주문내역
                     <img src="./public/chevronright.svg" alt="chevronright" />
-                  </button>
+                  </a>
                 </li>
                 <li>
                   <a href="/mypage/account" data-navigo
@@ -500,7 +500,7 @@ const renderInitMypageTemplate = `
                   </a>
                 </li>
                 <li>
-                  <a href="/mypage/myHeart" data-navigo
+                  <a href="/mypage/wishlist" data-navigo
                     >찜한 상품
                     <img src="./public/chevronright.svg" alt="chevronright" />
                   </a>
@@ -640,71 +640,9 @@ $('.app').addEventListener('click', (e) => {
 /*-----------------------------------*\
   마이 페이지 - 주문내역 페이지  # mypage/order
 \*-----------------------------------*/
-const htmlMypage_Nav = /* html */ `
-<div class="mypage__app">
-  <div class="mypage__container">
-    <div class="mypage__navbar">
-      <h1>마이페이지</h1>
-      <nav>
-        <ul>
-          <li>
-            <a href="/mypage/orderHistory" data-navigo id="mpOrderHistory">주문 내역
-              <img src="${chevronrightSVG}" alt="chevronright">
-            </a>
-          </li>
-          <li>
-            <a href="/mypage/account" data-navigo id="mpAccount">계좌 관리
-              <img src="${chevronrightSVG}" alt="chevronright">
-            </a>
-          </li>
-          <li>
-            <a href="/mypage/myHeart" data-navigo id="mpMyHeart">찜한 상품
-              <img src="${chevronrightSVG}" alt="chevronright">
-            </a>
-          </li>
-          <li>
-            <a href="/mypage/myPersonalInfoModify" data-navigo id="mpMyPersonalInfoModify">개인 정보 수정
-              <img src="${chevronrightSVG}" alt="chevronright">
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  <div class="mypage__navigo__container"></div>
-</div>
-`;
 
-const htmlMypage_OrderHistory = `
-<div class="mypage__app">
-  <div class="mypage__container">
-    <div class="mypage__navbar">
-      <h1>마이페이지</h1>
-      <nav>
-        <ul>
-          <li>
-            <a href="/mypage/orderHistory" data-navigo id="mpOrderHistory">주문 내역
-              <img src="${chevronrightSVG}" alt="chevronright">
-            </a>
-          </li>
-          <li>
-            <a href="/mypage/account" data-navigo id="mpAccount">계좌 관리
-              <img src="${chevronrightSVG}" alt="chevronright">
-            </a>
-          </li>
-          <li>
-            <a href="/mypage/myHeart" data-navigo id="mpMyHeart">찜한 상품
-              <img src="${chevronrightSVG}" alt="chevronright">
-            </a>
-          </li>
-          <li>
-            <a href="/mypage/myPersonalInfoModify" data-navigo id="mpMyPersonalInfoModify">개인 정보 수정
-              <img src="${chevronrightSVG}" alt="chevronright">
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-<div class="mypage__container">
+const handleOrderHistoryInitTemplate = () => {
+  const renderOrderHistoryPageInitTemplate = `
   <div class="mypage__orderhistory">
     <h2>주문 내역</h2>
     <div class="calendar-box">
@@ -746,8 +684,7 @@ const htmlMypage_OrderHistory = `
           <span>주문내역이 존재하지 않습니다.</span>
         </p>
       </div>
-      <ul class="products orderHistory__lists">
-      </ul>
+      <ul class="products orderHistory__lists"></ul>
     </div>
     <div class="order-history--pagination">
       <img src="${paginationLeft}" alt="pagination-left">
@@ -755,9 +692,11 @@ const htmlMypage_OrderHistory = `
       <img src="${paginationRight}" alt="pagination-right">
     </div>
   </div>
-</div>
-</div>
-`;
+  </div>
+  `;
+  $('.mypage__navigo__container').innerHTML =
+    renderOrderHistoryPageInitTemplate;
+};
 
 const getAllTransactions = async () => {
   try {
@@ -886,14 +825,15 @@ const renderOrderedListPage = async () => {
   const transactionArr = await getAllTransactions();
   console.log('transactionArr', transactionArr);
   if (transactionArr.length === 0) {
-    // renderOrderedProductList();
-    renderPage(htmlMypage_OrderHistory);
+    renderPage(renderInitMypageTemplate);
+    handleOrderHistoryInitTemplate();
     emptyOrderHistory();
 
     return;
   } else if (transactionArr.length >= 1) {
     // 장바구니에 넣은 상품 렌더링
-    renderPage(htmlMypage_OrderHistory);
+    renderPage(renderInitMypageTemplate);
+    handleOrderHistoryInitTemplate();
     renderOrderedProductList(transactionArr);
     return;
   }
