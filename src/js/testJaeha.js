@@ -959,7 +959,7 @@ const renderDetailOrderProduct = async (id) => {
         </div>
       </div>
       <div class="detailorderhistory__product--order-status">
-        ${checkWhetherDetailOrderTransactionIsDone()}
+        ${checkWhetherDetailOrderTransactionIsDone(done, isCanceled)}
       </div>
     </div>
     <h2 class="detailorderhistory__product--payment-info-title">
@@ -981,7 +981,7 @@ const renderDetailOrderProduct = async (id) => {
           >결제 금액</span
         >
         <span class="detailorderhistory__payment--detail-price"
-          >${price} 원</span
+          >${price.toLocaleString()} 원</span
         >
       </div>
     </div>
