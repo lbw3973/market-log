@@ -812,7 +812,7 @@ const renderOrderedProductList = (orderedItems) => {
             )}</div>
           </div>
           <span class="order-status orderHistory__list--orderStatus">${
-            done ? '구매 확정' : isCanceled ? '구매 취소' : ''
+            done ? '구매 확정' : isCanceled ? '구매 취소' : '대기'
           }</span>
           <span>구매 확정 이후에는 주문 취소가 불가능합니다.</span>
           <span class="orderHistory__list--confirmed-order"></span>
