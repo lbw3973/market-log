@@ -159,7 +159,6 @@ const renderMainPageTemplate = `
   </div>
 </div>
 `;
-// renderPage(renderMainPageTemplate);
 
 /*-----------------------------------*\
   #카테고리 페이지 # category js
@@ -396,6 +395,7 @@ const renderSearchedProductList = (title = '') => {
   $('.categoryPage__product--lists').innerHTML = categoryProductListTemplate;
 };
 
+/** 검색한 제품이 없을 때 렌더링, 추천 검색어 클릭 -> 카테고리 페이지로 이동 */
 const searchPageNoSearchResultTemplate = `
   <div class="searchPage__noResult--container">
     <span class="searchPage__noResult--inputValue"></span> 관련 상품이 없습니다.
@@ -416,9 +416,10 @@ const findProduct = async () => {
 
 /** 검색한 제품의 유/무 예외처리 핸들링 함수 */
 const handleSearchPageResult = async () => {
+  renderPage(renderInitCategoryPage);
+  renderSkeletonUIinCategoryPage();
   const findProductArr = await findProduct();
   if (findProductArr.length === 0) {
-    renderPage(renderInitCategoryPage);
     // '검색 결과 없음'의 초기 템플릿 init
     $('.categoryPage__product--lists').innerHTML =
       searchPageNoSearchResultTemplate;
@@ -427,9 +428,7 @@ const handleSearchPageResult = async () => {
       '.header-main__search--input',
     ).value;
   } else if (findProductArr.length >= 1) {
-    renderPage(renderInitCategoryPage);
-    renderSkeletonUIinCategoryPage();
-    renderSearchedProductList(await findProduct());
+    renderSearchedProductList(findProductArr);
   }
 };
 
@@ -457,6 +456,7 @@ let wishListArr = [];
 wishListArr = wishListStore.getLocalStorage();
 console.log(wishListArr);
 
+/** 찜하기 상품 유/무에 따라 다른 초기화면 렌더링 */
 const checkWhetherAddWishList = (id) => {
   const existingItem = wishListArr.find((item) => item.id === id);
   return existingItem ? addHeart : emptyHeart;
@@ -501,6 +501,7 @@ $('.app').addEventListener('click', (e) => {
   마이 페이지 - 찜하기 페이지 / 찜한 상품 페이지 #wishList js
 \*-----------------------------------*/
 
+/** 마이 페이지 mypage__navigo__container 초기 템플릿 */
 const renderInitMypageTemplate = `
       <div class="mypage__app">
         <div class="mypage__container">
@@ -540,6 +541,7 @@ const renderInitMypageTemplate = `
       </div>
 `;
 
+/** 찜한상품 제목, ul 태그 템플릿 삽입 */
 const handleWishListInitTemplate = () => {
   const renderWishListPageInitTemplate = `
     <div class="mypage__wishlist">
@@ -553,6 +555,7 @@ const handleWishListInitTemplate = () => {
   $('.mypage__navigo__container').innerHTML = renderWishListPageInitTemplate;
 };
 
+/** ul 태그에 찜한 제품 li 삽입, */
 const renderWishListProductList = (store) => {
   console.log(store);
   const wishListProductListTemplate = store
@@ -597,6 +600,7 @@ const renderWishListProductList = (store) => {
   $('.wishlist__product--lists').innerHTML = wishListProductListTemplate;
 };
 
+/** 찜하기에서 제품 제거 버튼 이벤트, 함수 */
 $('.app').addEventListener('click', (e) => {
   const id = e.target.closest('li')?.dataset.productId;
   if (e.target.classList.contains('removeFromWishListBtn')) {
@@ -640,6 +644,7 @@ const renderWishListPage = () => {
 /** [찜하기 페이지]에서 '카트에 담기' 버튼 클릭 시, 해당 제품을 장바구니에 저장  */
 $('.app').addEventListener('click', (e) => {
   const id = e.target.closest('li')?.dataset.productId;
+  const wishListArr = wishListStore.getLocalStorage();
   if (e.target.classList.contains('wishList-AddToCartBtn')) {
     const wishListAddToCart = wishListArr.filter((item) => item.id === id);
 
@@ -1574,6 +1579,7 @@ import Swiper, { Navigation, Pagination } from 'swiper';
 import { render } from 'sass';
 Swiper.use([Navigation, Pagination]);
 
+/** 제품 결제 API */
 const buyItemAPI = async (productId, accountId) => {
   try {
     const res = await fetch(`${BASE_URL}/products/buy`, {
@@ -2114,23 +2120,6 @@ router
             1,
           );
         });
-
-      // swiper
-      // const categorySwiper = new Swiper('.categoryPageSwiper', {
-      //   direction: 'vertical',
-      //   effect: 'slide',
-      //   pagination: {
-      //     el: '.swiper-pagination',
-      //     clickable: true,
-      //   },
-      //   grabCursor: true,
-      //   slidesPerView: 5,
-      //   autoplay: {
-      //     delay: 3000,
-      //   },
-      //   spaceBetween: 1,
-      //   loop: true,
-      // });
     },
     '/category/switches': async () => {
       $('.modal__addCart').style.display = 'none';
@@ -2186,7 +2175,6 @@ router
     },
     '/mypage/order/:id': async (params) => {
       console.log('order params', params);
-      // await renderDetailOrderProduct(params.data.id);
       await renderDetailOrderPage(params.data.id);
     },
   })
@@ -2244,20 +2232,14 @@ $('.header-main__search--form').addEventListener('submit', (e) => {
 $('.header-main__search--button').addEventListener('click', async (e) => {
   e.preventDefault();
   router.navigate('/products/search');
-  // renderPage(renderInitCategoryPage);
-  // renderSearchedProductList(await findProduct());
   await handleSearchPageResult();
   return;
 });
 
 /** [모든 페이지]에서 제품 검색 버튼 'Enter'이벤트 */
 $('.header-main__search--button').addEventListener('keypress', async (e) => {
-  // if (e.key !== 'Enter') return;
   if (e.key === 'Enter') {
     router.navigate('/products/search');
-    // findProduct();
-    // renderPage(renderInitCategoryPage);
-    // renderSearchedProductList(await findProduct());
     await handleSearchPageResult();
   }
 });
