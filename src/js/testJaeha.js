@@ -22,6 +22,7 @@ import {
   paginationLeft,
   paginationRight,
   chevronrightSVG,
+  hearted,
 } from './importIMGFiles.js';
 
 /** Navigo innerHTML template */
@@ -518,11 +519,6 @@ const renderInitMypageTemplate = `
               <div class="mypage__wishlist--container">
                 <h3>찜한 상품</h3>
                 <ul class="wishlist__product--lists">
-                  <div class="cart__empty">
-                    <img src="${cartSVG}" alt="빈 장바구니" />
-                    <h3>찜하기 목록이 비었습니다.</h3>
-                    <a href="/category/keyboards">쇼핑하러 가기</a>
-                  </div>
                 </ul>
               </div>
             </div>
@@ -586,11 +582,24 @@ $('.app').addEventListener('click', (e) => {
   }
 });
 
-/** 찜한 상품이 없을 때 / 있을 때 예외처리 */
+/** 찜하기 목록이 비어있을 때 템플릿 */
+const handleEmptyWishlistInit = () => {
+  const emptyWishlistTemplate = `
+  <div class="cart__empty">
+    <img src="${hearted}" alt="빈 장바구니" />
+    <h3>찜하기 목록이 비었습니다.</h3>
+    <a href="/category/keyboards">쇼핑하러 가기</a>
+  </div>
+  `;
+  $('.app').querySelector('.wishlist__product--lists').innerHTML =
+    emptyWishlistTemplate;
+};
+
+/** 찜한 상품이 (없을 때 / 있을 때) 예외처리 */
 const renderWishListPage = () => {
   if (wishListArr.length === 0) {
-    renderWishListProductList(wishListArr);
-    renderPage(renderInitMypageTemplate);
+    // renderWishListProductList(wishListArr);
+    handleEmptyWishlistInit();
     return;
   } else if (wishListArr.length >= 1) {
     // 장바구니에 넣은 상품 렌더링
@@ -599,6 +608,7 @@ const renderWishListPage = () => {
   }
 };
 
+/** [찜하기 페이지]에서 '카트에 담기' 버튼 클릭 시, 해당 제품을 장바구니에 저장  */
 $('.app').addEventListener('click', (e) => {
   const id = e.target.closest('li')?.dataset.productId;
   if (e.target.classList.contains('wishList-AddToCartBtn')) {
@@ -2023,11 +2033,10 @@ router
     },
     // 마이페이지 주문내역 목록
     '/mypage/order': async () => {
-      // renderPage(htmlMypage_Nav);
-      renderPage(htmlMypage_OrderHistory);
+      // renderPage(htmlMypage_OrderHistory);
+      await renderOrderedListPage();
       // $('.app').querySelector('.mypage__navigo__container').innerHTML =
       //   htmlMypage_OrderHistory;
-      await renderOrderedListPage();
     },
   })
   .resolve();
