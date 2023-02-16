@@ -882,6 +882,100 @@ const checkWhetherTransactionIsDone = (done, isCanceled) => {
   마이 페이지 - 주문내역 상세 페이지  # mypage/order/:id
 \*-----------------------------------*/
 
+const getDetailOrderProduct = async (detailId) => {
+  try {
+    const res = await fetch(`${BASE_URL}/products/transactions/detail`, {
+      method: 'POST',
+      headers: {
+        ...headers,
+        Authorization: `Bearer ${window.localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify({
+        detailId,
+      }),
+    });
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.log('상세 거래내역 가져오기 실패', err);
+  }
+};
+
+const renderDetailOrderProduct = async (id) => {
+  const detailOrderProduct = await getDetailOrderProduct(id);
+  const { detailId, product, account, timePaid, isCanceled, done } =
+    detailOrderProduct;
+  const { bankName, bankCode, accountNumber } = account;
+  const { productId, title, price, thumbnail } = product;
+
+  const detailOrderTemplate = `
+  <section class="mypage__detailorderhistory">
+    <h2>주문 상세정보</h2>
+    <div class="detailorderhistory__order--info">
+      <span class="detailorderhistory__order--info-date">
+        주문 날짜: ${formatDate(timePaid)}</span
+      >
+      <span class="detailorderhistory__order--info-id"
+        >주문 번호: ro8e5e2WKQxT3NZcltjh</span
+      >
+    </div>
+    <div class="detailorderhistory__product">
+      <div class="detailorderhistory__product--container">
+        <img
+          class="detailorderhistory__product--image"
+          src="./public/IMGproductDetail/air60.webp"
+          alt="product image"
+        />
+        <div class="detailorderhistory__product--info">
+          <a
+            href="/product/:id"
+            data-navigo
+            class="detailorderhistory__product--name"
+          >
+            Nuphy Air60 무선 키보드
+          </a>
+          <div>
+            <span class="detailorderhistory__product--price"
+              >29,000원</span
+            >
+            <span class="detailorderhistory__product--count"
+              >(1개)</span
+            >
+          </div>
+        </div>
+      </div>
+      <div class="detailorderhistory__product--order-status">
+        주문취소
+      </div>
+    </div>
+    <h2 class="detailorderhistory__product--payment-info-title">
+      결제 정보
+    </h2>
+    <div class="detailorderhistory__payment--detail-container">
+      <div class="detailorderhistory__payment--detail">
+        <span class="detailorderhistory__payment--detail-type"
+          >결제수단</span
+        >
+        <span class="detailorderhistory__payment--detail-bank"
+          >하나은행(123-XXXXXX-XXXXX)</span
+        >
+      </div>
+      <div
+        class="detailorderhistory__payment--detail-price-container"
+      >
+        <span class="detailorderhistory__payment--detail-price-title"
+          >결제 금액</span
+        >
+        <span class="detailorderhistory__payment--detail-price"
+          >29,000 원</span
+        >
+      </div>
+    </div>
+  </section>
+  `;
+  $('.mypage__navigo__container').innerHTML = detailOrderTemplate;
+};
+
 /*-----------------------------------*\
   제품 상세 페이지  #productDetail js
 \*-----------------------------------*/
@@ -1817,7 +1911,7 @@ router
     '/': async () => {
       $('.modal__addCart').style.display = 'none';
       console.log('/ route is working');
-      renderPage(renderMainPageTemplate);
+      // renderPage(renderMainPageTemplate);
     },
     '/products/search': async () => {
       $('.modal__addCart').style.display = 'none';
@@ -1990,10 +2084,10 @@ router
     },
     // 마이페이지 주문내역 목록
     '/mypage/order': async () => {
-      // renderPage(htmlMypage_OrderHistory);
       await renderOrderedListPage();
-      // $('.app').querySelector('.mypage__navigo__container').innerHTML =
-      //   htmlMypage_OrderHistory;
+    },
+    '/mypage/order/:id': async (params) => {
+      console('order params', params.data.id);
     },
   })
   .resolve();

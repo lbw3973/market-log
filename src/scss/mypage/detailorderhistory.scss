@@ -1,0 +1,83 @@
+.detailorderhistory {
+  &__order {
+    &--info {
+      margin: 20px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      &-date {
+        margin-right: 10px;
+      }
+
+      &-id {
+      }
+    }
+  }
+
+  &__product {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--soldOut-color);
+    border-radius: 6px;
+    margin-bottom: 30px;
+
+    &--order-status {
+      margin-right: 80px;
+      color: var(--soldOut-color);
+    }
+    &--container {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 10px;
+    }
+
+    &--image {
+      width: 140px;
+      height: 140px;
+      object-fit: contain;
+    }
+
+    &--info {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+
+  &__payment {
+    &--detail {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      justify-content: flex-start;
+
+      &-container {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        border: 1px solid var(--soldOut-color);
+        border-radius: 6px;
+      }
+
+      &-type {
+        color: var(--soldOut-color);
+      }
+      &-bank {
+      }
+      &-price-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-right: 200px;
+      }
+      &-price {
+        &-title {
+          color: var(--soldOut-color);
+        }
+      }
+    }
+  }
+}

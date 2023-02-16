@@ -37,7 +37,7 @@
         </nav>
 
         <nav class="header-main">
-          <a class="header-main__home-link" href="#" data-navigo>
+          <a class="header-main__home-link" href="/" data-navigo>
             <img
               class="header-main__logo"
               src="./public/mainLogo.svg"
@@ -101,7 +101,108 @@
     <!-- 공통 헤더 끝 -->
 
     <!-- 메인페이지 라우터 -->
-    <main class="app"></main>
+    <main class="app">
+      <div class="mypage__app">
+        <div class="mypage__container">
+          <div class="mypage__navbar">
+            <h1>마이페이지</h1>
+            <nav>
+              <ul>
+                <li>
+                  <a href="/mypage/order" data-navigo
+                    >주문내역
+                    <img src="./public/chevronright.svg" alt="chevronright" />
+                  </a>
+                </li>
+                <li>
+                  <a href="/mypage/account" data-navigo
+                    >계좌 관리
+                    <img src="./public/chevronright.svg" alt="chevronright" />
+                  </a>
+                </li>
+                <li>
+                  <a href="/mypage/wishlist" data-navigo
+                    >찜한 상품
+                    <img src="./public/chevronright.svg" alt="chevronright" />
+                  </a>
+                </li>
+                <li>
+                  <a href="/mypage/myPersonalInfoModify" data-navigo
+                    >개인 정보 수정
+                    <img src="./public/chevronright.svg" alt="chevronright" />
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          <div class="mypage__navigo__container">
+            <section class="mypage__detailorderhistory">
+              <h2>주문 상세정보</h2>
+              <div class="detailorderhistory__order--info">
+                <span class="detailorderhistory__order--info-date">
+                  주문 날짜: 2023-02-04</span
+                >
+                <span class="detailorderhistory__order--info-id"
+                  >주문 번호: ro8e5e2WKQxT3NZcltjh</span
+                >
+              </div>
+              <div class="detailorderhistory__product">
+                <div class="detailorderhistory__product--container">
+                  <img
+                    class="detailorderhistory__product--image"
+                    src="./public/IMGproductDetail/air60.webp"
+                    alt="product image"
+                  />
+                  <div class="detailorderhistory__product--info">
+                    <a
+                      href="/product/:id"
+                      data-navigo
+                      class="detailorderhistory__product--name"
+                    >
+                      Nuphy Air60 무선 키보드
+                    </a>
+                    <div>
+                      <span class="detailorderhistory__product--price"
+                        >29,000원</span
+                      >
+                      <span class="detailorderhistory__product--count"
+                        >(1개)</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="detailorderhistory__product--order-status">
+                  주문취소
+                </div>
+              </div>
+              <h2 class="detailorderhistory__product--payment-info-title">
+                결제 정보
+              </h2>
+              <div class="detailorderhistory__payment--detail-container">
+                <div class="detailorderhistory__payment--detail">
+                  <span class="detailorderhistory__payment--detail-type"
+                    >결제수단</span
+                  >
+                  <span class="detailorderhistory__payment--detail-bank"
+                    >하나은행(123-XXXXXX-XXXXX)</span
+                  >
+                </div>
+                <div
+                  class="detailorderhistory__payment--detail-price-container"
+                >
+                  <span class="detailorderhistory__payment--detail-price-title"
+                    >결제 금액</span
+                  >
+                  <span class="detailorderhistory__payment--detail-price"
+                    >29,000 원</span
+                  >
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </main>
     <div class="loadingGif">
       <img src="public/loading.svg" alt="로딩.." id="img-loadingGIF" />
     </div>
