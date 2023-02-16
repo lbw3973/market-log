@@ -482,7 +482,6 @@ const storeWishList = (id, count, thumbnail, title, pricePerOne) => {
 
 /** 제품 상세 페이지 찜하기 버튼 핸들링 이벤트  */
 $('.app').addEventListener('click', (e) => {
-  console.log(e.target);
   if (e.target.classList.contains('aside__productDetail--info-wishlistImg')) {
     const id = e.target.closest('.section__container').dataset.productId;
     console.log(id);
@@ -600,7 +599,6 @@ const renderWishListProductList = (store) => {
 
 $('.app').addEventListener('click', (e) => {
   const id = e.target.closest('li')?.dataset.productId;
-  console.log(e.target);
   if (e.target.classList.contains('removeFromWishListBtn')) {
     wishListArr = wishListArr.filter((item) => item.id !== id);
     console.log('removeEvent', wishListArr);
@@ -877,9 +875,7 @@ const renderOrderedListPage = async () => {
 
 /** [주문 내역 페이지] 구매확정/취소 버튼 클릭 이벤트 */
 $('.app').addEventListener('click', (e) => {
-  console.log(e.target);
   const detailId = e.target.closest('li')?.dataset.detailId;
-  console.log('detailId', detailId);
   if (e.target.classList.contains('orderHistory__list--confirmBtn')) {
     confirmTransactionAPI(detailId);
     e.target
@@ -1461,7 +1457,7 @@ const renderCartList = (storage) => {
           <button class="cart-addQtyBtn">+</button>
         </div>
         <span class="cart__item--price cartProductTotalPrice">${price.toLocaleString()} 원</span>
-        <button class="cart__item--deleteBtn cartProductDeleteBtn">X</button>
+        <button class="cart__item--deleteBtn cartProductDeleteBtn">삭제</button>
       </div>
     </li>
     `;
