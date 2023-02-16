@@ -514,18 +514,23 @@ const renderInitMypageTemplate = `
               </ul>
             </nav>
           </div>
-          <div class="mypage__navigo__container">
-            <div class="mypage__wishlist">
-              <div class="mypage__wishlist--container">
-                <h3>찜한 상품</h3>
-                <ul class="wishlist__product--lists">
-                </ul>
-              </div>
-            </div>
-          </div>
+          <div class="mypage__navigo__container"></div>
         </div>
       </div>
 `;
+
+const handleWishListInitTemplate = () => {
+  const renderWishListPageInitTemplate = `
+    <div class="mypage__wishlist">
+      <div class="mypage__wishlist--container">
+        <h3>찜한 상품</h3>
+        <ul class="wishlist__product--lists">
+        </ul>
+      </div>
+    </div>
+`;
+  $('.mypage__navigo__container').innerHTML = renderWishListPageInitTemplate;
+};
 
 const renderWishListProductList = (store) => {
   console.log(store);
@@ -599,10 +604,14 @@ const handleEmptyWishlistInit = () => {
 const renderWishListPage = () => {
   if (wishListArr.length === 0) {
     // renderWishListProductList(wishListArr);
+    renderPage(renderInitMypageTemplate);
+    handleWishListInitTemplate();
     handleEmptyWishlistInit();
     return;
   } else if (wishListArr.length >= 1) {
     // 장바구니에 넣은 상품 렌더링
+    renderPage(renderInitMypageTemplate);
+    handleWishListInitTemplate();
     renderWishListProductList(wishListArr);
     return;
   }
@@ -825,7 +834,7 @@ export const formatPrice = (target) => {
 const renderOrderedProductList = (orderedItems) => {
   const orderedProductListTemplate = orderedItems
     .map((item) => {
-      const { detailId, product, timePaid, done } = item;
+      const { detailId, product, timePaid, done, isCanceled } = item;
       console.log(item);
       const { productId, title, price, thumbnail } = product;
       console.log('product', product);
@@ -834,7 +843,9 @@ const renderOrderedProductList = (orderedItems) => {
       <li class="product orderHistory__list" data-product-id="${productId}" data-detail-id="${detailId}">
         <img src="${thumbnail}" alt="${title}" class="product--img orderHistory__list--img" />
         <div class="product--info">
-          <a href="./detailedorderlist.html" class="product--name orderHistory__list--name">PLAY 트리 잭슨 프렌즈 토이</a>
+          <a href="/" class="product--name orderHistory__list--name">${
+            title.length > 30 ? title.substring(0, 30).concat(' ...') : title
+          }</a>
           <div class="product--info-numbers orderHistory__list--info">
             <div class="product--price orderHistory__list--info-price">${price.toLocaleString()} 원</div>
             <div class="product--order-date orderHistory__list--info-date">${formatDate(
@@ -842,13 +853,13 @@ const renderOrderedProductList = (orderedItems) => {
             )}</div>
           </div>
           <span class="order-status orderHistory__list--orderStatus">${
-            done ? '구매 확정' : '대기'
+            done ? '구매 확정' : '구매 취소'
           }</span>
           <span>구매 확정 이후에는 주문 취소가 불가능합니다.</span>
           <span class="orderHistory__list--confirmed-order"></span>
         </div>
         <div class="buttons orderHistory__list--buttons">
-          ${checkWhetherTransactionIsDone(done)}
+          ${checkWhetherTransactionIsDone(done, isCanceled)}
         </div>
       </li>
     `;
@@ -906,7 +917,9 @@ $('.app').addEventListener('click', (e) => {
 
   if (e.target.classList.contains('orderHistory__list--cancelBtn')) {
     cancelTransactionAPI(detailId);
-    e.target.closest('li').querySelector('.').innerHTML =
+    e.target
+      .closest('li')
+      .querySelector('.orderHistory__list--confirmed-order').innerHTML =
       '구매가 취소되었습니다.';
     $('.app').querySelector('.orderHistory__list--buttons').style.display =
       'none';
@@ -914,13 +927,13 @@ $('.app').addEventListener('click', (e) => {
   }
 });
 
-const checkWhetherTransactionIsDone = (done) => {
+const checkWhetherTransactionIsDone = (done, isCanceled) => {
   const buttons = `<button class="button cancel-btn orderHistory__list--cancelBtn">주문 취소</button>
                   <button class="button orderfix-btn orderHistory__list--confirmBtn">구매 확정</button>`;
   const emptyButtons = ``;
-  if (done) {
+  if (done || isCanceled) {
     return emptyButtons;
-  } else if (!done) {
+  } else if (!done || !isCanceled) {
     return buttons;
   }
 };
@@ -2033,7 +2046,6 @@ router
     },
     // 마이페이지 찜하기 목록
     '/mypage/wishlist': () => {
-      renderPage(renderInitMypageTemplate);
       renderWishListPage();
     },
     // 마이페이지 주문내역 목록
@@ -2141,7 +2153,7 @@ const handlePaymentBtnLogic = async (e) => {
     });
     // 결제 성공 alert
     alert('결제가 성공적으로 되었습니다. 구매내역으로 이동합니다.');
-    router.navigate('/');
+    router.navigate('/mypage/order');
   } else if (getCurrentSelectedAccountBalance < totalProductPrice) {
     // 결제 실패 했을 때
     alert('해당 계좌의 잔액이 부족합니다.');

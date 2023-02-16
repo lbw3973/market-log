@@ -207,4 +207,8 @@
     object-fit: contain;
     margin-right: 20px;
   }
+
+  &--name {
+    text-overflow: ellipsis;
+  }
 }
