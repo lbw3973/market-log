@@ -782,9 +782,9 @@ const renderOrderedProductList = (orderedItems) => {
       <li class="product orderHistory__list" data-product-id="${productId}" data-detail-id="${detailId}">
         <img src="${thumbnail}" alt="${title}" class="product--img orderHistory__list--img" />
         <div class="product--info">
-          <a href="/" class="product--name orderHistory__list--name">${
-            title.length > 30 ? title.substring(0, 30).concat(' ...') : title
-          }</a>
+          <a href="/mypage/order/${detailId}" class="product--name orderHistory__list--name">${
+        title.length > 30 ? title.substring(0, 30).concat(' ...') : title
+      }</a>
           <div class="product--info-numbers orderHistory__list--info">
             <div class="product--price orderHistory__list--info-price">${price.toLocaleString()} 원</div>
             <div class="product--order-date orderHistory__list--info-date">${formatDate(
@@ -792,7 +792,7 @@ const renderOrderedProductList = (orderedItems) => {
             )}</div>
           </div>
           <span class="order-status orderHistory__list--orderStatus">${
-            done ? '구매 확정' : '구매 취소'
+            done ? '구매 확정' : isCanceled ? '구매 취소' : ''
           }</span>
           <span>구매 확정 이후에는 주문 취소가 불가능합니다.</span>
           <span class="orderHistory__list--confirmed-order"></span>
@@ -839,6 +839,7 @@ const renderOrderedListPage = async () => {
   }
 };
 
+/** [주문 내역 페이지] 구매확정/취소 버튼 클릭 이벤트 */
 $('.app').addEventListener('click', (e) => {
   console.log(e.target);
   const detailId = e.target.closest('li')?.dataset.detailId;
@@ -867,6 +868,7 @@ $('.app').addEventListener('click', (e) => {
   }
 });
 
+/** 거래 완료/취소 확인 함수 */
 const checkWhetherTransactionIsDone = (done, isCanceled) => {
   const buttons = `<button class="button cancel-btn orderHistory__list--cancelBtn">주문 취소</button>
                   <button class="button orderfix-btn orderHistory__list--confirmBtn">구매 확정</button>`;
@@ -881,7 +883,18 @@ const checkWhetherTransactionIsDone = (done, isCanceled) => {
 /*-----------------------------------*\
   마이 페이지 - 주문내역 상세 페이지  # mypage/order/:id
 \*-----------------------------------*/
+/** 주문 상세정보 구매확정/취소/완료 체크 함수 */
+const checkWhetherDetailOrderTransactionIsDone = (done, isCanceled) => {
+  if (done) {
+    return '구매 확정';
+  } else if (isCanceled) {
+    return '구매 취소';
+  } else if (!done && !isCanceled) {
+    return '구매 완료';
+  }
+};
 
+/** 주문 상세정보 조회 API */
 const getDetailOrderProduct = async (detailId) => {
   try {
     const res = await fetch(`${BASE_URL}/products/transactions/detail`, {
@@ -901,6 +914,7 @@ const getDetailOrderProduct = async (detailId) => {
   }
 };
 
+/** 주문 상세정보 렌더링 함수 */
 const renderDetailOrderProduct = async (id) => {
   const detailOrderProduct = await getDetailOrderProduct(id);
   const { detailId, product, account, timePaid, isCanceled, done } =
@@ -916,27 +930,27 @@ const renderDetailOrderProduct = async (id) => {
         주문 날짜: ${formatDate(timePaid)}</span
       >
       <span class="detailorderhistory__order--info-id"
-        >주문 번호: ro8e5e2WKQxT3NZcltjh</span
+        >주문 번호: ${detailId}</span
       >
     </div>
-    <div class="detailorderhistory__product">
+    <div class="detailorderhistory__product" data-product-id=${productId}>
       <div class="detailorderhistory__product--container">
         <img
           class="detailorderhistory__product--image"
-          src="./public/IMGproductDetail/air60.webp"
-          alt="product image"
+          src="${thumbnail}"
+          alt="${title}"
         />
         <div class="detailorderhistory__product--info">
           <a
-            href="/product/:id"
+            href="/product/${productId}"
             data-navigo
             class="detailorderhistory__product--name"
           >
-            Nuphy Air60 무선 키보드
+            ${title}
           </a>
           <div>
             <span class="detailorderhistory__product--price"
-              >29,000원</span
+              >${price.toLocaleString()} 원</span
             >
             <span class="detailorderhistory__product--count"
               >(1개)</span
@@ -945,7 +959,7 @@ const renderDetailOrderProduct = async (id) => {
         </div>
       </div>
       <div class="detailorderhistory__product--order-status">
-        주문취소
+        ${checkWhetherDetailOrderTransactionIsDone()}
       </div>
     </div>
     <h2 class="detailorderhistory__product--payment-info-title">
@@ -957,7 +971,7 @@ const renderDetailOrderProduct = async (id) => {
           >결제수단</span
         >
         <span class="detailorderhistory__payment--detail-bank"
-          >하나은행(123-XXXXXX-XXXXX)</span
+          >${bankName}(${accountNumber})</span
         >
       </div>
       <div
@@ -967,7 +981,7 @@ const renderDetailOrderProduct = async (id) => {
           >결제 금액</span
         >
         <span class="detailorderhistory__payment--detail-price"
-          >29,000 원</span
+          >${price} 원</span
         >
       </div>
     </div>
@@ -975,6 +989,17 @@ const renderDetailOrderProduct = async (id) => {
   `;
   $('.mypage__navigo__container').innerHTML = detailOrderTemplate;
 };
+
+const renderDetailOrderPage = async (id) => {
+  renderPage(renderInitMypageTemplate);
+  await renderDetailOrderProduct(id);
+};
+
+// $('.app').addEventListener('click', (e) => {
+//   const detailId = e.target.contains('li')?.dataset.detailId;
+//   console.log(detailId);
+//   renderDetailOrderProduct(detailId);
+// });
 
 /*-----------------------------------*\
   제품 상세 페이지  #productDetail js
@@ -1911,7 +1936,7 @@ router
     '/': async () => {
       $('.modal__addCart').style.display = 'none';
       console.log('/ route is working');
-      // renderPage(renderMainPageTemplate);
+      renderPage(renderMainPageTemplate);
     },
     '/products/search': async () => {
       $('.modal__addCart').style.display = 'none';
@@ -2087,7 +2112,9 @@ router
       await renderOrderedListPage();
     },
     '/mypage/order/:id': async (params) => {
-      console('order params', params.data.id);
+      console.log('order params', params);
+      // await renderDetailOrderProduct(params.data.id);
+      await renderDetailOrderPage(params.data.id);
     },
   })
   .resolve();
