@@ -5,11 +5,9 @@ export const renderEditProduct = (productEdit) => {
     productEdit;
 
   return `
-      <div class='productEdit-container'>
+        <h2>상품 수정</h2>
         <form class='container-form'>
-        <h2 class='container-form__header'>상품 등록</h2>
-        <div class='container-form__content'>
-
+          <div class='container-form__content'>
             <div class='container-form__content--tags'>
               <p>카테고리<span>*</span></p>
               <select name='tags' required>
@@ -39,7 +37,7 @@ export const renderEditProduct = (productEdit) => {
             </div>  
             <div class='container-form__content--description'>
               <p>제품상세설명<span>*</span></p>
-              <textarea type='text' name='description' placeholder='제품 상세 설명' required>${description}</textarea>
+              <textarea type='text' rows="5" name='description' placeholder='제품 상세 설명' required>${description}</textarea>
             </div>
             <div class='container-form__content--soldout'>
               <p>품절 여부<span>*</span></p>
@@ -62,13 +60,11 @@ export const renderEditProduct = (productEdit) => {
               </div>
             </div>
           </div>
-        </div>
         <div class='container-form__btn'>
           <button type='submit' class='container-form__btn--edit'>수정 완료</button>
           <a href ='/admin/product/${id}' data-navigo class='container-form__btn--cancel'>취소</a> 
         </div>
         </form>
-      </div> 
     `;
 };
 
@@ -78,25 +74,25 @@ export const renderDetailProduct = (productDetail) => {
 
   const productDetailEl = `
       <img src="${thumbnail}" alt="${title}">
-      <div class="productDetail-container">
-        <div class="productDetail-container__info">
-          <div class="productDetail-container__info--category">
+      <div class="section-container">
+        <div class="section-container__info">
+          <div class="section-container__info--category">
             <h2>카테고리</h2>
             <p>${tags[0]}</P>
           </div>
-          <div class="productDetail-container__info--title">
+          <div class="section-container__info--title">
             <h2>상품명</h2>
             <p>${title}</P>
           </div>
-          <div class="productDetail-container__info--price">
+          <div class="section-container__info--price">
             <h2>가격</h2>
-            <p>${formatPrice(price)}</P>
+            <p>${formatPrice(price)} 원</P>
           </div>
-          <div class="productDetail-container__info--soldout">
+          <div class="section-container__info--soldout">
             <h2>품절 여부</h2>
             <p>${isSoldOut ? '품절' : '판매가능'}</P>
           </div>
-          <div class="productDetail-container__info--descripiton">
+          <div class="section-container__info--descripiton">
             <h2>상품 설명</h2>
             <p>${description}</P>
           </div>
@@ -104,47 +100,49 @@ export const renderDetailProduct = (productDetail) => {
       </div>
     `;
 
-  document.querySelector('.wrap').innerHTML = productDetailEl;
+  document.querySelector('section').innerHTML = productDetailEl;
 };
 
 export const renderOrderDetail = (order) => {
   const { user, account, product, timePaid, isCanceled, done } = order;
   const orderDetailEl = `
-        <div class="orderDetail-container__info--product">
-          <h2>상품 정보</h2>
-          <div>
-            <img src="${product.thumbnail}" alt="${product.title}">
+        <img src="${product.thumbnail}" alt="${product.title}">
+        <div>
+          <div class="orderDetail-container__info--product">
+            <h2>상품 정보</h2>
             <div>
-              <p>카테고리 : ${product.tags[0]}</P>
-              <p>상품명 : ${product.title}</P>
-              <p>가격 : ${formatPrice(product.price)}</P>
+              <div>
+                <p>카테고리 : ${product.tags[0]}</P>
+                <p>상품명 : ${product.title}</P>
+                <p>가격 : ${formatPrice(product.price)}</P>
+              </div>
             </div>
           </div>
-        </div>
-  
-        <div class="orderDetail-container__info--user">
-          <h2>구매자 정보</h2>
-          <div>
-            <p>구매자 이메일 : ${user.email}</P>
-            <p>구매자 닉네임 : ${user.displayName}</P>
+    
+          <div class="orderDetail-container__info--user">
+            <h2>구매자 정보</h2>
+            <div>
+              <p>구매자 이메일 : ${user.email}</P>
+              <p>구매자 닉네임 : ${user.displayName}</P>
+            </div>
           </div>
-        </div>
 
-        <div class="orderDetail-container__info--account">
-          <h2>계좌 정보</h2>
-          <div>
-            <p>은행명 : ${account.bankName}</P>
-            <p>은행코드 : ${account.bankCode}</P>
-            <p>계좌번호 : ${account.accountNumber}</P>
+          <div class="orderDetail-container__info--account">
+            <h2>계좌 정보</h2>
+            <div>
+              <p>은행명 : ${account.bankName}</P>
+              <p>은행코드 : ${account.bankCode}</P>
+              <p>계좌번호 : ${account.accountNumber}</P>
+            </div>
           </div>
-        </div>
 
-        <div class="orderDetail-container__info--reservation">
-          <h2>거래 정보</h2>
-          <div>
-            <p>거래 일시 : ${formatDate(timePaid)}</P>
-            <p>취소 여부 : ${isCanceled}</P>
-            <p>완료 여부 : ${done}</P>
+          <div class="orderDetail-container__info--reservation">
+            <h2>거래 정보</h2>
+            <div>
+              <p>거래 일시 : ${formatDate(timePaid)}</P>
+              <p>취소 여부 : ${isCanceled}</P>
+              <p>완료 여부 : ${done}</P>
+            </div>
           </div>
         </div>
     `;
@@ -182,14 +180,18 @@ export const renderProduct = (productList, products, activeIdx) => {
       const { id, tags, title, price, isSoldOut } = product;
 
       return `
-        <li>
+        <li data-id='${id}'>
           <a href='/admin/product/${id}' data-navigo>
-            <input type="checkbox">
-            <span style='width: 5%;'>${idx + 1 + (activeIdx - 1) * 10}</span>
-            <span style='width: 10%;'>${tags[0]}</span>
-            <span style='width: 10%;'>${title}</span>
-            <span style='width: 15%;'>${formatPrice(price)} 원</span>
-            <span style='width: 15%;'>${isSoldOut ? '품절' : '판매가능'}</span>
+            <input type="checkbox" style='flex-basis: 4%;'>
+            <span style='flex-basis: 4%;'>${
+              idx + 1 + (activeIdx - 1) * 10
+            }</span>
+            <span style='flex-basis: 14%;'>${tags[0]}</span>
+            <span style='flex-basis: 55%; text-align: left;'>${title}</span>
+            <span style='flex-basis: 13%;'>${formatPrice(price)} 원</span>
+            <span style='flex-basis: 10%;'>${
+              isSoldOut ? '품절' : '판매가능'
+            }</span>
           </a>
         </li>  
         `;
@@ -208,14 +210,13 @@ export const renderOrder = (orderList, orders, activeIdx) => {
       return `
         <li>
           <a href='/admin/order/${detailId}' data-navigo>
-            <span style='width: 5%;'>${idx + 1 + (activeIdx - 1) * 10}</span>
-            <span style='width: 10%;'>${product.title}</span>
+            <span style='width: 7%;'>${idx + 1 + (activeIdx - 1) * 10}</span>
+            <span style='width: 34%; text-align: left;'>${product.title}</span>
             <span style='width: 10%;'>${product.price.toLocaleString()} 원</span>
             <span style='width: 15%;'>${user.displayName}</span>
-            <span style='width: 15%;'>${account.bankName}</span>
-            <span style='width: 15%;'>${formatDate(timePaid)}</span>
-            <span style='width: 15%;'>${isCanceled}</span>
-            <span style='width: 15%;'>${done}</span>
+            <span style='width: 20%;'>${formatDate(timePaid)}</span>
+            <span style='width: 8%;'>${isCanceled ? 'Y' : 'N'}</span>
+            <span style='width: 8%;'>${done ? 'Y' : 'N'}</span>
           </a>
         </li>  
         `;
@@ -248,30 +249,30 @@ export const renderDashboardCurrent = (currentStatus) => {
         <h2>이번 달 거래 현황</h2>
         <div>
           <h2>거래수</h2>
-          <p>${orderStatus.num} 개</p>
+          <p><span>${orderStatus.num}</span> 개</p>
         </div>
         <div>
           <h2>거래 취소 수</h2>
-          <p>${orderStatus.cancelNum} 개</p>
+          <p><span>${orderStatus.cancelNum}</span> 개</p>
         </div>
         <div>
           <h2>거래 확정 수</h2>
-          <p>${orderStatus.doneNum} 개</p>
+          <p><span>${orderStatus.doneNum}</span> 개</p>
         </div>
         <div>
           <h2>총 매출 금액</h2>
-          <p>${orderStatus.amount} 원</p>
+          <p><span>${orderStatus.amount}</span> 원</p>
         </div>
       </div>
-      <div class='dashboard-container__current--prduct'>
+      <div class='dashboard-container__current--product'>
         <h2>현재 상품 현황</h2>
         <div>
           <h2>총 상품 수 </h2>
-          <p>${productStatus.num} 개</p>
+          <p><span>${productStatus.num}</span> 개</p>
         </div>
         <div>
         <h2>품절 상품 수 </h2>
-          <p>${productStatus.soldOutNum} 개</p>
+          <p><span>${productStatus.soldOutNum}</span> 개</p>
         </div>
       </div>
     `;
@@ -283,12 +284,12 @@ export const renderDashboardChart = () => {
   const dashboardChartEl = `
     <div class='dashboard-container__chart--category'>
       <h2>거래 카태고리 통계</h2>
-      <canvas id="chartCategory" width="400" height="400"></canvas>
+      <canvas id="chartCategory" width="350" height="350"></canvas>
     </div>
       
     <div class='dashboard-container__chart--amount'>
       <h2>이번 주 거래 금액 통계</h2>
-      <canvas id="chartAmount" width="400" height="400"></canvas>
+      <canvas id="chartAmount" width="350" height="350"></canvas>
     </div>
   `;
 
