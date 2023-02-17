@@ -14,16 +14,11 @@ const $ = (selector) => document.querySelector(selector);
 const router = new Navigo('/');
 const divLoadingEl = document.querySelector('.loadingGif');
 const ulEl = $('.header__user-login--ul');
-let navliList;
-// ulEl.innerHTML = /* html */ `
-//   <li class="header__user-login--li">
-//     <a href="/login" data-navigo id="btnlogin"> 로그인 </a>
-//   </li>
-// `;
+
 export async function renderInitMainPageHeader() {
   $('.app').innerHTML = '';
   const author = await authorization();
-  // if (author == '유효한 사용자가 아닙니다.') {
+  
   if (!localStorage.getItem('token')) {
     ulEl.innerHTML = /* html */ `
       <li class="header__user-login--li">
