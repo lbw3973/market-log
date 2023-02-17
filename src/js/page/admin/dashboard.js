@@ -46,6 +46,15 @@ const setDashBoardChartCategory = (products) => {
     },
     options: {
       responsive: false,
+      plugins: {
+        legend: {
+          position: 'left',
+          labels: {
+            padding: 20,
+            usePointStyle: true,
+          },
+        },
+      },
     },
   });
 };
@@ -75,7 +84,7 @@ const setDashBoardChartAmount = (orders) => {
   new Chart(chartAmount, {
     type: 'line',
     data: {
-      labels: thisWeek,
+      labels: thisWeek.map((date) => `${date}일`),
       datasets: [
         {
           label: '거래 금액',
@@ -85,6 +94,11 @@ const setDashBoardChartAmount = (orders) => {
     },
     options: {
       responsive: false,
+      plugins: {
+        legend: {
+          display: false,
+        },
+      },
     },
   });
 };
