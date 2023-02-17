@@ -1,12 +1,25 @@
-.app {
-  
-  .container {
-    display: flex;
+.container {
+  display: flex;
+  justify-content: space-between;
+  width: 1200px;
+  padding: 60px;
+  margin: 0 auto;
 
-    aside {
+  aside {
+    ul {
+      display: flex;
       flex-direction: column;
+      gap: 40px;
+      margin-right: 30px;
 
-      ul {
+      h1 {
+        font-size: 26px;
+      }
+
+      nav {
+        display: flex;
+        flex-direction: column;
+
         li {
           border: 1px solid #eee;
 
@@ -24,7 +37,7 @@
 
           a {
             color: var(--light-purple);
-            font-weight: 800;
+            font-weight: 600;
           }
         }
         li.active {
@@ -32,7 +45,7 @@
 
           a {
             color: var(--light-purple);
-            font-weight: 800;
+            font-weight: 600;
           }
         }
       }
