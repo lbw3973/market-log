@@ -3,6 +3,7 @@
 \*-----------------------------------*/
 import Navigo from 'navigo';
 // const router = new Navigo('/');
+import { router } from '../../testJaeha.js';
 const $ = (selector) => document.querySelector(selector);
 // import { reload } from '../../importIMGFiles.js';
 import { renderPage } from '../../testJaeha.js';

@@ -75,7 +75,7 @@ export const getAllTransactions = async () => {
     const res = await fetch(`${base_url}/products/transactions/details`, {
       headers: {
         ...headers,
-        Authorization: `Bearer ${window.localStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     });
     const data = await res.json();
@@ -93,7 +93,7 @@ export const confirmTransactionAPI = async (detailId) => {
       method: 'POST',
       headers: {
         ...headers,
-        Authorization: `Bearer ${window.localStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
       body: JSON.stringify({
         detailId,
@@ -113,7 +113,7 @@ export const cancelTransactionAPI = async (detailId) => {
       method: 'POST',
       headers: {
         ...headers,
-        Authorization: `Bearer ${window.localStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
       body: JSON.stringify({
         detailId,
@@ -134,7 +134,7 @@ export const getDetailOrderProduct = async (detailId) => {
       method: 'POST',
       headers: {
         ...headers,
-        Authorization: `Bearer ${window.localStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
       body: JSON.stringify({
         detailId,
@@ -153,7 +153,7 @@ export const getAccountDetail = async () => {
     const res = await fetch(`${base_url}/account`, {
       headers: {
         ...headers,
-        Authorization: `Bearer ${window.localStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     });
     const data = await res.json();
@@ -173,7 +173,7 @@ export const buyItemAPI = async (productId, accountId) => {
       method: 'POST',
       headers: {
         ...headers,
-        Authorization: `Bearer ${window.localStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
       body: JSON.stringify({
         productId,

@@ -2,30 +2,11 @@
   마이 페이지 - 찜하기 페이지 / 찜한 상품 페이지 #wishList js
 \*-----------------------------------*/
 import Navigo from 'navigo';
+import { router } from '../../testJaeha.js';
 const $ = (selector) => document.querySelector(selector);
-import {
-  air60,
-  air75,
-  halo65,
-  halo75,
-  halo96,
-  halo96,
-  air96,
-  nufolio,
-  twilight,
-  xmas,
-  addHeart,
-  removeHeart,
-  emptyHeart,
-  shoppingCart,
-  calendar,
-  reload,
-  exclamationmark,
-  paginationLeft,
-  paginationRight,
-  chevronrightSVG,
-  hearted,
-} from '../../importIMGFiles.js';
+import { shoppingCart, hearted } from '../../importIMGFiles.js';
+import { storeCart } from '../productDetail/productDetail.js';
+
 /** Navigo innerHTML template */
 export const renderPage = (html) => {
   $('.app').innerHTML = html;

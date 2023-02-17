@@ -3,7 +3,6 @@
 \*-----------------------------------*/
 import Navigo from 'navigo';
 import { router } from '../../testJaeha.js';
-// const router = new Navigo('/');
 const $ = (selector) => document.querySelector(selector);
 
 import {
@@ -478,3 +477,22 @@ export const handlePaymentBtnLogic = async (e) => {
     return;
   }
 };
+
+$('.app').addEventListener('click', async (e) => {
+  // e.preventDefault();x
+  /** 결제 버튼 클릭시 결제 진행 (리팩토링 예정)*/
+  if (e.target.classList.contains('payment-method__final-confirm--btn')) {
+    if ($('.pay__info-zipcode--data-input').value === '') {
+      $('.pay__info-zipcode--data-input').focus();
+      alert('우편번호를 입력해주세요');
+      return;
+    }
+    if ($('.pay__info--payer--name-input').value === '') {
+      $('.pay__info--payer--name-input').focus();
+      alert('주문자 이름을 입력해주세요.');
+      return;
+    }
+    // 결제가 성공하면 구매내역 페이지로 라우팅 (지금은 홈으로 이동)
+    await handlePaymentBtnLogic(e);
+  }
+});

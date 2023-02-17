@@ -1,4 +1,5 @@
 import Navigo from 'navigo';
+import { router } from '../../testJaeha.js';
 const $ = (selector) => document.querySelector(selector);
 
 import { getSearchedProducts } from '../../api.js';

@@ -3,47 +3,13 @@
 \*-----------------------------------*/
 
 import Navigo from 'navigo';
+import { router } from '../../testJaeha.js';
 import {
   pushInCart,
   renderDetailProduct,
   updateInfo,
 } from '../productDetail/productDetail.js';
 const $ = (selector) => document.querySelector(selector);
-import {
-  air60,
-  air75,
-  halo65,
-  halo75,
-  halo96,
-  halo96,
-  air96,
-  nufolio,
-  twilight,
-  xmas,
-  addHeart,
-  removeHeart,
-  emptyHeart,
-  shoppingCart,
-  calendar,
-  reload,
-  exclamationmark,
-  paginationLeft,
-  paginationRight,
-  chevronrightSVG,
-  hearted,
-} from '../../importIMGFiles.js';
-import { cartSVG } from '../../../../public/cart.svg';
-import {
-  getAllProducts,
-  getSearchedProducts,
-  getDetailProduct,
-  getAllTransactions,
-  confirmTransactionAPI,
-  cancelTransactionAPI,
-  getDetailOrderProduct,
-  getAccountDetail,
-  buyItemAPI,
-} from '../../api.js';
 
 /** 장바구니 localStorage */
 export const shoppingCartStore = {
@@ -73,7 +39,7 @@ $('.app').addEventListener('click', (e) => {
   // [장바구니]에서 '구매하기' 버튼 클릭 클릭 -> [결제 페이지]로 이동
   if (e.target.classList.contains('cartPaymentBtn')) {
     console.log(e.target);
-    if (window.localStorage.getItem('token')) {
+    if (localStorage.getItem('token')) {
       router.navigate('/payment');
     } else {
       alert('로그인이 필요한 페이지 입니다. 로그인 페이지로 이동합니다.');

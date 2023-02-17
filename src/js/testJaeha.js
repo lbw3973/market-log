@@ -1,40 +1,7 @@
 import Navigo from 'navigo';
 export const router = new Navigo('/');
 const $ = (selector) => document.querySelector(selector);
-import {
-  air60,
-  air75,
-  halo65,
-  halo75,
-  halo96,
-  halo96,
-  air96,
-  nufolio,
-  twilight,
-  xmas,
-  addHeart,
-  removeHeart,
-  emptyHeart,
-  shoppingCart,
-  calendar,
-  reload,
-  exclamationmark,
-  paginationLeft,
-  paginationRight,
-  chevronrightSVG,
-  hearted,
-} from './importIMGFiles.js';
-import {
-  getAllProducts,
-  getSearchedProducts,
-  getDetailProduct,
-  getAllTransactions,
-  confirmTransactionAPI,
-  cancelTransactionAPI,
-  getDetailOrderProduct,
-  getAccountDetail,
-  buyItemAPI,
-} from './api.js';
+
 import { shoppingCartStore } from './page/cart/cart.js';
 import { renderMainPageTemplate } from './page/mainPage/mainPage.js';
 import {
@@ -177,15 +144,17 @@ router
     '/product/:id': async (params) => {
       console.log('product/:id route is working');
       console.log('params', params);
-      renderSkeletonUIinDetailProductPage();
+      // renderSkeletonUIinDetailProductPage();
+      console.log('123');
       await renderDetailProduct(params.data.id);
+      console.log('1234');
 
-      $('.app')
-        .querySelector('.buyBtn')
-        ?.addEventListener('click', (e) => {
-          console.log(e.target);
-          router.navigate('/payment');
-        });
+      // $('.app')
+      //   .querySelector('.buyBtn')
+      //   ?.addEventListener('click', (e) => {
+      //     console.log(e.target);
+      //     router.navigate('/payment');
+      //   });
     },
     '/cart': () => {
       $('.modal__addCart').style.display = 'none';
@@ -205,24 +174,24 @@ router
       // 결제 페이지 렌더 후 실행할 함수들
       await paymentPageFunction();
 
-      /** 결제 버튼 클릭시 결제 진행 (리팩토링 예정)*/
-      $('.app')
-        .querySelector('.payment-method__final-confirm--btn')
-        .addEventListener('click', async (e) => {
-          e.preventDefault();
-          if ($('.pay__info-zipcode--data-input').value === '') {
-            $('.pay__info-zipcode--data-input').focus();
-            alert('우편번호를 입력해주세요');
-            return;
-          }
-          if ($('.pay__info--payer--name-input').value === '') {
-            $('.pay__info--payer--name-input').focus();
-            alert('주문자 이름을 입력해주세요.');
-            return;
-          }
-          // 결제가 성공하면 구매내역 페이지로 라우팅 (지금은 홈으로 이동)
-          await handlePaymentBtnLogic(e);
-        });
+      // /** 결제 버튼 클릭시 결제 진행 (리팩토링 예정)*/
+      // $('.app')
+      //   .querySelector('.payment-method__final-confirm--btn')
+      //   .addEventListener('click', async (e) => {
+      //     e.preventDefault();
+      //     if ($('.pay__info-zipcode--data-input').value === '') {
+      //       $('.pay__info-zipcode--data-input').focus();
+      //       alert('우편번호를 입력해주세요');
+      //       return;
+      //     }
+      //     if ($('.pay__info--payer--name-input').value === '') {
+      //       $('.pay__info--payer--name-input').focus();
+      //       alert('주문자 이름을 입력해주세요.');
+      //       return;
+      //     }
+      //     // 결제가 성공하면 구매내역 페이지로 라우팅 (지금은 홈으로 이동)
+      //     await handlePaymentBtnLogic(e);
+      //   });
     },
     '/category/keyboards': async () => {
       $('.modal__addCart').style.display = 'none';
@@ -330,3 +299,77 @@ router
     },
   })
   .resolve();
+
+/** 모달 핸들 함수 */
+// export const handleModal = (e) => {
+//   // '장바구니에 담기' 버튼 클릭 시, 모달 오픈
+//   if (
+//     e.target.classList.contains('addCartBtn') ||
+//     e.target.classList.contains('wishList-AddToCartBtn')
+//   ) {
+//     $('.modal__addCart').style.display = 'block';
+//     return;
+//   }
+
+//   // '모달 창 밖에 클릭 시 닫기'
+//   if (e.target !== $('.modal__addCart')) {
+//     $('.modal__addCart').style.display = 'none';
+//     return;
+//   }
+
+//   // 모달 '장바구니로 바로가기' or '계속 쇼핑하기' 클릭 시 모달 닫기
+//   if (e.target === $('.goToCart') || e.target === $('.modal-keepShopping')) {
+//     $('.modal__addCart').style.display = 'none';
+//     return;
+//   }
+// };
+
+/** 장바구니 페이지에서 수량 핸들링 */
+$('.app').addEventListener('click', (e) => {
+  const id = e.target.closest('li')?.dataset.productId;
+  // 구매 수량 +
+  let shoppingCartArr = shoppingCartStore.getLocalStorage();
+  if (e.target.classList.contains('cart-addQtyBtn')) {
+    storeLocalStorage(id);
+    // shoppingCartStore.setLocalStorage(shoppingCartArr);
+    // 카트 페이지 렌더
+    renderCartPage();
+    return;
+  }
+
+  // 구매 수량 -
+  if (e.target.classList.contains('cart-minusQtyBtn')) {
+    // let shoppingCartArr = shoppingCartStore.getLocalStorage();
+    const existingItem = shoppingCartArr.find((item) => item.id === id);
+    console.log('existingItem', existingItem);
+
+    if (existingItem) {
+      if (existingItem.price > existingItem.pricePerOne) {
+        existingItem.price -= existingItem.pricePerOne;
+      }
+      if (existingItem.qty > 1) {
+        existingItem.qty -= 1;
+      }
+      if (existingItem.count > 1) {
+        existingItem.count -= 1;
+      }
+
+      console.log('장바구니에서 --', shoppingCartArr);
+      // 카트 페이지 렌더
+      shoppingCartStore.setLocalStorage(shoppingCartArr);
+      renderCartPage();
+    }
+  }
+
+  // 장바구니에서 삭제
+  if (e.target.classList.contains('cartProductDeleteBtn')) {
+    shoppingCartArr = shoppingCartStore
+      .getLocalStorage()
+      .filter((item) => item.id !== id);
+    // storeLocalStorage(id);
+    shoppingCartStore.setLocalStorage(shoppingCartArr);
+    console.log(shoppingCartArr);
+    renderCartPage();
+    return;
+  }
+});

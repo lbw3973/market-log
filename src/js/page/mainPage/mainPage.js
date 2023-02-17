@@ -1,5 +1,5 @@
 import Navigo from 'navigo';
-// const router = new Navigo('/');
+import { router } from '../../testJaeha.js';
 const $ = (selector) => document.querySelector(selector);
 import {
   air60,
@@ -8,21 +8,6 @@ import {
   halo75,
   halo96,
   halo96,
-  air96,
-  nufolio,
-  twilight,
-  xmas,
-  addHeart,
-  removeHeart,
-  emptyHeart,
-  shoppingCart,
-  calendar,
-  reload,
-  exclamationmark,
-  paginationLeft,
-  paginationRight,
-  chevronrightSVG,
-  hearted,
 } from '../../importIMGFiles.js';
 
 /*-----------------------------------*\
@@ -129,3 +114,9 @@ export const renderMainPageTemplate = `
   </div>
 </div>
 `;
+
+$('.app').addEventListener('click', (e) => {
+  if (e.target.classList.contains('mainPage__hero--btn')) {
+    router.navigate('/category/keyboards');
+  }
+});

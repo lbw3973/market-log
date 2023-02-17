@@ -4,42 +4,11 @@
 
 import Navigo from 'navigo';
 // const router = new Navigo('/');
+import { router } from '../../testJaeha.js';
 const $ = (selector) => document.querySelector(selector);
-import {
-  air60,
-  air75,
-  halo65,
-  halo75,
-  halo96,
-  halo96,
-  air96,
-  nufolio,
-  twilight,
-  xmas,
-  addHeart,
-  removeHeart,
-  emptyHeart,
-  shoppingCart,
-  calendar,
-  reload,
-  exclamationmark,
-  paginationLeft,
-  paginationRight,
-  chevronrightSVG,
-  hearted,
-} from '../../importIMGFiles.js';
+import { addHeart, emptyHeart } from '../../importIMGFiles.js';
 import { cartSVG } from '../../../../public/cart.svg';
-import {
-  getAllProducts,
-  getSearchedProducts,
-  getDetailProduct,
-  getAllTransactions,
-  confirmTransactionAPI,
-  cancelTransactionAPI,
-  getDetailOrderProduct,
-  getAccountDetail,
-  buyItemAPI,
-} from '../../api.js';
+import { getDetailProduct } from '../../api.js';
 
 /** Navigo innerHTML template */
 export const renderPage = (html) => {
@@ -163,6 +132,7 @@ let productDetailPricePerOne;
 
 /** [제품 상세페이지] 렌더링 함수 */
 export const renderDetailProduct = async (productId) => {
+  renderSkeletonUIinDetailProductPage();
   const productDetail = await getDetailProduct(productId);
   const { description, id, isSoldOut, photo, price, tags, title, thumbnail } =
     productDetail;
@@ -259,6 +229,35 @@ export const pushInCart = (e) => {
     console.log('shoppingCartArr.push', shoppingCartStore.getLocalStorage());
   }
 };
+
+/** 모달 핸들 함수 */
+export const handleModal = (e) => {
+  // '장바구니에 담기' 버튼 클릭 시, 모달 오픈
+  if (
+    e.target.classList.contains('addCartBtn') ||
+    e.target.classList.contains('wishList-AddToCartBtn')
+  ) {
+    $('.modal__addCart').style.display = 'block';
+    return;
+  }
+
+  // '모달 창 밖에 클릭 시 닫기'
+  if (e.target !== $('.modal__addCart')) {
+    $('.modal__addCart').style.display = 'none';
+    return;
+  }
+
+  // 모달 '장바구니로 바로가기' or '계속 쇼핑하기' 클릭 시 모달 닫기
+  if (e.target === $('.goToCart') || e.target === $('.modal-keepShopping')) {
+    $('.modal__addCart').style.display = 'none';
+    return;
+  }
+};
+
+/** 모달 핸들 이벤트 */
+document.body.addEventListener('click', (e) => {
+  handleModal(e);
+});
 
 /** 장바구니 총 가격 렌더링 */
 export const renderCartTotalPrice = () => {
@@ -422,30 +421,6 @@ export const renderCartPage = () => {
     renderCartList(shoppingCartStore.getLocalStorage());
     // 결제금액 렌더링
     renderCartTotalPrice();
-    return;
-  }
-};
-
-/** 모달 핸들 함수 */
-export const handleModal = (e) => {
-  // '장바구니에 담기' 버튼 클릭 시, 모달 오픈
-  if (
-    e.target.classList.contains('addCartBtn') ||
-    e.target.classList.contains('wishList-AddToCartBtn')
-  ) {
-    $('.modal__addCart').style.display = 'block';
-    return;
-  }
-
-  // '모달 창 밖에 클릭 시 닫기'
-  if (e.target !== $('.modal__addCart')) {
-    $('.modal__addCart').style.display = 'none';
-    return;
-  }
-
-  // 모달 '장바구니로 바로가기' or '계속 쇼핑하기' 클릭 시 모달 닫기
-  if (e.target === $('.goToCart') || e.target === $('.modal-keepShopping')) {
-    $('.modal__addCart').style.display = 'none';
     return;
   }
 };
