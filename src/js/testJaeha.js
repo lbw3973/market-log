@@ -55,6 +55,27 @@ const getAllProducts = async () => {
   }
 };
 
+/** 장바구니 localStorage */
+export const shoppingCartStore = {
+  setLocalStorage(product) {
+    localStorage.setItem('shoppingCart', JSON.stringify(product));
+  },
+  getLocalStorage() {
+    return JSON.parse(localStorage.getItem('shoppingCart')) || [];
+  },
+  removeLocalStorage() {
+    return localStorage.removeItem('shoppingCart');
+  },
+  clearLocalStorage() {
+    localStorage.clear();
+  },
+};
+
+// let shoppingCartArr = [];
+// shoppingCartArr = shoppingCartStore.getLocalStorage();
+// let shoppingCartArr = shoppingCartStore.getLocalStorage();
+// console.log(shoppingCartArr);
+
 /*-----------------------------------*\
   #메인 페이지
 \*-----------------------------------*/
@@ -642,6 +663,7 @@ const renderWishListPage = () => {
 $('.app').addEventListener('click', (e) => {
   const id = e.target.closest('li')?.dataset.productId;
   let wishListArr = wishListStore.getLocalStorage();
+  let shoppingCartArr = shoppingCartStore.getLocalStorage();
   if (e.target.classList.contains('wishList-AddToCartBtn')) {
     const wishListAddToCart = wishListArr.filter((item) => item.id === id);
 
@@ -654,8 +676,8 @@ $('.app').addEventListener('click', (e) => {
       wishListInfo.title,
       wishListInfo.pricePerOne,
     );
-    shoppingCartStore.setLocalStorage(shoppingCartArr);
-    console.log(shoppingCartArr);
+    shoppingCartStore.setLocalStorage(shoppingCartStore.getLocalStorage());
+    console.log(shoppingCartStore.getLocalStorage());
   }
 });
 
@@ -1061,26 +1083,6 @@ const renderDetailOrderPage = async (id) => {
 // 라우터 라이브러리
 import cartSVG from '../../public/cart.svg';
 
-/** 장바구니 localStorage */
-export const shoppingCartStore = {
-  setLocalStorage(product) {
-    localStorage.setItem('shoppingCart', JSON.stringify(product));
-  },
-  getLocalStorage() {
-    return JSON.parse(localStorage.getItem('shoppingCart')) || [];
-  },
-  removeLocalStorage() {
-    return localStorage.removeItem('shoppingCart');
-  },
-  clearLocalStorage() {
-    localStorage.clear();
-  },
-};
-
-let shoppingCartArr = [];
-shoppingCartArr = shoppingCartStore.getLocalStorage();
-console.log(shoppingCartArr);
-
 /** 상세 주문 내역 skeleton ui 초기 렌더링 */
 const renderSkeletonUIinDetailProductPage = () => {
   const skeletonUITemplate = `
@@ -1107,20 +1109,23 @@ const renderSkeletonUIinDetailProductPage = () => {
 
 /** 장바구니에 저장 */
 const storeCart = (id, price, count, thumbnail, title, pricePerOne) => {
+  let shoppingCartArr = shoppingCartStore.getLocalStorage();
   // id 값을 찾고
   const existingItem = shoppingCartArr.find((item) => item.id === id);
   // 새로운 아이템이면 추가
   if (!existingItem) {
     shoppingCartArr.push({ id, price, count, thumbnail, title, pricePerOne });
+    shoppingCartStore.setLocalStorage(shoppingCartArr);
+    console.log('shoppingCartArr.push', shoppingCartStore.getLocalStorage());
     console.log('shoppingCartArr.push', shoppingCartArr);
     return;
   } else if (existingItem) {
     // 이미 아이템이면 기존 수량, 가격에 누적 추가
     existingItem.count += count;
     existingItem.price += price;
+    shoppingCartStore.setLocalStorage(shoppingCartArr);
     return;
   }
-  // shoppingCartStore.setLocalStorage(shoppingCartArr);
   console.log(shoppingCartArr);
 };
 
@@ -1253,6 +1258,7 @@ $('.app').addEventListener('click', (e) => {
 
 /** 구매수량 핸들링 함수 */
 const updateInfo = async (e, productId) => {
+  let shoppingCartArr = shoppingCartStore.getLocalStorage();
   // 구매 수량 -
   if (e.target.classList.contains('minusQtyBtn')) {
     productDetailProductQty -= 1;
@@ -1294,8 +1300,8 @@ const pushInCart = (e) => {
     const pricePerOne = productDetailPricePerOne;
 
     storeCart(id, price, count, thumbnail, title, pricePerOne);
-    shoppingCartStore.setLocalStorage(shoppingCartArr);
-    console.log('shoppingCartArr.push', shoppingCartArr);
+    shoppingCartStore.setLocalStorage(shoppingCartStore.getLocalStorage());
+    console.log('shoppingCartArr.push', shoppingCartStore.getLocalStorage());
   }
 };
 
@@ -1341,7 +1347,9 @@ let cartDeliveryPrice = 0; // [장바구니] 배송비
 
 /** 장바구니 총 가격 렌더링 */
 const renderCartTotalPrice = () => {
-  const cartTotalPrice = shoppingCartArr.map((items) => items.price);
+  const cartTotalPrice = shoppingCartStore
+    .getLocalStorage()
+    .map((items) => items.price);
   const cartTotalPriceReduce = cartTotalPrice.reduce((acc, val) => {
     return acc + val;
   }, 0);
@@ -1474,6 +1482,7 @@ const renderCartList = (storage) => {
 
 /** 장바구니 localStorage에 저장하는 함수 - 찜하기 페이지에서 재활용 */
 const storeLocalStorage = (id) => {
+  let shoppingCartArr = shoppingCartStore.getLocalStorage();
   const existingItem = shoppingCartArr.find((item) => item.id === id);
   console.log('existingItem', existingItem);
 
@@ -1481,21 +1490,21 @@ const storeLocalStorage = (id) => {
     existingItem.price += existingItem.pricePerOne;
     existingItem.qty += 1;
     existingItem.count += 1;
-    return;
+    shoppingCartStore.setLocalStorage(shoppingCartArr);
   }
   // shoppingCartArr
-  shoppingCartStore.setLocalStorage(shoppingCartArr);
-  console.log('장바구니', shoppingCartArr);
+  console.log('장바구니에서 ++', shoppingCartArr);
 };
 
 /** 장바구니 페이지에서 수량 핸들링 */
 $('.app').addEventListener('click', (e) => {
   const id = e.target.closest('li')?.dataset.productId;
-
+  console.log(id);
   // 구매 수량 +
+  let shoppingCartArr = shoppingCartStore.getLocalStorage();
   if (e.target.classList.contains('cart-addQtyBtn')) {
     storeLocalStorage(id);
-    shoppingCartStore.setLocalStorage(shoppingCartArr);
+    // shoppingCartStore.setLocalStorage(shoppingCartArr);
     // 카트 페이지 렌더
     renderCartPage();
     return;
@@ -1503,59 +1512,59 @@ $('.app').addEventListener('click', (e) => {
 
   // 구매 수량 -
   if (e.target.classList.contains('cart-minusQtyBtn')) {
+    // let shoppingCartArr = shoppingCartStore.getLocalStorage();
     const existingItem = shoppingCartArr.find((item) => item.id === id);
     console.log('existingItem', existingItem);
 
     if (existingItem) {
       if (existingItem.price > existingItem.pricePerOne) {
         existingItem.price -= existingItem.pricePerOne;
-        // return;
       }
       if (existingItem.qty > 1) {
         existingItem.qty -= 1;
-        // return;
       }
       if (existingItem.count > 1) {
         existingItem.count -= 1;
-        // return;
       }
 
-      shoppingCartStore.setLocalStorage(shoppingCartArr);
+      console.log('장바구니에서 --', shoppingCartArr);
       // 카트 페이지 렌더
+      shoppingCartStore.setLocalStorage(shoppingCartArr);
       renderCartPage();
-      // return;
     }
-    return;
   }
 
   // 장바구니에서 삭제
   if (e.target.classList.contains('cartProductDeleteBtn')) {
-    shoppingCartArr = shoppingCartArr.filter((item) => item.id !== id);
+    shoppingCartArr = shoppingCartStore
+      .getLocalStorage()
+      .filter((item) => item.id !== id);
+    // storeLocalStorage(id);
+    shoppingCartStore.setLocalStorage(shoppingCartArr);
     console.log(shoppingCartArr);
-    storeLocalStorage(id);
     renderCartPage();
     return;
   }
 });
 
-/** 빈 장바구니일 때 화면에 표시 */
-const renderInitEmptyCartPage = `
-    <div class="cart__empty">
-      <img src="${cartSVG}" alt="빈 장바구니" />
-      <h3>장바구니가 비었습니다.</h3>
-      <a><button class="cartEmpty-goToShoppingBtn">쇼핑하러 가기</button></a>
-    </div>
-  `;
+// /** 빈 장바구니일 때 화면에 표시 */
+// const renderInitEmptyCartPage = `
+//     <div class="cart__empty">
+//       <img src="${cartSVG}" alt="빈 장바구니" />
+//       <h3>장바구니가 비었습니다.</h3>
+//       <a><button class="cartEmpty-goToShoppingBtn">쇼핑하러 가기</button></a>
+//     </div>
+//   `;
 
 /** 빈 장바구니일 때, 상품이 있는 장바구니일 때 */
 const renderCartPage = () => {
-  if (shoppingCartArr.length === 0) {
-    renderCartList(shoppingCartArr);
+  if (shoppingCartStore.getLocalStorage().length === 0) {
+    renderCartList(shoppingCartStore.getLocalStorage());
     renderPage(renderInitCartPage);
     return;
-  } else if (shoppingCartArr.length >= 1) {
+  } else if (shoppingCartStore.getLocalStorage().length >= 1) {
     // 장바구니에 넣은 상품 렌더링
-    renderCartList(shoppingCartArr);
+    renderCartList(shoppingCartStore.getLocalStorage());
     // 결제금액 렌더링
     renderCartTotalPrice();
     return;
@@ -1574,7 +1583,6 @@ import {
   wooriBank,
 } from '../js/page/pay/payIMG.js';
 import Swiper, { Navigation, Pagination } from 'swiper';
-import { render } from 'sass';
 Swiper.use([Navigation, Pagination]);
 
 /** 제품 결제 API */
@@ -1602,7 +1610,9 @@ const buyItemAPI = async (productId, accountId) => {
 
 /** 제품 총 개수 렌더링 함수 */
 const renderProductTotalQty = () => {
-  const paymentItemCount = shoppingCartArr.map((items) => items.count);
+  const paymentItemCount = shoppingCartStore
+    .getLocalStorage()
+    .map((items) => items.count);
   const renderProductTotalQty = paymentItemCount.reduce((acc, val) => {
     return acc + val;
   }, 0);
@@ -1954,7 +1964,7 @@ const paymentPageFunction = async (e) => {
   // 1. 결제가격 재렌더링
   renderCartTotalPrice();
   // 2. 결제할 제품들 렌더링
-  renderPaymentProductList(shoppingCartArr);
+  renderPaymentProductList(shoppingCartStore.getLocalStorage());
   // 3. 제품 개수
   $('.app').querySelector('.paymentProductQty').innerHTML =
     renderProductTotalQty();
@@ -2042,7 +2052,7 @@ router
       // 초기 템플릿, ul태그 삽입
       renderPage(renderInitCartPage);
       console.log('/cart');
-      console.log('shoppingCartArr', shoppingCartArr);
+      // console.log('shoppingCartArr', shoppingCartArr);
 
       // 카트 페이지 렌더
       renderCartPage();
