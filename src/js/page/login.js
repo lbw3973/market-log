@@ -1,14 +1,14 @@
-import { base_url, api_key, user_name, admin_email } from '../db.js';
-import Navigo from 'navigo';
+import { base_url, api_key, user_name } from '../db.js';
+import { router } from '../main.js';
 const headers = {
   'content-type': 'application/json',
   apikey: api_key,
   username: user_name,
 };
 const $ = (selector) => document.querySelector(selector);
-const userHeaderUL = $('.header__user-login--ul');
-// const router = new Navigo('/');
+const ulLoginHeaderEl = $('.header__user-login--ul');
 
+/** HTML : 로그인 페이지 템플릿 */
 export const htmlLogin = /* html */ `
   <div class="login__container">
     <h1 class="title">로그인</h1>
@@ -28,27 +28,27 @@ export const htmlLogin = /* html */ `
     </div>
   </div>
 `;
-
-export function initFuncLogin() {
-  userHeaderUL.innerHTML = /* html */ `
+/** HTML : header login 템플릿 */
+export const htmlHeaderLogin = /* html */ `
   <li class="header__user-login--li">
     <a href="/login" data-navigo id="btnlogin"> 로그인 </a>
   </li>
   `;
-  const btnLogin = $('.login-btn');
-  btnLogin.addEventListener('click', async () => {
-    try {
-      const loginJSON = await login();
-      displayUserName(loginJSON.user.displayName);
-      localStorage.setItem('token', loginJSON.accessToken);
-      // router.navigate('/');
-    } catch (exception) {
-      alert(exception);
-    }
-  });
-}
+/** HTML : header logout 템플릿 */
+const htmlHeaderLogout = /* html */ `
+  <li class="header__user-login--li">
+  <a href="/mypage" data-navigo>
+    <strong id="header__user-login-name"></strong>님 환영합니다
+  </a>
+  </li>
+  <li class="header__user-login--li">
+  <button id="btnlogout"> 로그아웃 </button>
+  </li>
+  `;
 
+/** API : Login */
 async function login() {
+  console.log('login.js');
   const res = await fetch(`${base_url}/auth/login`, {
     method: 'POST',
     headers: {
@@ -63,32 +63,7 @@ async function login() {
   return json;
 }
 
-function displayUserName(displayName) {
-  userHeaderUL.innerHTML = /* html */ `
-    <li class="header__user-login--li">
-      <a href="/mypage" data-navigo>
-        <strong strong id="header__user-login-name">${displayName}</strong>님 환영합니다
-      </a>
-    </li>
-    <li class="header__user-login--li">
-      <button id="btnlogout"> 로그아웃 </button>
-    </li>
-  `;
-
-  $('#btnlogout').addEventListener('click', async () => {
-    const logoutJSON = await logout();
-    if (logoutJSON === true) {
-      localStorage.removeItem('token');
-      userHeaderUL.innerHTML = /* html */ `
-      <li class="header__user-login--li">
-        <a href="/login" data-navigo id="btnlogin"> 로그인 </a>
-      </li>
-    `;
-      // router.navigate('/');
-    }
-  });
-}
-
+/** API : Logout */
 async function logout() {
   const res = await fetch(`${base_url}/auth/logout`, {
     method: 'POST',
@@ -98,6 +73,65 @@ async function logout() {
     },
   });
   const json = await res.json();
-  console.log(json);
   return json;
+}
+
+/** API : 인증확인 */
+async function authorization() {
+  const res = await fetch(`${base_url}/auth/me`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  });
+  const json = await res.json();
+  return json;
+}
+
+/** 로그인 후, displayName Render */
+function displayUserName(displayName) {
+  ulLoginHeaderEl.innerHTML = htmlHeaderLogout;
+  $('#header__user-login-name').innerText = displayName;
+}
+
+/** 로그인,아웃 후, header의 로그인,아웃 영역을 Render */
+export async function renderInitHeaderLogin() {
+  $('.app').innerHTML = '';
+  const author = await authorization();
+
+  if (!localStorage.getItem('token')) {
+    ulLoginHeaderEl.innerHTML = htmlHeaderLogin;
+  } else {
+    ulLoginHeaderEl.innerHTML = htmlHeaderLogout;
+    $('#header__user-login-name').innerText = author.displayName;
+
+    $('#btnlogout').addEventListener('click', async () => {
+      const logoutJSON = await logout();
+      if (logoutJSON === true) {
+        localStorage.removeItem('token');
+        ulLoginHeaderEl.innerHTML = htmlHeaderLogin;
+        router.navigate('/');
+      }
+    });
+  }
+}
+
+/** 초기화면 Render시 Inititalize */
+export function initFuncLogin() {
+  ulLoginHeaderEl.innerHTML = htmlHeaderLogin;
+
+  const btnLogin = $('.login-btn');
+  btnLogin.addEventListener('click', async () => {
+    let errMessage;
+    try {
+      const loginJSON = await login();
+      errMessage = loginJSON;
+      displayUserName(loginJSON.user.displayName);
+      localStorage.setItem('token', loginJSON.accessToken);
+      router.navigate('/');
+    } catch (exception) {
+      alert(errMessage);
+    }
+  });
 }
