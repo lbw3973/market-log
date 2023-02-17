@@ -109,10 +109,10 @@ const productDetailHandler = async (productId) => {
   renderDetailProduct(productDetail);
 
   const deleteProductBtn = document.querySelector(
-    '.productDetail-container--delete',
+    '.productDetail-container__btn--delete',
   );
   const editProductBtn = document.querySelector(
-    '.productDetail-container--edit',
+    '.productDetail-container__btn--edit',
   );
 
   deleteProductBtn.addEventListener('click', async () => {
@@ -132,7 +132,7 @@ const productEditHandler = async (productId) => {
   const product = await getDetailProduct(productId);
 
   document
-    .querySelector('.wrap')
+    .querySelector('.productEdit-container')
     .insertAdjacentHTML('afterbegin', renderEditProduct(product));
 
   console.log(product);
@@ -251,7 +251,6 @@ router
   .on({
     '/': () => {
       initPage(dashboardPage);
-      dashboardHandler();
     },
     '/admin': () => {
       initPage(dashboardPage);
