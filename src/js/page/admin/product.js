@@ -122,7 +122,7 @@ export const productHandler = async () => {
     );
 
     if (newProductsEl.length === 0) {
-      alert('상품을 선택해주세요.');
+      alert('삭제할 상품을 선택해주세요.');
       return;
     }
 
