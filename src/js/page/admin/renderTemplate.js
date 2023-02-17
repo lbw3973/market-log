@@ -1,18 +1,22 @@
 import searchPNG from '../../../../public/search.png';
-import reloadSVG from '../../../../public/reload.svg';
 
 export const sideBar = `
+      
+    
       <aside class="aside-container">
         <ul>
-          <li class="aside-container__list">
-            <a href="/admin" data-navigo>대시보드</a>
-          </li>
-          <li class="aside-container__list">
-            <a href="/admin/product" data-navigo>상품관리</a>
-          </li>
-          <li class="aside-container__list">
-            <a href="/admin/order" data-navigo>거래내역</a>
-          </li>
+          <h1>관리자 페이지</h1>
+          <nav>
+            <li class="aside-container__list">
+              <a href="/admin" data-navigo>대시보드</a>
+            </li>
+            <li class="aside-container__list">
+              <a href="/admin/product" data-navigo>상품관리</a>
+            </li>
+            <li class="aside-container__list">
+              <a href="/admin/order" data-navigo>거래내역</a>
+            </li>
+            <nav>
         </ul>
       </aside>
   `;
@@ -33,23 +37,21 @@ export const dashboardPage = `
 
 export const orderPage = `
     <div class='order-container' data-page='order'>
+      <h2>거래 내역 관리</h2>
       <div class ='order-container__search'>
-          <h2>거래 내역 관리</h2>
           <div class='order-container__search-container--input'>
               <input placeholder='거래자명을 입력해 주세요.'>
-              <img class="button" src=${searchPNG} alt='검색'>
-              <img class="initailize" src=${reloadSVG} alt='검색'>
+              <button><img src=${searchPNG} alt='검색'></button>
           </div>
       </div>
       <li class='order-container__title'>
-        <span style='width: 5%;'>NO</span>
-        <span style='width: 10%;'>상품명</span>
-        <span style='width: 15%;'>가격</span>
-        <span style='width: 10%;'>거래자</span>
-        <span style='width: 15%;'>거래은행</span>
-        <span style='width: 15%;'>거래일시</span>
-        <span style='width: 15%;'>취소여부</span>
-        <span style='width: 15%;'>완료여부</span>
+        <span style='flex-basis: 7%;'>NO</span>
+        <span style='flex-basis: 34%;'>상품명</span>
+        <span style='flex-basis: 10%;'>가격</span>
+        <span style='flex-basis: 15%;'>거래자</span>
+        <span style='flex-basis: 20%;'>거래일시</span>
+        <span style='flex-basis: 8%;'>취소여부</span>
+        <span style='flex-basis: 8%;'>완료여부</span>
       </li>
       <ul class='order-container__list'>
         
@@ -62,21 +64,22 @@ export const orderPage = `
 
 export const productPage = `
     <div class='product-container' data-page='product'>
+        <h2>상품 관리</h2>
         <div class ='product-container__search'>
-            <h2>상품 관리</h2>
             <div class='product-container__search-container--input'>
                 <input placeholder='상품명을 입력해 주세요.'>
-                <img class="button" src=${searchPNG} alt='검색'>
-                <img class="initailize" src=${reloadSVG} alt='검색'>
+                <button>
+                  <img src=${searchPNG} alt='검색'>
+                </button>
             </div>
         </div>
         <li class='product-container__title'>
-          <input type="checkbox">
-          <span style='width: 5%;'>NO</span>
-          <span style='width: 10%;'>카테고리</span>
-          <span style='width: 10%;'>상품명</span>
-          <span style='width: 15%;'>가격</span>
-          <span style='width: 15%;'>품절여부</span>
+          <input type="checkbox" style='flex-basis: 4%'>
+          <span style='flex-basis: 4%;'>NO</span>
+          <span style='flex-basis: 14%;'>카테고리</span>
+          <span style='flex-basis: 55%;'>상품명</span>
+          <span style='flex-basis: 13%;'>가격</span>
+          <span style='flex-basis: 10%;'>품절여부</span>
         </li>
         <ul class='product-container__list'>
           
@@ -139,18 +142,19 @@ export const productAddPage = `
 
 export const productDetailPage = `
   <div class='productDetail-container'>
-    <div class='wrap'>
+    <h2>상품 상세</h2>
+    <section class='section'>
     
-    </div>
-    <div class='productDetail-container--btn'>
-      <button class='productDetail-container--edit'>수정</button>
-      <button class='productDetail-container--delete'>삭제</button>
+    </section>
+    <div class='productDetail-container__btn'>
+      <button class='productDetail-container__btn--edit'>수정</button>
+      <button class='productDetail-container__btn--delete'>삭제</button>
     </div>
   </div>
 `;
 
 export const productEditPage = `
-  <div class='wrap'>
+  <div class='productEdit-container'>
 
   </div>
 `;
