@@ -18,7 +18,6 @@ import { getAccountDetail, buyItemAPI } from '../../api.js';
 import Swiper, { Navigation, Pagination } from 'swiper';
 import { renderCartTotalPrice } from '../cartPage/cartPage.js';
 import { shoppingCartStore } from '../../store/shoppingCartStore.js';
-shoppingCartStore;
 
 Swiper.use([Navigation, Pagination]);
 

@@ -1,51 +1,16 @@
 /*-----------------------------------*\
   마이 페이지 - 찜하기 페이지 / 찜한 상품 페이지 #wishList js
 \*-----------------------------------*/
-import Navigo from 'navigo';
-import { router } from '../../testJaeha.js';
-const $ = (selector) => document.querySelector(selector);
+
+import { $ } from '../../utils/dom.js';
+import { renderPage } from '../../utils/render.js';
 import { shoppingCart, hearted } from '../../importIMGFiles.js';
 import { storeCart } from '../productDetail/productDetail.js';
-
-/** Navigo innerHTML template */
-export const renderPage = (html) => {
-  $('.app').innerHTML = html;
-};
-
-/** 찜하기 목록 localStorage */
-export const wishListStore = {
-  setLocalStorage(product) {
-    localStorage.setItem('wishList', JSON.stringify(product));
-  },
-  getLocalStorage() {
-    return JSON.parse(localStorage.getItem('wishList')) || [];
-  },
-  removeLocalStorage() {
-    return localStorage.removeItem('wishList');
-  },
-  clearLocalStorage() {
-    localStorage.clear();
-  },
-};
-
-/** 장바구니 localStorage */
-export const shoppingCartStore = {
-  setLocalStorage(product) {
-    localStorage.setItem('shoppingCart', JSON.stringify(product));
-  },
-  getLocalStorage() {
-    return JSON.parse(localStorage.getItem('shoppingCart')) || [];
-  },
-  removeLocalStorage() {
-    return localStorage.removeItem('shoppingCart');
-  },
-  clearLocalStorage() {
-    localStorage.clear();
-  },
-};
+import { wishListStore } from '../../store/wishListStore.js';
+import { shoppingCartStore } from '../../store/shoppingCartStore.js';
 
 /** 마이 페이지 mypage__navigo__container 초기 템플릿 */
-export const renderInitMypageTemplate = `
+const renderInitMypageTemplate = `
       <div class="mypage__app">
         <div class="mypage__container">
           <div class="mypage__navbar">
@@ -85,7 +50,7 @@ export const renderInitMypageTemplate = `
 `;
 
 /** 찜한상품 제목, ul 태그 템플릿 삽입 */
-export const handleWishListInitTemplate = () => {
+const handleWishListInitTemplate = () => {
   const renderWishListPageInitTemplate = `
     <div class="mypage__wishlist">
       <div class="mypage__wishlist--container">
@@ -100,7 +65,7 @@ export const handleWishListInitTemplate = () => {
 };
 
 /** ul 태그에 찜한 제품 li 삽입, */
-export const renderWishListProductList = (store) => {
+const renderWishListProductList = (store) => {
   console.log(store);
   const wishListProductListTemplate = store
     .map((item) => {
@@ -146,7 +111,7 @@ export const renderWishListProductList = (store) => {
 };
 
 /** 찜하기 목록이 비어있을 때 템플릿 */
-export const handleEmptyWishlistInit = () => {
+const handleEmptyWishlistInit = () => {
   const emptyWishlistTemplate = `
   <div class="cart__empty">
     <img src="${hearted}" alt="빈 장바구니" />
@@ -158,8 +123,8 @@ export const handleEmptyWishlistInit = () => {
     emptyWishlistTemplate;
 };
 
-/** 찜한 상품이 (없을 때 / 있을 때) 예외처리 */
-export const renderWishListPage = () => {
+/** 찜한 상품이 (없을 때 / 있을 때) 예외처리 후 렌더링 */
+const renderWishListPage = () => {
   if (wishListStore.getLocalStorage().length === 0) {
     renderPage(renderInitMypageTemplate);
     handleWishListInitTemplate();
@@ -207,3 +172,8 @@ $('.app').addEventListener('click', (e) => {
     console.log(shoppingCartStore.getLocalStorage());
   }
 });
+
+/** /mypage/wishlist 핸들링 함수 */
+export const handleWishListPage = () => {
+  renderWishListPage();
+};
