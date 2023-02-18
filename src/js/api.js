@@ -188,3 +188,21 @@ export const buyItemAPI = async (productId, accountId) => {
     console.log('결제 실패');
   }
 };
+
+/** 제품 결제 API */
+export const getUserInfoAPI = async () => {
+  try {
+    const res = await fetch(`${base_url}/auth/me`, {
+      method: 'POST',
+      headers: {
+        ...headers,
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.log(err);
+    console.log('사용자 정보 가져오기 실패');
+  }
+};

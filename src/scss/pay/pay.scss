@@ -149,6 +149,19 @@
         flex-direction: column;
         gap: 10px;
       }
+
+      &--checkbox {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-bottom: 12px;
+        h6 {
+          font-size: 12px;
+        }
+        input {
+          width: 16px;
+        }
+      }
       &--name {
         @include alignGap10px();
         margin-bottom: 10px;

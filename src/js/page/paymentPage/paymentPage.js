@@ -14,7 +14,7 @@ import {
   shinhanBank,
   wooriBank,
 } from './payIMG.js';
-import { getAccountDetail, buyItemAPI } from '../../api.js';
+import { getAccountDetail, buyItemAPI, getUserInfoAPI } from '../../api.js';
 import Swiper, { Navigation, Pagination } from 'swiper';
 import { renderCartTotalPrice } from '../cartPage/cartPage.js';
 import { shoppingCartStore } from '../../store/shoppingCartStore.js';
@@ -100,15 +100,19 @@ const renderInitPaymentPage = `
           </div>
         </div>
         <div class="pay__info--orderItem pay__info--payer-info">
-          <h4>주문자 정보</h4>
+          <h4>받으시는 분</h4>
           <div class="pay__info--payer--container">
             <form class="pay__info--payer--form">
+              <div class="pay__info--payer--checkbox">
+                <h6>주문자와 동일</h6>
+                <input type="checkbox" class="pay__info--payer-sameWithPayer" />
+              </div>
               <div class="pay__info--payer--name">
-                <h6>주문자</h6>
+                <h6>성함</h6>
                 <input
-                  class="pay__info--payer--name-input"
-                  placeholder="이름을 입력해주세요"
-                  required
+                class="pay__info--payer--name-input"
+                placeholder="이름을 입력해주세요"
+                required
                 />
               </div>
               <div class="pay__info--payer--email">
@@ -215,6 +219,26 @@ const renderPaymentProductList = (storage) => {
   $('.app').querySelector('.pay__info--orderItem-lists').innerHTML =
     paymentProductListTemplate;
 };
+
+/** 로그인한 사용자 정보 렌더링 */
+const renderUserInfoInPaymentPage = async () => {
+  const getUserInformation = await getUserInfoAPI();
+  const { email, displayName } = getUserInformation;
+  $('.pay__info--payer--name-input').value = displayName;
+  $('.pay__info--payer--email-input').value = email;
+};
+
+/** 주문자와 동일 이벤트 */
+$('.app').addEventListener('change', (e) => {
+  if (e.target.classList.contains('pay__info--payer-sameWithPayer')) {
+    if ($('.pay__info--payer-sameWithPayer').checked === true) {
+      renderUserInfoInPaymentPage();
+    } else {
+      $('.pay__info--payer--name-input').value = '';
+      $('.pay__info--payer--email-input').value = '';
+    }
+  }
+});
 
 /** 계좌목록 및 잔액 조회 */
 const renderPaymentAccount = async (items) => {
@@ -392,6 +416,8 @@ const paymentPageFunction = async () => {
     renderProductTotalQty();
   // 4. 주소찾기 카카오api
   renderKakaoMap();
+  // 4-1. 사용자 정보 가져오기
+  // await renderUserInfoInPaymentPage();
   // 5. 결제수단 불러오기
   // 예외처리: 불러올 결제수단이 없으면 '계좌 연결하러 가기 버튼 생성'
   const accountList = await getAccountDetail();
