@@ -3,7 +3,8 @@
 \*-----------------------------------*/
 import Navigo from 'navigo';
 import { router } from '../../testJaeha.js';
-const $ = (selector) => document.querySelector(selector);
+import { $ } from '../../utils/dom.js';
+import { renderPage } from '../../utils/render.js';
 
 import {
   hanaBank,
@@ -21,13 +22,8 @@ shoppingCartStore;
 
 Swiper.use([Navigation, Pagination]);
 
-/** Navigo innerHTML template */
-export const renderPage = (html) => {
-  $('.app').innerHTML = html;
-};
-
 /** 제품 총 개수 렌더링 함수 */
-export const renderProductTotalQty = () => {
+const renderProductTotalQty = () => {
   const paymentItemCount = shoppingCartStore
     .getLocalStorage()
     .map((items) => items.count);
@@ -39,7 +35,7 @@ export const renderProductTotalQty = () => {
 };
 
 /** 결제 페이지 처음 렌더링 */
-export const renderInitPaymentPage = `
+const renderInitPaymentPage = `
 <section class="pay">
   <div class="pay__container">
     <div class="pay__header"><h2>결제하기</h2></div>
@@ -196,7 +192,7 @@ export const renderInitPaymentPage = `
 `;
 
 /** 결제페이지 구매할 제품 리스트 렌더링 */
-export const renderPaymentProductList = (storage) => {
+const renderPaymentProductList = (storage) => {
   const paymentProductListTemplate = storage
     .map((item) => {
       const { id, price, count, thumbnail, title } = item;
@@ -222,7 +218,7 @@ export const renderPaymentProductList = (storage) => {
 };
 
 /** 계좌목록 및 잔액 조회 */
-export const renderPaymentAccount = async (items) => {
+const renderPaymentAccount = async (items) => {
   const paymentAccountListTemplate = items
     .map((item) => {
       const { id, bankName, bankCode, accountNumber, balance } = item;
@@ -265,7 +261,7 @@ export const renderPaymentAccount = async (items) => {
 };
 
 /** 연결된 계좌가 없을 때 예외처리 */
-export const renderNoPaymentAccount = () => {
+const renderNoPaymentAccount = () => {
   const NoPaymentAccountTemplate = `
   <li class="swiper-slide payment-method__card-list">
     <img class="payment-method__card-list--noPaymentBankAccount"
@@ -287,7 +283,7 @@ export const renderNoPaymentAccount = () => {
 };
 
 /** 카카오 맵 렌더링 */
-export const renderKakaoMap = () => {
+const renderKakaoMap = () => {
   var mapContainer = document.getElementById('map'), // 지도를 표시할 div
     mapOption = {
       center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
@@ -339,7 +335,7 @@ export const renderKakaoMap = () => {
 };
 
 /** 결제하기 버튼 활성화/비활성화 */
-export const activePaymentBtn = async () => {
+const activePaymentBtn = async () => {
   const finalPaymentBtn = $('.app').querySelector(
     '.payment-method__final-confirm--btn',
   );
@@ -358,7 +354,7 @@ export const activePaymentBtn = async () => {
 };
 
 /** swiper 결제 페이지 선택된 계좌 이름 렌더링 */
-export const renderSelectedPayment = (e) => {
+const renderSelectedPayment = (e) => {
   const availableBankAccount = $('.app')
     .querySelectorAll('.payment-method__card-list')
     [e.realIndex]?.querySelector('.payment-method__card-name')?.textContent;
@@ -373,8 +369,21 @@ export const renderSelectedPayment = (e) => {
   }
 };
 
+/** 결제 페이지 최종 결제 버튼의 결제 가격 재렌더링 함수 */
+const renderFinalPaymentPrice = () => {
+  $(
+    '.payment-method__final-confirm--btn',
+  ).innerHTML = `총 ${renderCartTotalPrice().toLocaleString()}원 결제하기`;
+  $(
+    '.payTotalOrderPrice',
+  ).innerHTML = `${renderCartTotalPrice().toLocaleString()}원`;
+  $(
+    '.payTotalPaymentPrice',
+  ).innerHTML = `${renderCartTotalPrice().toLocaleString()}원`;
+};
+
 /** 결제페이지에서 작동하는 함수들 */
-export const paymentPageFunction = async (e) => {
+const paymentPageFunction = async () => {
   // 1. 결제가격 재렌더링
   renderCartTotalPrice();
   // 2. 결제할 제품들 렌더링
@@ -392,7 +401,7 @@ export const paymentPageFunction = async (e) => {
     ? renderNoPaymentAccount()
     : await renderPaymentAccount(await getAccountDetail());
 
-  // 5. swiper
+  // 5. 연결된 계좌 swiper
   var paymentCardSwiper = new Swiper('.payment-method__swiper-wrapper', {
     pagination: {
       el: '.swiper-pagination',
@@ -415,23 +424,10 @@ export const paymentPageFunction = async (e) => {
   });
 };
 
-/** 결제 페이지 최종 결제 버튼의 결제 가격 재렌더링 함수 */
-export const renderFinalPaymentPrice = () => {
-  $(
-    '.payment-method__final-confirm--btn',
-  ).innerHTML = `총 ${renderCartTotalPrice().toLocaleString()}원 결제하기`;
-  $(
-    '.payTotalOrderPrice',
-  ).innerHTML = `${renderCartTotalPrice().toLocaleString()}원`;
-  $(
-    '.payTotalPaymentPrice',
-  ).innerHTML = `${renderCartTotalPrice().toLocaleString()}원`;
-};
-
 /////////////////////////////
 
 /** 현재 선택한 은행계좌의 잔액 확인해주는 함수 */
-export const checkBalanceOfselectedBankAccount = async (id) => {
+const checkBalanceOfselectedBankAccount = async (id) => {
   const availableAccount = await getAccountDetail();
   console.log(availableAccount);
   const checkCurrentSelectedBankId = availableAccount.filter((item) => {
@@ -441,7 +437,7 @@ export const checkBalanceOfselectedBankAccount = async (id) => {
 };
 
 /** [결제 페이지] 결제버튼 로직 */
-export const handlePaymentBtnLogic = async (e) => {
+const handlePaymentBtnLogic = async () => {
   const currentSelectedBankId = $('.swiper-slide-active').dataset.accountId;
   const productIds = shoppingCartStore.getLocalStorage().map((items) => {
     return items.id;
@@ -493,3 +489,11 @@ $('.app').addEventListener('click', async (e) => {
     await handlePaymentBtnLogic(e);
   }
 });
+
+export const handlePaymentPage = async () => {
+  $('.modal__addCart').style.display = 'none';
+  console.log('/cart');
+  renderPage(renderInitPaymentPage);
+  renderFinalPaymentPrice();
+  await paymentPageFunction();
+};

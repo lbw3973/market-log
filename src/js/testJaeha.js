@@ -77,6 +77,7 @@ import {
   renderFinalPaymentPrice,
   checkBalanceOfselectedBankAccount,
   handlePaymentBtnLogic,
+  handlePaymentPage,
 } from './page/paymentPage/paymentPage.js';
 
 /** Navigo innerHTML template */
@@ -142,18 +143,13 @@ router
     },
     '/product/:id': async (params) => {
       console.log('product/:id route is working');
-      handleDetailProductPage(params.data.id);
+      await handleDetailProductPage(params.data.id);
     },
     '/cart': () => {
       handleCartPage();
     },
     '/payment': async () => {
-      $('.modal__addCart').style.display = 'none';
-      // 초기 결제 페이지 렌더
-      renderPage(renderInitPaymentPage);
-      renderFinalPaymentPrice();
-      // 결제 페이지 렌더 후 실행할 함수들
-      await paymentPageFunction();
+      await handlePaymentPage();
     },
     '/category/keyboards': async () => {
       $('.modal__addCart').style.display = 'none';
