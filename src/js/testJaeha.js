@@ -63,6 +63,7 @@ router
     '/mypage/order': () => {
       handleOrderHistoryPage();
     },
+    // 마이페이지 상세 주문내역 목록
     '/mypage/order/:id': async (params) => {
       handleDetailOrderHistoryPage(params.data.id);
     },

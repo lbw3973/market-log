@@ -17,7 +17,7 @@ import { getAllProducts } from '../../api.js';
 \*-----------------------------------*/
 
 /** 카테고리 페이지 초기 템플릿 */
-const renderInitCategoryPage = `
+export const renderInitCategoryPage = `
   <div class="categoryPage">
     <div class="categoryPage__container">
       <!-- aside -->
@@ -67,7 +67,7 @@ const renderInitCategoryPage = `
 `;
 
 /** 카테고리 페이지 skeleton ui 초기 렌더링 */
-const renderSkeletonUIinCategoryPage = () => {
+export const renderSkeletonUIinCategoryPage = () => {
   const skeletonUITemplate = `
   <li class="categoryPage__skeleton">
     <div class="categoryPage__skeleton--img"></div>
