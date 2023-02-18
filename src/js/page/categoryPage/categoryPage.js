@@ -1,6 +1,7 @@
 import Navigo from 'navigo';
 import { router } from '../../testJaeha.js';
 const $ = (selector) => document.querySelector(selector);
+import { renderPage } from '../../utils/render.js';
 import {
   halo75,
   halo96,
@@ -16,7 +17,7 @@ import { getAllProducts } from '../../api.js';
 \*-----------------------------------*/
 
 /** 카테고리 페이지 초기 템플릿 */
-export const renderInitCategoryPage = `
+const renderInitCategoryPage = `
   <div class="categoryPage">
     <div class="categoryPage__container">
       <!-- aside -->
@@ -66,7 +67,7 @@ export const renderInitCategoryPage = `
 `;
 
 /** 카테고리 페이지 skeleton ui 초기 렌더링 */
-export const renderSkeletonUIinCategoryPage = () => {
+const renderSkeletonUIinCategoryPage = () => {
   const skeletonUITemplate = `
   <li class="categoryPage__skeleton">
     <div class="categoryPage__skeleton--img"></div>
@@ -86,7 +87,7 @@ export const renderSkeletonUIinCategoryPage = () => {
 };
 
 /** 카테고리 페이지 제품 db에서 불러오기 */
-export const renderCategoryProductList = (items) => {
+const renderCategoryProductList = (items) => {
   const categoryProductListTemplate = items
     .map((item) => {
       const { id, price, thumbnail, title, tags } = item;
@@ -115,7 +116,7 @@ export const renderCategoryProductList = (items) => {
 };
 
 /** 카테고리 태그 필터링 함수 */
-export const getProductTags = async () => {
+const getProductTags = async () => {
   const allProductArray = await getAllProducts();
   console.log(allProductArray);
   // const allTags = allProductArray.map((items) => {
@@ -143,7 +144,7 @@ export const getProductTags = async () => {
 };
 
 /** 가격낮은순 정렬 후 렌더링 함수 */
-export const getSortedLowToHighPriceProduct = async (i) => {
+const getSortedLowToHighPriceProduct = async (i) => {
   const getKeyBoardCategory = await getProductTags();
   const keyboardCategoryProduct = await getKeyBoardCategory[i];
   const LowToHighPrice = keyboardCategoryProduct.sort((a, b) => {
@@ -157,7 +158,7 @@ export const getSortedLowToHighPriceProduct = async (i) => {
 };
 
 /** 가격높은순 정렬 후 렌더링 함수 */
-export const getSortedHighToLowPriceProduct = async (i) => {
+const getSortedHighToLowPriceProduct = async (i) => {
   const getKeyBoardCategory = await getProductTags();
   const keyboardCategoryProduct = await getKeyBoardCategory[i];
   const HighToLowPrice = keyboardCategoryProduct.sort((a, b) => {
@@ -169,7 +170,7 @@ export const getSortedHighToLowPriceProduct = async (i) => {
 };
 
 /** select option에 의해 정렬 */
-export const renderCategoryProductBySelect = async (condition, i) => {
+const renderCategoryProductBySelect = async (condition, i) => {
   renderSkeletonUIinCategoryPage();
   const getKeyBoardCategory = await getProductTags();
 
@@ -184,10 +185,36 @@ export const renderCategoryProductBySelect = async (condition, i) => {
 };
 
 /** 카테고리별 상품 개수 렌더링 */
-export const renderCategoryProductQty = async (i) => {
+const renderCategoryProductQty = async (i) => {
   const getKeyBoardCategory = await getProductTags();
   const categoryTotalQty = await getKeyBoardCategory[i];
   $(
     '.categoryPage__main--filter-totalQty',
   ).innerHTML = `${categoryTotalQty.length}개 상품`;
+};
+
+/** /category 핸들링 함수 */
+export const handleCategoryPage = async (i) => {
+  $('.modal__addCart').style.display = 'none';
+  console.log('/category/0');
+  renderPage(renderInitCategoryPage);
+  renderSkeletonUIinCategoryPage();
+  const getKeyBoardCategory = await getProductTags();
+
+  renderCategoryProductList(await getKeyBoardCategory[i]);
+  await renderCategoryProductQty(i);
+
+  // 가격 정렬 이벤트
+  $('.app')
+    .querySelector('#categoryPage-filterByPrice')
+    ?.addEventListener('change', async (e) => {
+      console.log(e.target);
+
+      renderCategoryProductBySelect(
+        await $('#categoryPage-filterByPrice').options[
+          $('#categoryPage-filterByPrice').selectedIndex
+        ].value,
+        i,
+      );
+    });
 };

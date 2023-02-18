@@ -16,6 +16,7 @@ import {
   getSortedHighToLowPriceProduct,
   renderCategoryProductBySelect,
   renderCategoryProductQty,
+  handleCategoryPage,
 } from './page/categoryPage/categoryPage.js';
 import {
   renderSearchedProductList,
@@ -150,93 +151,16 @@ router
       await handlePaymentPage();
     },
     '/category/keyboards': async () => {
-      $('.modal__addCart').style.display = 'none';
-      console.log('/category/keyboards');
-      renderPage(renderInitCategoryPage);
-      renderSkeletonUIinCategoryPage();
-      const getKeyBoardCategory = await getProductTags();
-      renderCategoryProductList(await getKeyBoardCategory[0]);
-      await renderCategoryProductQty(0);
-
-      // 가격 정렬 이벤트
-      $('.app')
-        .querySelector('#categoryPage-filterByPrice')
-        ?.addEventListener('change', async (e) => {
-          console.log(e.target);
-
-          renderCategoryProductBySelect(
-            await $('#categoryPage-filterByPrice').options[
-              $('#categoryPage-filterByPrice').selectedIndex
-            ].value,
-            0,
-          );
-        });
+      await handleCategoryPage(0);
     },
     '/category/keycaps': async () => {
-      $('.modal__addCart').style.display = 'none';
-      console.log('/category/keycaps');
-      renderPage(renderInitCategoryPage);
-      renderSkeletonUIinCategoryPage();
-      const getKeyBoardCategory = await getProductTags();
-      renderCategoryProductList(await getKeyBoardCategory[1]);
-      await renderCategoryProductQty(1);
-
-      // 가격 정렬 이벤트
-      $('.app')
-        .querySelector('#categoryPage-filterByPrice')
-        ?.addEventListener('change', async (e) => {
-          console.log(e.target);
-          return renderCategoryProductBySelect(
-            await $('#categoryPage-filterByPrice').options[
-              $('#categoryPage-filterByPrice').selectedIndex
-            ].value,
-            1,
-          );
-        });
+      await handleCategoryPage(1);
     },
     '/category/switches': async () => {
-      $('.modal__addCart').style.display = 'none';
-      console.log('/category/switches');
-      renderPage(renderInitCategoryPage);
-      renderSkeletonUIinCategoryPage();
-      const getKeyBoardCategory = await getProductTags();
-      renderCategoryProductList(await getKeyBoardCategory[2]);
-      await renderCategoryProductQty(2);
-
-      // 가격 정렬 이벤트
-      $('.app')
-        .querySelector('#categoryPage-filterByPrice')
-        ?.addEventListener('change', async (e) => {
-          console.log(e.target);
-          return renderCategoryProductBySelect(
-            await $('#categoryPage-filterByPrice').options[
-              $('#categoryPage-filterByPrice').selectedIndex
-            ].value,
-            2,
-          );
-        });
+      await handleCategoryPage(2);
     },
     '/category/accessories': async () => {
-      $('.modal__addCart').style.display = 'none';
-      console.log('/category/accessories');
-      renderPage(renderInitCategoryPage);
-      renderSkeletonUIinCategoryPage();
-      const getKeyBoardCategory = await getProductTags();
-      renderCategoryProductList(await getKeyBoardCategory[3]);
-      await renderCategoryProductQty(3);
-
-      // 가격 정렬 이벤트
-      $('.app')
-        .querySelector('#categoryPage-filterByPrice')
-        ?.addEventListener('change', async (e) => {
-          console.log(e.target);
-          return renderCategoryProductBySelect(
-            await $('#categoryPage-filterByPrice').options[
-              $('#categoryPage-filterByPrice').selectedIndex
-            ].value,
-            3,
-          );
-        });
+      await handleCategoryPage(3);
     },
     // 마이페이지 찜하기 목록
     '/mypage/wishlist': () => {
