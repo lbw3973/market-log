@@ -1,6 +1,7 @@
 import Navigo from 'navigo';
 import { router } from '../../testJaeha.js';
-const $ = (selector) => document.querySelector(selector);
+import { $ } from '../../utils/dom.js';
+import { renderPage } from '../../utils/render.js';
 import {
   air60,
   air75,
@@ -120,3 +121,10 @@ $('.app').addEventListener('click', (e) => {
     router.navigate('/category/keyboards');
   }
 });
+
+/** router on '/' 핸들링 함수 */
+export const handleMainPage = () => {
+  $('.modal__addCart').style.display = 'none';
+  console.log('/ route is working');
+  renderPage(renderMainPageTemplate);
+};

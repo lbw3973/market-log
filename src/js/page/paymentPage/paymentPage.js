@@ -14,7 +14,7 @@ import {
   wooriBank,
 } from './payIMG.js';
 import { renderCartTotalPrice } from '../productDetail/productDetail.js';
-import { shoppingCartStore } from '../cart/cart.js';
+import { shoppingCartStore } from '../cartPage/cartPage.js';
 import { getAccountDetail, buyItemAPI } from '../../api.js';
 import Swiper, { Navigation, Pagination } from 'swiper';
 

@@ -2,8 +2,11 @@ import Navigo from 'navigo';
 export const router = new Navigo('/');
 const $ = (selector) => document.querySelector(selector);
 
-import { shoppingCartStore } from './page/cart/cart.js';
-import { renderMainPageTemplate } from './page/mainPage/mainPage.js';
+import { shoppingCartStore } from './page/cartPage/cartPage.js';
+import {
+  handleMainPage,
+  renderMainPageTemplate,
+} from './page/mainPage/mainPage.js';
 import {
   renderInitCategoryPage,
   renderSkeletonUIinCategoryPage,
@@ -129,22 +132,19 @@ import cartSVG from '../../public/cart.svg';
 router
   .on({
     '/': async () => {
-      $('.modal__addCart').style.display = 'none';
-      console.log('/ route is working');
-      renderPage(renderMainPageTemplate);
+      // $('.modal__addCart').style.display = 'none';
+      // console.log('/ route is working');
+      // renderPage(renderMainPageTemplate);
+      handleMainPage();
     },
     '/products/search': async () => {
       $('.modal__addCart').style.display = 'none';
       console.log('/products/search route is working');
       // 제품 검색
-      // renderPage(renderInitCategoryPage);
-      // renderSearchedProductList(await findProduct());
-      // renderSearchedProductLength();
       await handleSearchPageResult();
     },
     '/product/:id': async (params) => {
       console.log('product/:id route is working');
-      console.log('params', params);
       handleDetailProductPage(params.data.id);
     },
     '/cart': () => {

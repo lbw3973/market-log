@@ -4,6 +4,7 @@
 
 import Navigo from 'navigo';
 import { router } from '../../testJaeha.js';
+import { $ } from '../../utils/dom.js';
 import {
   pushInCart,
   renderCartPage,
@@ -11,7 +12,6 @@ import {
   storeLocalStorage,
   updateInfo,
 } from '../productDetail/productDetail.js';
-const $ = (selector) => document.querySelector(selector);
 
 /** 장바구니 localStorage */
 export const shoppingCartStore = {
