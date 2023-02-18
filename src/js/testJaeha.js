@@ -24,6 +24,7 @@ import {
   wishListStore,
   checkWhetherAddWishList,
   storeWishList,
+  handleDetailProductPage,
 } from './page/productDetail/productDetail.js';
 import {
   renderInitMypageTemplate,
@@ -144,17 +145,7 @@ router
     '/product/:id': async (params) => {
       console.log('product/:id route is working');
       console.log('params', params);
-      // renderSkeletonUIinDetailProductPage();
-      console.log('123');
-      await renderDetailProduct(params.data.id);
-      console.log('1234');
-
-      // $('.app')
-      //   .querySelector('.buyBtn')
-      //   ?.addEventListener('click', (e) => {
-      //     console.log(e.target);
-      //     router.navigate('/payment');
-      //   });
+      handleDetailProductPage(params.data.id);
     },
     '/cart': () => {
       $('.modal__addCart').style.display = 'none';
@@ -173,25 +164,6 @@ router
       renderFinalPaymentPrice();
       // 결제 페이지 렌더 후 실행할 함수들
       await paymentPageFunction();
-
-      // /** 결제 버튼 클릭시 결제 진행 (리팩토링 예정)*/
-      // $('.app')
-      //   .querySelector('.payment-method__final-confirm--btn')
-      //   .addEventListener('click', async (e) => {
-      //     e.preventDefault();
-      //     if ($('.pay__info-zipcode--data-input').value === '') {
-      //       $('.pay__info-zipcode--data-input').focus();
-      //       alert('우편번호를 입력해주세요');
-      //       return;
-      //     }
-      //     if ($('.pay__info--payer--name-input').value === '') {
-      //       $('.pay__info--payer--name-input').focus();
-      //       alert('주문자 이름을 입력해주세요.');
-      //       return;
-      //     }
-      //     // 결제가 성공하면 구매내역 페이지로 라우팅 (지금은 홈으로 이동)
-      //     await handlePaymentBtnLogic(e);
-      //   });
     },
     '/category/keyboards': async () => {
       $('.modal__addCart').style.display = 'none';

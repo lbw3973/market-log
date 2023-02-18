@@ -47,6 +47,19 @@ export const shoppingCartStore = {
   },
 };
 
+/** 장바구니 총 가격 렌더링 */
+export const renderCartTotalPrice = () => {
+  const cartTotalPrice = shoppingCartStore
+    .getLocalStorage()
+    .map((items) => items.price);
+  const cartTotalPriceReduce = cartTotalPrice.reduce((acc, val) => {
+    return acc + val;
+  }, 0);
+
+  // cartTotalOrderPrice = cartTotalPriceReduce;
+  return cartTotalPriceReduce;
+};
+
 /** 찜하기 상품 유/무에 따라 다른 초기화면 렌더링 */
 export const checkWhetherAddWishList = (id) => {
   let wishListArr = wishListStore.getLocalStorage();
@@ -132,7 +145,6 @@ let productDetailPricePerOne;
 
 /** [제품 상세페이지] 렌더링 함수 */
 export const renderDetailProduct = async (productId) => {
-  renderSkeletonUIinDetailProductPage();
   const productDetail = await getDetailProduct(productId);
   const { description, id, isSoldOut, photo, price, tags, title, thumbnail } =
     productDetail;
@@ -258,19 +270,6 @@ export const handleModal = (e) => {
 document.body.addEventListener('click', (e) => {
   handleModal(e);
 });
-
-/** 장바구니 총 가격 렌더링 */
-export const renderCartTotalPrice = () => {
-  const cartTotalPrice = shoppingCartStore
-    .getLocalStorage()
-    .map((items) => items.price);
-  const cartTotalPriceReduce = cartTotalPrice.reduce((acc, val) => {
-    return acc + val;
-  }, 0);
-
-  // cartTotalOrderPrice = cartTotalPriceReduce;
-  return cartTotalPriceReduce;
-};
 
 // 장바구니 페이지 초기 렌더링
 export const renderInitCartPage = `
@@ -486,3 +485,9 @@ $('.app').addEventListener('click', (e) => {
     return;
   }
 });
+
+/** /product/:id 핸들링 함수 */
+export const handleDetailProductPage = async (params) => {
+  renderSkeletonUIinDetailProductPage();
+  await renderDetailProduct(params);
+};
