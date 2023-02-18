@@ -490,6 +490,7 @@ $('.app').addEventListener('click', async (e) => {
   }
 });
 
+/** /payment 핸들링 함수 */
 export const handlePaymentPage = async () => {
   $('.modal__addCart').style.display = 'none';
   console.log('/cart');

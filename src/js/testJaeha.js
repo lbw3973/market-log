@@ -22,6 +22,7 @@ import {
   searchPageNoSearchResultTemplate,
   findProduct,
   handleSearchPageResult,
+  handleSearchPage,
 } from './page/searchPage/searchPage.js';
 import {
   wishListStore,
@@ -136,10 +137,7 @@ router
       handleMainPage();
     },
     '/products/search': async () => {
-      $('.modal__addCart').style.display = 'none';
-      console.log('/products/search route is working');
-      // 제품 검색
-      await handleSearchPageResult();
+      await handleSearchPage();
     },
     '/product/:id': async (params) => {
       console.log('product/:id route is working');

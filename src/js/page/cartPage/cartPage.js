@@ -262,6 +262,7 @@ $('.app').addEventListener('click', (e) => {
   }
 });
 
+/** /cart 핸들링 함수 */
 export const handleCartPage = () => {
   $('.modal__addCart').style.display = 'none';
   console.log('/cart');

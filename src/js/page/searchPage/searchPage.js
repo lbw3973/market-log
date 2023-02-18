@@ -1,10 +1,9 @@
 import Navigo from 'navigo';
 import { router } from '../../testJaeha.js';
-const $ = (selector) => document.querySelector(selector);
-
+import { $ } from '../../utils/dom.js';
+import { renderPage } from '../../utils/render.js';
 import { getSearchedProducts } from '../../api.js';
 import { renderInitCategoryPage } from '../categoryPage/categoryPage.js';
-import { renderPage } from '../../testJaeha.js';
 import { renderSkeletonUIinCategoryPage } from '../categoryPage/categoryPage.js';
 
 /*-----------------------------------*\
@@ -12,7 +11,7 @@ import { renderSkeletonUIinCategoryPage } from '../categoryPage/categoryPage.js'
 \*-----------------------------------*/
 
 /** 제품 이름 검색 */
-export const renderSearchedProductList = (title = '') => {
+const renderSearchedProductList = (title = '') => {
   const categoryProductListTemplate = title
     .map((item) => {
       const { id, price, thumbnail, title } = item;
@@ -41,7 +40,7 @@ export const renderSearchedProductList = (title = '') => {
 };
 
 /** 검색한 제품이 없을 때 렌더링, 추천 검색어 클릭 -> 카테고리 페이지로 이동 */
-export const searchPageNoSearchResultTemplate = `
+const searchPageNoSearchResultTemplate = `
   <div class="searchPage__noResult--container">
     <span class="searchPage__noResult--inputValue"></span> 관련 상품이 없습니다.
     추천 검색어: 
@@ -53,14 +52,14 @@ export const searchPageNoSearchResultTemplate = `
 `;
 
 /** input 값이 입력된 제품 찾기 함수 */
-export const findProduct = async () => {
+const findProduct = async () => {
   $inputValue = $('.header-main__search--input').value;
   console.log('inputValue', $inputValue);
   return await getSearchedProducts($inputValue);
 };
 
 /** 검색한 제품의 유/무 예외처리 핸들링 함수 */
-export const handleSearchPageResult = async () => {
+const handleSearchPageResult = async () => {
   renderPage(renderInitCategoryPage);
   renderSkeletonUIinCategoryPage();
   const findProductArr = await findProduct();
@@ -97,3 +96,11 @@ $('.header-main__search--button').addEventListener('keypress', async (e) => {
     await handleSearchPageResult();
   }
 });
+
+/** /products/search 핸들링 함수 */
+export const handleSearchPage = async () => {
+  $('.modal__addCart').style.display = 'none';
+  console.log('/products/search route is working');
+  // 제품 검색
+  await handleSearchPageResult();
+};
