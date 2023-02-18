@@ -225,7 +225,7 @@ export const pushInCart = (e) => {
     const pricePerOne = productDetailPricePerOne;
 
     storeCart(id, price, count, thumbnail, title, pricePerOne);
-    shoppingCartStore.setLocalStorage(shoppingCartStore.getLocalStorage());
+    // shoppingCartStore.setLocalStorage(shoppingCartStore.getLocalStorage());
     console.log('shoppingCartArr.push', shoppingCartStore.getLocalStorage());
   }
 };
@@ -440,12 +440,14 @@ export const updateInfo = async (e, productId) => {
   }
   // 구매 수량 +
   if (e.target.classList.contains('addQtyBtn')) {
+    console.log('저장+');
     productDetailProductQty += 1;
 
     renderDetailProduct(productId);
     // renderCartPage();
     return;
   }
+
   shoppingCartStore.setLocalStorage(shoppingCartArr);
 };
 

@@ -324,52 +324,52 @@ router
 //   }
 // };
 
-/** 장바구니 페이지에서 수량 핸들링 */
-$('.app').addEventListener('click', (e) => {
-  const id = e.target.closest('li')?.dataset.productId;
-  // 구매 수량 +
-  let shoppingCartArr = shoppingCartStore.getLocalStorage();
-  if (e.target.classList.contains('cart-addQtyBtn')) {
-    storeLocalStorage(id);
-    // shoppingCartStore.setLocalStorage(shoppingCartArr);
-    // 카트 페이지 렌더
-    renderCartPage();
-    return;
-  }
+// /** 장바구니 페이지에서 수량 핸들링 */
+// $('.app').addEventListener('click', (e) => {
+//   const id = e.target.closest('li')?.dataset.productId;
+//   // 구매 수량 +
+//   let shoppingCartArr = shoppingCartStore.getLocalStorage();
+//   if (e.target.classList.contains('cart-addQtyBtn')) {
+//     storeLocalStorage(id);
+//     // shoppingCartStore.setLocalStorage(shoppingCartArr);
+//     // 카트 페이지 렌더
+//     renderCartPage();
+//     return;
+//   }
 
-  // 구매 수량 -
-  if (e.target.classList.contains('cart-minusQtyBtn')) {
-    // let shoppingCartArr = shoppingCartStore.getLocalStorage();
-    const existingItem = shoppingCartArr.find((item) => item.id === id);
-    console.log('existingItem', existingItem);
+//   // 구매 수량 -
+//   if (e.target.classList.contains('cart-minusQtyBtn')) {
+//     // let shoppingCartArr = shoppingCartStore.getLocalStorage();
+//     const existingItem = shoppingCartArr.find((item) => item.id === id);
+//     console.log('existingItem', existingItem);
 
-    if (existingItem) {
-      if (existingItem.price > existingItem.pricePerOne) {
-        existingItem.price -= existingItem.pricePerOne;
-      }
-      if (existingItem.qty > 1) {
-        existingItem.qty -= 1;
-      }
-      if (existingItem.count > 1) {
-        existingItem.count -= 1;
-      }
+//     if (existingItem) {
+//       if (existingItem.price > existingItem.pricePerOne) {
+//         existingItem.price -= existingItem.pricePerOne;
+//       }
+//       if (existingItem.qty > 1) {
+//         existingItem.qty -= 1;
+//       }
+//       if (existingItem.count > 1) {
+//         existingItem.count -= 1;
+//       }
 
-      console.log('장바구니에서 --', shoppingCartArr);
-      // 카트 페이지 렌더
-      shoppingCartStore.setLocalStorage(shoppingCartArr);
-      renderCartPage();
-    }
-  }
+//       console.log('장바구니에서 --', shoppingCartArr);
+//       // 카트 페이지 렌더
+//       shoppingCartStore.setLocalStorage(shoppingCartArr);
+//       renderCartPage();
+//     }
+//   }
 
-  // 장바구니에서 삭제
-  if (e.target.classList.contains('cartProductDeleteBtn')) {
-    shoppingCartArr = shoppingCartStore
-      .getLocalStorage()
-      .filter((item) => item.id !== id);
-    // storeLocalStorage(id);
-    shoppingCartStore.setLocalStorage(shoppingCartArr);
-    console.log(shoppingCartArr);
-    renderCartPage();
-    return;
-  }
-});
+//   // 장바구니에서 삭제
+//   if (e.target.classList.contains('cartProductDeleteBtn')) {
+//     shoppingCartArr = shoppingCartStore
+//       .getLocalStorage()
+//       .filter((item) => item.id !== id);
+//     // storeLocalStorage(id);
+//     shoppingCartStore.setLocalStorage(shoppingCartArr);
+//     console.log(shoppingCartArr);
+//     renderCartPage();
+//     return;
+//   }
+// });

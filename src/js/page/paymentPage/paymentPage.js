@@ -222,12 +222,8 @@ export const renderPaymentProductList = (storage) => {
 
 /** 계좌목록 및 잔액 조회 */
 export const renderPaymentAccount = async (items) => {
-  console.log(items);
-
   const paymentAccountListTemplate = items
     .map((item) => {
-      console.log(item);
-      // const { totalBalance, accounts } = item;
       const { id, bankName, bankCode, accountNumber, balance } = item;
 
       return `
