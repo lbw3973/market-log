@@ -1,3 +1,5 @@
+@use '../globals/utils' as u;
+
 .categoryPage {
   display: flex;
   justify-content: center;
@@ -73,9 +75,15 @@
     &--lists {
       display: flex;
       flex-wrap: wrap;
-      gap: 16px;
+      gap: 13px;
     }
     &--list {
+      border-radius: 6px;
+      padding: 3px;
+      &:hover {
+        transition: 0.5s ease, border 0.2s ease;
+        box-shadow: u.$boxShadow;
+      }
     }
     &--img {
       width: 280px;
@@ -88,7 +96,7 @@
 
     &--info {
       color: #0c0c0c;
-      padding: 6px;
+      // padding: 6px;
       width: 276px;
       &-title {
         margin-bottom: 10px;
