@@ -227,8 +227,9 @@ const renderUserInfoInPaymentPage = async () => {
   $('.pay__info--payer--name-input').value = displayName;
   $('.pay__info--payer--email-input').value = email;
 };
+// pay__info--payer-sameWithPayer
 
-/** 주문자와 동일 이벤트 */
+/** '주문자와 동일' 체크박스 이벤트 */
 $('.app').addEventListener('change', (e) => {
   if (e.target.classList.contains('pay__info--payer-sameWithPayer')) {
     if ($('.pay__info--payer-sameWithPayer').checked === true) {
