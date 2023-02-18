@@ -5,47 +5,12 @@
 import Navigo from 'navigo';
 // const router = new Navigo('/');
 import { router } from '../../testJaeha.js';
-const $ = (selector) => document.querySelector(selector);
-import { addHeart, emptyHeart } from '../../importIMGFiles.js';
-import { cartSVG } from '../../../../public/cart.svg';
+import { $ } from '../../utils/dom.js';
+import { addHeart, emptyHeart, cartSVG } from '../../importIMGFiles.js';
 import { getDetailProduct } from '../../api.js';
-
-/** Navigo innerHTML template */
-export const renderPage = (html) => {
-  $('.app').innerHTML = html;
-};
-
-/** 찜하기 목록 localStorage */
-export const wishListStore = {
-  setLocalStorage(product) {
-    localStorage.setItem('wishList', JSON.stringify(product));
-  },
-  getLocalStorage() {
-    return JSON.parse(localStorage.getItem('wishList')) || [];
-  },
-  removeLocalStorage() {
-    return localStorage.removeItem('wishList');
-  },
-  clearLocalStorage() {
-    localStorage.clear();
-  },
-};
-
-/** 장바구니 localStorage */
-export const shoppingCartStore = {
-  setLocalStorage(product) {
-    localStorage.setItem('shoppingCart', JSON.stringify(product));
-  },
-  getLocalStorage() {
-    return JSON.parse(localStorage.getItem('shoppingCart')) || [];
-  },
-  removeLocalStorage() {
-    return localStorage.removeItem('shoppingCart');
-  },
-  clearLocalStorage() {
-    localStorage.clear();
-  },
-};
+import { wishListStore } from '../../store/wishListStore.js';
+import { shoppingCartStore } from '../../store/shoppingCartStore.js';
+import { renderPage } from '../../utils/render.js';
 
 /** 장바구니 총 가격 렌더링 */
 export const renderCartTotalPrice = () => {
