@@ -262,7 +262,7 @@ $('.app').addEventListener('click', (e) => {
   }
 });
 
-export const handleCartPage = async () => {
+export const handleCartPage = () => {
   $('.modal__addCart').style.display = 'none';
   console.log('/cart');
   renderPage(renderInitCartPage);
