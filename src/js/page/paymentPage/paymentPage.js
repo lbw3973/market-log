@@ -13,10 +13,11 @@ import {
   shinhanBank,
   wooriBank,
 } from './payIMG.js';
-import { renderCartTotalPrice } from '../productDetail/productDetail.js';
-import { shoppingCartStore } from '../cartPage/cartPage.js';
 import { getAccountDetail, buyItemAPI } from '../../api.js';
 import Swiper, { Navigation, Pagination } from 'swiper';
+import { renderCartTotalPrice } from '../cartPage/cartPage.js';
+import { shoppingCartStore } from '../../store/shoppingCartStore.js';
+shoppingCartStore;
 
 Swiper.use([Navigation, Pagination]);
 

@@ -2,7 +2,7 @@ import Navigo from 'navigo';
 export const router = new Navigo('/');
 const $ = (selector) => document.querySelector(selector);
 
-import { shoppingCartStore } from './page/cartPage/cartPage.js';
+import { handleCartPage, shoppingCartStore } from './page/cartPage/cartPage.js';
 import {
   handleMainPage,
   renderMainPageTemplate,
@@ -132,9 +132,6 @@ import cartSVG from '../../public/cart.svg';
 router
   .on({
     '/': async () => {
-      // $('.modal__addCart').style.display = 'none';
-      // console.log('/ route is working');
-      // renderPage(renderMainPageTemplate);
       handleMainPage();
     },
     '/products/search': async () => {
@@ -148,14 +145,7 @@ router
       handleDetailProductPage(params.data.id);
     },
     '/cart': () => {
-      $('.modal__addCart').style.display = 'none';
-      // 초기 템플릿, ul태그 삽입
-      renderPage(renderInitCartPage);
-      console.log('/cart');
-      // console.log('shoppingCartArr', shoppingCartArr);
-
-      // 카트 페이지 렌더
-      renderCartPage();
+      handleCartPage();
     },
     '/payment': async () => {
       $('.modal__addCart').style.display = 'none';
