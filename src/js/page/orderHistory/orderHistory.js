@@ -4,36 +4,20 @@
 
 import Navigo from 'navigo';
 // const router = new Navigo('/');
-const $ = (selector) => document.querySelector(selector);
+import { $ } from '../../utils/dom.js';
 import { reload } from '../../importIMGFiles.js';
+import { renderPage } from '../../utils/render.js';
 import {
-  renderPage,
   exclamationmark,
   paginationLeft,
   paginationRight,
   calendar,
 } from '../../testJaeha.js';
 import { getAllTransactions } from '../../api.js';
-
-/** 날짜 format 함수 */
-export const formatDate = (target) => {
-  const date = new Date(target);
-  const year = String(date.getFullYear()).padStart(2, 0);
-  const month = String(date.getMonth() + 1).padStart(2, 0);
-  const today = String(date.getDate()).padStart(2, 0);
-  const hour = String(date.getHours()).padStart(2, 0);
-  const min = String(date.getMinutes()).padStart(2, 0);
-  return `${year}.${month}.${today} | ${hour}:${min}`;
-};
-export const formatPrice = (target) => {
-  if (target) {
-    let result = target.toLocaleString('ko-KR');
-    return result;
-  }
-};
+import { formatPrice, formatDate } from '../../utils/format.js';
 
 /** 거래 완료/취소 확인 함수 */
-export const checkWhetherTransactionIsDone = (done, isCanceled) => {
+const checkWhetherTransactionIsDone = (done, isCanceled) => {
   const buttons = `<button class="button cancel-btn orderHistory__list--cancelBtn">주문 취소</button>
                   <button class="button orderfix-btn orderHistory__list--confirmBtn">구매 확정</button>`;
   const emptyButtons = ``;
@@ -45,7 +29,7 @@ export const checkWhetherTransactionIsDone = (done, isCanceled) => {
 };
 
 /** 마이 페이지 mypage__navigo__container 초기 템플릿 */
-export const renderInitMypageTemplate = `
+const renderInitMypageTemplate = `
       <div class="mypage__app">
         <div class="mypage__container">
           <div class="mypage__navbar">
@@ -85,7 +69,7 @@ export const renderInitMypageTemplate = `
 `;
 
 /** 구매내역 초기 템플릿 */
-export const handleOrderHistoryInitTemplate = () => {
+const handleOrderHistoryInitTemplate = () => {
   const renderOrderHistoryPageInitTemplate = `
   <div class="mypage__orderhistory">
     <h2>주문 내역</h2>
@@ -143,7 +127,7 @@ export const handleOrderHistoryInitTemplate = () => {
 };
 
 /** 제품 구매 내역 */
-export const renderOrderedProductList = (orderedItems) => {
+const renderOrderedProductList = (orderedItems) => {
   const orderedProductListTemplate = orderedItems
     .map((item) => {
       const { detailId, product, timePaid, done, isCanceled } = item;
@@ -182,7 +166,7 @@ export const renderOrderedProductList = (orderedItems) => {
 };
 
 /** 주문 내역 skeleton ui 초기 렌더링 */
-export const renderSkeletonUIinOrderHistoryPage = () => {
+const renderSkeletonUIinOrderHistoryPage = () => {
   const skeletonUITemplate = `
   <li class="orderHistoryPage__skeleton"></li>
 `;
@@ -197,7 +181,7 @@ export const renderSkeletonUIinOrderHistoryPage = () => {
 };
 
 /** 구매내역이 없을 경우 render 핸들링 함수, 빈 구매내역 template */
-export const emptyOrderHistory = () => {
+const emptyOrderHistory = () => {
   const emptyOrderHistoryTemplate = `
     <div class="cart__empty">
       <img src="${cartSVG}" alt="빈 구매내역" />
@@ -209,7 +193,7 @@ export const emptyOrderHistory = () => {
 };
 
 /** 제품 구매 내역 유/무 예외처리 */
-export const renderOrderedListPage = async () => {
+const renderOrderedListPage = async () => {
   renderPage(renderInitMypageTemplate);
   handleOrderHistoryInitTemplate();
   renderSkeletonUIinOrderHistoryPage();
@@ -251,3 +235,10 @@ $('.app').addEventListener('click', async (e) => {
     return;
   }
 });
+
+/** /mypage/order 핸들링 함수 */
+export const handleOrderHistoryPage = async () => {
+  $('.modal__addCart').style.display = 'none';
+  console.log('/mypage/order');
+  await renderOrderedListPage();
+};

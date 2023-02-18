@@ -2,32 +2,13 @@
   마이 페이지 - 주문내역 상세 페이지  # mypage/order/:id
 \*-----------------------------------*/
 import Navigo from 'navigo';
-// const router = new Navigo('/');
-import { router } from '../../testJaeha.js';
-const $ = (selector) => document.querySelector(selector);
-// import { reload } from '../../importIMGFiles.js';
-import { renderPage } from '../../testJaeha.js';
+import { $ } from '../../utils/dom.js';
+import { renderPage } from '../../utils/render.js';
 import { getDetailOrderProduct } from '../../api.js';
-
-/** 날짜 format 함수 */
-export const formatDate = (target) => {
-  const date = new Date(target);
-  const year = String(date.getFullYear()).padStart(2, 0);
-  const month = String(date.getMonth() + 1).padStart(2, 0);
-  const today = String(date.getDate()).padStart(2, 0);
-  const hour = String(date.getHours()).padStart(2, 0);
-  const min = String(date.getMinutes()).padStart(2, 0);
-  return `${year}.${month}.${today} | ${hour}:${min}`;
-};
-export const formatPrice = (target) => {
-  if (target) {
-    let result = target.toLocaleString('ko-KR');
-    return result;
-  }
-};
+import { formatPrice, formatDate } from '../../utils/format.js';
 
 /** 마이 페이지 mypage__navigo__container 초기 템플릿 */
-export const renderInitMypageTemplate = `
+const renderInitMypageTemplate = `
       <div class="mypage__app">
         <div class="mypage__container">
           <div class="mypage__navbar">
@@ -67,7 +48,7 @@ export const renderInitMypageTemplate = `
 `;
 
 /** 주문 상세정보 구매확정/취소/완료 체크 함수 */
-export const checkWhetherDetailOrderTransactionIsDone = (done, isCanceled) => {
+const checkWhetherDetailOrderTransactionIsDone = (done, isCanceled) => {
   if (done) {
     return '구매 확정';
   } else if (isCanceled) {
@@ -78,7 +59,7 @@ export const checkWhetherDetailOrderTransactionIsDone = (done, isCanceled) => {
 };
 
 /** 주문 상세정보 렌더링 함수 */
-export const renderDetailOrderProduct = async (id) => {
+const renderDetailOrderProduct = async (id) => {
   const detailOrderProduct = await getDetailOrderProduct(id);
   console.log(id);
   console.log(detailOrderProduct);
@@ -156,7 +137,7 @@ export const renderDetailOrderProduct = async (id) => {
 };
 
 /** 상세 주문 내역 skeleton ui 초기 렌더링 */
-export const renderSkeletonUIinDetailOrderHistoryPage = () => {
+const renderSkeletonUIinDetailOrderHistoryPage = () => {
   const skeletonUITemplate = `
   <li class="orderHistoryPage__skeleton"></li>
 `;
@@ -172,8 +153,13 @@ export const renderSkeletonUIinDetailOrderHistoryPage = () => {
 };
 
 /** 상세 주문내역 핸들링 함수 */
-export const renderDetailOrderPage = async (id) => {
-  // renderPage(renderInitMypageTemplate);
-  // renderSkeletonUIinDetailOrderHistoryPage();
-  await renderDetailOrderProduct(id);
+const renderDetailOrderPage = async (params) => {
+  renderPage(renderInitMypageTemplate);
+  renderSkeletonUIinDetailOrderHistoryPage();
+  await renderDetailOrderProduct(params);
+};
+
+/** /mypage/order/:id 핸들링 함수 */
+export const handleDetailOrderHistoryPage = async (params) => {
+  await renderDetailOrderPage(params);
 };
