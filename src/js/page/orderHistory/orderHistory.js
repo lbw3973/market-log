@@ -202,7 +202,7 @@ const renderOrderedListPage = async () => {
   } else if (transactionArr.length >= 1) {
     // 주문한 제품 있을 경우
     // renderOrderedProductList(transactionArr);
-    utilInit();
+    orderHistoryUtilInit();
     // return;
   }
 };
@@ -241,26 +241,31 @@ export const handleOrderHistoryPage = async () => {
   await renderOrderedListPage();
 };
 
-let utilIndex = 0;
-let utilPages = [];
+/** 처음 index = 0 */
+let orderHistoryUtilIndex = 0;
+/** 페이지네이션 배열 초기화 = 0 */
+let orderHistoryUtilPages = [];
 
-const utilSetupUI = () => {
-  renderOrderedProductList(utilPages[utilIndex]);
-  utilDisplayButtons(
+/** 주문내역 페이지 제품, 버튼 초기 렌더링 */
+const orderHistoryUtilSetupUI = () => {
+  renderOrderedProductList(orderHistoryUtilPages[orderHistoryUtilIndex]);
+  orderHistoryUtilDisplayButtons(
     $('.order-history__pagination--btnsContainer'),
-    utilPages,
-    utilIndex,
+    orderHistoryUtilPages,
+    orderHistoryUtilIndex,
   );
 };
 
-const utilInit = async () => {
+/** 주문내역 페이지 초기 렌더링 시 ui, api 불러오는 함수 */
+const orderHistoryUtilInit = async () => {
   const orderHistory = await getAllTransactions();
-  utilPages = utilPaginate(orderHistory);
+  orderHistoryUtilPages = orderHistoryUtilPaginate(orderHistory);
 
-  utilSetupUI();
+  orderHistoryUtilSetupUI();
 };
 
-const utilPaginate = (list) => {
+/** 주문내역 페이지 페이지네이션 1페이지 당 10개, slice 메서드로 배열에 삽입 */
+const orderHistoryUtilPaginate = (list) => {
   const itemsPerPage = 10;
   const numberOfPages = Math.ceil(list.length / itemsPerPage);
 
@@ -273,7 +278,8 @@ const utilPaginate = (list) => {
   return newList;
 };
 
-const utilDisplayButtons = (container, pages, activeIndex) => {
+/** 주문내역 페이지 페이지네이션 버튼 */
+const orderHistoryUtilDisplayButtons = (container, pages, activeIndex) => {
   let utilBtns = pages.map((_, pageIndex) => {
     return `
     <button class="order-history__pagination--btn ${
@@ -297,22 +303,22 @@ $('.app').addEventListener('click', (e) => {
     return;
 
   if (e.target.classList.contains('order-history__pagination--btn')) {
-    utilIndex = Number(e.target.dataset.index);
-    utilSetupUI();
+    orderHistoryUtilIndex = Number(e.target.dataset.index);
+    orderHistoryUtilSetupUI();
   }
 
   if (e.target.classList.contains('order-history__pagination--btn-next')) {
-    utilIndex++;
-    if (utilIndex > utilPages.length - 1) {
-      utilIndex = 0;
+    orderHistoryUtilIndex++;
+    if (orderHistoryUtilIndex > orderHistoryUtilPages.length - 1) {
+      orderHistoryUtilIndex = 0;
     }
-    utilSetupUI();
+    orderHistoryUtilSetupUI();
   }
   if (e.target.classList.contains('order-history__pagination--btn-prev')) {
-    utilIndex--;
-    if (utilIndex < 0) {
-      utilIndex = utilPages.length - 1;
+    orderHistoryUtilIndex--;
+    if (orderHistoryUtilIndex < 0) {
+      orderHistoryUtilIndex = orderHistoryUtilPages.length - 1;
     }
-    utilSetupUI();
+    orderHistoryUtilSetupUI();
   }
 });
