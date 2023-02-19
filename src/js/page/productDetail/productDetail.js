@@ -297,7 +297,7 @@ const storeRecentViewed = (id, title, thumbnail) => {
     return;
   } else if (!existingItem) {
     let recentViewedArr = recentViewStore.getLocalStorage();
-    recentViewedArr.push({ id, title, thumbnail });
+    recentViewedArr.unshift({ id, title, thumbnail });
     recentViewStore.setLocalStorage(recentViewedArr);
     return;
   }

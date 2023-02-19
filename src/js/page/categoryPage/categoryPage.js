@@ -199,7 +199,7 @@ export const handleCategoryPage = async (i) => {
   $('.modal__addCart').style.display = 'none';
   console.log('/category/0');
   renderPage(renderInitCategoryPage);
-  renderRecentViewed(recentViewStore.getLocalStorage().slice(0, 6));
+  renderRecentViewed(recentViewStore.getLocalStorage().slice(0, 5));
   renderSkeletonUIinCategoryPage();
   //
   // const getKeyBoardCategory = await getProductTags();
@@ -257,7 +257,7 @@ const categoryUtilInit = async (i) => {
 
 /** 카테고리 페이지 페이지네이션 1페이지 당 10개, slice 메서드로 배열에 삽입 */
 const categoryUtilPaginate = (list) => {
-  const itemsPerPage = 10;
+  const itemsPerPage = 9;
   const numberOfPages = Math.ceil(list.length / itemsPerPage);
 
   const newList = Array.from({ length: numberOfPages }, (_, index) => {
