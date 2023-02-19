@@ -124,8 +124,7 @@
       font-size: 20px;
       align-items: center;
     }
-
-    &--paymentBtn {
+    @mixin cartPagePaymentBtn {
       margin-top: 20px;
       width: 310px;
       height: 50px;
@@ -133,6 +132,15 @@
       background-color: var(--logo-color);
       color: #fff;
       text-align: center;
+    }
+    &--paymentBtn {
+      @include cartPagePaymentBtn();
+
+      &-disabled {
+        @include cartPagePaymentBtn();
+        cursor: not-allowed;
+        background-color: var(--division-line);
+      }
     }
   }
 

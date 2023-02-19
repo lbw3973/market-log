@@ -23,6 +23,17 @@ export const renderCartTotalPrice = () => {
   return cartTotalPriceReduce;
 };
 
+/** 장바구니 비었을 때 '결제하기 버튼' 예외처리 */
+const handleCartPaymentBtn = () => {
+  const enableBtn = `<button class="cart__price--paymentBtn cartPaymentBtn">결제하기</button>`;
+  const disabledBtn = `<button class="cart__price--paymentBtn-disabled cartPaymentBtn" disabled='true' >결제하기</button>`;
+  if (shoppingCartStore.getLocalStorage().length >= 1) {
+    return enableBtn;
+  } else if (shoppingCartStore.getLocalStorage().length === 0) {
+    return disabledBtn;
+  }
+};
+
 // 장바구니 페이지 초기 렌더링
 export const renderInitCartPage = `
 <section class="cart">
@@ -59,9 +70,7 @@ export const renderInitCartPage = `
         </div>
       </div>
       <a href="/payment" data-navigo
-        ><button class="cart__price--paymentBtn cartPaymentBtn">
-          결제하기
-        </button></a
+        >${handleCartPaymentBtn()}</a
       >
     </aside>
   </div>
@@ -94,7 +103,7 @@ export const renderCartOrderPrice = () => {
       <p class="cartTotalPaymentPrice">${renderCartTotalPrice().toLocaleString()} 원</p>
     </div>
   </div>
-  <button class="cart__price--paymentBtn cartPaymentBtn">
+  <button class="cart__price--paymentBtn cartPaymentBtn ">
     결제하기
   </button>
 `;
@@ -102,6 +111,7 @@ export const renderCartOrderPrice = () => {
   $('.app').querySelector('.cart__price').innerHTML = cartOrderPriceTemplate;
 };
 
+console.log(shoppingCartStore.getLocalStorage().length);
 /** 장바구니 제품 리스트 렌더링 */
 export const renderCartList = (storage) => {
   const cartListTemplate = storage
