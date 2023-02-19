@@ -1,6 +1,5 @@
 import Navigo from 'navigo';
 export const router = new Navigo('/');
-const $ = (selector) => document.querySelector(selector);
 
 import { handleCartPage } from './page/cartPage/cartPage.js';
 import { handleMainPage } from './page/mainPage/mainPage.js';
@@ -11,16 +10,12 @@ import {
   renderInitMypageTemplate,
   handleWishListPage,
 } from './page/wishListPage/wishListPage.js';
+import { handleDetailOrderHistoryPage } from './page/detailOrderHistoryPage/detailOrderHistory.js';
+import { handlePaymentPage } from './page/paymentPage/paymentPage.js';
 import {
   handleOrderHistoryPage,
-  renderOrderedListPage,
+  utilInit,
 } from './page/orderHistory/orderHistory.js';
-import {
-  renderSkeletonUIinDetailOrderHistoryPage,
-  renderDetailOrderPage,
-  handleDetailOrderHistoryPage,
-} from './page/detailOrderHistoryPage/detailOrderHistory.js';
-import { handlePaymentPage } from './page/paymentPage/paymentPage.js';
 
 /*-----------------------------------*\
   # navigo router
@@ -62,6 +57,7 @@ router
     // 마이페이지 주문내역 목록
     '/mypage/order': () => {
       handleOrderHistoryPage();
+      // utilInit();
     },
     // 마이페이지 상세 주문내역 목록
     '/mypage/order/:id': async (params) => {

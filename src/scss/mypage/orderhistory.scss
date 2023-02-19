@@ -212,3 +212,56 @@
     text-overflow: ellipsis;
   }
 }
+
+.order-history__pagination {
+  &--btnsContainer {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  &--btn {
+    padding: 6px 10px;
+    border: 1px solid var(--logo-color);
+    border-radius: 6px;
+    &:hover {
+      color: #fff;
+      background-color: var(--logo-color);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    &-next {
+      padding: 6px 10px;
+      border: 1px solid var(--logo-color);
+      border-radius: 6px;
+      &:hover {
+        color: #fff;
+        background-color: var(--logo-color);
+      }
+      &:active {
+        transform: scale(0.95);
+      }
+    }
+
+    &-prev {
+      padding: 6px 10px;
+      border: 1px solid var(--logo-color);
+      border-radius: 6px;
+      &:hover {
+        color: #fff;
+        background-color: var(--logo-color);
+      }
+      &:active {
+        transform: scale(0.95);
+      }
+    }
+  }
+}
+
+.active-btn {
+  background: black;
+  color: white;
+}

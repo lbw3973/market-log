@@ -29,7 +29,7 @@ const checkWhetherTransactionIsDone = (done, isCanceled) => {
 };
 
 /** 마이 페이지 mypage__navigo__container 초기 템플릿 */
-const renderInitMypageTemplate = `
+export const renderInitMypageTemplate = `
       <div class="mypage__app">
         <div class="mypage__container">
           <div class="mypage__navbar">
@@ -69,7 +69,7 @@ const renderInitMypageTemplate = `
 `;
 
 /** 구매내역 초기 템플릿 */
-const handleOrderHistoryInitTemplate = () => {
+export const handleOrderHistoryInitTemplate = () => {
   const renderOrderHistoryPageInitTemplate = `
   <div class="mypage__orderhistory">
     <h2>주문 내역</h2>
@@ -114,11 +114,7 @@ const handleOrderHistoryInitTemplate = () => {
       </div>
       <ul class="products orderHistory__lists"></ul>
     </div>
-    <div class="order-history--pagination">
-      <img src="${paginationLeft}" alt="pagination-left">
-      <span>1</span>
-      <img src="${paginationRight}" alt="pagination-right">
-    </div>
+    <div class="order-history__pagination--btnsContainer"></div>
   </div>
   </div>
   `;
@@ -199,12 +195,15 @@ const renderOrderedListPage = async () => {
   renderSkeletonUIinOrderHistoryPage();
   const transactionArr = await getAllTransactions();
   console.log('transactionArr', transactionArr);
+
+  // 주문한 제품 없을 경우
   if (transactionArr.length === 0) {
     emptyOrderHistory();
     return;
   } else if (transactionArr.length >= 1) {
-    // 장바구니에 넣은 상품 렌더링
-    renderOrderedProductList(transactionArr);
+    // 주문한 제품 있을 경우
+    // renderOrderedProductList(transactionArr);
+    utilInit();
     return;
   }
 };
@@ -242,3 +241,77 @@ export const handleOrderHistoryPage = async () => {
   console.log('/mypage/order');
   await renderOrderedListPage();
 };
+
+let utilIndex = 0;
+let utilPages = [];
+
+const utilSetupUI = () => {
+  renderOrderedProductList(utilPages[utilIndex]);
+  utilDisplayButtons(
+    $('.order-history__pagination--btnsContainer'),
+    utilPages,
+    utilIndex,
+  );
+};
+
+export const utilInit = async () => {
+  const orderHistory = await getAllTransactions();
+  utilPages = utilPaginate(orderHistory);
+
+  utilSetupUI();
+};
+
+export const utilPaginate = (orderHistoryList) => {
+  const itemsPerPage = 10;
+  const numberOfPages = Math.ceil(orderHistoryList.length / itemsPerPage);
+
+  const newOrderHistory = Array.from({ length: numberOfPages }, (_, index) => {
+    const start = index * itemsPerPage;
+
+    return orderHistoryList.slice(start, start + itemsPerPage);
+  });
+
+  return newOrderHistory;
+};
+
+const utilDisplayButtons = (container, pages, activeIndex) => {
+  let utilBtns = pages.map((_, pageIndex) => {
+    return `
+    <button class="order-history__pagination--btn ${
+      activeIndex === pageIndex ? 'active-btn' : 'null'
+    }" data-index="${pageIndex}">
+      ${pageIndex + 1}
+    </button>`;
+  });
+  console.log(utilBtns);
+  utilBtns.push(
+    `<button class="order-history__pagination--btn-next">다음</button>`,
+  );
+  utilBtns.unshift(
+    `<button class="order-history__pagination--btn-prev">이전</button>`,
+  );
+  container.innerHTML = utilBtns.join('');
+};
+
+$('.app').addEventListener('click', (e) => {
+  if (e.target.classList.contains('order-history__pagination--btnsContainer'))
+    return;
+
+  if (e.target.classList.contains('order-history__pagination--btn')) {
+    utilIndex = Number(e.target.dataset.index);
+  }
+
+  if (e.target.classList.contains('order-history__pagination--btn-next')) {
+    utilIndex++;
+    if (utilIndex > utilPages.length - 1) {
+      utilIndex = 0;
+    }
+  }
+  if (e.target.classList.contains('order-history__pagination--btn-prev')) {
+    utilIndex--;
+    if (utilIndex < 0) {
+      utilIndex = utilPages.length - 1;
+    }
+  }
+  utilSetupUI();
+});
