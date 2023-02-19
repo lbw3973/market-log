@@ -1,13 +1,13 @@
 import { deleteProduct, getAllProduct } from './api.js';
-
-import { renderPageBtn, renderProduct } from './renderDetail.js';
+import { renderPageBtn, renderProductList } from './renderDetail.js';
 
 let products = [];
 
 let activeIdx = 1;
+let btnIdx = 1;
 const itemsPerPage = 10;
 
-// 현재 페이지의 상품목록 가져오기
+/** 현재 페이지의 상품목록 가져오기 */
 const getProductCurrentPage = (products, activeIdx, itemsPerPage) => {
   const start = (activeIdx - 1) * itemsPerPage;
   const end = start + itemsPerPage;
@@ -15,16 +15,16 @@ const getProductCurrentPage = (products, activeIdx, itemsPerPage) => {
   return newProducts;
 };
 
-// 상품 목록 페이지 초기화
+/** 상품 목록 페이지 초기화 */
 const setUpUI = (productPageBtn, productList) => {
-  renderPageBtn(productPageBtn, products, activeIdx, itemsPerPage);
+  renderPageBtn(productPageBtn, products, activeIdx, itemsPerPage, btnIdx);
   newProducts = getProductCurrentPage(products, activeIdx, itemsPerPage);
-  renderProduct(productList, newProducts, activeIdx);
+  renderProductList(productList, newProducts, activeIdx);
 };
 
 let newProducts = getProductCurrentPage(products, activeIdx, itemsPerPage);
 
-// 상품관리 페이지 초기화
+/** 상품관리 페이지 핸들러 */
 export const productHandler = async () => {
   const productContainer = document.querySelector('.product-container');
   const productList = productContainer.querySelector(
@@ -48,11 +48,9 @@ export const productHandler = async () => {
   const searchedProductInput = searchContainer.querySelector('input');
   const searchedProductBtn = searchContainer.querySelector('img');
 
-  // 상품 검색
-  searchedProductBtn.addEventListener('click', async () => {
-    keyword = searchedProductInput.value;
+  const searchProductHandler = () => {
     const filteredProduct = products.filter((product) =>
-      product.title.includes(keyword),
+      product.title.includes(searchedProductInput.value),
     );
 
     productList.innerHTML = ``;
@@ -62,34 +60,62 @@ export const productHandler = async () => {
       activeIdx,
       itemsPerPage,
     );
-    renderProduct(productList, newProducts, activeIdx);
+    renderProductList(productList, newProducts, activeIdx);
+    searchedProductInput.value = '';
+  };
+
+  /** 상품 검색(enter) 이벤트 리스너 */
+  searchedProductInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.isComposing) {
+      searchProductHandler();
+    }
   });
 
-  //버튼 클릭 페이지 이동
+  /** 상품 검색(버튼 클릭) 이벤트 리스너 */
+  searchedProductBtn.addEventListener('click', searchProductHandler);
+
+  /** 페이지 버튼 클릭 이벤트 리스너 */
   productPageBtn.addEventListener('click', (e) => {
     if (e.target.classList.contains('product-container__btn-delete')) return;
 
     if (e.target.classList.contains('btn-page--number')) {
       let numberBtn = e.target;
       activeIdx = parseInt(numberBtn.textContent);
-    }
 
-    if (e.target.classList.contains('btn-page--next')) {
-      activeIdx++;
-      if (activeIdx > Math.ceil(products.length / itemsPerPage) - 1) {
-        activeIdx = Math.ceil(products.length / itemsPerPage);
+      if (activeIdx === btnIdx * itemsPerPage + 1) {
+        btnIdx++;
+      }
+
+      if (activeIdx === (btnIdx - 1) * itemsPerPage) {
+        btnIdx--;
       }
     }
 
-    if (e.target.classList.contains('btn-page--prev')) {
+    if (e.target.parentElement.classList.contains('btn-page--next')) {
+      activeIdx++;
+
+      if (activeIdx > Math.ceil(products.length / itemsPerPage) - 1) {
+        activeIdx = Math.ceil(products.length / itemsPerPage);
+      }
+
+      if (activeIdx === btnIdx * itemsPerPage + 1) {
+        btnIdx++;
+      }
+    }
+
+    if (e.target.parentElement.classList.contains('btn-page--prev')) {
       activeIdx--;
+
       if (activeIdx < 1) {
         activeIdx = 1;
+      }
+
+      if (activeIdx === (btnIdx - 1) * itemsPerPage) {
+        btnIdx--;
       }
     }
 
     productList.innerHTML = ``;
-
     setUpUI(productPageBtn, productList);
   });
 
@@ -100,7 +126,7 @@ export const productHandler = async () => {
     '.product-container__btn-delete',
   );
 
-  // 체크리스트 모두 선택 및 해제
+  /** 상품 목록 체크리스트 모두 선택 및 해제 이벤트 리스너 */
   checkProductAll.addEventListener('change', () => {
     const productsEl = productList.querySelectorAll('li');
 
@@ -113,7 +139,7 @@ export const productHandler = async () => {
         );
   });
 
-  // 체크리스트 선택한 상품 삭제
+  /** 상품 목록 체크리스트 선택한 상품 삭제  이벤트 리스너 */
   deleteBtn.addEventListener('click', async () => {
     const productsEl = productList.querySelectorAll('li');
 
@@ -127,14 +153,19 @@ export const productHandler = async () => {
     }
 
     if (confirm('선택한 상품을 삭제하시겠습니까? ')) {
-      async function deleteProductPromise(newProductsEl) {
-        const productsMap = newProductsEl.map(async (newProductEl) => {
-          return await deleteProduct(newProductEl.dataset.id);
-        });
-        return productsMap;
-      }
+      // async function deleteProductPromise(newProductsEl) {
+      //   const productsMap = newProductsEl.map(async (newProductEl) => {
+      //     return await deleteProduct(newProductEl.dataset.id);
+      //   });
+      //   return productsMap;
+      // }
 
-      await deleteProductPromise(newProductsEl);
+      // await deleteProductPromise(newProductsEl);
+      await Promise.all(
+        newProductsEl.map(
+          async (newProductEl) => await deleteProduct(newProductEl.dataset.id),
+        ),
+      );
 
       products = await getAllProduct();
       productList.innerHTML = '';
