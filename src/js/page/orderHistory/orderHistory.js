@@ -14,7 +14,7 @@ import {
   calendar,
 } from '../../testJaeha.js';
 import { getAllTransactions } from '../../api.js';
-import { formatPrice, formatDate } from '../../utils/format.js';
+import { formatDate } from '../../utils/format.js';
 
 /** 거래 완료/취소 확인 함수 */
 const checkWhetherTransactionIsDone = (done, isCanceled) => {
@@ -124,12 +124,11 @@ export const handleOrderHistoryInitTemplate = () => {
 
 /** 제품 구매 내역 */
 const renderOrderedProductList = (orderedItems) => {
+  console.log(orderedItems);
   const orderedProductListTemplate = orderedItems
     .map((item) => {
       const { detailId, product, timePaid, done, isCanceled } = item;
-      console.log(item);
       const { productId, title, price, thumbnail } = product;
-      console.log('product', product);
 
       return `
       <li class="product orderHistory__list" data-product-id="${productId}" data-detail-id="${detailId}">
@@ -199,12 +198,12 @@ const renderOrderedListPage = async () => {
   // 주문한 제품 없을 경우
   if (transactionArr.length === 0) {
     emptyOrderHistory();
-    return;
+    // return;
   } else if (transactionArr.length >= 1) {
     // 주문한 제품 있을 경우
     // renderOrderedProductList(transactionArr);
     utilInit();
-    return;
+    // return;
   }
 };
 
@@ -254,24 +253,24 @@ const utilSetupUI = () => {
   );
 };
 
-export const utilInit = async () => {
+const utilInit = async () => {
   const orderHistory = await getAllTransactions();
   utilPages = utilPaginate(orderHistory);
 
   utilSetupUI();
 };
 
-export const utilPaginate = (orderHistoryList) => {
+const utilPaginate = (list) => {
   const itemsPerPage = 10;
-  const numberOfPages = Math.ceil(orderHistoryList.length / itemsPerPage);
+  const numberOfPages = Math.ceil(list.length / itemsPerPage);
 
-  const newOrderHistory = Array.from({ length: numberOfPages }, (_, index) => {
+  const newList = Array.from({ length: numberOfPages }, (_, index) => {
     const start = index * itemsPerPage;
 
-    return orderHistoryList.slice(start, start + itemsPerPage);
+    return list.slice(start, start + itemsPerPage);
   });
 
-  return newOrderHistory;
+  return newList;
 };
 
 const utilDisplayButtons = (container, pages, activeIndex) => {
@@ -283,7 +282,7 @@ const utilDisplayButtons = (container, pages, activeIndex) => {
       ${pageIndex + 1}
     </button>`;
   });
-  console.log(utilBtns);
+
   utilBtns.push(
     `<button class="order-history__pagination--btn-next">다음</button>`,
   );
@@ -299,6 +298,7 @@ $('.app').addEventListener('click', (e) => {
 
   if (e.target.classList.contains('order-history__pagination--btn')) {
     utilIndex = Number(e.target.dataset.index);
+    utilSetupUI();
   }
 
   if (e.target.classList.contains('order-history__pagination--btn-next')) {
@@ -306,12 +306,13 @@ $('.app').addEventListener('click', (e) => {
     if (utilIndex > utilPages.length - 1) {
       utilIndex = 0;
     }
+    utilSetupUI();
   }
   if (e.target.classList.contains('order-history__pagination--btn-prev')) {
     utilIndex--;
     if (utilIndex < 0) {
       utilIndex = utilPages.length - 1;
     }
+    utilSetupUI();
   }
-  utilSetupUI();
 });

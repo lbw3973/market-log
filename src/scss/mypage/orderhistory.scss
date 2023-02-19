@@ -219,8 +219,7 @@
     justify-content: center;
     gap: 20px;
   }
-
-  &--btn {
+  @mixin orderHistoryPaginationBtn {
     padding: 6px 10px;
     border: 1px solid var(--logo-color);
     border-radius: 6px;
@@ -228,35 +227,19 @@
       color: #fff;
       background-color: var(--logo-color);
     }
-
     &:active {
       transform: scale(0.95);
     }
+  }
 
+  &--btn {
+    @include orderHistoryPaginationBtn();
     &-next {
-      padding: 6px 10px;
-      border: 1px solid var(--logo-color);
-      border-radius: 6px;
-      &:hover {
-        color: #fff;
-        background-color: var(--logo-color);
-      }
-      &:active {
-        transform: scale(0.95);
-      }
+      @include orderHistoryPaginationBtn();
     }
 
     &-prev {
-      padding: 6px 10px;
-      border: 1px solid var(--logo-color);
-      border-radius: 6px;
-      &:hover {
-        color: #fff;
-        background-color: var(--logo-color);
-      }
-      &:active {
-        transform: scale(0.95);
-      }
+      @include orderHistoryPaginationBtn();
     }
   }
 }

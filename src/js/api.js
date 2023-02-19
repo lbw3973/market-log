@@ -18,7 +18,6 @@ const headers = {
 /** 전체 제품 가져오기api */
 export const getAllProducts = async () => {
   try {
-    console.log('123');
     const res = await fetch(`${base_url}/products`, {
       headers: {
         ...headers,

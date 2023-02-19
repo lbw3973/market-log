@@ -12,10 +12,7 @@ import {
 } from './page/wishListPage/wishListPage.js';
 import { handleDetailOrderHistoryPage } from './page/detailOrderHistoryPage/detailOrderHistory.js';
 import { handlePaymentPage } from './page/paymentPage/paymentPage.js';
-import {
-  handleOrderHistoryPage,
-  utilInit,
-} from './page/orderHistory/orderHistory.js';
+import { handleOrderHistoryPage } from './page/orderHistory/orderHistory.js';
 
 /*-----------------------------------*\
   # navigo router
@@ -57,7 +54,6 @@ router
     // 마이페이지 주문내역 목록
     '/mypage/order': () => {
       handleOrderHistoryPage();
-      // utilInit();
     },
     // 마이페이지 상세 주문내역 목록
     '/mypage/order/:id': async (params) => {

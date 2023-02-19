@@ -1,6 +1,6 @@
 import Navigo from 'navigo';
 import { router } from '../../testJaeha.js';
-const $ = (selector) => document.querySelector(selector);
+import { $ } from '../../utils/dom.js';
 import { renderPage } from '../../utils/render.js';
 import {
   halo75,
@@ -61,6 +61,7 @@ export const renderInitCategoryPage = `
           </div>
         </div>
         <ul class="categoryPage__product--lists"></ul>
+        <div class="categoryPage__pagination--btn-container"></div>
       </div>
     </div>
   </div>
@@ -199,9 +200,12 @@ export const handleCategoryPage = async (i) => {
   console.log('/category/0');
   renderPage(renderInitCategoryPage);
   renderSkeletonUIinCategoryPage();
-  const getKeyBoardCategory = await getProductTags();
+  //
+  // const getKeyBoardCategory = await getProductTags();
+  // renderCategoryProductList(await getKeyBoardCategory[i]);
+  categoryUtilInit(i);
+  //
 
-  renderCategoryProductList(await getKeyBoardCategory[i]);
   await renderCategoryProductQty(i);
 
   // 가격 정렬 이벤트
@@ -218,3 +222,82 @@ export const handleCategoryPage = async (i) => {
       );
     });
 };
+
+let categoryUtilIndex = 0;
+let categoryUtilPages = [];
+
+const categoryUtilSetupUI = () => {
+  // const getKeyBoardCategory = await getProductTags();
+  // renderCategoryProductList(await getKeyBoardCategory[i]);
+
+  renderCategoryProductList(categoryUtilPages[categoryUtilIndex]);
+  categoryUtilDisplayButtons(
+    $('.categoryPage__pagination--btn-container'),
+    categoryUtilPages,
+    categoryUtilIndex,
+  );
+};
+
+const categoryUtilInit = async (i) => {
+  const getKeyBoardCategory = await getProductTags();
+  categoryUtilPages = categoryUtilPaginate(getKeyBoardCategory[i]);
+
+  categoryUtilSetupUI();
+};
+
+const categoryUtilPaginate = (list) => {
+  const itemsPerPage = 10;
+  const numberOfPages = Math.ceil(list.length / itemsPerPage);
+
+  const newList = Array.from({ length: numberOfPages }, (_, index) => {
+    const start = index * itemsPerPage;
+
+    return list.slice(start, start + itemsPerPage);
+  });
+
+  return newList;
+};
+// categoryPage__pagination--btn-container
+const categoryUtilDisplayButtons = (container, pages, activeIndex) => {
+  let categoryUtilBtns = pages.map((_, pageIndex) => {
+    return `
+    <button class="categoryPage__pagination--btn ${
+      activeIndex === pageIndex ? 'active-btn' : 'null'
+    }" data-index="${pageIndex}">
+      ${pageIndex + 1}
+    </button>`;
+  });
+
+  categoryUtilBtns.push(
+    `<button class="categoryPage__pagination--btn-next">다음</button>`,
+  );
+  categoryUtilBtns.unshift(
+    `<button class="categoryPage__pagination--btn-prev">이전</button>`,
+  );
+  container.innerHTML = categoryUtilBtns.join('');
+};
+
+$('.app').addEventListener('click', (e) => {
+  if (e.target.classList.contains('categoryPage__pagination--btn-container'))
+    return;
+
+  if (e.target.classList.contains('categoryPage__pagination--btn')) {
+    categoryUtilIndex = Number(e.target.dataset.index);
+    categoryUtilSetupUI();
+  }
+
+  if (e.target.classList.contains('categoryPage__pagination--btn-next')) {
+    categoryUtilIndex++;
+    if (categoryUtilIndex > categoryUtilPages.length - 1) {
+      categoryUtilIndex = 0;
+    }
+    categoryUtilSetupUI();
+  }
+  if (e.target.classList.contains('categoryPage__pagination--btn-prev')) {
+    categoryUtilIndex--;
+    if (categoryUtilIndex < 0) {
+      categoryUtilIndex = categoryUtilPages.length - 1;
+    }
+    categoryUtilSetupUI();
+  }
+});
