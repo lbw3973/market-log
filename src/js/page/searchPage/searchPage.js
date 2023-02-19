@@ -45,7 +45,7 @@ const searchPageNoSearchResultTemplate = `
     <span class="searchPage__noResult--inputValue"></span> 관련 상품이 없습니다.
     추천 검색어: 
     <a class="searchPage__noResult--button" href="/category/keyboards">키보드</a> 
-    <a class="searchPage__noResult--button" href="/category/keycaps">Nuphy</a>
+    <a class="searchPage__noResult--button" href="/category/keycaps">NuPhy</a>
     <a class="searchPage__noResult--button" href="/category/switches">Xmas</a>
     <a class="searchPage__noResult--button" href="/category/accessories">Nufolio</a>
   </div>

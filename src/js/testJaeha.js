@@ -6,10 +6,7 @@ import { handleMainPage } from './page/mainPage/mainPage.js';
 import { handleCategoryPage } from './page/categoryPage/categoryPage.js';
 import { handleSearchPage } from './page/searchPage/searchPage.js';
 import { handleDetailProductPage } from './page/productDetail/productDetail.js';
-import {
-  renderInitMypageTemplate,
-  handleWishListPage,
-} from './page/wishListPage/wishListPage.js';
+import { handleWishListPage } from './page/wishListPage/wishListPage.js';
 import { handleDetailOrderHistoryPage } from './page/detailOrderHistoryPage/detailOrderHistory.js';
 import { handlePaymentPage } from './page/paymentPage/paymentPage.js';
 import { handleOrderHistoryPage } from './page/orderHistory/orderHistory.js';

@@ -13,7 +13,11 @@ import {
   paginationRight,
   calendar,
 } from '../../testJaeha.js';
-import { getAllTransactions } from '../../api.js';
+import {
+  getAllTransactions,
+  cancelTransactionAPI,
+  confirmTransactionAPI,
+} from '../../api.js';
 import { formatDate } from '../../utils/format.js';
 
 /** 거래 완료/취소 확인 함수 */

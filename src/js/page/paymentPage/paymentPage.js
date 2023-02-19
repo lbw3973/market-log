@@ -368,12 +368,12 @@ const activePaymentBtn = async () => {
   );
   console.log(selectedPaymentAccount.textContent);
   const accountList = await getAccountDetail();
-  if (accountList.length >= 1) {
-    finalPaymentBtn.style.backgroundColor = 'var(--logo-color)';
-    finalPaymentBtn.style.cursor = 'pointer';
-  } else if (accountList.length === 0) {
+  if (accountList === 'undefined' || accountList.length === 0) {
     finalPaymentBtn.style.backgroundColor = 'gray';
     finalPaymentBtn.setAttribute('disabled', true);
+  } else if (accountList.length >= 1) {
+    finalPaymentBtn.style.backgroundColor = 'var(--logo-color)';
+    finalPaymentBtn.style.cursor = 'pointer';
   }
 };
 
@@ -423,7 +423,7 @@ const paymentPageFunction = async () => {
   // 예외처리: 불러올 결제수단이 없으면 '계좌 연결하러 가기 버튼 생성'
   const accountList = await getAccountDetail();
   console.log(accountList);
-  accountList.length === 0
+  accountList === undefined || accountList.length === 0
     ? renderNoPaymentAccount()
     : await renderPaymentAccount(await getAccountDetail());
 
