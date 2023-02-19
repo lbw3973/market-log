@@ -173,10 +173,10 @@ const getSortedHighToLowPriceProduct = async (i) => {
 /** select option에 의해 정렬 */
 const renderCategoryProductBySelect = async (condition, i) => {
   renderSkeletonUIinCategoryPage();
-  const getKeyBoardCategory = await getProductTags();
+  // const getProductTagList = await getProductTags();
 
   if (condition === 'reset') {
-    return renderCategoryProductList(await getKeyBoardCategory[i]);
+    return categoryUtilInit(i);
   }
   if (condition === 'LowToHigh') {
     return await getSortedLowToHighPriceProduct(i);
@@ -223,9 +223,12 @@ export const handleCategoryPage = async (i) => {
     });
 };
 
+/** 처음 index = 0 */
 let categoryUtilIndex = 0;
+/** 페이지네이션 배열 초기화 = 0 */
 let categoryUtilPages = [];
 
+/** 카테고리 페이지 제품, 버튼 초기 렌더링 */
 const categoryUtilSetupUI = () => {
   // const getKeyBoardCategory = await getProductTags();
   // renderCategoryProductList(await getKeyBoardCategory[i]);
@@ -238,13 +241,16 @@ const categoryUtilSetupUI = () => {
   );
 };
 
+/** 카테고리 페이지 초기 렌더링 시 ui, api 불러오는 함수 */
 const categoryUtilInit = async (i) => {
-  const getKeyBoardCategory = await getProductTags();
-  categoryUtilPages = categoryUtilPaginate(getKeyBoardCategory[i]);
+  // const getProductTagList = await getProductTags();
+  const getProductTagList = await getProductTags();
+  categoryUtilPages = categoryUtilPaginate(getProductTagList[i]);
 
   categoryUtilSetupUI();
 };
 
+/** 카테고리 페이지 페이지네이션 1페이지 당 10개, slice 메서드로 배열에 삽입 */
 const categoryUtilPaginate = (list) => {
   const itemsPerPage = 10;
   const numberOfPages = Math.ceil(list.length / itemsPerPage);
@@ -257,7 +263,8 @@ const categoryUtilPaginate = (list) => {
 
   return newList;
 };
-// categoryPage__pagination--btn-container
+
+/** 카테고리 페이지 페이지네이션 버튼 */
 const categoryUtilDisplayButtons = (container, pages, activeIndex) => {
   let categoryUtilBtns = pages.map((_, pageIndex) => {
     return `
