@@ -298,6 +298,7 @@ const orderHistoryUtilDisplayButtons = (container, pages, activeIndex) => {
   container.innerHTML = utilBtns.join('');
 };
 
+/** prev, next, 페이지네이션 버튼 핸들링 이벤트 */
 $('.app').addEventListener('click', (e) => {
   if (e.target.classList.contains('order-history__pagination--btnsContainer'))
     return;
