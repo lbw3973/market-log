@@ -1,5 +1,9 @@
 import { formatDate, formatPrice } from './format';
 
+import leftBtnSVG from '../../../../public/pagination-left.svg';
+import rightBtnSVG from '../../../../public/pagination-right.svg';
+
+/**[상품관리수정 페이지] 페이지 렌더 */
 export const renderEditProduct = (productEdit) => {
   const { id, description, isSoldOut, price, tags, title, thumbnail } =
     productEdit;
@@ -31,9 +35,7 @@ export const renderEditProduct = (productEdit) => {
             </div>  
             <div class='container-form__content--price'>
               <p>가격 <span>*</span></p>
-              <input type='number' name='price' placeholder='가격' required value='${formatPrice(
-                price,
-              )}'>
+              <input type='number' name='price' placeholder='가격' required value='${price}'>
             </div>  
             <div class='container-form__content--description'>
               <p>제품상세설명<span>*</span></p>
@@ -53,7 +55,7 @@ export const renderEditProduct = (productEdit) => {
             <div class='container-form__content--thumbnail'>
               <div class='container-form__content--thumbnail--box'>
                 <p>썸네일 이미지 <span>*</span></p>
-                <input type="file" required src="${thumbnail}">
+                <input type="file" required accept="image/*">
               </div>
               <div class='container-form__content--thumbnail--preview'>
                 <img src='${thumbnail}' alt='${title}'>
@@ -68,6 +70,7 @@ export const renderEditProduct = (productEdit) => {
     `;
 };
 
+/** [상품관리상세 페이지] 페이지 렌더 */
 export const renderDetailProduct = (productDetail) => {
   const { description, isSoldOut, price, tags, title, thumbnail } =
     productDetail;
@@ -86,7 +89,7 @@ export const renderDetailProduct = (productDetail) => {
           </div>
           <div class="section-container__info--price">
             <h2>가격</h2>
-            <p>${formatPrice(price)} 원</P>
+            <p>${formatPrice(price)} 원</P> 
           </div>
           <div class="section-container__info--soldout">
             <h2>품절 여부</h2>
@@ -103,6 +106,7 @@ export const renderDetailProduct = (productDetail) => {
   document.querySelector('section').innerHTML = productDetailEl;
 };
 
+/** [거래내역관리상세 페이지] 페이지 렌더 */
 export const renderOrderDetail = (order) => {
   const { user, account, product, timePaid, isCanceled, done } = order;
   const orderDetailEl = `
@@ -151,30 +155,39 @@ export const renderOrderDetail = (order) => {
     orderDetailEl;
 };
 
-// 페이지네이션 버튼 렌더
+/** 페이지네이션 버튼 렌더 */
 export const renderPageBtn = (
   productPageBtn,
-  products,
+  array,
   activeIdx,
   itemsPerPage,
+  btnIdx,
 ) => {
   let buttonsEl = ``;
 
-  for (let i = 1; i <= Math.ceil(products.length / itemsPerPage); i++) {
+  const totalBtnNum = Math.ceil(array.length / itemsPerPage);
+
+  const start = (btnIdx - 1) * itemsPerPage + 1;
+  const end =
+    start - 1 + itemsPerPage < totalBtnNum
+      ? start - 1 + itemsPerPage
+      : totalBtnNum;
+
+  for (let i = start; i <= end; i++) {
     buttonsEl += `<button class='btn-page--number ${
       activeIdx === i ? 'active' : ''
     }'>${i}</button>`;
   }
 
   productPageBtn.innerHTML = `
-            <button class='btn-page--prev'>이전</button>
+            <button class='btn-page--prev'><img src='${leftBtnSVG}' class='prev'></button>
             ${buttonsEl}
-            <button class='btn-page--next'>다음</button>
+            <button class='btn-page--next'><img src='${rightBtnSVG}'></button>
       `;
 };
 
-// 현재 페이지의 상품 목록 렌더
-export const renderProduct = (productList, products, activeIdx) => {
+/** [상품관리 페이지] 현재 페이지의 상품 목록 렌더 */
+export const renderProductList = (productList, products, activeIdx) => {
   const productsEl = products
     .map((product, idx) => {
       const { id, tags, title, price, isSoldOut } = product;
@@ -201,11 +214,11 @@ export const renderProduct = (productList, products, activeIdx) => {
   productList.innerHTML = productsEl;
 };
 
-export const renderOrder = (orderList, orders, activeIdx) => {
+/** [거래내역관리 페이지] 거래 목록 렌더 */
+export const renderOrderList = (orderList, orders, activeIdx) => {
   const ordersEl = orders
     .map((order, idx) => {
-      const { product, user, account, timePaid, isCanceled, done, detailId } =
-        order;
+      const { product, user, timePaid, isCanceled, done, detailId } = order;
 
       return `
         <li>
@@ -226,6 +239,7 @@ export const renderOrder = (orderList, orders, activeIdx) => {
   orderList.innerHTML = ordersEl;
 };
 
+/**  [거래내역관리상세 페이지] 상품 취소 및 완료 버튼 렌더*/
 export const renderOrderDetailBtn = (order) => {
   const { done, isCanceled } = order;
 
@@ -241,12 +255,13 @@ export const renderOrderDetailBtn = (order) => {
   document.querySelector('.orderDetail-container__btn').innerHTML = btnsEl;
 };
 
+/** [대시보드 페이지] 거래, 상품 현황 렌더 */
 export const renderDashboardCurrent = (currentStatus) => {
   const { orderStatus, productStatus } = currentStatus;
 
   const dashboardCurrentEl = `
       <div class='dashboard-container__current--order'>
-        <h2>이번 달 거래 현황</h2>
+        <h2>금월 거래 현황</h2>
         <div>
           <h2>거래수</h2>
           <p><span>${orderStatus.num}</span> 개</p>
@@ -280,6 +295,7 @@ export const renderDashboardCurrent = (currentStatus) => {
     dashboardCurrentEl;
 };
 
+/** [대시보드 페이지] 차트 렌더 */
 export const renderDashboardChart = () => {
   const dashboardChartEl = `
     <div class='dashboard-container__chart--category'>
@@ -288,7 +304,7 @@ export const renderDashboardChart = () => {
     </div>
       
     <div class='dashboard-container__chart--amount'>
-      <h2>이번 주 거래 금액 통계</h2>
+      <h2>금주 거래 금액 통계</h2>
       <canvas id="chartAmount" width="350" height="350"></canvas>
     </div>
   `;

@@ -1,8 +1,10 @@
 import searchPNG from '../../../../public/search.png';
 
+import leftBtnSVG from '../../../../public/pagination-left.svg';
+import rightBtnSVG from '../../../../public/pagination-right.svg';
+
+/**사이드 메뉴  */
 export const sideBar = `
-      
-    
       <aside class="aside-container">
         <ul>
           <h1>관리자 페이지</h1>
@@ -21,6 +23,7 @@ export const sideBar = `
       </aside>
   `;
 
+/**대시보드 페이지 */
 export const dashboardPage = ` 
     <div class='dashboard-container' data-page='dashboard'>
 
@@ -35,13 +38,14 @@ export const dashboardPage = `
   </div>
 `;
 
+/** 거래내역 페이지 */
 export const orderPage = `
     <div class='order-container' data-page='order'>
       <h2>거래 내역 관리</h2>
       <div class ='order-container__search'>
           <div class='order-container__search-container--input'>
               <input placeholder='거래자명을 입력해 주세요.'>
-              <button><img src=${searchPNG} alt='검색'></button>
+              <button><img src='${searchPNG}' alt='검색'></button>
           </div>
       </div>
       <li class='order-container__title'>
@@ -62,6 +66,7 @@ export const orderPage = `
     </div>
       `;
 
+/** 상품 관리 페이지 */
 export const productPage = `
     <div class='product-container' data-page='product'>
         <h2>상품 관리</h2>
@@ -69,7 +74,7 @@ export const productPage = `
             <div class='product-container__search-container--input'>
                 <input placeholder='상품명을 입력해 주세요.'>
                 <button>
-                  <img src=${searchPNG} alt='검색'>
+                  <img src='${searchPNG}' alt='검색'>
                 </button>
             </div>
         </div>
@@ -92,6 +97,7 @@ export const productPage = `
     </div>
 `;
 
+/** 상품 추가 페이지 */
 export const productAddPage = `
   <div class='productAdd-container' data-page='productAdd'>
     <form class='container-form'>
@@ -123,7 +129,7 @@ export const productAddPage = `
           <div class='container-form__content--thumbnail'>
             <div class='container-form__content--thumbnail--box'>
               <p>썸네일 이미지 <span>*</span></p>
-              <input type="file" required>
+              <input type="file" required accept="image/*">
             </div>
             <div class='container-form__content--thumbnail--preview'>
               <img src=''>
@@ -140,6 +146,7 @@ export const productAddPage = `
   </div>
 `;
 
+/** 상품상세 페이지 */
 export const productDetailPage = `
   <div class='productDetail-container'>
     <h2>상품 상세</h2>
@@ -153,12 +160,14 @@ export const productDetailPage = `
   </div>
 `;
 
+/** 상품수정 페이지 */
 export const productEditPage = `
   <div class='productEdit-container'>
 
   </div>
 `;
 
+/** 거래내역상세 페이지 */
 export const orderDetailPage = `
   <div class='orderDetail-container'>
     <h2>거래 내역 상세</h2>
