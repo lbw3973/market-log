@@ -10,7 +10,8 @@ import {
   twilight,
   xmas,
 } from '../../importIMGFiles.js';
-import { getAllProducts } from '../../api.js';
+import { getAllProducts, getDetailProduct } from '../../api.js';
+import { recentViewStore } from '../../store/recentViewStore.js';
 
 /*-----------------------------------*\
   #카테고리 페이지 # category js
@@ -23,26 +24,8 @@ export const renderInitCategoryPage = `
       <!-- aside -->
       <aside class="categoryPage__aside">
         <div class="categoryPage__aside--container categoryPageSwiper">
-          <div class="categoryPage__aside--wrapper">
-            <li class="categoryPage__aside--img">
-              <img src="${halo96}" alt=halo96" />
-            </li>
-            <li class="categoryPage__aside--img">
-              <img src="${halo75}" alt="halo75" />
-            </li>
-            <li class="categoryPage__aside--img">
-              <img src="${air96}" alt="air96" />
-            </li>
-            <li class="categoryPage__aside--img">
-              <img src="${nufolio}" alt="nufolio" />
-            </li>
-            <li class="categoryPage__aside--img">
-              <img src="${twilight}" alt="twilight" />
-            </li>
-            <li class="categoryPage__aside--img">
-              <img src="${xmas}" alt="xmas" />
-            </li>
-          </div>
+        <h4>최근 본 상품</h4>
+          <ul class="categoryPage__aside--wrapper"></ul>
         </div>
         <div class="categoryPage-pagination"></div>
       </aside>
@@ -114,6 +97,23 @@ const renderCategoryProductList = (items) => {
     .join('');
 
   $('.categoryPage__product--lists').innerHTML = categoryProductListTemplate;
+};
+
+/** 최근 본 상품 템플릿 */
+const renderRecentViewed = (items) => {
+  const recentViewedTemplate = items
+    .map((item) => {
+      const { id, thumbnail, title } = item;
+
+      return `
+    <li class="categoryPage__aside--img" data-product-id="${id}">
+      <a href="/product/${id}"><img src="${thumbnail}" alt="${title}" /></a>
+    </li>
+    `;
+    })
+    .join('');
+
+  $('.categoryPage__aside--wrapper').innerHTML = recentViewedTemplate;
 };
 
 /** 카테고리 태그 필터링 함수 */
@@ -199,6 +199,7 @@ export const handleCategoryPage = async (i) => {
   $('.modal__addCart').style.display = 'none';
   console.log('/category/0');
   renderPage(renderInitCategoryPage);
+  renderRecentViewed(recentViewStore.getLocalStorage().slice(0, 6));
   renderSkeletonUIinCategoryPage();
   //
   // const getKeyBoardCategory = await getProductTags();
@@ -222,6 +223,10 @@ export const handleCategoryPage = async (i) => {
       );
     });
 };
+
+/*-----------------------------------*\
+  #pagination
+\*-----------------------------------*/
 
 /** 처음 index = 0 */
 let categoryUtilIndex = 0;
