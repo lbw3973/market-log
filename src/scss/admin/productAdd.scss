@@ -171,6 +171,13 @@
           }
         }
 
+        & input {
+          &:focus,
+          &:active {
+            outline: none;
+          }
+        }
+
         & input::file-selector-button {
           width: 120px;
           box-sizing: border-box;
@@ -178,7 +185,7 @@
           border-radius: 6px;
           padding: 6px;
 
-          &:hover,
+          &:focus,
           &:active {
             color: #fff;
             background-color: var(--logo-color);
@@ -211,6 +218,7 @@
       border: 1px solid var(--logo-color);
       padding: 12px 24px;
       margin-left: 10px;
+      color: #000;
 
       &:hover,
       &:active {
