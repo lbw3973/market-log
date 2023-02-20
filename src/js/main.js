@@ -1,9 +1,9 @@
 import Navigo from 'navigo';
 import { $ } from './utils/dom.js';
 import { handleMyPage } from './page/mypage.js';
-import { handleAccountPage } from './page/mypage/account';
-import { handleLoginPage } from './page/login';
-import { handleSignupPage } from './page/signup';
+import { handleAccountPage } from './page/mypage/account.js';
+import { handleLoginPage } from './page/login.js';
+import { handleSignupPage } from './page/signup.js';
 import { handleCartPage } from './page/cartPage/cartPage.js';
 import { handleMainPage } from './page/mainPage/mainPage.js';
 import { handleCategoryPage } from './page/categoryPage/categoryPage.js';
@@ -21,7 +21,7 @@ import { productAddHandler } from './page/admin/productAdd.js';
 import { productDetailHandler } from './page/admin/productDetail.js';
 import { productEditHandler } from './page/admin/productEdit.js';
 import { orderDetailHandler } from './page/admin/orderDetail.js';
-
+import { handleDetailOrderHistoryPage } from './page/detailOrderHistoryPage/detailOrderHistory.js';
 import {
   dashboardPage,
   orderPage,
@@ -31,7 +31,7 @@ import {
   productEditPage,
   sideBar,
   orderDetailPage,
-} from './page/admin/renderTemplate';
+} from './page/admin/renderTemplate.js';
 
 export const router = new Navigo('/');
 export const divLoadingEl = $('.loadingGif');
@@ -89,10 +89,10 @@ router
     '/mypage/order': () => {
       handleOrderHistoryPage();
     },
-    '/mypage/order/:id': async (params) => {
+    '/mypage/order/:id': (params) => {
       handleDetailOrderHistoryPage(params.data.id);
     },
-    '/mypage/account': async () => {
+    '/mypage/account': () => {
       handleAccountPage();
     },
     '/mypage/editPersonalInfo': () => {
