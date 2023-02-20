@@ -29,7 +29,7 @@ export const storeWishList = (id, count, thumbnail, title, pricePerOne) => {
     .find((item) => item.id === id);
 
   if (!existingItem) {
-    wishListArr.push({ id, count, thumbnail, title, pricePerOne });
+    wishListArr.unshift({ id, count, thumbnail, title, pricePerOne });
     wishListStore.setLocalStorage(wishListArr);
     console.log('wishListArr', wishListArr);
   } else if (existingItem) {
@@ -288,19 +288,22 @@ $('.app').addEventListener('click', (e) => {
 
 /** '최근 본 상품' localStorage에 저장 */
 const storeRecentViewed = (id, title, thumbnail) => {
+  // let recentViewedArr = recentViewStore.getLocalStorage();
+  // console.log(recentViewedArr);
+
+  // const existingItem = recentViewedArr.find((item) => item.id === id);
+
+  // if (existingItem) {
+  //   return;
+  // } else if (!existingItem) {
+  //   let recentViewedArr = recentViewStore.getLocalStorage();
+  //   recentViewedArr.unshift({ id, title, thumbnail });
+  //   recentViewStore.setLocalStorage(recentViewedArr);
+  //   return;
+  // }
   let recentViewedArr = recentViewStore.getLocalStorage();
-  console.log(recentViewedArr);
-
-  const existingItem = recentViewedArr.find((item) => item.id === id);
-
-  if (existingItem) {
-    return;
-  } else if (!existingItem) {
-    let recentViewedArr = recentViewStore.getLocalStorage();
-    recentViewedArr.unshift({ id, title, thumbnail });
-    recentViewStore.setLocalStorage(recentViewedArr);
-    return;
-  }
+  recentViewedArr.unshift({ id, title, thumbnail });
+  recentViewStore.setLocalStorage(recentViewedArr);
 };
 
 /** /product/:id 핸들링 함수 */
