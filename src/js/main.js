@@ -1,4 +1,5 @@
 import Navigo from 'navigo';
+import { $ } from './utils/dom.js';
 import { handleMyPage } from './page/mypage.js';
 import { handleAccountPage } from './page/mypage/account';
 import { handleLoginPage } from './page/login';
