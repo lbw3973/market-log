@@ -1,4 +1,4 @@
-import { base_url, api_key, user_name } from '../db.js';
+import { base_url, api_key, user_name, admin_email } from '../db.js';
 import { router } from '../main.js';
 const headers = {
   'content-type': 'application/json',
@@ -37,9 +37,9 @@ export const htmlHeaderLogin = /* html */ `
 /** HTML : header logout 템플릿 */
 const htmlHeaderLogout = /* html */ `
   <li class="header__user-login--li">
-  <a href="/mypage" data-navigo>
-    <strong id="header__user-login-name"></strong>님 환영합니다
-  </a>
+    <a href="/mypage" data-navigo id="btnMypage">
+      <strong id="header__user-login-name"></strong>님 환영합니다
+    </a>
   </li>
   <li class="header__user-login--li">
   <button id="btnlogout"> 로그아웃 </button>
@@ -48,7 +48,6 @@ const htmlHeaderLogout = /* html */ `
 
 /** API : Login */
 async function login() {
-  console.log('login.js');
   const res = await fetch(`${base_url}/auth/login`, {
     method: 'POST',
     headers: {
@@ -90,9 +89,15 @@ async function authorization() {
 }
 
 /** 로그인 후, displayName Render */
-function displayUserName(displayName) {
+function displayUserName(user) {
   ulLoginHeaderEl.innerHTML = htmlHeaderLogout;
-  $('#header__user-login-name').innerText = displayName;
+  $('#header__user-login-name').innerText = user.displayName;
+
+  if (user.email === admin_email) {
+    $('#btnMypage').innerHTML = `
+      <strong id="header__user-login-name">관리자 페이지로 이동</strong>
+      `;
+  }
 }
 
 /** 로그인,아웃 후, header의 로그인,아웃 영역을 Render */
@@ -105,6 +110,13 @@ export async function renderInitHeaderLogin() {
   } else {
     ulLoginHeaderEl.innerHTML = htmlHeaderLogout;
     $('#header__user-login-name').innerText = author.displayName;
+
+    if (author.email === admin_email) {
+      $('#btnMypage').href = '/admin';
+      $('#btnMypage').innerHTML = `
+        <strong id="header__user-login-name">관리자 페이지로 이동</strong>
+        `;
+    }
 
     $('#btnlogout').addEventListener('click', async () => {
       const logoutJSON = await logout();
@@ -127,11 +139,17 @@ export function initFuncLogin() {
     try {
       const loginJSON = await login();
       errMessage = loginJSON;
-      displayUserName(loginJSON.user.displayName);
+      displayUserName(loginJSON.user);
       localStorage.setItem('token', loginJSON.accessToken);
       router.navigate('/');
     } catch (exception) {
       alert(errMessage);
+    }
+  });
+  const inputPW = $('#inputPW');
+  inputPW.addEventListener('keyup', (e) => {
+    if (e.key === 'Enter') {
+      btnLogin.click();
     }
   });
 }
