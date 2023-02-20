@@ -103,9 +103,9 @@ export const renderCartOrderPrice = () => {
       <p class="cartTotalPaymentPrice">${renderCartTotalPrice().toLocaleString()} 원</p>
     </div>
   </div>
-  <button class="cart__price--paymentBtn cartPaymentBtn ">
-    결제하기
-  </button>
+  <a href="/payment" data-navigo>
+    ${handleCartPaymentBtn()}
+  </a>
 `;
 
   $('.app').querySelector('.cart__price').innerHTML = cartOrderPriceTemplate;
@@ -177,12 +177,12 @@ export const renderCartPage = () => {
   if (shoppingCartStore.getLocalStorage().length === 0) {
     renderCartList(shoppingCartStore.getLocalStorage());
     renderPage(renderInitCartPage);
-    return;
+    // return;
   } else if (shoppingCartStore.getLocalStorage().length >= 1) {
     // 장바구니에 넣은 상품 렌더링
     renderCartList(shoppingCartStore.getLocalStorage());
     // 결제금액 렌더링
-    renderCartTotalPrice();
+    // renderCartTotalPrice();
     return;
   }
 };
