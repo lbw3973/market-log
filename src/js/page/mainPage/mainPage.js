@@ -1,4 +1,3 @@
-import Navigo from 'navigo';
 import { $ } from '../../utils/dom.js';
 import { renderPage } from '../../utils/render.js';
 import {
