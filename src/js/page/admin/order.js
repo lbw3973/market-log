@@ -1,4 +1,4 @@
-import { getAllOrder } from './api.js';
+import { getAllOrder } from '../../api.js';
 import { renderPageBtn, renderOrderList } from './renderDetail.js';
 
 let orders = [];

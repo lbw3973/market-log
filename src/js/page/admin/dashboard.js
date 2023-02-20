@@ -1,12 +1,15 @@
-import { renderDashboardCurrent, renderDashboardChart } from './renderDetail';
-import { getAllOrder, getAllProduct } from './api';
-import { formatPrice } from './format';
+import {
+  renderDashboardCurrent,
+  renderDashboardChart,
+} from './renderDetail.js';
+import { getAllOrder, getAllProducts } from '../../api.js';
+import { formatPrice } from '../../utils/format.js';
 import Chart from 'chart.js/auto';
 
 /** 대시보드 페이지 핸들러 */
 export const dashboardHandler = async () => {
   let orders = await getAllOrder();
-  let products = await getAllProduct();
+  let products = await getAllProducts();
 
   const currentStatus = setCurrentStatus(orders, products);
   renderDashboardCurrent(currentStatus);

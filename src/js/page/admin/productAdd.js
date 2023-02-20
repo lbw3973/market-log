@@ -1,5 +1,4 @@
-import { addProduct } from './api';
-import { router } from '../../testChanYoung.js';
+import { addProduct } from '../../api.js';
 
 /** 상품 추가 핸들러 */
 export const productAddHandler = () => {

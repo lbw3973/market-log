@@ -1,4 +1,4 @@
-import { formatDate, formatPrice } from './format';
+import { formatDate, formatPrice } from '../../utils/format.js';
 
 import leftBtnSVG from '../../../../public/pagination-left.svg';
 import rightBtnSVG from '../../../../public/pagination-right.svg';

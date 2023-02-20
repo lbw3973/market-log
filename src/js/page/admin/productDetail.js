@@ -1,7 +1,7 @@
-import { deleteProduct, getDetailProduct } from './api';
+import { deleteProduct, getDetailProduct } from '../../api.js';
 import { renderDetailProduct } from './renderDetail';
 
-import { router } from '../../testChanYoung.js';
+import { router } from '../../main.js';
 
 /** 상품관리상세 페이지 핸들러 */
 export const productDetailHandler = async (productId) => {

@@ -1,6 +1,7 @@
-import { editProduct, getDetailProduct } from './api';
-import { router } from '../../testChanYoung.js';
+import { editProduct, getDetailProduct } from '../../api.js';
 import { renderEditProduct } from './renderDetail';
+
+import { router } from '../../main.js';
 
 /** 상품수정 페이지 핸들러 */
 export const productEditHandler = async (productId) => {

@@ -1,4 +1,4 @@
-import { getAllOrder, editCancelOrder, editDoneOrder } from './api.js';
+import { getAllOrder, editCancelOrder, editDoneOrder } from '../../api.js';
 import { renderOrderDetail, renderOrderDetailBtn } from './renderDetail.js';
 
 /** 거래내역관리상세 페이지 핸들러 */

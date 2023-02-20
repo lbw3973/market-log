@@ -1,4 +1,4 @@
-import { deleteProduct, getAllProduct } from './api.js';
+import { deleteProduct, getAllProducts, getAllProductss } from '../../api.js';
 import { renderPageBtn, renderProductList } from './renderDetail.js';
 
 let products = [];
@@ -37,7 +37,7 @@ export const productHandler = async () => {
     '.product-container__btn-page',
   );
 
-  products = await getAllProduct();
+  products = await getAllProducts();
 
   setUpUI(productPageBtn, productList);
 
@@ -167,7 +167,7 @@ export const productHandler = async () => {
         ),
       );
 
-      products = await getAllProduct();
+      products = await getAllProducts();
       productList.innerHTML = '';
 
       alert('선택한 상품이 삭제되었습니다.');
