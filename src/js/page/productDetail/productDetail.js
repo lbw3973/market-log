@@ -1,6 +1,8 @@
 /*-----------------------------------*\
   제품 상세 페이지  #productDetail js
 \*-----------------------------------*/
+
+import { router } from '../../main.js';
 import { $ } from '../../utils/dom.js';
 import { addHeart, emptyHeart, cartSVG } from '../../importIMGFiles.js';
 import { getDetailProduct } from '../../api.js';
@@ -8,7 +10,8 @@ import { wishListStore } from '../../store/wishListStore.js';
 import { shoppingCartStore } from '../../store/shoppingCartStore.js';
 import { recentViewStore } from '../../store/recentViewStore.js';
 import { renderInitHeaderLogin } from '../login.js';
-import { router } from '../../main.js';
+import { formatPrice } from '../../utils/format.js';
+
 /** 찜하기 상품 유/무에 따라 다른 초기화면 렌더링 */
 export const checkWhetherAddWishList = (id) => {
   let wishListArr = wishListStore.getLocalStorage();
@@ -199,10 +202,24 @@ export const updateInfo = async (e, productId) => {
   // 구매 수량 -
   if (e.target.classList.contains('minusQtyBtn')) {
     productDetailProductQty -= 1;
+    // 구매 수량 렌더링
+    $(
+      '.aside__productDetail--count-qty',
+    ).innerHTML = `${productDetailProductQty}`;
+    // 구매 가격 렌더링
+    $('#productDetail-totalPrice').innerHTML = `${formatPrice(
+      productDetailPricePerOne * productDetailProductQty,
+    )} 원`;
     if (productDetailProductQty === 0) {
       productDetailProductQty = 1;
     }
-    renderDetailProduct(productId);
+    $(
+      '.aside__productDetail--count-qty',
+    ).innerHTML = `${productDetailProductQty}`;
+    $('#productDetail-totalPrice').innerHTML = `${formatPrice(
+      productDetailPricePerOne * productDetailProductQty,
+    )} 원`;
+    // renderDetailProduct(productId);
     // renderCartPage();
     return;
   }
@@ -210,8 +227,17 @@ export const updateInfo = async (e, productId) => {
   if (e.target.classList.contains('addQtyBtn')) {
     console.log('저장+');
     productDetailProductQty += 1;
+    // 구매 수량 렌더링
+    $(
+      '.aside__productDetail--count-qty',
+    ).innerHTML = `${productDetailProductQty}`;
+    // 구매 가격 렌더링
+    $('#productDetail-totalPrice').innerHTML = `${formatPrice(
+      productDetailPricePerOne * productDetailProductQty,
+    )} 원`;
+    // productDetailProductQty += 1;
 
-    renderDetailProduct(productId);
+    // renderDetailProduct(productId);
     // renderCartPage();
     return;
   }
@@ -260,7 +286,11 @@ $('.app').addEventListener('click', (e) => {
 
     storeWishList(id, count, thumbnail, title, pricePerOne);
     wishListStore.setLocalStorage(wishListStore.getLocalStorage());
-    renderDetailProduct(id);
+
+    // 찜하기 버튼
+    const wishListIMG = `<img class="aside__productDetail--info-wishlistImg" 
+    src="${checkWhetherAddWishList(id)}" alt="찜하기 버튼" />`;
+    $('.aside__productDetail--info-wishlistBtn').innerHTML = wishListIMG;
   }
 
   // [제품 상세 페이지]에서 '장바구니로 바로가기' 버튼 클릭 클릭 -> [장바구니 페이지]로 이동

@@ -33,9 +33,8 @@ import {
   orderDetailPage,
 } from './page/admin/renderTemplate';
 
-const $ = (selector) => document.querySelector(selector);
 export const router = new Navigo('/');
-const divLoadingEl = $('.loadingGif');
+export const divLoadingEl = $('.loadingGif');
 
 const renderContainer = () => {
   $('.app').innerHTML = `<div class="container"></div>`;
