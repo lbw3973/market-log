@@ -97,7 +97,7 @@ let productDetailPricePerOne;
 
 /** [제품 상세페이지] 렌더링 함수 */
 export const renderDetailProduct = async (productId) => {
-  renderInitHeaderLogin();
+  // renderInitHeaderLogin();
   const productDetail = await getDetailProduct(productId);
   const { description, id, isSoldOut, photo, price, tags, title, thumbnail } =
     productDetail;
@@ -219,8 +219,7 @@ export const updateInfo = async (e, productId) => {
     $('#productDetail-totalPrice').innerHTML = `${formatPrice(
       productDetailPricePerOne * productDetailProductQty,
     )} 원`;
-    // renderDetailProduct(productId);
-    // renderCartPage();
+
     return;
   }
   // 구매 수량 +
@@ -237,8 +236,6 @@ export const updateInfo = async (e, productId) => {
     )} 원`;
     // productDetailProductQty += 1;
 
-    // renderDetailProduct(productId);
-    // renderCartPage();
     return;
   }
 
@@ -345,6 +342,7 @@ const storeRecentViewed = (id, title, thumbnail) => {
 
 /** /product/:id 핸들링 함수 */
 export const handleDetailProductPage = async (params) => {
+  renderInitHeaderLogin();
   renderSkeletonUIinDetailProductPage();
   await renderDetailProduct(params);
 };
