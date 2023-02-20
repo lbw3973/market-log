@@ -1,4 +1,5 @@
 import Navigo from 'navigo';
+import { $ } from './utils/dom.js';
 import { htmlMypage_Nav, renderMyPageNav } from './page/mypage.js';
 import { htmlMypage_Account, initFuncAccount } from './page/mypage/account';
 // import { htmlMypage_MyHeart, initFuncMyHeart } from './page/mypage/wishlist';
@@ -38,9 +39,8 @@ import {
   orderDetailPage,
 } from './page/admin/renderTemplate';
 
-const $ = (selector) => document.querySelector(selector);
 export const router = new Navigo('/');
-const divLoadingEl = $('.loadingGif');
+export const divLoadingEl = $('.loadingGif');
 
 function getLoginStatus() {
   return localStorage.getItem('token') ? true : false;

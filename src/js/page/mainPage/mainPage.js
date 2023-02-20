@@ -124,6 +124,5 @@ $('.app').addEventListener('click', (e) => {
 /** router on '/' 핸들링 함수 */
 export const handleMainPage = () => {
   $('.modal__addCart').style.display = 'none';
-  console.log('/ route is working');
   renderPage(renderMainPageTemplate);
 };
