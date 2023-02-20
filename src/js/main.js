@@ -108,6 +108,9 @@ router
     '/mypage/order': () => {
       handleOrderHistoryPage();
     },
+    '/mypage/order/:id': async (params) => {
+      handleDetailOrderHistoryPage(params.data.id);
+    },
     '/mypage/account': async () => {
       if (getLoginStatus() === false) {
         showAlertPlzLogin();

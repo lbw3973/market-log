@@ -9,6 +9,7 @@ import {
 } from '../../api.js';
 import { formatDate } from '../../utils/format.js';
 import { htmlMypage_Nav, resetNavbarActive } from '../mypage.js';
+import { router } from '../../main.js';
 
 /** 거래 완료/취소 확인 함수 */
 const checkWhetherTransactionIsDone = (done, isCanceled) => {
