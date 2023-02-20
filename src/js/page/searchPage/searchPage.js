@@ -52,7 +52,7 @@ const searchPageNoSearchResultTemplate = `
 
 /** input 값이 입력된 제품 찾기 함수 */
 const findProduct = async () => {
-  $inputValue = $('.header-main__search--input').value;
+  const $inputValue = $('.header-main__search--input').value;
   console.log('inputValue', $inputValue);
   return await getSearchedProducts($inputValue);
 };
