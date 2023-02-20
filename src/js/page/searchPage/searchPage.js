@@ -67,6 +67,7 @@ const handleSearchPageResult = async () => {
   renderSkeletonUIinCategoryPage();
   renderRecentViewed(recentViewStore.getLocalStorage().slice(0, 5));
   const findProductArr = await findProduct();
+
   if (findProductArr.length === 0) {
     // '검색 결과 없음'의 초기 템플릿 init
     $('.categoryPage__product--lists').innerHTML =
@@ -79,6 +80,7 @@ const handleSearchPageResult = async () => {
   } else if (findProductArr.length >= 1) {
     renderSearchedProductList(findProductArr);
   }
+  $('.header-main__search--input').value = '';
 };
 
 /** 검색창 폼 태그 새로고침 방지 */
