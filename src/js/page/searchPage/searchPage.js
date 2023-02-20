@@ -1,9 +1,13 @@
 import { $ } from '../../utils/dom.js';
 import { renderPage } from '../../utils/render.js';
 import { getSearchedProducts } from '../../api.js';
-import { renderInitCategoryPage } from '../categoryPage/categoryPage.js';
+import {
+  renderInitCategoryPage,
+  renderRecentViewed,
+} from '../categoryPage/categoryPage.js';
 import { renderSkeletonUIinCategoryPage } from '../categoryPage/categoryPage.js';
 import { router } from '../../main.js';
+import { recentViewStore } from '../../store/recentViewStore.js';
 
 /*-----------------------------------*\
   검색 페이지  #search
@@ -61,11 +65,13 @@ const findProduct = async () => {
 const handleSearchPageResult = async () => {
   renderPage(renderInitCategoryPage);
   renderSkeletonUIinCategoryPage();
+  renderRecentViewed(recentViewStore.getLocalStorage().slice(0, 5));
   const findProductArr = await findProduct();
   if (findProductArr.length === 0) {
     // '검색 결과 없음'의 초기 템플릿 init
     $('.categoryPage__product--lists').innerHTML =
       searchPageNoSearchResultTemplate;
+
     // 검색한 단어 화면에 표시
     $('.searchPage__noResult--inputValue').innerHTML = $(
       '.header-main__search--input',

@@ -1,14 +1,5 @@
-import Navigo from 'navigo';
 import { $ } from '../../utils/dom.js';
 import { renderPage } from '../../utils/render.js';
-import {
-  halo75,
-  halo96,
-  air96,
-  nufolio,
-  twilight,
-  xmas,
-} from '../../importIMGFiles.js';
 import { getAllProducts, getDetailProduct } from '../../api.js';
 import { recentViewStore } from '../../store/recentViewStore.js';
 
@@ -99,7 +90,7 @@ const renderCategoryProductList = (items) => {
 };
 
 /** 최근 본 상품 템플릿 */
-const renderRecentViewed = (items) => {
+export const renderRecentViewed = (items) => {
   const recentViewedTemplate = items
     .map((item) => {
       const { id, thumbnail, title } = item;
