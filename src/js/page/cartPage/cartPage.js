@@ -2,7 +2,6 @@
   # 장바구니 페이지 cart js
 \*-----------------------------------*/
 
-import Navigo from 'navigo';
 import { router } from '../../main.js';
 import { $ } from '../../utils/dom.js';
 import { pushInCart, updateInfo } from '../productDetail/productDetail.js';
