@@ -109,7 +109,7 @@ export const renderCartOrderPrice = () => {
 
   $('.app').querySelector('.cart__price').innerHTML = cartOrderPriceTemplate;
 };
-
+let cartProductTotalPrice;
 console.log(shoppingCartStore.getLocalStorage().length);
 /** 장바구니 제품 리스트 렌더링 */
 export const renderCartList = (storage) => {
@@ -117,6 +117,7 @@ export const renderCartList = (storage) => {
     .map((item) => {
       const { id, price, count, thumbnail, title } = item;
       cartProductTotalPrice = price;
+      console.log(cartProductTotalPrice);
       return `
     <li class="cart__item" data-product-id="${id}">
       <div class="cart__item-info">
