@@ -187,21 +187,22 @@ const renderOrderedListPage = async () => {
   renderPage(htmlMypage_Nav);
   handleOrderHistoryInitTemplate();
   resetNavbarActive();
-  setNavbacActive();
+  // setNavbarActive();
   renderSkeletonUIinOrderHistoryPage();
-  const transactionArr = await getAllTransactions();
-  console.log('transactionArr', transactionArr);
+  const transactionArray = await getAllTransactions();
+  // console.log('transactionArr', transactionArray.length);
 
   // 주문한 제품 없을 경우
-  if (transactionArr.length === 0) {
-    emptyOrderHistory();
-    // return;
-  } else if (transactionArr.length >= 1) {
-    // 주문한 제품 있을 경우
-    // renderOrderedProductList(transactionArr);
-    orderHistoryUtilInit();
-    // return;
-  }
+  transactionArray.length ? orderHistoryUtilInit() : emptyOrderHistory();
+  // if (transactionArr.length === 0 || transactionArr === 'null') {
+  //   emptyOrderHistory();
+  //   // return;
+  // } else if (transactionArr.length >= 1) {
+  //   // 주문한 제품 있을 경우
+  //   // renderOrderedProductList(transactionArr);
+  //   orderHistoryUtilInit();
+  //   // return;
+  // }
 };
 const setNavbacActive = () => {
   const active = document.querySelector('#mpOrderHistory');
@@ -217,7 +218,9 @@ $('.app').addEventListener('click', async (e) => {
       .closest('li')
       .querySelector('.orderHistory__list--confirmed-order').innerHTML =
       '구매가 확정되었습니다.';
-    $('.app').querySelector('.orderHistory__list--buttons').innerHTML = '';
+    e.target
+      .closest('li')
+      .querySelector('.orderHistory__list--buttons').innerHTML = '';
     return;
   }
 
@@ -227,7 +230,9 @@ $('.app').addEventListener('click', async (e) => {
       .closest('li')
       .querySelector('.orderHistory__list--confirmed-order').innerHTML =
       '구매가 취소되었습니다.';
-    $('.app').querySelector('.orderHistory__list--buttons').innerHTML = '';
+    e.target
+      .closest('li')
+      .querySelector('.orderHistory__list--buttons').innerHTML = '';
 
     return;
   }

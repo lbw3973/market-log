@@ -77,7 +77,7 @@ export const getAllTransactions = async () => {
       },
     });
     const data = await res.json();
-    console.log('거래내역', data);
+    console.log('거래내역', data.length);
     return data;
   } catch (err) {
     console.log('거래내역 가져오기 실패', err);
