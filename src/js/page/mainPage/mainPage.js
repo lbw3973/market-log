@@ -10,6 +10,7 @@ import {
   halo96,
   halo96,
 } from '../../importIMGFiles.js';
+import { renderInitHeaderLogin } from '../login.js';
 
 /*-----------------------------------*\
   #메인 페이지

@@ -2,7 +2,7 @@
   # 결제 페이지 # pay js
 \*-----------------------------------*/
 import Navigo from 'navigo';
-import { router } from '../../testJaeha.js';
+import { router } from '../../main.js';
 import { $ } from '../../utils/dom.js';
 import { renderPage } from '../../utils/render.js';
 
@@ -18,6 +18,7 @@ import { getAccountDetail, buyItemAPI, getUserInfoAPI } from '../../api.js';
 import Swiper, { Navigation, Pagination } from 'swiper';
 import { renderCartTotalPrice } from '../cartPage/cartPage.js';
 import { shoppingCartStore } from '../../store/shoppingCartStore.js';
+import { renderInitHeaderLogin } from '../login.js';
 
 Swiper.use([Navigation, Pagination]);
 

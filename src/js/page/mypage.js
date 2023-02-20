@@ -12,7 +12,7 @@ export const htmlMypage_Nav = /* html */ `
       <nav>
         <ul>
           <li>
-            <a href="/mypage/orderHistory" data-navigo id="mpOrderHistory">주문 내역
+            <a href="/mypage/order" data-navigo id="mpOrderHistory">주문 내역
               <img src="${chevronrightSVG}" alt="chevronright">
             </a>
           </li>
@@ -22,7 +22,7 @@ export const htmlMypage_Nav = /* html */ `
             </a>
           </li>
           <li>
-            <a href="/mypage/myHeart" data-navigo id="mpMyHeart">찜한 상품
+            <a href="/mypage/wishlist" data-navigo id="mpMyHeart">찜한 상품
               <img src="${chevronrightSVG}" alt="chevronright">
             </a>
           </li>
@@ -45,11 +45,11 @@ export function initFuncMypage() {}
 export function renderMyPageNav(html) {
   $('.app').innerHTML = htmlMypage_Nav;
   $('.app').querySelector('.mypage__navigo__container').innerHTML = html;
-  resetliActive();
+  resetNavbarActive();
 }
 
 /** mypage nav탭 선택시 영역 acitve */
-function resetliActive() {
+export const resetNavbarActive = () => {
   navliList = document.querySelectorAll('.mypage__navbar nav ul li a');
-  navliList.forEach((navli) => navli.classList.remove('active'));
-}
+  navliList?.forEach((navli) => navli.classList.remove('active'));
+};

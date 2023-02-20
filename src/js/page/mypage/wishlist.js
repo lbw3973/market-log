@@ -8,48 +8,46 @@ import { shoppingCart, hearted } from '../../importIMGFiles.js';
 import { storeCart } from '../productDetail/productDetail.js';
 import { wishListStore } from '../../store/wishListStore.js';
 import { shoppingCartStore } from '../../store/shoppingCartStore.js';
-import { htmlMypage_Nav, resetNavbarActive } from '../mypage.js';
 
 /** 마이 페이지 mypage__navigo__container 초기 템플릿 */
-
-// const renderInitMypageTemplate = `
-//       <div class="mypage__app">
-//         <div class="mypage__container">
-//           <div class="mypage__navbar">
-//             <h1>마이페이지</h1>
-//             <nav>
-//               <ul>
-//                 <li>
-//                   <a href="/mypage/order" data-navigo
-//                     >주문내역
-//                     <img src="./public/chevronright.svg" alt="chevronright" />
-//                   </a>
-//                 </li>
-//                 <li>
-//                   <a href="/mypage/account" data-navigo
-//                     >계좌 관리
-//                     <img src="./public/chevronright.svg" alt="chevronright" />
-//                   </a>
-//                 </li>
-//                 <li>
-//                   <a href="/mypage/wishlist" data-navigo
-//                     >찜한 상품
-//                     <img src="./public/chevronright.svg" alt="chevronright" />
-//                   </a>
-//                 </li>
-//                 <li>
-//                   <a href="/mypage/myPersonalInfoModify" data-navigo
-//                     >개인 정보 수정
-//                     <img src="./public/chevronright.svg" alt="chevronright" />
-//                   </a>
-//                 </li>
-//               </ul>
-//             </nav>
-//           </div>
-//           <div class="mypage__navigo__container"></div>
-//         </div>
-//       </div>
-// `;
+const renderInitMypageTemplate = `
+      <div class="mypage__app">
+        <div class="mypage__container">
+          <div class="mypage__navbar">
+            <h1>마이페이지</h1>
+            <nav>
+              <ul>
+                <li>
+                  <a href="/mypage/order" data-navigo
+                    >주문내역
+                    <img src="./public/chevronright.svg" alt="chevronright" />
+                  </a>
+                </li>
+                <li>
+                  <a href="/mypage/account" data-navigo
+                    >계좌 관리
+                    <img src="./public/chevronright.svg" alt="chevronright" />
+                  </a>
+                </li>
+                <li>
+                  <a href="/mypage/wishlist" data-navigo
+                    >찜한 상품
+                    <img src="./public/chevronright.svg" alt="chevronright" />
+                  </a>
+                </li>
+                <li>
+                  <a href="/mypage/myPersonalInfoModify" data-navigo
+                    >개인 정보 수정
+                    <img src="./public/chevronright.svg" alt="chevronright" />
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          <div class="mypage__navigo__container"></div>
+        </div>
+      </div>
+`;
 
 /** 찜한상품 제목, ul 태그 템플릿 삽입 */
 const handleWishListInitTemplate = () => {
@@ -127,20 +125,15 @@ const handleEmptyWishlistInit = () => {
 
 /** 찜한 상품이 (없을 때 / 있을 때) 예외처리 후 렌더링 */
 const renderWishListPage = () => {
-  renderPage(htmlMypage_Nav);
-  handleWishListInitTemplate();
-  resetNavbarActive();
   if (wishListStore.getLocalStorage().length === 0) {
-    // renderPage(renderInitMypageTemplate);
-    // renderPage(htmlMypage_Nav);
-    // handleWishListInitTemplate();
+    renderPage(renderInitMypageTemplate);
+    handleWishListInitTemplate();
     handleEmptyWishlistInit();
     return;
   } else if (wishListStore.getLocalStorage().length >= 1) {
     // 장바구니에 넣은 상품 렌더링
-    // renderPage(renderInitMypageTemplate);
-    // renderPage(htmlMypage_Nav);
-    // handleWishListInitTemplate();
+    renderPage(renderInitMypageTemplate);
+    handleWishListInitTemplate();
     renderWishListProductList(wishListStore.getLocalStorage());
     return;
   }

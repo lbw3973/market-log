@@ -100,6 +100,7 @@ $('.header-main__search--button').addEventListener('keypress', async (e) => {
 /** /products/search 핸들링 함수 */
 export const handleSearchPage = async () => {
   $('.modal__addCart').style.display = 'none';
+
   console.log('/products/search route is working');
   // 제품 검색
   await handleSearchPageResult();
