@@ -132,6 +132,7 @@ const renderWishListPage = () => {
   renderPage(htmlMypage_Nav);
   handleWishListInitTemplate();
   resetNavbarActive();
+  setNavbacActive();
   if (wishListStore.getLocalStorage().length === 0) {
     // renderPage(renderInitMypageTemplate);
     // renderPage(htmlMypage_Nav);
@@ -146,6 +147,10 @@ const renderWishListPage = () => {
     renderWishListProductList(wishListStore.getLocalStorage());
     return;
   }
+};
+const setNavbacActive = () => {
+  const active = document.querySelector('#mpWishList');
+  active.parentElement.classList.add('active');
 };
 
 /** [찜하기 페이지]에서 제품 제거 버튼 이벤트, 함수 */

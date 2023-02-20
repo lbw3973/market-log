@@ -1,6 +1,7 @@
 import { htmlHeaderLogin } from './login';
 import { base_url, api_key, user_name } from '../db.js';
 import { router } from '../main.js';
+import { renderPage } from '../utils/render';
 const headers = {
   'content-type': 'application/json',
   apikey: api_key,
@@ -66,7 +67,8 @@ async function signup() {
       displayName: $('#inputName').value,
     }),
   });
-  console.log(await res.json());
+  const json = await res.json();
+  return json;
 }
 
 /** API : 사용자 목록 조회 */
@@ -82,6 +84,11 @@ async function getUserList() {
   return json;
 }
 
+export const handleSignupPage = () => {
+  renderPage(htmlSignup);
+  initFuncSignup();
+};
+
 export function initFuncSignup() {
   ulLoginHeaderEl.innerHTML = htmlHeaderLogin;
   const btnSubmit = $('.submit-btn');
@@ -90,7 +97,10 @@ export function initFuncSignup() {
   /** 가입하기 button 클릭 */
   btnSubmit.addEventListener('click', async () => {
     if (checkValidation() === true) {
-      await signup();
+      const res = await signup();
+      if (res.accessToken != null) {
+        localStorage.setItem('token', res.accessToken);
+      }
       router.navigate('/');
     }
   });
