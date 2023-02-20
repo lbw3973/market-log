@@ -1,3 +1,4 @@
+import { router } from '../../main.js';
 import { addProduct } from '../../api.js';
 
 /** 상품 추가 핸들러 */
