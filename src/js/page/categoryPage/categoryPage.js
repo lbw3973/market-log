@@ -1,5 +1,4 @@
 import Navigo from 'navigo';
-import { router } from '../../testJaeha.js';
 import { $ } from '../../utils/dom.js';
 import { renderPage } from '../../utils/render.js';
 import {

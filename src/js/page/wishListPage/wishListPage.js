@@ -10,6 +10,8 @@ import { wishListStore } from '../../store/wishListStore.js';
 import { shoppingCartStore } from '../../store/shoppingCartStore.js';
 import { htmlMypage_Nav, resetNavbarActive } from '../mypage.js';
 
+import { router } from '../../main.js';
+
 /** 마이 페이지 mypage__navigo__container 초기 템플릿 */
 
 // const renderInitMypageTemplate = `

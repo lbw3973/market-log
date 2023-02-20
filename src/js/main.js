@@ -18,6 +18,26 @@ import { handleDetailOrderHistoryPage } from './page/detailOrderHistoryPage/deta
 import { handlePaymentPage } from './page/paymentPage/paymentPage.js';
 import { handleOrderHistoryPage } from './page/mypage/orderhistory.js';
 import { renderPage } from './utils/render.js';
+
+import { productHandler } from './page/admin/product.js';
+import { dashboardHandler } from './page/admin/dashboard.js';
+import { orderHandler } from './page/admin/order.js';
+import { productAddHandler } from './page/admin/productAdd.js';
+import { productDetailHandler } from './page/admin/productDetail.js';
+import { productEditHandler } from './page/admin/productEdit.js';
+import { orderDetailHandler } from './page/admin/orderDetail.js';
+
+import {
+  dashboardPage,
+  orderPage,
+  productPage,
+  productAddPage,
+  productDetailPage,
+  productEditPage,
+  sideBar,
+  orderDetailPage,
+} from './page/admin/renderTemplate';
+
 const $ = (selector) => document.querySelector(selector);
 export const router = new Navigo('/');
 const divLoadingEl = $('.loadingGif');
@@ -29,6 +49,20 @@ function showAlertPlzLogin() {
   alert('로그인해라');
   router.navigate('/login');
 }
+
+const renderContainer = () => {
+  $('.app').innerHTML = `<div class="container"></div>`;
+};
+
+const render = (html) => {
+  $('.container').innerHTML = html;
+};
+
+const initPage = (page) => {
+  renderContainer();
+  render(sideBar);
+  $('.container').insertAdjacentHTML('beforeend', page);
+};
 
 /** navigo router */
 router
@@ -82,22 +116,8 @@ router
 
       renderMyPageNav(htmlMypage_Account);
       await initFuncAccount();
-      // divLoadingEl.style.display = 'none';
     },
-    // '/mypage/myHeart': async () => {
-    //   console.log('route to mypage/myHeart!!');
-
-    //   if (getLoginStatus() === false) {
-    //     showAlertPlzLogin();
-    //     return;
-    //   }
-    //   renderInitHeaderLogin();
-    //   renderMyPageNav(htmlMypage_MyHeart);
-    //   initFuncMyHeart();
-    // },
     '/mypage/myPersonalInfoModify': () => {
-      console.log('route to mypage/myPersonalInfoModify!!');
-
       if (getLoginStatus() === false) {
         showAlertPlzLogin();
         return;
@@ -106,16 +126,40 @@ router
       renderMyPageNav('');
     },
     '/login': () => {
-      console.log('route to /login!!');
-
       $('.app').innerHTML = htmlLogin;
       initFuncLogin();
     },
     '/signup': () => {
-      console.log('route to /signup!!');
-
       $('.app').innerHTML = htmlSignup;
       initFuncSignup();
+    },
+    '/admin': () => {
+      initPage(dashboardPage);
+      dashboardHandler();
+    },
+    '/admin/product': () => {
+      initPage(productPage);
+      productHandler();
+    },
+    '/admin/order': () => {
+      initPage(orderPage);
+      orderHandler();
+    },
+    '/admin/order/:id': (params) => {
+      initPage(orderDetailPage);
+      orderDetailHandler(params.data.id);
+    },
+    '/admin/product/add': () => {
+      initPage(productAddPage);
+      productAddHandler();
+    },
+    '/admin/product/:id': (params) => {
+      initPage(productDetailPage);
+      productDetailHandler(params.data.id);
+    },
+    '/admin/product/edit/:id': (params) => {
+      initPage(productEditPage);
+      productEditHandler(params.data.id);
     },
   })
   .resolve();

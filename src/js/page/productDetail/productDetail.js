@@ -2,8 +2,6 @@
   제품 상세 페이지  #productDetail js
 \*-----------------------------------*/
 
-import Navigo from 'navigo';
-// const router = new Navigo('/');
 import { router } from '../../main.js';
 import { $ } from '../../utils/dom.js';
 import { addHeart, emptyHeart, cartSVG } from '../../importIMGFiles.js';
@@ -310,7 +308,7 @@ $('.app').addEventListener('click', (e) => {
     } else {
       alert('로그인이 필요한 페이지 입니다. 로그인 페이지로 이동합니다.');
       // 로그인 페이지로 이동
-      router.navigate('/');
+      router.navigate('/login');
     }
     return;
   }

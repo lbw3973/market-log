@@ -1,0 +1,116 @@
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  box-shadow: var(--box-shadow);
+  width: 100%;
+  min-height: 900px;
+  padding: 30px;
+
+  &__current {
+    display: flex;
+    flex-basis: 40%;
+    margin-bottom: 20px;
+
+    &--order {
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: var(--box-shadow);
+      margin-right: 20px;
+
+      display: flex;
+      flex-direction: column;
+      flex-basis: 50%;
+      gap: 20px;
+
+      & > h2 {
+        font-size: 20px;
+        font-weight: 600;
+      }
+
+      & > div {
+        display: flex;
+
+        & > h2 {
+          font-weight: 100;
+        }
+
+        & > p {
+          margin-left: 8px;
+        }
+
+        & span {
+          font-weight: 600;
+        }
+      }
+    }
+
+    &--product {
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: var(--box-shadow);
+      display: flex;
+      flex-direction: column;
+      flex-basis: 50%;
+      gap: 20px;
+
+      & > h2 {
+        font-size: 20px;
+        font-weight: 600;
+      }
+
+      & > div {
+        display: flex;
+
+        & > h2 {
+          font-weight: 100;
+        }
+
+        & > p {
+          margin-left: 8px;
+        }
+
+        & span {
+          font-weight: 600;
+        }
+      }
+    }
+  }
+
+  &__chart {
+    display: flex;
+    flex-basis: 50%;
+
+    &--category {
+      padding: 20px;
+      margin-right: 20px;
+
+      border-radius: 10px;
+      box-shadow: var(--box-shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex-basis: 50%;
+
+      & > h2 {
+        font-size: 20px;
+        font-weight: 600;
+      }
+    }
+
+    &--amount {
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: var(--box-shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex-basis: 50%;
+
+      & > h2 {
+        font-size: 20px;
+        font-weight: 600;
+      }
+    }
+  }
+}

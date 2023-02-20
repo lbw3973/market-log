@@ -11,17 +11,14 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
     />
-    <link rel="stylesheet" href="./src/scss/main.scss" />
-    <link rel="stylesheet" href="./src/scss/jaehaForward/jaeha.scss" />
+    <!-- <link rel="stylesheet" href="./src/scss/main.scss" /> -->
+    <!-- <link rel="stylesheet" href="./src/scss/jaehaForward/jaeha.scss" /> -->
+    <link rel="stylesheet" href="./src/scss/index.scss" />
     <!-- 다음 우편번호 찾기 api -->
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=26e53c394ca0000e128fe5483eb64985&libraries=services"></script>
     <!-- js -->
-    <!-- test js -->
-    <!-- <script type="module" src="./src/js/testJaeha.js" defer></script> -->
-    <!-- 병욱님, 영은님 -->
     <script type="module" src="./src/js/main.js" defer></script>
-    <!-- <script type="module" src="./src/js/testChanYoung.js" defer></script> -->
   </head>
 
   <body>
@@ -67,6 +64,12 @@
           </div>
 
           <div class="header-main__links">
+            <a href="/admin" data-navigo
+              ><img
+                class="header-main__links-img"
+                src="./public/hearted.svg"
+                alt="관리자"
+            /></a>
             <a href="/mypage/wishlist" data-navigo
               ><img
                 class="header-main__links-img"
@@ -246,6 +249,7 @@
                 alt=""
               />
             </div>
+            <div class="footer-cs-center__email">help@marketlog.co.kr</div>
           </div>
         </div>
       </div>

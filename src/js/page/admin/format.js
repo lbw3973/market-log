@@ -1,3 +1,4 @@
+/** 날짜 형식 지정 */
 export const formatDate = (target) => {
   const date = new Date(target);
   const year = String(date.getFullYear()).padStart(2, 0);
@@ -8,6 +9,7 @@ export const formatDate = (target) => {
   return `${year}.${month}.${today} | ${hour}:${min}`;
 };
 
+/** 가격 형식 지정 */
 export const formatPrice = (target) => {
   if (target) {
     let result = target.toLocaleString('ko-KR');

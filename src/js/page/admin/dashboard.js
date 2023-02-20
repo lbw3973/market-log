@@ -1,11 +1,15 @@
-import { renderDashboardCurrent, renderDashboardChart } from './renderDetail';
-import { getAllOrder, getAllProduct } from './api';
-import { formatPrice } from './format';
+import {
+  renderDashboardCurrent,
+  renderDashboardChart,
+} from './renderDetail.js';
+import { getAllOrder, getAllProducts } from '../../api.js';
+import { formatPrice } from '../../utils/format.js';
 import Chart from 'chart.js/auto';
 
+/** 대시보드 페이지 핸들러 */
 export const dashboardHandler = async () => {
   let orders = await getAllOrder();
-  let products = await getAllProduct();
+  let products = await getAllProducts();
 
   const currentStatus = setCurrentStatus(orders, products);
   renderDashboardCurrent(currentStatus);
@@ -14,6 +18,7 @@ export const dashboardHandler = async () => {
   setDashBoardChartAmount(orders);
 };
 
+/** 거래 카테고리 통계 chart 생성 */
 const setDashBoardChartCategory = (products) => {
   const chartCategory = document.querySelector('#chartCategory');
 
@@ -46,10 +51,20 @@ const setDashBoardChartCategory = (products) => {
     },
     options: {
       responsive: false,
+      plugins: {
+        legend: {
+          position: 'left',
+          labels: {
+            padding: 20,
+            usePointStyle: true,
+          },
+        },
+      },
     },
   });
 };
 
+/** 금주 거래 금액 통계 chart 생성 */
 const setDashBoardChartAmount = (orders) => {
   const chartAmount = document.querySelector('#chartAmount');
 
@@ -75,7 +90,7 @@ const setDashBoardChartAmount = (orders) => {
   new Chart(chartAmount, {
     type: 'line',
     data: {
-      labels: thisWeek,
+      labels: thisWeek.map((date) => `${date}일`),
       datasets: [
         {
           label: '거래 금액',
@@ -85,10 +100,16 @@ const setDashBoardChartAmount = (orders) => {
     },
     options: {
       responsive: false,
+      plugins: {
+        legend: {
+          display: false,
+        },
+      },
     },
   });
 };
 
+/** 현재 날짜 가져오기 */
 const getDate = () => {
   const today = new Date();
 
@@ -100,6 +121,7 @@ const getDate = () => {
   return dateObj;
 };
 
+/** 거래, 상품 현황 상태 설정 */
 const setCurrentStatus = (orders, products) => {
   const currentStatus = {
     orderStatus: {
