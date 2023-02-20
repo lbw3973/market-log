@@ -17,22 +17,44 @@
     justify-content: center;
 
     ul {
-      p {
-        font-size: 12px;
-        display: block;
-        padding: 5px;
-      }
-      input {
-        display: block;
-        height: 54px;
-        width: 460px;
-        box-sizing: border-box;
-        margin: 12px auto;
-        padding: 0 9px;
-      }
+      li {
+        p {
+          display: none;
+          text-align: start;
+          font-size: 12px;
+          padding: 5px;
+          color: #ff0000;
+        }
+        input {
+          display: block;
+          height: 54px;
+          width: 460px;
+          box-sizing: border-box;
+          margin: 12px auto;
+          padding: 0 9px;
+          border: 1px rgba(0, 0, 0, 0.2) solid;
+        }
+        button:hover {
+          font-weight: 800;
+          background-color: #eee;
+        }
 
-      input {
-        border: 1px rgba(0, 0, 0, 0.2) solid;
+        .inputBox {
+          position: relative;
+          button {
+            z-index: 100;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 5px;
+            border: 1px rgba(0, 0, 0, 0.2) solid;
+            height: 40px;
+            margin: auto;
+            padding: 0 10px;
+            border-radius: 5px;
+            background-color: #fff;
+          }
+        }
       }
     }
   }

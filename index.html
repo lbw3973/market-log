@@ -13,7 +13,6 @@
     />
     <link rel="stylesheet" href="./src/scss/main.scss" />
     <link rel="stylesheet" href="./src/scss/jaehaForward/jaeha.scss" />
-    <link rel="stylesheet" href="./src/scss/cyForward/index.scss" />
     <!-- 다음 우편번호 찾기 api -->
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=26e53c394ca0000e128fe5483eb64985&libraries=services"></script>
@@ -21,8 +20,8 @@
     <!-- test js -->
     <!-- <script type="module" src="./src/js/testJaeha.js" defer></script> -->
     <!-- 병욱님, 영은님 -->
-    <!-- <script type="module" src="./src/js/main.js" defer></script> -->
-    <script type="module" src="./src/js/testChanYoung.js" defer></script>
+    <script type="module" src="./src/js/main.js" defer></script>
+    <!-- <script type="module" src="./src/js/testChanYoung.js" defer></script> -->
   </head>
 
   <body>
@@ -38,7 +37,7 @@
         </nav>
 
         <nav class="header-main">
-          <a class="header-main__home-link" href="#" data-navigo>
+          <a class="header-main__home-link" href="/" data-navigo>
             <img
               class="header-main__logo"
               src="./public/mainLogo.svg"
@@ -139,29 +138,6 @@
       </footer>
     </div>
     <!-- 공통 FOOTER 끝-->
-
-    <!-- TEMPORARY -->
-    <div class="temporary">
-      <label>
-        아이디(이메일)
-        <input type="text" class="id" />
-      </label>
-      <label>
-        비밀번호
-        <input type="password" class="password" />
-      </label>
-      <label>
-        사용자 이름!
-        <input type="text" class="display-name" />
-      </label>
-      <button class="signup">회원가입!</button>
-      <button class="authorization">인증확인!</button>
-      <button class="login">로그인!</button>
-      <button class="getlist"></button>
-      <li class="header__admin-page--li">
-        <a href="/admin" data-navigo> 관리자 페이지 </a>
-      </li>
-    </div>
 
     <!-- 장바구니 modal -->
     <div class="modal__addCart">

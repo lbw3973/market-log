@@ -19,6 +19,7 @@ import exclamationmark from '../../public/exclamationmark.svg';
 import paginationLeft from '../../public/pagination-left.svg';
 import paginationRight from '../../public/pagination-right.svg';
 import chevronrightSVG from '../../public/chevronright.svg';
+import cartSVG from '../../public/cart.svg';
 
 export {
   air60,
@@ -42,4 +43,5 @@ export {
   paginationLeft,
   paginationRight,
   chevronrightSVG,
+  cartSVG,
 };

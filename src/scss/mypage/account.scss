@@ -1,12 +1,8 @@
 .mypage__account {
-  h2 {
-    margin-bottom: 52px;
-  }
   .user__account {
     position: relative;
     .total__balance {
-      font-size: 14px;
-      margin-top: 20px;
+      padding: 20px 0;
       text-align: right;
       span {
         color: var(--light-purple);
@@ -156,6 +152,7 @@
         text-align: center;
         background-color: var(--light-purple);
         color: #fff;
+        border-radius: 5px;
       }
 
       #btnCloseModal {

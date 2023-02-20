@@ -7,10 +7,16 @@
 
 // Cart
 .cart {
+  display: flex;
+  flex-direction: column;
+  // justify-content: center;
+  align-items: center;
   margin: 60px 100px;
+
   min-height: 100vh;
 
   &__container {
+    width: 1300px;
     display: flex;
     justify-content: space-between;
     padding: 10px 0;
@@ -50,6 +56,7 @@
         img {
           width: 100px;
           height: 100px;
+          object-fit: contain;
         }
       }
     }
@@ -78,9 +85,9 @@
   &__price {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-width: 30%;
+
+    // margin: 0 auto;
+    align-items: flex-end;
     padding: 10px;
 
     &--border {
@@ -117,8 +124,7 @@
       font-size: 20px;
       align-items: center;
     }
-
-    &--paymentBtn {
+    @mixin cartPagePaymentBtn {
       margin-top: 20px;
       width: 310px;
       height: 50px;
@@ -126,6 +132,15 @@
       background-color: var(--logo-color);
       color: #fff;
       text-align: center;
+    }
+    &--paymentBtn {
+      @include cartPagePaymentBtn();
+
+      &-disabled {
+        @include cartPagePaymentBtn();
+        cursor: not-allowed;
+        background-color: var(--division-line);
+      }
     }
   }
 
