@@ -226,6 +226,7 @@ $('.app').addEventListener('click', async (e) => {
       '구매가 취소되었습니다.';
     $('.app').querySelector('.orderHistory__list--buttons').style.display =
       'none';
+
     return;
   }
 });
