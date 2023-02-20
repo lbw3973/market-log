@@ -75,12 +75,12 @@ export const storeCart = (id, price, count, thumbnail, title, pricePerOne) => {
     shoppingCartArr.push({ id, price, count, thumbnail, title, pricePerOne });
     shoppingCartStore.setLocalStorage(shoppingCartArr);
     console.log('shoppingCartArr.push', shoppingCartStore.getLocalStorage());
-    console.log('shoppingCartArr.push', shoppingCartArr);
+    // console.log('shoppingCartArr.push', shoppingCartArr);
     return;
   } else if (existingItem) {
     // 이미 아이템이면 기존 수량, 가격에 누적 추가
     existingItem.count += count;
-    existingItem.price += price;
+    existingItem.price += pricePerOne * count;
     shoppingCartStore.setLocalStorage(shoppingCartArr);
     return;
   }
@@ -191,7 +191,6 @@ export const pushInCart = (e) => {
     const pricePerOne = productDetailPricePerOne;
 
     storeCart(id, price, count, thumbnail, title, pricePerOne);
-    // shoppingCartStore.setLocalStorage(shoppingCartStore.getLocalStorage());
     console.log('shoppingCartArr.push', shoppingCartStore.getLocalStorage());
   }
 };

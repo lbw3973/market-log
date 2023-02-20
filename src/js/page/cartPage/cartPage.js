@@ -8,6 +8,7 @@ import { pushInCart, updateInfo } from '../productDetail/productDetail.js';
 import { shoppingCartStore } from '../../store/shoppingCartStore.js';
 import { cartSVG } from '../../importIMGFiles.js';
 import { renderPage } from '../../utils/render.js';
+import { formatPrice } from '../../utils/format.js';
 
 /** 장바구니 총 가격 렌더링 */
 export const renderCartTotalPrice = () => {
@@ -51,7 +52,7 @@ export const renderInitCartPage = `
       <div class="cart__price--border">
         <div class="cart__price--calc">
           <div class="cart__price--calc-orderPrice">
-            <span class="cartOrderPrice">총 주문 금액</span>
+            <span>총 주문 금액</span>
             <p class="cartOrderPrice">0 원</p>
           </div>
           <div class="cart__price--calc-discountPrice">
@@ -77,47 +78,20 @@ export const renderInitCartPage = `
 `;
 
 /** 장바구니 결제금액 렌더링 */
-export const renderCartOrderPrice = () => {
+const renderCartOrderPrice = () => {
   // [장바구니] 총 결제 금액
-  // cartTotalPaymentPrice =
-  //   cartTotalOrderPrice + cartDiscountPrice + cartDeliveryPrice;
-  const cartOrderPriceTemplate = `
-  <div class="cart__price--border">
-    <div class="cart__price--calc">
-      <div class="cart__price--calc-orderPrice">
-        <span class="cartOrderPrice">총 주문 금액</span>
-        <p class="cartOrderPrice">${renderCartTotalPrice().toLocaleString()} 원</p>
-      </div>
-      <div class="cart__price--calc-discountPrice">
-        <span>할인 금액</span>
-        <p class="cartDiscountPrice">0 원</p>
-      </div>
-      <div class="cart__price--calc-deliveryPrice">
-        <span>배송비</span>
-        <p class="cartDeliveryPrice">0 원</p>
-      </div>
-    </div>
-    <div class="cart__price--total">
-      <span>총 결제 금액</span>
-      <p class="cartTotalPaymentPrice">${renderCartTotalPrice().toLocaleString()} 원</p>
-    </div>
-  </div>
-  <a href="/payment" data-navigo>
-    ${handleCartPaymentBtn()}
-  </a>
-`;
-
-  $('.app').querySelector('.cart__price').innerHTML = cartOrderPriceTemplate;
+  $('.cartOrderPrice').innerHTML = `${formatPrice(renderCartTotalPrice())} 원`;
+  $('.cartTotalPaymentPrice').innerHTML = `${formatPrice(
+    renderCartTotalPrice(),
+  )} 원`;
 };
-let cartProductTotalPrice;
-console.log(shoppingCartStore.getLocalStorage().length);
+
 /** 장바구니 제품 리스트 렌더링 */
 export const renderCartList = (storage) => {
   const cartListTemplate = storage
     .map((item) => {
-      const { id, price, count, thumbnail, title } = item;
-      cartProductTotalPrice = price;
-      console.log(cartProductTotalPrice);
+      const { id, price, count, thumbnail, title, pricePerOne } = item;
+
       return `
     <li class="cart__item" data-product-id="${id}">
       <div class="cart__item-info">
@@ -143,7 +117,9 @@ export const renderCartList = (storage) => {
           <p class="cartProductQty">${count} 개</p>
           <button class="cart-addQtyBtn">+</button>
         </div>
-        <span class="cart__item--price cartProductTotalPrice">${price.toLocaleString()} 원</span>
+        <span class="cart__item--price cartProductTotalPrice">${(
+          pricePerOne * count
+        ).toLocaleString()} 원</span>
         <button class="cart__item--deleteBtn cartProductDeleteBtn">삭제</button>
       </div>
     </li>
@@ -151,7 +127,7 @@ export const renderCartList = (storage) => {
     })
     .join('');
 
-  renderCartTotalPrice();
+  // renderCartTotalPrice();
   renderCartOrderPrice();
   $('.app').querySelector('.cart__list').innerHTML = cartListTemplate;
 };
