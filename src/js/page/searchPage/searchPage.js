@@ -1,9 +1,9 @@
-import Navigo from 'navigo';
 import { $ } from '../../utils/dom.js';
 import { renderPage } from '../../utils/render.js';
 import { getSearchedProducts } from '../../api.js';
 import { renderInitCategoryPage } from '../categoryPage/categoryPage.js';
 import { renderSkeletonUIinCategoryPage } from '../categoryPage/categoryPage.js';
+import { router } from '../../main.js';
 
 /*-----------------------------------*\
   검색 페이지  #search
