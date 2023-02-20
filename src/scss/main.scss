@@ -1,13 +1,8 @@
-@forward 'globals';
-@forward '../scss/mypage/mypage.scss';
-@forward '../scss/login/login.scss';
-@forward '../scss/signup/signup.scss';
-
-@mixin section-header {
-  font-size: 50px;
-  font-weight: 600;
-  color: var(--logo-color);
-}
+// @mixin section-header {
+//   font-size: 50px;
+//   font-weight: 600;
+//   color: var(--logo-color);
+// }
 
 .mypage__app {
   display: grid;

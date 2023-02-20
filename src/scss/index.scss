@@ -1,0 +1,29 @@
+@forward './globals';
+
+@forward './main.scss';
+@forward './admin/admin.scss';
+@forward './admin/dashboard.scss';
+@forward './admin/order.scss';
+@forward './admin/orderDetail.scss';
+@forward './admin/product.scss';
+@forward './admin/productAdd.scss';
+@forward './admin/productDetail.scss';
+@forward './admin/productEdit.scss';
+
+//
+
+// [제품 상세 페이지] scss
+@forward './productDetail/productsDetail.scss';
+// [장바구니 페이지] scss
+@forward './cart/cart.scss';
+// [결제 페이지] scss
+@forward './pay/pay.scss';
+// [카테고리 페이지] scss
+@forward './category/category.scss';
+// [검색 페이지] scss
+@forward './searchPage/searchPage.scss';
+
+//
+@forward '../scss/mypage/mypage.scss';
+@forward '../scss/login/login.scss';
+@forward '../scss/signup/signup.scss';

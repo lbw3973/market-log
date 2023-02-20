@@ -16,7 +16,7 @@ import { orderHandler } from './page/admin/order.js';
 import { productAddHandler } from './page/admin/productAdd.js';
 import { productDetailHandler } from './page/admin/productDetail.js';
 import { productEditHandler } from './page/admin/productEdit.js';
-import { orderDetailHandler } from './page/admin/orderDetail';
+import { orderDetailHandler } from './page/admin/orderDetail.js';
 
 const $ = (selector) => document.querySelector(selector);
 
