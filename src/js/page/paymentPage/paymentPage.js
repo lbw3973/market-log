@@ -295,7 +295,7 @@ const renderNoPaymentAccount = () => {
       height="140"
       alt="결제 정보 없음"
     />
-    <a href="/" data-navigo>
+    <a href="/mypage/account" data-navigo>
       <button class="payment-method__card-list--goToLinkBankAccount-button">
         계좌 연결하러 가기
       </button>

@@ -1,5 +1,6 @@
 import { base_url, api_key, user_name, admin_email } from '../db.js';
 import { router } from '../main.js';
+import { renderPage } from '../utils/render.js';
 const headers = {
   'content-type': 'application/json',
   apikey: api_key,
@@ -9,7 +10,7 @@ const $ = (selector) => document.querySelector(selector);
 const ulLoginHeaderEl = $('.header__user-login--ul');
 
 /** HTML : 로그인 페이지 템플릿 */
-export const htmlLogin = /* html */ `
+const htmlLogin = /* html */ `
   <div class="login__container">
     <h1 class="title">로그인</h1>
     <ul>
@@ -128,11 +129,13 @@ export async function renderInitHeaderLogin() {
     });
   }
 }
+export const handleLoginPage = () => {
+  renderPage(htmlLogin);
+  initFuncLogin();
+};
 
 /** 초기화면 Render시 Inititalize */
-export function initFuncLogin() {
-  ulLoginHeaderEl.innerHTML = htmlHeaderLogin;
-
+function initFuncLogin() {
   const btnLogin = $('.login-btn');
   btnLogin.addEventListener('click', async () => {
     let errMessage;
@@ -146,10 +149,19 @@ export function initFuncLogin() {
       alert(errMessage);
     }
   });
+
   const inputPW = $('#inputPW');
   inputPW.addEventListener('keyup', (e) => {
     if (e.key === 'Enter') {
       btnLogin.click();
     }
   });
+}
+
+export function getLoginStatus() {
+  return localStorage.getItem('token') ? true : false;
+}
+export function showAlertPlzLogin() {
+  alert('로그인이 필요한 서비스입니다');
+  router.navigate('/login');
 }

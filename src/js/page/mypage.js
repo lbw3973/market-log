@@ -1,5 +1,8 @@
 // dotenv 사용 예시
 import chevronrightSVG from '../../../public/chevronright.svg';
+import { router } from '../main';
+import { renderPage } from '../utils/render.js';
+import { getLoginStatus, showAlertPlzLogin } from './login';
 const $ = (selector) => document.querySelector(selector);
 let navliList;
 
@@ -22,12 +25,12 @@ export const htmlMypage_Nav = /* html */ `
             </a>
           </li>
           <li>
-            <a href="/mypage/wishlist" data-navigo id="mpMyHeart">찜한 상품
+            <a href="/mypage/wishlist" data-navigo id="mpWishList">찜한 상품
               <img src="${chevronrightSVG}" alt="chevronright">
             </a>
           </li>
           <li>
-            <a href="/mypage/myPersonalInfoModify" data-navigo id="mpMyPersonalInfoModify">개인 정보 수정
+            <a href="/mypage/editPersonalInfo" data-navigo id="mpMyPersonalInfoModify">개인 정보 수정
               <img src="${chevronrightSVG}" alt="chevronright">
             </a>
           </li>
@@ -38,18 +41,19 @@ export const htmlMypage_Nav = /* html */ `
 </div>
 `;
 
-/** 초기화면 Render시 Inititalize */
-export function initFuncMypage() {}
-
-/** mypage 영역을 Render */
-export function renderMyPageNav(html) {
-  $('.app').innerHTML = htmlMypage_Nav;
-  $('.app').querySelector('.mypage__navigo__container').innerHTML = html;
-  resetNavbarActive();
+export function handleMyPage() {
+  if (getLoginStatus() === false) {
+    showAlertPlzLogin();
+    router.navigate('/login');
+    return;
+  } else {
+    renderPage(htmlMypage_Nav);
+    router.navigate('mypage/order');
+  }
 }
 
 /** mypage nav탭 선택시 영역 acitve */
 export const resetNavbarActive = () => {
-  navliList = document.querySelectorAll('.mypage__navbar nav ul li a');
+  navliList = document.querySelectorAll('.mypage__navbar nav ul li');
   navliList?.forEach((navli) => navli.classList.remove('active'));
 };
