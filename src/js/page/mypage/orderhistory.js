@@ -184,10 +184,10 @@ const emptyOrderHistory = () => {
 
 /** 제품 구매 내역 유/무 예외처리 */
 const renderOrderedListPage = async () => {
-  // renderPage(renderInitMypageTemplate);
   renderPage(htmlMypage_Nav);
   handleOrderHistoryInitTemplate();
   resetNavbarActive();
+  setNavbacActive();
   renderSkeletonUIinOrderHistoryPage();
   const transactionArr = await getAllTransactions();
   console.log('transactionArr', transactionArr);
@@ -202,6 +202,10 @@ const renderOrderedListPage = async () => {
     orderHistoryUtilInit();
     // return;
   }
+};
+const setNavbacActive = () => {
+  const active = document.querySelector('#mpOrderHistory');
+  active.parentElement.classList.add('active');
 };
 
 /** [주문 내역 페이지] 구매확정/취소 버튼 클릭 이벤트 */
