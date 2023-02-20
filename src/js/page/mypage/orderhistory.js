@@ -213,9 +213,8 @@ $('.app').addEventListener('click', async (e) => {
       .closest('li')
       .querySelector('.orderHistory__list--confirmed-order').innerHTML =
       '구매가 확정되었습니다.';
-    $('.app').querySelector(
-      '.orderHistory__list--confirmed-order',
-    ).style.display = 'none';
+    $('.app').querySelector('.orderHistory__list--buttons').style.display =
+      'none';
     return;
   }
 
