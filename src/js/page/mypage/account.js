@@ -171,8 +171,7 @@ const createUserAccount = async (bankCode) => {
   });
 
   if (res.ok) {
-    renderPage(htmlMypage_Account);
-    initFuncAccount();
+    renderAccountPage();
   }
 };
 
@@ -192,8 +191,9 @@ const deleteAccount = async (e) => {
   });
 
   if (res.ok) {
-    renderPage(htmlMypage_Account);
-    initFuncAccount();
+    // renderPage(htmlMypage_Account);
+    // initFuncAccount();
+    renderAccountPage();
   }
 
   const json = await res.json();
