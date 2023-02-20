@@ -304,7 +304,7 @@ async function orderFix(item) {
 //   printOrderHistory(orderHistories);
 // });
 
-//주문취소버튼
+// //주문취소버튼
 
 // [...cancelBtns].forEach((item) => {
 //   item.addEventListener('click', () => {

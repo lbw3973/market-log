@@ -1,4 +1,4 @@
-import { base_url, api_key, user_name, admin_email } from '../../db.js';
+import { base_url, api_key, user_name } from '../../db.js';
 const headers = {
   'content-type': 'application/json',
   apikey: api_key,
@@ -152,8 +152,6 @@ const createUserAccount = async (bankCode) => {
   });
 
   if (res.ok) {
-    // router.navigate('/mypage/heart');
-    // router.navigate('/mypage/account');
     renderPage(htmlMypage_Account);
     initFuncAccount();
   }
