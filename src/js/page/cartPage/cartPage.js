@@ -3,7 +3,6 @@
 \*-----------------------------------*/
 
 import Navigo from 'navigo';
-import { router } from '../../testJaeha.js';
 import { $ } from '../../utils/dom.js';
 import { pushInCart, updateInfo } from '../productDetail/productDetail.js';
 import { shoppingCartStore } from '../../store/shoppingCartStore.js';

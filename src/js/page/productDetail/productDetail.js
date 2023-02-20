@@ -1,10 +1,6 @@
 /*-----------------------------------*\
   제품 상세 페이지  #productDetail js
 \*-----------------------------------*/
-
-import Navigo from 'navigo';
-// const router = new Navigo('/');
-import { router } from '../../testJaeha.js';
 import { $ } from '../../utils/dom.js';
 import { addHeart, emptyHeart, cartSVG } from '../../importIMGFiles.js';
 import { getDetailProduct } from '../../api.js';
@@ -12,7 +8,7 @@ import { wishListStore } from '../../store/wishListStore.js';
 import { shoppingCartStore } from '../../store/shoppingCartStore.js';
 import { recentViewStore } from '../../store/recentViewStore.js';
 import { renderInitHeaderLogin } from '../login.js';
-
+import { router } from '../../main.js';
 /** 찜하기 상품 유/무에 따라 다른 초기화면 렌더링 */
 export const checkWhetherAddWishList = (id) => {
   let wishListArr = wishListStore.getLocalStorage();
@@ -282,7 +278,7 @@ $('.app').addEventListener('click', (e) => {
     } else {
       alert('로그인이 필요한 페이지 입니다. 로그인 페이지로 이동합니다.');
       // 로그인 페이지로 이동
-      router.navigate('/');
+      router.navigate('/login');
     }
     return;
   }
