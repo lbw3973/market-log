@@ -32,7 +32,7 @@ router
       console.log('route to mypage!!');
 
       if (getLoginStatus() === false) {
-        alertPlzLogin();
+        showAlertPlzLogin();
         return;
       }
       renderInitHeaderLogin();
@@ -43,7 +43,7 @@ router
       console.log('route to mypage/orderHistory!!');
 
       if (getLoginStatus() === false) {
-        alertPlzLogin();
+        showAlertPlzLogin();
         return;
       }
       renderInitHeaderLogin();
@@ -54,7 +54,7 @@ router
       console.log('route to mypage/account!!');
 
       if (getLoginStatus() === false) {
-        alertPlzLogin();
+        showAlertPlzLogin();
         return;
       }
       renderInitHeaderLogin();
@@ -67,7 +67,7 @@ router
       console.log('route to mypage/myHeart!!');
 
       if (getLoginStatus() === false) {
-        alertPlzLogin();
+        showAlertPlzLogin();
         return;
       }
       renderInitHeaderLogin();
@@ -78,7 +78,7 @@ router
       console.log('route to mypage/myPersonalInfoModify!!');
 
       if (getLoginStatus() === false) {
-        alertPlzLogin();
+        showAlertPlzLogin();
         return;
       }
       renderInitHeaderLogin();
