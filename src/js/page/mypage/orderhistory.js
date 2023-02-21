@@ -1,7 +1,7 @@
 import { $ } from '../../utils/dom.js';
 import { reload } from '../../importIMGFiles.js';
 import { renderPage } from '../../utils/render.js';
-import { calendar, exclamationmark } from '../../importIMGFiles.js';
+import { calendar, exclamationmark, cartSVG } from '../../importIMGFiles.js';
 import {
   getAllTransactions,
   cancelTransactionAPI,
@@ -184,37 +184,49 @@ const emptyOrderHistory = () => {
 
 /** 제품 구매 내역 유/무 예외처리 */
 const renderOrderedListPage = async () => {
-  // renderPage(renderInitMypageTemplate);
   renderPage(htmlMypage_Nav);
   handleOrderHistoryInitTemplate();
   resetNavbarActive();
+  // setNavbarActive();
   renderSkeletonUIinOrderHistoryPage();
-  const transactionArr = await getAllTransactions();
-  console.log('transactionArr', transactionArr);
+  const transactionArray = await getAllTransactions();
 
   // 주문한 제품 없을 경우
-  if (transactionArr.length === 0) {
+  if (transactionArray.length === 0) {
+    console.log('빈 거래');
     emptyOrderHistory();
-    // return;
-  } else if (transactionArr.length >= 1) {
+  } else {
     // 주문한 제품 있을 경우
-    // renderOrderedProductList(transactionArr);
+    // renderOrderedProductList(transactionArray);
+    console.log('거래 있음');
     orderHistoryUtilInit();
-    // return;
   }
+};
+const setNavbacActive = () => {
+  const active = document.querySelector('#mpOrderHistory');
+  active.parentElement.classList.add('active');
 };
 
 /** [주문 내역 페이지] 구매확정/취소 버튼 클릭 이벤트 */
 $('.app').addEventListener('click', async (e) => {
   const detailId = e.target.closest('li')?.dataset.detailId;
+  // const ETargetInnerHTMl = (className, text) => {
+  //   return (e.target.closest('li').querySelector(className).innerHTML = text);
+  // };
   if (e.target.classList.contains('orderHistory__list--confirmBtn')) {
     confirmTransactionAPI(detailId);
+    // ETargetInnerHTMl(
+    //   '.orderHistory__list--confirmed-order',
+    //   '구매가 확정되었습니다.',
+    // );
+    // ETargetInnerHTMl('.orderHistory__list--buttons', '');
     e.target
       .closest('li')
       .querySelector('.orderHistory__list--confirmed-order').innerHTML =
       '구매가 확정되었습니다.';
-    $('.app').querySelector('.orderHistory__list--buttons').style.display =
-      'none';
+    e.target
+      .closest('li')
+      .querySelector('.orderHistory__list--buttons').innerHTML = '';
     return;
   }
 
@@ -224,8 +236,9 @@ $('.app').addEventListener('click', async (e) => {
       .closest('li')
       .querySelector('.orderHistory__list--confirmed-order').innerHTML =
       '구매가 취소되었습니다.';
-    $('.app').querySelector('.orderHistory__list--buttons').style.display =
-      'none';
+    e.target
+      .closest('li')
+      .querySelector('.orderHistory__list--buttons').innerHTML = '';
 
     return;
   }
@@ -237,6 +250,10 @@ export const handleOrderHistoryPage = async () => {
   console.log('/mypage/order');
   await renderOrderedListPage();
 };
+
+/*-----------------------------------*\
+  #pagination
+\*-----------------------------------*/
 
 /** 처음 index = 0 */
 let orderHistoryUtilIndex = 0;

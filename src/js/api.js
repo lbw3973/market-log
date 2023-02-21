@@ -24,7 +24,6 @@ export const getAllProducts = async () => {
       },
     });
     const data = await res.json();
-    console.log('jaehaData', data);
     return data;
   } catch (err) {
     console.log(err);
@@ -77,9 +76,12 @@ export const getAllTransactions = async () => {
       },
     });
     const data = await res.json();
-    console.log('거래내역', data);
-    console.log(data);
-    return data;
+
+    if (res.status === 400) {
+      return [];
+    } else {
+      return data;
+    }
   } catch (err) {
     console.log('거래내역 가져오기 실패', err);
   }
@@ -188,7 +190,7 @@ export const buyItemAPI = async (productId, accountId) => {
   }
 };
 
-/** 제품 결제 API */
+/** [결제 페이지] 로그인 한 정보 가져오기 */
 export const getUserInfoAPI = async () => {
   try {
     const res = await fetch(`${base_url}/auth/me`, {

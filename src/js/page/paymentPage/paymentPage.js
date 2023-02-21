@@ -295,7 +295,7 @@ const renderNoPaymentAccount = () => {
       height="140"
       alt="결제 정보 없음"
     />
-    <a href="/" data-navigo>
+    <a href="/mypage/account" data-navigo>
       <button class="payment-method__card-list--goToLinkBankAccount-button">
         계좌 연결하러 가기
       </button>
@@ -398,13 +398,13 @@ const renderSelectedPayment = (e) => {
 const renderFinalPaymentPrice = () => {
   $(
     '.payment-method__final-confirm--btn',
-  ).innerHTML = `총 ${renderCartTotalPrice().toLocaleString()}원 결제하기`;
+  ).innerHTML = `총 ${renderCartTotalPrice().toLocaleString()} 원 결제하기`;
   $(
     '.payTotalOrderPrice',
-  ).innerHTML = `${renderCartTotalPrice().toLocaleString()}원`;
+  ).innerHTML = `${renderCartTotalPrice().toLocaleString()} 원`;
   $(
     '.payTotalPaymentPrice',
-  ).innerHTML = `${renderCartTotalPrice().toLocaleString()}원`;
+  ).innerHTML = `${renderCartTotalPrice().toLocaleString()} 원`;
 };
 
 /** 결제페이지에서 작동하는 함수들 */
@@ -414,8 +414,8 @@ const paymentPageFunction = async () => {
   // 2. 결제할 제품들 렌더링
   renderPaymentProductList(shoppingCartStore.getLocalStorage());
   // 3. 제품 개수
-  $('.app').querySelector('.paymentProductQty').innerHTML =
-    renderProductTotalQty();
+  $('.paymentProductQty').innerHTML = renderProductTotalQty();
+  renderFinalPaymentPrice();
   // 4. 주소찾기 카카오api
   renderKakaoMap();
   // 4-1. 사용자 정보 가져오기
@@ -499,7 +499,6 @@ const handlePaymentBtnLogic = async () => {
 };
 
 $('.app').addEventListener('click', async (e) => {
-  // e.preventDefault();x
   /** 결제 버튼 클릭시 결제 진행 (리팩토링 예정)*/
   if (e.target.classList.contains('payment-method__final-confirm--btn')) {
     if ($('.pay__info-zipcode--data-input').value === '') {
@@ -520,8 +519,7 @@ $('.app').addEventListener('click', async (e) => {
 /** /payment 핸들링 함수 */
 export const handlePaymentPage = async () => {
   $('.modal__addCart').style.display = 'none';
-  console.log('/cart');
+  console.log('/payment');
   renderPage(renderInitPaymentPage);
-  renderFinalPaymentPrice();
   await paymentPageFunction();
 };
