@@ -70,13 +70,13 @@ const setDashBoardChartAmount = (orders) => {
 
   const thisWeek = [];
 
-  for (i = 0; i < 7; i++) {
+  for (let i = 0; i < 7; i++) {
     thisWeek.unshift(Number(getDate().today) - i);
   }
 
   const amountOfthisWeek = [];
 
-  for (i = 0; i < 7; i++) {
+  for (let i = 0; i < 7; i++) {
     const todayOrder = orders.filter(
       (order) =>
         Number(order.timePaid.substr(8, 2)) === thisWeek[i] &&
