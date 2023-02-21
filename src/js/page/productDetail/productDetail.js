@@ -196,6 +196,14 @@ export const pushInCart = (e) => {
   }
 };
 
+/** '장바구니 추가버튼' 클릭 -> 장바구니에 추가 이벤트 */
+$('.app').addEventListener('click', (e) => {
+  if (e.target.classList.contains('addCartBtn')) {
+    console.log(e.target);
+    pushInCart(e);
+  }
+});
+
 /** 구매수량 핸들링 함수 */
 export const updateInfo = async (e, productId) => {
   let shoppingCartArr = shoppingCartStore.getLocalStorage();
