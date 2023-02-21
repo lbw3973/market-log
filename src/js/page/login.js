@@ -1,3 +1,4 @@
+import { $ } from '../utils/dom.js';
 import { base_url, api_key, user_name, admin_email } from '../db.js';
 import { router } from '../main.js';
 import { renderPage } from '../utils/render.js';
@@ -6,7 +7,6 @@ const headers = {
   apikey: api_key,
   username: user_name,
 };
-const $ = (selector) => document.querySelector(selector);
 const ulLoginHeaderEl = $('.header__user-login--ul');
 
 /** HTML : 로그인 페이지 템플릿 */

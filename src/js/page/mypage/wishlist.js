@@ -36,7 +36,7 @@ const renderInitMypageTemplate = `
                   </a>
                 </li>
                 <li>
-                  <a href="/mypage/myPersonalInfoModify" data-navigo
+                  <a href="/mypage/editPersonalInfo" data-navigo
                     >개인 정보 수정
                     <img src="./public/chevronright.svg" alt="chevronright" />
                   </a>

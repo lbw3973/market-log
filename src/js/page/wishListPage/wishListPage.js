@@ -58,7 +58,7 @@ const handleWishListInitTemplate = () => {
   const renderWishListPageInitTemplate = `
     <div class="mypage__wishlist">
       <div class="mypage__wishlist--container">
-        <h3>찜한 상품</h3>
+        <h2>찜한 상품</h2>
         <ul class="wishlist__product--lists">
         </ul>
       </div>

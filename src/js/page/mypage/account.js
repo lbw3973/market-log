@@ -12,7 +12,7 @@ const headers = {
 
 // HTML : mypage 계좌관리 탭
 
-const handleOrderHistoryInitTemplate = () => {
+const handleAccountInitTemplate = () => {
   const htmlMypage_Account = /* html */ `
   <div class="mypage__account">
     <h2>계좌 관리</h2>
@@ -77,11 +77,11 @@ export const handleAccountPage = async () => {
 
 const renderAccountPage = async () => {
   renderPage(htmlMypage_Nav);
-  handleOrderHistoryInitTemplate();
+  handleAccountInitTemplate();
   await initFuncAccount();
 };
 
-export async function initFuncAccount() {
+async function initFuncAccount() {
   const active = document.querySelector('#mpAccount');
   active.parentElement.classList.add('active');
 
