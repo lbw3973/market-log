@@ -24,15 +24,16 @@ export const renderCartTotalPrice = () => {
 };
 
 /** 장바구니 비었을 때 '결제하기 버튼' 예외처리 */
-const handleCartPaymentBtn = () => {
-  const enableBtn = `<button class="cart__price--paymentBtn cartPaymentBtn">결제하기</button>`;
-  const disabledBtn = `<button class="cart__price--paymentBtn-disabled cartPaymentBtn" disabled='true' >결제하기</button>`;
-  if (shoppingCartStore.getLocalStorage().length >= 1) {
-    return enableBtn;
-  } else if (shoppingCartStore.getLocalStorage().length === 0) {
-    return disabledBtn;
-  }
-};
+// const handleCartPaymentBtn = () => {
+//   // const shoppingCartArr = shoppingCartStore.getLocalStorage();
+//   const enableBtn = `<button class="cart__price--paymentBtn cartPaymentBtn">결제하기</button>`;
+//   const disabledBtn = `<button class="cart__price--paymentBtn-disabled cartPaymentBtn" disabled='true' >결제하기</button>`;
+//   if (shoppingCartStore.getLocalStorage().length > 0) {
+//     return enableBtn;
+//   } else if (shoppingCartStore.getLocalStorage().length === 0) {
+//     return disabledBtn;
+//   }
+// };
 
 // 장바구니 페이지 초기 렌더링
 export const renderInitCartPage = `
@@ -70,7 +71,7 @@ export const renderInitCartPage = `
         </div>
       </div>
       <a href="/payment" data-navigo
-        >${handleCartPaymentBtn()}</a
+        ><div class="handleCartPaymentBtn"><button class="cart__price--paymentBtn-disabled cartPaymentBtn" disabled="true">결제하기</button></div></a
       >
     </aside>
   </div>
@@ -150,13 +151,22 @@ export const storeLocalStorage = (id) => {
 
 /** 빈 장바구니일 때, 상품이 있는 장바구니일 때 */
 export const renderCartPage = () => {
-  if (shoppingCartStore.getLocalStorage().length === 0) {
-    renderCartList(shoppingCartStore.getLocalStorage());
-    renderPage(renderInitCartPage);
+  const shoppingCartArr = shoppingCartStore.getLocalStorage();
+  renderPage(renderInitCartPage);
+  if (shoppingCartArr.length === 0) {
+    console.log('length 0');
+
+    return;
+    // renderCartList(shoppingCartStore.getLocalStorage());
     // return;
-  } else if (shoppingCartStore.getLocalStorage().length >= 1) {
+  } else if (shoppingCartArr.length > 0) {
+    console.log('length 1이상');
     // 장바구니에 넣은 상품 렌더링
-    renderCartList(shoppingCartStore.getLocalStorage());
+    renderCartList(shoppingCartArr);
+    $(
+      '.handleCartPaymentBtn',
+    ).innerHTML = `<button class="cart__price--paymentBtn cartPaymentBtn">결제하기</button>`;
+
     // 결제금액 렌더링
     // renderCartTotalPrice();
     return;
@@ -180,7 +190,7 @@ $('.app').addEventListener('click', (e) => {
     } else {
       alert('로그인이 필요한 페이지 입니다. 로그인 페이지로 이동합니다.');
       // 로그인 페이지로 이동
-      router.navigate('/');
+      router.navigate('/login');
     }
     return;
   }
