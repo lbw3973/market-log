@@ -200,9 +200,9 @@ $('.app').addEventListener('click', (e) => {
 });
 
 /** 장바구니 담기 핸들링 이벤트 */
-$('.app').addEventListener('click', (e) => {
-  pushInCart(e);
-});
+// $('.app').addEventListener('click', (e) => {
+//   pushInCart(e);
+// });
 
 /** 장바구니 페이지에서 수량 핸들링 */
 $('.app').addEventListener('click', (e) => {

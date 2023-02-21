@@ -185,7 +185,7 @@ export const pushInCart = (e) => {
   ) {
     const id = e.target.closest('.section__container').dataset.productId;
     console.log(id);
-    const price = productDetailTotalPrice;
+    const price = productDetailPricePerOne * productDetailProductQty;
     const count = productDetailProductQty;
     const title = productDetailTitle;
     const thumbnail = productDetailThumbnail;
@@ -300,7 +300,9 @@ $('.app').addEventListener('click', (e) => {
   // [제품 상세 페이지]에서 '구매하기' 버튼 클릭 클릭 -> [결제 페이지]로 이동
   if (e.target.classList.contains('buyBtn')) {
     console.log(e.target);
-    if (window.localStorage.getItem('token')) {
+    if (localStorage.getItem('token')) {
+      // '장바구니에 담기/구매하기' 핸들링 함수
+      pushInCart(e);
       router.navigate('/payment');
     } else {
       alert('로그인이 필요한 페이지 입니다. 로그인 페이지로 이동합니다.');
