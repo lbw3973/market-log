@@ -49,10 +49,12 @@ export const orderHandler = async () => {
       order.user.displayName.includes(searchedOrderInput.value),
     );
 
+    orders = filteredOrder;
+
     orderList.innerHTML = ``;
-    renderPageBtn(orderPageBtn, filteredOrder, activeIdx, itemsPerPage);
-    newOrders = getOrderCurrentPage(filteredOrder, activeIdx, itemsPerPage);
-    renderOrderList(orderList, newOrders, activeIdx);
+    renderPageBtn(orderPageBtn, filteredOrder, 1, itemsPerPage, 1);
+    newOrders = getOrderCurrentPage(filteredOrder, 1, itemsPerPage);
+    renderOrderList(orderList, newOrders, 1);
     searchedOrderInput.value = '';
   };
 
@@ -72,7 +74,7 @@ export const orderHandler = async () => {
 
     if (e.target.classList.contains('btn-page--number')) {
       let numberBtn = e.target;
-      activeIdx = parseInt(numberBtn.textContent);
+      activeIdx = Number(numberBtn.textContent);
 
       if (activeIdx === btnIdx * itemsPerPage + 1) {
         btnIdx++;
@@ -83,7 +85,7 @@ export const orderHandler = async () => {
       }
     }
 
-    if (e.target.parentElement.classList.contains('btn-page--next')) {
+    if (e.target.classList.contains('btn-page--next')) {
       activeIdx++;
 
       if (activeIdx > Math.ceil(orders.length / itemsPerPage) - 1) {
@@ -95,9 +97,8 @@ export const orderHandler = async () => {
       }
     }
 
-    if (e.target.parentElement.classList.contains('btn-page--prev')) {
+    if (e.target.classList.contains('btn-page--prev')) {
       activeIdx--;
-      console.log('prev', activeIdx, btnIdx);
 
       if (activeIdx < 1) {
         activeIdx = 1;

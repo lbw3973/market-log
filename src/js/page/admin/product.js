@@ -50,17 +50,14 @@ export const productHandler = async () => {
 
   const searchProductHandler = () => {
     const filteredProduct = products.filter((product) =>
-      product.title.includes(searchedProductInput.value),
+      product.title.toLowerCase().includes(searchedProductInput.value),
     );
 
+    products = filteredProduct;
     productList.innerHTML = ``;
-    renderPageBtn(productPageBtn, filteredProduct, activeIdx, itemsPerPage);
-    newProducts = getProductCurrentPage(
-      filteredProduct,
-      activeIdx,
-      itemsPerPage,
-    );
-    renderProductList(productList, newProducts, activeIdx);
+    renderPageBtn(productPageBtn, filteredProduct, 1, itemsPerPage, 1);
+    newProducts = getProductCurrentPage(filteredProduct, 1, itemsPerPage);
+    renderProductList(productList, newProducts, 1);
     searchedProductInput.value = '';
   };
 
@@ -80,7 +77,7 @@ export const productHandler = async () => {
 
     if (e.target.classList.contains('btn-page--number')) {
       let numberBtn = e.target;
-      activeIdx = parseInt(numberBtn.textContent);
+      activeIdx = Number(numberBtn.textContent);
 
       if (activeIdx === btnIdx * itemsPerPage + 1) {
         btnIdx++;
@@ -91,7 +88,7 @@ export const productHandler = async () => {
       }
     }
 
-    if (e.target.parentElement.classList.contains('btn-page--next')) {
+    if (e.target.classList.contains('btn-page--next')) {
       activeIdx++;
 
       if (activeIdx > Math.ceil(products.length / itemsPerPage) - 1) {
@@ -103,7 +100,7 @@ export const productHandler = async () => {
       }
     }
 
-    if (e.target.parentElement.classList.contains('btn-page--prev')) {
+    if (e.target.classList.contains('btn-page--prev')) {
       activeIdx--;
 
       if (activeIdx < 1) {
