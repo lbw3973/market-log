@@ -1,4 +1,5 @@
 import { addProduct } from '../../api.js';
+import { router } from '../../main.js';
 
 /** 상품 추가 핸들러 */
 export const productAddHandler = () => {
