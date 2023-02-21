@@ -91,6 +91,7 @@ export const storeCart = (id, price, count, thumbnail, title, pricePerOne) => {
 let productDetailProductQty = 1;
 /** 총 상품 금액 */
 let productDetailTotalPrice;
+let productDetailCount;
 let productDetailTitle;
 let productDetailThumbnail;
 let productDetailPricePerOne;
@@ -159,7 +160,7 @@ export const renderDetailProduct = async (productId) => {
       </div>
       <div class="aside__productDetail--totalPrice">
         <p>총 상품 금액</p>
-        <p id="productDetail-totalPrice">${productDetailTotalPrice.toLocaleString()}</p>
+        <p id="productDetail-totalPrice">${productDetailTotalPrice.toLocaleString()} 원</p>
       </div>
       <div class="aside__productDetail--btns">
         ${

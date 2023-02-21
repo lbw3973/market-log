@@ -155,12 +155,8 @@ export const renderCartPage = () => {
   renderPage(renderInitCartPage);
   if (shoppingCartArr.length === 0) {
     console.log('length 0');
-
     return;
-    // renderCartList(shoppingCartStore.getLocalStorage());
-    // return;
   } else if (shoppingCartArr.length > 0) {
-    console.log('length 1이상');
     // 장바구니에 넣은 상품 렌더링
     renderCartList(shoppingCartArr);
     $(
