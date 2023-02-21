@@ -121,13 +121,14 @@ img {
       margin: 0 8px;
     }
   }
-
+  &__wishlist {
+    width: 34px;
+  }
   &__cart {
     position: relative;
 
     &--qty {
       position: absolute;
-      z-index: 10;
       transform: translateX(-140%) translateY(-10%);
       width: 20px;
       height: 20px;
