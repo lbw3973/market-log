@@ -1,7 +1,11 @@
 import { $ } from '../../utils/dom.js';
 import { reload } from '../../importIMGFiles.js';
 import { renderPage } from '../../utils/render.js';
-import { calendar, exclamationmark, cartSVG } from '../../importIMGFiles.js';
+import {
+  calendar,
+  exclamationmark,
+  transaction,
+} from '../../importIMGFiles.js';
 import {
   getAllTransactions,
   cancelTransactionAPI,
@@ -174,7 +178,7 @@ const renderSkeletonUIinOrderHistoryPage = () => {
 const emptyOrderHistory = () => {
   const emptyOrderHistoryTemplate = `
     <div class="cart__empty">
-      <img src="${cartSVG}" alt="빈 구매내역" />
+      <img src="${transaction}" alt="빈 구매내역" />
       <h3>구매내역이 없습니다.</h3>
       <a href="/category/keyboards">쇼핑하러 가기</a>
     </div>

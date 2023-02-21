@@ -20,6 +20,7 @@ import paginationLeft from '../../public/pagination-left.svg';
 import paginationRight from '../../public/pagination-right.svg';
 import chevronrightSVG from '../../public/chevronright.svg';
 import cartSVG from '../../public/cart.svg';
+import transaction from '../../public/transaction.svg';
 
 export {
   air60,
@@ -44,4 +45,5 @@ export {
   paginationRight,
   chevronrightSVG,
   cartSVG,
+  transaction,
 };
