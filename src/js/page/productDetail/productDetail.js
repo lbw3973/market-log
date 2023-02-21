@@ -11,6 +11,7 @@ import { shoppingCartStore } from '../../store/shoppingCartStore.js';
 import { recentViewStore } from '../../store/recentViewStore.js';
 import { renderInitHeaderLogin } from '../login.js';
 import { formatPrice } from '../../utils/format.js';
+import { countQtyInCart } from '../mainPage/mainPage.js';
 
 /** 찜하기 상품 유/무에 따라 다른 초기화면 렌더링 */
 export const checkWhetherAddWishList = (id) => {
@@ -192,6 +193,7 @@ export const pushInCart = (e) => {
     const pricePerOne = productDetailPricePerOne;
 
     storeCart(id, price, count, thumbnail, title, pricePerOne);
+    countQtyInCart();
     console.log('shoppingCartArr.push', shoppingCartStore.getLocalStorage());
   }
 };

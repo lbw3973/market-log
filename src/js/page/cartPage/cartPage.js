@@ -9,6 +9,7 @@ import { shoppingCartStore } from '../../store/shoppingCartStore.js';
 import { cartSVG } from '../../importIMGFiles.js';
 import { renderPage } from '../../utils/render.js';
 import { formatPrice } from '../../utils/format.js';
+import { countQtyInCart } from '../mainPage/mainPage.js';
 
 /** 장바구니 총 가격 렌더링 */
 export const renderCartTotalPrice = () => {
@@ -249,6 +250,7 @@ $('.app').addEventListener('click', (e) => {
     // storeLocalStorage(id);
     shoppingCartStore.setLocalStorage(shoppingCartArr);
     console.log(shoppingCartArr);
+    countQtyInCart();
     renderCartPage();
     return;
   }
