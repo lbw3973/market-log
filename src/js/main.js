@@ -12,7 +12,7 @@ import { handleDetailProductPage } from './page/productDetail/productDetail.js';
 import { handleWishListPage } from './page/wishListPage/wishListPage.js';
 import { handlePaymentPage } from './page/paymentPage/paymentPage.js';
 import { handleOrderHistoryPage } from './page/mypage/orderhistory.js';
-import { handleeditPersonalInfoPage } from './page/mypage/editPersonaInfo.js';
+import { handleeditPersonalInfoPage } from './page/mypage/editPersonalInfo.js';
 
 import { productHandler } from './page/admin/product.js';
 import { dashboardHandler } from './page/admin/dashboard.js';
