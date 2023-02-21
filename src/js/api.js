@@ -80,7 +80,6 @@ export const getAllTransactions = async () => {
     if (res.status === 400) {
       return [];
     } else {
-      console.log('거래내역', data);
       return data;
     }
   } catch (err) {
