@@ -125,6 +125,7 @@ $('.app').addEventListener('click', (e) => {
 /** 장바구니 상품 수량 */
 $('.header__cart--qty').innerHTML = shoppingCartStore.getLocalStorage().length;
 
+/** 장바구니 상품 수량 카운팅 함수*/
 export const countQtyInCart = () => {
   $('.header__cart--qty').innerHTML =
     shoppingCartStore.getLocalStorage().length;
