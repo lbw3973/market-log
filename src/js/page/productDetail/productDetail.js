@@ -324,30 +324,19 @@ $('.app').addEventListener('click', (e) => {
 /** '최근 본 상품' localStorage에 저장 */
 const storeRecentViewed = (id, title, thumbnail) => {
   let recentViewedArr = recentViewStore.getLocalStorage();
-  console.log(recentViewedArr);
-
   const existingItem = recentViewedArr.find((item) => item.id === id);
-  // const newRecentViewedArr = recentViewedArr.filter((item) => item.id === id);
-
-  // console.log(newRecentViewedArr);
-  console.log(existingItem);
+  console.log('existingItem', existingItem);
   if (existingItem) {
     const existingIndex = recentViewedArr.findIndex(
       (item) => item.id === existingItem.id,
     );
-    console.log(existingIndex);
-    recentViewedArr = recentViewedArr.slice(existingIndex, 0);
-    recentViewedArr.unshift({ id, title, thumbnail });
-    return;
-  } else if (!existingItem) {
-    // let recentViewedArr = recentViewStore.getLocalStorage();
-    recentViewedArr.unshift({ id, title, thumbnail });
+
+    recentViewedArr.splice(existingIndex, existingIndex);
+    // recentViewedArr.unshift({ id, title, thumbnail });
     recentViewStore.setLocalStorage(recentViewedArr);
-    return;
   }
-  // let recentViewedArr = recentViewStore.getLocalStorage();
-  // recentViewedArr.unshift({ id, title, thumbnail });
-  // recentViewStore.setLocalStorage(recentViewedArr);
+  recentViewedArr.unshift({ id, title, thumbnail });
+  recentViewStore.setLocalStorage(recentViewedArr);
 };
 
 /** /product/:id 핸들링 함수 */

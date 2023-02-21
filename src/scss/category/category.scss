@@ -90,6 +90,7 @@
     &--list {
       border-radius: 6px;
       padding: 3px;
+      height: auto;
       &:hover {
         transition: 0.5s ease, border 0.2s ease;
         box-shadow: u.$boxShadow;
