@@ -194,7 +194,7 @@ const renderOrderedListPage = async () => {
   renderPage(htmlMypage_Nav);
   handleOrderHistoryInitTemplate();
   resetNavbarActive();
-  // setNavbarActive();
+  setNavbarActive();
   renderSkeletonUIinOrderHistoryPage();
   const transactionArray = await getAllTransactions();
 
@@ -351,3 +351,8 @@ $('.app').addEventListener('click', (e) => {
     orderHistoryUtilSetupUI();
   }
 });
+
+const setNavbarActive = () => {
+  const active = document.querySelector('#mpOrderHistory');
+  active.parentElement.classList.add('active');
+};
