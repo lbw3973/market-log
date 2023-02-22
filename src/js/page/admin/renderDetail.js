@@ -1,8 +1,5 @@
 import { formatDate, formatPrice } from '../../utils/format.js';
 
-import leftBtnSVG from '../../../../public/pagination-left.svg';
-import rightBtnSVG from '../../../../public/pagination-right.svg';
-
 /**[상품관리수정 페이지] 페이지 렌더 */
 export const renderEditProduct = (productEdit) => {
   const { id, description, isSoldOut, price, tags, title, thumbnail } =

@@ -1,8 +1,5 @@
 import searchPNG from '../../../../public/search.png';
 
-import leftBtnSVG from '../../../../public/pagination-left.svg';
-import rightBtnSVG from '../../../../public/pagination-right.svg';
-
 /**사이드 메뉴  */
 export const sideBar = `
       <aside class="aside-container">
