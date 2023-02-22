@@ -10,6 +10,7 @@ import {
 import { formatDate } from '../../utils/format.js';
 import { htmlMypage_Nav, resetNavbarActive } from '../mypage.js';
 import { router } from '../../main.js';
+import { getLoginStatus, showAlertPlzLogin } from '../login.js';
 
 /** 거래 완료/취소 확인 함수 */
 const checkWhetherTransactionIsDone = (done, isCanceled) => {
@@ -237,6 +238,11 @@ $('.app').addEventListener('click', async (e) => {
 
 /** /mypage/order 핸들링 함수 */
 export const handleOrderHistoryPage = async () => {
+  if (getLoginStatus() === false) {
+    showAlertPlzLogin();
+    router.navigate('/login');
+    return;
+  }
   $('.modal__addCart').style.display = 'none';
   console.log('/mypage/order');
   await renderOrderedListPage();

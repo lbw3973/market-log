@@ -11,6 +11,7 @@ import { shoppingCartStore } from '../../store/shoppingCartStore.js';
 import { htmlMypage_Nav, resetNavbarActive } from '../mypage.js';
 
 import { router } from '../../main.js';
+import { getLoginStatus, showAlertPlzLogin } from '../login.js';
 
 /** 마이 페이지 mypage__navigo__container 초기 템플릿 */
 
@@ -189,5 +190,10 @@ $('.app').addEventListener('click', (e) => {
 
 /** /mypage/wishlist 핸들링 함수 */
 export const handleWishListPage = () => {
+  if (getLoginStatus() === false) {
+    showAlertPlzLogin();
+    router.navigate('/login');
+    return;
+  }
   renderWishListPage();
 };

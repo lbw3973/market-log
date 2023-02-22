@@ -6,6 +6,7 @@ import { $ } from '../../utils/dom.js';
 import { renderPage } from '../../utils/render.js';
 import { getDetailOrderProduct } from '../../api.js';
 import { formatPrice, formatDate } from '../../utils/format.js';
+import { getLoginStatus, showAlertPlzLogin } from '../login.js';
 
 /** 마이 페이지 mypage__navigo__container 초기 템플릿 */
 const renderInitMypageTemplate = `
@@ -161,5 +162,10 @@ const renderDetailOrderPage = async (params) => {
 
 /** /mypage/order/:id 핸들링 함수 */
 export const handleDetailOrderHistoryPage = async (params) => {
+  if (getLoginStatus() === false) {
+    showAlertPlzLogin();
+    router.navigate('/login');
+    return;
+  }
   await renderDetailOrderPage(params);
 };
