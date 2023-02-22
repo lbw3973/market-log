@@ -55,7 +55,6 @@ export const orderHandler = async () => {
     renderPageBtn(orderPageBtn, filteredOrder, 1, itemsPerPage, 1);
     newOrders = getOrderCurrentPage(filteredOrder, 1, itemsPerPage);
     renderOrderList(orderList, newOrders, 1);
-    searchedOrderInput.value = '';
   };
 
   /** 거래내역 검색(enter) 이벤트 리스너 */
@@ -65,8 +64,14 @@ export const orderHandler = async () => {
     }
   });
 
+  searchedOrderInput.addEventListener('input', async () => {
+    console.log(searchedOrderInput.value);
+    searchedOrderInput.value === '' ? (orders = await getAllOrder()) : orders;
+    searchOrderHandler();
+  });
+
   /** 거래내역 검색(버튼 클릭) 이벤트 리스너 */
-  searchedOrderBtn.addEventListener('click', searchOrderHandler);
+  // searchedOrderBtn.addEventListener('click', searchOrderHandler);
 
   /** 버튼 클릭 페이지 이동 이벤트 리스너 */
   orderPageBtn.addEventListener('click', (e) => {

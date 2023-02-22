@@ -58,7 +58,6 @@ export const productHandler = async () => {
     renderPageBtn(productPageBtn, filteredProduct, 1, itemsPerPage, 1);
     newProducts = getProductCurrentPage(filteredProduct, 1, itemsPerPage);
     renderProductList(productList, newProducts, 1);
-    searchedProductInput.value = '';
   };
 
   /** 상품 검색(enter) 이벤트 리스너 */
@@ -68,8 +67,15 @@ export const productHandler = async () => {
     }
   });
 
+  searchedProductInput.addEventListener('input', async (e) => {
+    searchedProductInput.value === ''
+      ? (products = await getAllProducts())
+      : products;
+    searchProductHandler();
+  });
+
   /** 상품 검색(버튼 클릭) 이벤트 리스너 */
-  searchedProductBtn.addEventListener('click', searchProductHandler);
+  // searchedProductBtn.addEventListener('click', searchProductHandler);
 
   /** 페이지 버튼 클릭 이벤트 리스너 */
   productPageBtn.addEventListener('click', (e) => {
