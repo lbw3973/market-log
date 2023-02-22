@@ -50,18 +50,14 @@ export const productHandler = async () => {
 
   const searchProductHandler = () => {
     const filteredProduct = products.filter((product) =>
-      product.title.includes(searchedProductInput.value),
+      product.title.toLowerCase().includes(searchedProductInput.value),
     );
 
+    products = filteredProduct;
     productList.innerHTML = ``;
-    renderPageBtn(productPageBtn, filteredProduct, activeIdx, itemsPerPage);
-    newProducts = getProductCurrentPage(
-      filteredProduct,
-      activeIdx,
-      itemsPerPage,
-    );
-    renderProductList(productList, newProducts, activeIdx);
-    searchedProductInput.value = '';
+    renderPageBtn(productPageBtn, filteredProduct, 1, itemsPerPage, 1);
+    newProducts = getProductCurrentPage(filteredProduct, 1, itemsPerPage);
+    renderProductList(productList, newProducts, 1);
   };
 
   /** 상품 검색(enter) 이벤트 리스너 */
@@ -71,8 +67,15 @@ export const productHandler = async () => {
     }
   });
 
+  searchedProductInput.addEventListener('input', async (e) => {
+    searchedProductInput.value === ''
+      ? (products = await getAllProducts())
+      : products;
+    searchProductHandler();
+  });
+
   /** 상품 검색(버튼 클릭) 이벤트 리스너 */
-  searchedProductBtn.addEventListener('click', searchProductHandler);
+  // searchedProductBtn.addEventListener('click', searchProductHandler);
 
   /** 페이지 버튼 클릭 이벤트 리스너 */
   productPageBtn.addEventListener('click', (e) => {
@@ -80,7 +83,7 @@ export const productHandler = async () => {
 
     if (e.target.classList.contains('btn-page--number')) {
       let numberBtn = e.target;
-      activeIdx = parseInt(numberBtn.textContent);
+      activeIdx = Number(numberBtn.textContent);
 
       if (activeIdx === btnIdx * itemsPerPage + 1) {
         btnIdx++;
@@ -91,7 +94,7 @@ export const productHandler = async () => {
       }
     }
 
-    if (e.target.parentElement.classList.contains('btn-page--next')) {
+    if (e.target.classList.contains('btn-page--next')) {
       activeIdx++;
 
       if (activeIdx > Math.ceil(products.length / itemsPerPage) - 1) {
@@ -103,7 +106,7 @@ export const productHandler = async () => {
       }
     }
 
-    if (e.target.parentElement.classList.contains('btn-page--prev')) {
+    if (e.target.classList.contains('btn-page--prev')) {
       activeIdx--;
 
       if (activeIdx < 1) {

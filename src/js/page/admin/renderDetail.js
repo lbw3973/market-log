@@ -1,8 +1,5 @@
 import { formatDate, formatPrice } from '../../utils/format.js';
 
-import leftBtnSVG from '../../../../public/pagination-left.svg';
-import rightBtnSVG from '../../../../public/pagination-right.svg';
-
 /**[상품관리수정 페이지] 페이지 렌더 */
 export const renderEditProduct = (productEdit) => {
   const { id, description, isSoldOut, price, tags, title, thumbnail } =
@@ -144,8 +141,8 @@ export const renderOrderDetail = (order) => {
             <h2>거래 정보</h2>
             <div>
               <p>거래 일시 : ${formatDate(timePaid)}</P>
-              <p>취소 여부 : ${isCanceled}</P>
-              <p>완료 여부 : ${done}</P>
+              <p>취소 여부 : ${isCanceled ? 'Y' : 'N'}</P>
+              <p>완료 여부 : ${done ? 'Y' : 'N'}</P>
             </div>
           </div>
         </div>
@@ -180,9 +177,9 @@ export const renderPageBtn = (
   }
 
   productPageBtn.innerHTML = `
-            <button class='btn-page--prev'><img src='${leftBtnSVG}' class='prev'></button>
+            <button class='btn-page--prev'>이전</button>
             ${buttonsEl}
-            <button class='btn-page--next'><img src='${rightBtnSVG}'></button>
+            <button class='btn-page--next'>다음</button>
       `;
 };
 

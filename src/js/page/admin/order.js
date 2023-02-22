@@ -1,5 +1,6 @@
 import { getAllOrder } from '../../api.js';
 import { renderPageBtn, renderOrderList } from './renderDetail.js';
+import { toggleLoadingSpinner } from '../../utils/loading.js';
 
 let orders = [];
 
@@ -12,6 +13,7 @@ const getOrderCurrentPage = (orders, activeIdx, itemsPerPage) => {
   const start = (activeIdx - 1) * itemsPerPage;
   const end = start + itemsPerPage;
   const newOrders = orders.slice(start, end);
+
   return newOrders;
 };
 
@@ -26,6 +28,8 @@ let newOrders = getOrderCurrentPage(orders, activeIdx, itemsPerPage);
 
 /** 거래내역관리 페이지 핸들러 */
 export const orderHandler = async () => {
+  toggleLoadingSpinner(true);
+
   const orderContainer = document.querySelector('.order-container');
   const orderList = orderContainer.querySelector('.order-container__list');
   const orderPageBtn = orderContainer.querySelector(
@@ -49,11 +53,12 @@ export const orderHandler = async () => {
       order.user.displayName.includes(searchedOrderInput.value),
     );
 
+    orders = filteredOrder;
+
     orderList.innerHTML = ``;
-    renderPageBtn(orderPageBtn, filteredOrder, activeIdx, itemsPerPage);
-    newOrders = getOrderCurrentPage(filteredOrder, activeIdx, itemsPerPage);
-    renderOrderList(orderList, newOrders, activeIdx);
-    searchedOrderInput.value = '';
+    renderPageBtn(orderPageBtn, filteredOrder, 1, itemsPerPage, 1);
+    newOrders = getOrderCurrentPage(filteredOrder, 1, itemsPerPage);
+    renderOrderList(orderList, newOrders, 1);
   };
 
   /** 거래내역 검색(enter) 이벤트 리스너 */
@@ -63,8 +68,14 @@ export const orderHandler = async () => {
     }
   });
 
+  searchedOrderInput.addEventListener('input', async () => {
+    console.log(searchedOrderInput.value);
+    searchedOrderInput.value === '' ? (orders = await getAllOrder()) : orders;
+    searchOrderHandler();
+  });
+
   /** 거래내역 검색(버튼 클릭) 이벤트 리스너 */
-  searchedOrderBtn.addEventListener('click', searchOrderHandler);
+  // searchedOrderBtn.addEventListener('click', searchOrderHandler);
 
   /** 버튼 클릭 페이지 이동 이벤트 리스너 */
   orderPageBtn.addEventListener('click', (e) => {
@@ -72,7 +83,7 @@ export const orderHandler = async () => {
 
     if (e.target.classList.contains('btn-page--number')) {
       let numberBtn = e.target;
-      activeIdx = parseInt(numberBtn.textContent);
+      activeIdx = Number(numberBtn.textContent);
 
       if (activeIdx === btnIdx * itemsPerPage + 1) {
         btnIdx++;
@@ -83,7 +94,7 @@ export const orderHandler = async () => {
       }
     }
 
-    if (e.target.parentElement.classList.contains('btn-page--next')) {
+    if (e.target.classList.contains('btn-page--next')) {
       activeIdx++;
 
       if (activeIdx > Math.ceil(orders.length / itemsPerPage) - 1) {
@@ -95,9 +106,8 @@ export const orderHandler = async () => {
       }
     }
 
-    if (e.target.parentElement.classList.contains('btn-page--prev')) {
+    if (e.target.classList.contains('btn-page--prev')) {
       activeIdx--;
-      console.log('prev', activeIdx, btnIdx);
 
       if (activeIdx < 1) {
         activeIdx = 1;
@@ -110,4 +120,6 @@ export const orderHandler = async () => {
     orderList.innerHTML = ``;
     setUpUI(orderPageBtn, orderList);
   });
+
+  toggleLoadingSpinner(false);
 };
