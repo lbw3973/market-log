@@ -2,6 +2,7 @@ import { $ } from '../utils/dom.js';
 import { base_url, api_key, user_name, admin_email } from '../db.js';
 import { router } from '../main.js';
 import { renderPage } from '../utils/render.js';
+import { outlink } from '../importIMGFiles.js';
 const headers = {
   'content-type': 'application/json',
   apikey: api_key,
@@ -38,7 +39,7 @@ export const htmlHeaderLogin = /* html */ `
 /** HTML : header logout 템플릿 */
 const htmlHeaderLogout = /* html */ `
   <li class="header__user-login--li">
-    <a href="/admin" data-navigo id="btnMypage">
+    <a href="/mypage" data-navigo id="btnMypage">
       <strong id="header__user-login-name"></strong>님 환영합니다
     </a>
   </li>
@@ -104,18 +105,20 @@ function displayUserName(user) {
 /** 로그인,아웃 후, header의 로그인,아웃 영역을 Render */
 export async function renderInitHeaderLogin() {
   $('.app').innerHTML = '';
-  const author = await authorization();
 
   if (!localStorage.getItem('token')) {
     ulLoginHeaderEl.innerHTML = htmlHeaderLogin;
   } else {
+    const author = await authorization();
     ulLoginHeaderEl.innerHTML = htmlHeaderLogout;
     $('#header__user-login-name').innerText = author.displayName;
 
     if (author.email === admin_email) {
       $('#btnMypage').href = '/admin';
       $('#btnMypage').innerHTML = `
-        <strong id="header__user-login-name">관리자 페이지로 이동</strong>
+        <strong id="header__user-login-name">관리자 페이지로 이동
+          <img src="${outlink}" alt="OutLink"/>
+        </strong>
         `;
     }
 
