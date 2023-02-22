@@ -14,6 +14,7 @@ import {
 import { formatDate } from '../../utils/format.js';
 import { htmlMypage_Nav, resetNavbarActive } from '../mypage.js';
 import { router } from '../../main.js';
+import { getLoginStatus, showAlertPlzLogin } from '../login.js';
 
 /** 거래 완료/취소 확인 함수 */
 const checkWhetherTransactionIsDone = (done, isCanceled) => {
@@ -54,7 +55,7 @@ export const renderInitMypageTemplate = `
                   </a>
                 </li>
                 <li>
-                  <a href="/mypage/myPersonalInfoModify" data-navigo
+                  <a href="/mypage/editPersonalInfo" data-navigo
                     >개인 정보 수정
                     <img src="./public/chevronright.svg" alt="chevronright" />
                   </a>
@@ -156,7 +157,9 @@ const renderOrderedProductList = (orderedItems) => {
     })
     .join('');
 
-  $('.orderHistory__lists').innerHTML = orderedProductListTemplate;
+  if ($('.orderHistory__lists')) {
+    $('.orderHistory__lists').innerHTML = orderedProductListTemplate;
+  }
 };
 
 /** 주문 내역 skeleton ui 초기 렌더링 */
@@ -250,6 +253,11 @@ $('.app').addEventListener('click', async (e) => {
 
 /** /mypage/order 핸들링 함수 */
 export const handleOrderHistoryPage = async () => {
+  if (getLoginStatus() === false) {
+    showAlertPlzLogin();
+    router.navigate('/login');
+    return;
+  }
   $('.modal__addCart').style.display = 'none';
   console.log('/mypage/order');
   await renderOrderedListPage();
@@ -313,7 +321,9 @@ const orderHistoryUtilDisplayButtons = (container, pages, activeIndex) => {
   utilBtns.unshift(
     `<button class="order-history__pagination--btn-prev">이전</button>`,
   );
-  container.innerHTML = utilBtns.join('');
+  if (container) {
+    container.innerHTML = utilBtns.join('');
+  }
 };
 
 /** prev, next, 페이지네이션 버튼 핸들링 이벤트 */

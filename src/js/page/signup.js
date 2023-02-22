@@ -1,7 +1,8 @@
-import { htmlHeaderLogin } from './login';
+import { $ } from '../utils/dom.js';
+import { htmlHeaderLogin } from './login.js';
 import { base_url, api_key, user_name } from '../db.js';
 import { router } from '../main.js';
-import { renderPage } from '../utils/render';
+import { renderPage } from '../utils/render.js';
 const headers = {
   'content-type': 'application/json',
   apikey: api_key,
@@ -10,7 +11,6 @@ const headers = {
 const RegexID =
   /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 const RegexPW = /^(?=.*[a-zA-Z\d])[a-zA-Z\d]{8,}$/;
-const $ = (selector) => document.querySelector(selector);
 const ulLoginHeaderEl = $('.header__user-login--ul');
 let bSignup = false;
 export const htmlSignup = /* html */ `

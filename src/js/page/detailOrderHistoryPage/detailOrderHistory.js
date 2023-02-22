@@ -6,6 +6,7 @@ import { $ } from '../../utils/dom.js';
 import { renderPage } from '../../utils/render.js';
 import { getDetailOrderProduct } from '../../api.js';
 import { formatPrice, formatDate } from '../../utils/format.js';
+import { getLoginStatus, showAlertPlzLogin } from '../login.js';
 import { htmlMypage_Nav } from '../mypage.js';
 
 /** 마이 페이지 mypage__navigo__container 초기 템플릿 */
@@ -35,7 +36,7 @@ const renderInitMypageTemplate = `
                   </a>
                 </li>
                 <li>
-                  <a href="/mypage/myPersonalInfoModify" data-navigo
+                  <a href="/mypage/editPersonalInfo" data-navigo
                     >개인 정보 수정
                     <img src="./public/chevronright.svg" alt="chevronright" />
                   </a>
@@ -162,5 +163,10 @@ const renderDetailOrderPage = async (params) => {
 
 /** /mypage/order/:id 핸들링 함수 */
 export const handleDetailOrderHistoryPage = async (params) => {
+  if (getLoginStatus() === false) {
+    showAlertPlzLogin();
+    router.navigate('/login');
+    return;
+  }
   await renderDetailOrderPage(params);
 };

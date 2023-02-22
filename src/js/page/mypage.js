@@ -1,9 +1,8 @@
 // dotenv 사용 예시
-import chevronrightSVG from '../../../public/chevronright.svg';
-import { router } from '../main';
+import { chevronrightSVG } from '../importIMGFiles.js';
+import { router } from '../main.js';
 import { renderPage } from '../utils/render.js';
-import { getLoginStatus, showAlertPlzLogin } from './login';
-const $ = (selector) => document.querySelector(selector);
+import { getLoginStatus, showAlertPlzLogin } from './login.js';
 let navliList;
 
 /** HTML : mypage nav 목록 */
@@ -30,7 +29,7 @@ export const htmlMypage_Nav = /* html */ `
             </a>
           </li>
           <li>
-            <a href="/mypage/editPersonalInfo" data-navigo id="mpMyPersonalInfoModify">개인 정보 수정
+            <a href="/mypage/editPersonalInfo" data-navigo id="mpEditPersonalInfo">개인 정보 수정
               <img src="${chevronrightSVG}" alt="chevronright">
             </a>
           </li>

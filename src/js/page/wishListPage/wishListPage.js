@@ -11,13 +11,14 @@ import { shoppingCartStore } from '../../store/shoppingCartStore.js';
 import { htmlMypage_Nav, resetNavbarActive } from '../mypage.js';
 import { router } from '../../main.js';
 import { countQtyInCart } from '../mainPage/mainPage.js';
+import { getLoginStatus, showAlertPlzLogin } from '../login.js';
 
 /** 찜한상품 제목, ul 태그 템플릿 삽입 */
 const handleWishListInitTemplate = () => {
   const renderWishListPageInitTemplate = `
     <div class="mypage__wishlist">
       <div class="mypage__wishlist--container">
-        <h3>찜한 상품</h3>
+        <h2>찜한 상품</h2>
         <ul class="wishlist__product--lists"></ul>
         <div class="wishList__pagination--btnsContainer"></div>
       </div>
@@ -144,6 +145,11 @@ $('.app').addEventListener('click', (e) => {
 
 /** /mypage/wishlist 핸들링 함수 */
 export const handleWishListPage = () => {
+  if (getLoginStatus() === false) {
+    showAlertPlzLogin();
+    router.navigate('/login');
+    return;
+  }
   renderWishListPage();
   // wishListUtilInit();
 };

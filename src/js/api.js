@@ -338,3 +338,111 @@ export const editCancelOrder = async (order) => {
     console.log('err: ', '거래 내역 취소/취소해제 실패');
   }
 };
+
+/** API : 은행 목록 */
+export const getBankList = async () => {
+  const res = await fetch(`${base_url}/account/banks`, {
+    method: 'GET',
+    headers: {
+      ...headers,
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  });
+  const json = await res.json();
+
+  return json;
+};
+
+/** API : 계좌 조회 */
+export const getUserAccounts = async () => {
+  const res = await fetch(`${base_url}/account`, {
+    method: 'GET',
+    headers: {
+      ...headers,
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  });
+  const json = await res.json();
+
+  return json;
+};
+
+/** API : 계좌 개설 */
+export const createUserAccount = async (bankCode) => {
+  const res = await fetch(`${base_url}/account`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+    body: JSON.stringify({
+      bankCode: bankCode,
+      accountNumber: document.querySelector('#input__account').value,
+      phoneNumber: document.querySelector('#input__phone').value,
+      signature: true,
+    }),
+  });
+
+  return res.ok;
+};
+
+// API : 계좌 해지
+export const deleteAccount = async (e) => {
+  const accountId = e.target.dataset.id;
+  const res = await fetch(`${base_url}/account`, {
+    method: 'DELETE',
+    headers: {
+      ...headers,
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+    body: JSON.stringify({
+      accountId: accountId,
+      signature: true,
+    }),
+  });
+
+  const json = await res.json();
+  return json;
+};
+
+/** API : Login */
+export async function login() {
+  const res = await fetch(`${base_url}/auth/login`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+    },
+    body: JSON.stringify({
+      email: document.querySelector('#inputID').value,
+      password: document.querySelector('#inputPW').value,
+    }),
+  });
+  const json = await res.json();
+  return json;
+}
+
+/** API : Logout */
+export async function logout() {
+  const res = await fetch(`${base_url}/auth/logout`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  });
+  const json = await res.json();
+  return json;
+}
+
+/** API : 인증확인 */
+export async function authorization() {
+  const res = await fetch(`${base_url}/auth/me`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  });
+  const json = await res.json();
+  return json;
+}

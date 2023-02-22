@@ -49,10 +49,24 @@ img {
 
       &--ul {
         display: flex;
-        gap: 5px;
-        &--li {
+        gap: 15px;
+
+        .header__user-login--li {
+          display: flex;
+          align-items: center;
+          font-weight: 600;
           a {
+            padding: 5px;
             color: var(--logo-color);
+            img {
+              border-radius: 0;
+              width: 15px;
+            }
+          }
+          a:hover {
+            background-color: var(--logo-color);
+            border-radius: 5px;
+            color: #fff;
           }
         }
       }

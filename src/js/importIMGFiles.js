@@ -1,3 +1,4 @@
+import outlink from '../../public/outlink.png';
 import air60 from '../../public/mainPageIMG/air60.png';
 import air75 from '../../public/mainPageIMG/air75.png';
 import halo65 from '../../public/mainPageIMG/halo65.png';
@@ -23,6 +24,7 @@ import cartSVG from '../../public/cart.svg';
 import transaction from '../../public/transaction.svg';
 
 export {
+  outlink,
   air60,
   air75,
   halo65,
