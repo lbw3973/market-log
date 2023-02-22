@@ -9,50 +9,9 @@ import { storeCart } from '../productDetail/productDetail.js';
 import { wishListStore } from '../../store/wishListStore.js';
 import { shoppingCartStore } from '../../store/shoppingCartStore.js';
 import { htmlMypage_Nav, resetNavbarActive } from '../mypage.js';
-
 import { router } from '../../main.js';
+import { countQtyInCart } from '../mainPage/mainPage.js';
 import { getLoginStatus, showAlertPlzLogin } from '../login.js';
-
-/** 마이 페이지 mypage__navigo__container 초기 템플릿 */
-
-// const renderInitMypageTemplate = `
-//       <div class="mypage__app">
-//         <div class="mypage__container">
-//           <div class="mypage__navbar">
-//             <h1>마이페이지</h1>
-//             <nav>
-//               <ul>
-//                 <li>
-//                   <a href="/mypage/order" data-navigo
-//                     >주문내역
-//                     <img src="./public/chevronright.svg" alt="chevronright" />
-//                   </a>
-//                 </li>
-//                 <li>
-//                   <a href="/mypage/account" data-navigo
-//                     >계좌 관리
-//                     <img src="./public/chevronright.svg" alt="chevronright" />
-//                   </a>
-//                 </li>
-//                 <li>
-//                   <a href="/mypage/wishlist" data-navigo
-//                     >찜한 상품
-//                     <img src="./public/chevronright.svg" alt="chevronright" />
-//                   </a>
-//                 </li>
-//                 <li>
-//                   <a href="/mypage/myPersonalInfoModify" data-navigo
-//                     >개인 정보 수정
-//                     <img src="./public/chevronright.svg" alt="chevronright" />
-//                   </a>
-//                 </li>
-//               </ul>
-//             </nav>
-//           </div>
-//           <div class="mypage__navigo__container"></div>
-//         </div>
-//       </div>
-// `;
 
 /** 찜한상품 제목, ul 태그 템플릿 삽입 */
 const handleWishListInitTemplate = () => {
@@ -60,8 +19,8 @@ const handleWishListInitTemplate = () => {
     <div class="mypage__wishlist">
       <div class="mypage__wishlist--container">
         <h2>찜한 상품</h2>
-        <ul class="wishlist__product--lists">
-        </ul>
+        <ul class="wishlist__product--lists"></ul>
+        <div class="wishList__pagination--btnsContainer"></div>
       </div>
     </div>
 `;
@@ -135,17 +94,12 @@ const renderWishListPage = () => {
   resetNavbarActive();
   setNavbacActive();
   if (wishListStore.getLocalStorage().length === 0) {
-    // renderPage(renderInitMypageTemplate);
-    // renderPage(htmlMypage_Nav);
-    // handleWishListInitTemplate();
     handleEmptyWishlistInit();
     return;
   } else if (wishListStore.getLocalStorage().length >= 1) {
     // 장바구니에 넣은 상품 렌더링
-    // renderPage(renderInitMypageTemplate);
-    // renderPage(htmlMypage_Nav);
-    // handleWishListInitTemplate();
-    renderWishListProductList(wishListStore.getLocalStorage());
+    wishListUtilInit();
+    // renderWishListProductList(wishListStore.getLocalStorage());
     return;
   }
 };
@@ -162,7 +116,7 @@ $('.app').addEventListener('click', (e) => {
     wishListArr = wishListArr.filter((item) => item.id !== id);
     console.log('removeItem from wishListArr', wishListArr);
     wishListStore.setLocalStorage(wishListArr);
-    renderWishListPage();
+    wishListUtilInit();
   }
 });
 
@@ -184,6 +138,7 @@ $('.app').addEventListener('click', (e) => {
       wishListInfo.pricePerOne,
     );
     shoppingCartStore.setLocalStorage(shoppingCartStore.getLocalStorage());
+    countQtyInCart();
     console.log(shoppingCartStore.getLocalStorage());
   }
 });
@@ -196,4 +151,90 @@ export const handleWishListPage = () => {
     return;
   }
   renderWishListPage();
+  // wishListUtilInit();
 };
+
+/*-----------------------------------*\
+  #pagination
+\*-----------------------------------*/
+
+/** 처음 index = 0 */
+let wishListUtilIndex = 0;
+/** 페이지네이션 배열 초기화 = 0 */
+let wishListUtilPages = [];
+
+/** 주문내역 페이지 제품, 버튼 초기 렌더링 */
+const wishListUtilSetupUI = () => {
+  renderWishListProductList(wishListUtilPages[wishListUtilIndex]);
+  wishListUtilDisplayButtons(
+    $('.wishList__pagination--btnsContainer'),
+    wishListUtilPages,
+    wishListUtilIndex,
+  );
+};
+
+/** 주문내역 페이지 초기 렌더링 시 ui, api 불러오는 함수 */
+const wishListUtilInit = async () => {
+  const wishListArr = wishListStore.getLocalStorage();
+  wishListUtilPages = wishListUtilPaginate(wishListArr);
+
+  wishListUtilSetupUI();
+};
+
+/** 주문내역 페이지 페이지네이션 1페이지 당 10개, slice 메서드로 배열에 삽입 */
+const wishListUtilPaginate = (list) => {
+  const itemsPerPage = 10;
+  const numberOfPages = Math.ceil(list.length / itemsPerPage);
+
+  const newList = Array.from({ length: numberOfPages }, (_, index) => {
+    const start = index * itemsPerPage;
+
+    return list.slice(start, start + itemsPerPage);
+  });
+
+  return newList;
+};
+
+/** 주문내역 페이지 페이지네이션 버튼 */
+const wishListUtilDisplayButtons = (container, pages, activeIndex) => {
+  let utilBtns = pages.map((_, pageIndex) => {
+    return `
+    <button class="wishList__pagination--btn ${
+      activeIndex === pageIndex ? 'active-btn' : 'null'
+    }" data-index="${pageIndex}">
+      ${pageIndex + 1}
+    </button>`;
+  });
+
+  utilBtns.push(`<button class="wishList__pagination--btn-next">다음</button>`);
+  utilBtns.unshift(
+    `<button class="wishList__pagination--btn-prev">이전</button>`,
+  );
+  container.innerHTML = utilBtns.join('');
+};
+
+/** prev, next, 페이지네이션 버튼 핸들링 이벤트 */
+$('.app').addEventListener('click', (e) => {
+  if (e.target.classList.contains('wishList__pagination--btnsContainer'))
+    return;
+
+  if (e.target.classList.contains('wishList__pagination--btn')) {
+    wishListUtilIndex = Number(e.target.dataset.index);
+    wishListUtilSetupUI();
+  }
+
+  if (e.target.classList.contains('wishList__pagination--btn-next')) {
+    wishListUtilIndex++;
+    if (wishListUtilIndex > wishListUtilPages.length - 1) {
+      wishListUtilIndex = 0;
+    }
+    wishListUtilSetupUI();
+  }
+  if (e.target.classList.contains('wishList__pagination--btn-prev')) {
+    wishListUtilIndex--;
+    if (wishListUtilIndex < 0) {
+      wishListUtilIndex = wishListUtilPages.length - 1;
+    }
+    wishListUtilSetupUI();
+  }
+});

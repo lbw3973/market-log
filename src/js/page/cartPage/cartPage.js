@@ -8,6 +8,8 @@ import { pushInCart, updateInfo } from '../productDetail/productDetail.js';
 import { shoppingCartStore } from '../../store/shoppingCartStore.js';
 import { cartSVG } from '../../importIMGFiles.js';
 import { renderPage } from '../../utils/render.js';
+import { formatPrice } from '../../utils/format.js';
+import { countQtyInCart } from '../mainPage/mainPage.js';
 
 /** 장바구니 총 가격 렌더링 */
 export const renderCartTotalPrice = () => {
@@ -23,15 +25,16 @@ export const renderCartTotalPrice = () => {
 };
 
 /** 장바구니 비었을 때 '결제하기 버튼' 예외처리 */
-const handleCartPaymentBtn = () => {
-  const enableBtn = `<button class="cart__price--paymentBtn cartPaymentBtn">결제하기</button>`;
-  const disabledBtn = `<button class="cart__price--paymentBtn-disabled cartPaymentBtn" disabled='true' >결제하기</button>`;
-  if (shoppingCartStore.getLocalStorage().length >= 1) {
-    return enableBtn;
-  } else if (shoppingCartStore.getLocalStorage().length === 0) {
-    return disabledBtn;
-  }
-};
+// const handleCartPaymentBtn = () => {
+//   // const shoppingCartArr = shoppingCartStore.getLocalStorage();
+//   const enableBtn = `<button class="cart__price--paymentBtn cartPaymentBtn">결제하기</button>`;
+//   const disabledBtn = `<button class="cart__price--paymentBtn-disabled cartPaymentBtn" disabled='true' >결제하기</button>`;
+//   if (shoppingCartStore.getLocalStorage().length > 0) {
+//     return enableBtn;
+//   } else if (shoppingCartStore.getLocalStorage().length === 0) {
+//     return disabledBtn;
+//   }
+// };
 
 // 장바구니 페이지 초기 렌더링
 export const renderInitCartPage = `
@@ -51,7 +54,7 @@ export const renderInitCartPage = `
       <div class="cart__price--border">
         <div class="cart__price--calc">
           <div class="cart__price--calc-orderPrice">
-            <span class="cartOrderPrice">총 주문 금액</span>
+            <span>총 주문 금액</span>
             <p class="cartOrderPrice">0 원</p>
           </div>
           <div class="cart__price--calc-discountPrice">
@@ -69,7 +72,7 @@ export const renderInitCartPage = `
         </div>
       </div>
       <a href="/payment" data-navigo
-        >${handleCartPaymentBtn()}</a
+        ><div class="handleCartPaymentBtn"><button class="cart__price--paymentBtn-disabled cartPaymentBtn" disabled="true">결제하기</button></div></a
       >
     </aside>
   </div>
@@ -77,46 +80,20 @@ export const renderInitCartPage = `
 `;
 
 /** 장바구니 결제금액 렌더링 */
-export const renderCartOrderPrice = () => {
+const renderCartOrderPrice = () => {
   // [장바구니] 총 결제 금액
-  // cartTotalPaymentPrice =
-  //   cartTotalOrderPrice + cartDiscountPrice + cartDeliveryPrice;
-  const cartOrderPriceTemplate = `
-  <div class="cart__price--border">
-    <div class="cart__price--calc">
-      <div class="cart__price--calc-orderPrice">
-        <span class="cartOrderPrice">총 주문 금액</span>
-        <p class="cartOrderPrice">${renderCartTotalPrice().toLocaleString()} 원</p>
-      </div>
-      <div class="cart__price--calc-discountPrice">
-        <span>할인 금액</span>
-        <p class="cartDiscountPrice">0 원</p>
-      </div>
-      <div class="cart__price--calc-deliveryPrice">
-        <span>배송비</span>
-        <p class="cartDeliveryPrice">0 원</p>
-      </div>
-    </div>
-    <div class="cart__price--total">
-      <span>총 결제 금액</span>
-      <p class="cartTotalPaymentPrice">${renderCartTotalPrice().toLocaleString()} 원</p>
-    </div>
-  </div>
-  <a href="/payment" data-navigo>
-    ${handleCartPaymentBtn()}
-  </a>
-`;
-
-  $('.app').querySelector('.cart__price').innerHTML = cartOrderPriceTemplate;
+  $('.cartOrderPrice').innerHTML = `${formatPrice(renderCartTotalPrice())} 원`;
+  $('.cartTotalPaymentPrice').innerHTML = `${formatPrice(
+    renderCartTotalPrice(),
+  )} 원`;
 };
 
-console.log(shoppingCartStore.getLocalStorage().length);
 /** 장바구니 제품 리스트 렌더링 */
 export const renderCartList = (storage) => {
   const cartListTemplate = storage
     .map((item) => {
-      const { id, price, count, thumbnail, title } = item;
-      cartProductTotalPrice = price;
+      const { id, price, count, thumbnail, title, pricePerOne } = item;
+
       return `
     <li class="cart__item" data-product-id="${id}">
       <div class="cart__item-info">
@@ -142,7 +119,9 @@ export const renderCartList = (storage) => {
           <p class="cartProductQty">${count} 개</p>
           <button class="cart-addQtyBtn">+</button>
         </div>
-        <span class="cart__item--price cartProductTotalPrice">${price.toLocaleString()} 원</span>
+        <span class="cart__item--price cartProductTotalPrice">${(
+          pricePerOne * count
+        ).toLocaleString()} 원</span>
         <button class="cart__item--deleteBtn cartProductDeleteBtn">삭제</button>
       </div>
     </li>
@@ -150,7 +129,7 @@ export const renderCartList = (storage) => {
     })
     .join('');
 
-  renderCartTotalPrice();
+  // renderCartTotalPrice();
   renderCartOrderPrice();
   $('.app').querySelector('.cart__list').innerHTML = cartListTemplate;
 };
@@ -173,13 +152,18 @@ export const storeLocalStorage = (id) => {
 
 /** 빈 장바구니일 때, 상품이 있는 장바구니일 때 */
 export const renderCartPage = () => {
-  if (shoppingCartStore.getLocalStorage().length === 0) {
-    renderCartList(shoppingCartStore.getLocalStorage());
-    renderPage(renderInitCartPage);
-    // return;
-  } else if (shoppingCartStore.getLocalStorage().length >= 1) {
+  const shoppingCartArr = shoppingCartStore.getLocalStorage();
+  renderPage(renderInitCartPage);
+  if (shoppingCartArr.length === 0) {
+    console.log('length 0');
+    return;
+  } else if (shoppingCartArr.length > 0) {
     // 장바구니에 넣은 상품 렌더링
-    renderCartList(shoppingCartStore.getLocalStorage());
+    renderCartList(shoppingCartArr);
+    $(
+      '.handleCartPaymentBtn',
+    ).innerHTML = `<button class="cart__price--paymentBtn cartPaymentBtn">결제하기</button>`;
+
     // 결제금액 렌더링
     // renderCartTotalPrice();
     return;
@@ -203,7 +187,7 @@ $('.app').addEventListener('click', (e) => {
     } else {
       alert('로그인이 필요한 페이지 입니다. 로그인 페이지로 이동합니다.');
       // 로그인 페이지로 이동
-      router.navigate('/');
+      router.navigate('/login');
     }
     return;
   }
@@ -217,9 +201,9 @@ $('.app').addEventListener('click', (e) => {
 });
 
 /** 장바구니 담기 핸들링 이벤트 */
-$('.app').addEventListener('click', (e) => {
-  pushInCart(e);
-});
+// $('.app').addEventListener('click', (e) => {
+//   pushInCart(e);
+// });
 
 /** 장바구니 페이지에서 수량 핸들링 */
 $('.app').addEventListener('click', (e) => {
@@ -266,6 +250,7 @@ $('.app').addEventListener('click', (e) => {
     // storeLocalStorage(id);
     shoppingCartStore.setLocalStorage(shoppingCartArr);
     console.log(shoppingCartArr);
+    countQtyInCart();
     renderCartPage();
     return;
   }

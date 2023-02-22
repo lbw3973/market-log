@@ -38,7 +38,7 @@ export const htmlHeaderLogin = /* html */ `
 /** HTML : header logout 템플릿 */
 const htmlHeaderLogout = /* html */ `
   <li class="header__user-login--li">
-    <a href="/mypage" data-navigo id="btnMypage">
+    <a href="/admin" data-navigo id="btnMypage">
       <strong id="header__user-login-name"></strong>님 환영합니다
     </a>
   </li>

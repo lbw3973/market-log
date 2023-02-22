@@ -7,6 +7,7 @@ import { renderPage } from '../../utils/render.js';
 import { getDetailOrderProduct } from '../../api.js';
 import { formatPrice, formatDate } from '../../utils/format.js';
 import { getLoginStatus, showAlertPlzLogin } from '../login.js';
+import { htmlMypage_Nav } from '../mypage.js';
 
 /** 마이 페이지 mypage__navigo__container 초기 템플릿 */
 const renderInitMypageTemplate = `
@@ -155,7 +156,7 @@ const renderSkeletonUIinDetailOrderHistoryPage = () => {
 
 /** 상세 주문내역 핸들링 함수 */
 const renderDetailOrderPage = async (params) => {
-  renderPage(renderInitMypageTemplate);
+  renderPage(htmlMypage_Nav);
   renderSkeletonUIinDetailOrderHistoryPage();
   await renderDetailOrderProduct(params);
 };

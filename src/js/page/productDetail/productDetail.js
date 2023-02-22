@@ -11,6 +11,7 @@ import { shoppingCartStore } from '../../store/shoppingCartStore.js';
 import { recentViewStore } from '../../store/recentViewStore.js';
 import { renderInitHeaderLogin } from '../login.js';
 import { formatPrice } from '../../utils/format.js';
+import { countQtyInCart, countQtyInWishlist } from '../mainPage/mainPage.js';
 
 /** 찜하기 상품 유/무에 따라 다른 초기화면 렌더링 */
 export const checkWhetherAddWishList = (id) => {
@@ -75,12 +76,12 @@ export const storeCart = (id, price, count, thumbnail, title, pricePerOne) => {
     shoppingCartArr.push({ id, price, count, thumbnail, title, pricePerOne });
     shoppingCartStore.setLocalStorage(shoppingCartArr);
     console.log('shoppingCartArr.push', shoppingCartStore.getLocalStorage());
-    console.log('shoppingCartArr.push', shoppingCartArr);
+    // console.log('shoppingCartArr.push', shoppingCartArr);
     return;
   } else if (existingItem) {
     // 이미 아이템이면 기존 수량, 가격에 누적 추가
     existingItem.count += count;
-    existingItem.price += price;
+    existingItem.price += pricePerOne * count;
     shoppingCartStore.setLocalStorage(shoppingCartArr);
     return;
   }
@@ -91,13 +92,14 @@ export const storeCart = (id, price, count, thumbnail, title, pricePerOne) => {
 let productDetailProductQty = 1;
 /** 총 상품 금액 */
 let productDetailTotalPrice;
+let productDetailCount;
 let productDetailTitle;
 let productDetailThumbnail;
 let productDetailPricePerOne;
 
 /** [제품 상세페이지] 렌더링 함수 */
 export const renderDetailProduct = async (productId) => {
-  renderInitHeaderLogin();
+  // renderInitHeaderLogin();
   const productDetail = await getDetailProduct(productId);
   const { description, id, isSoldOut, photo, price, tags, title, thumbnail } =
     productDetail;
@@ -159,7 +161,7 @@ export const renderDetailProduct = async (productId) => {
       </div>
       <div class="aside__productDetail--totalPrice">
         <p>총 상품 금액</p>
-        <p id="productDetail-totalPrice">${productDetailTotalPrice.toLocaleString()}</p>
+        <p id="productDetail-totalPrice">${productDetailTotalPrice.toLocaleString()} 원</p>
       </div>
       <div class="aside__productDetail--btns">
         ${
@@ -184,17 +186,25 @@ export const pushInCart = (e) => {
   ) {
     const id = e.target.closest('.section__container').dataset.productId;
     console.log(id);
-    const price = productDetailTotalPrice;
+    const price = productDetailPricePerOne * productDetailProductQty;
     const count = productDetailProductQty;
     const title = productDetailTitle;
     const thumbnail = productDetailThumbnail;
     const pricePerOne = productDetailPricePerOne;
 
     storeCart(id, price, count, thumbnail, title, pricePerOne);
-    // shoppingCartStore.setLocalStorage(shoppingCartStore.getLocalStorage());
+    countQtyInCart();
     console.log('shoppingCartArr.push', shoppingCartStore.getLocalStorage());
   }
 };
+
+/** '장바구니 추가버튼' 클릭 -> 장바구니에 추가 이벤트 */
+$('.app').addEventListener('click', (e) => {
+  if (e.target.classList.contains('addCartBtn')) {
+    console.log(e.target);
+    pushInCart(e);
+  }
+});
 
 /** 구매수량 핸들링 함수 */
 export const updateInfo = async (e, productId) => {
@@ -219,8 +229,7 @@ export const updateInfo = async (e, productId) => {
     $('#productDetail-totalPrice').innerHTML = `${formatPrice(
       productDetailPricePerOne * productDetailProductQty,
     )} 원`;
-    // renderDetailProduct(productId);
-    // renderCartPage();
+
     return;
   }
   // 구매 수량 +
@@ -237,8 +246,6 @@ export const updateInfo = async (e, productId) => {
     )} 원`;
     // productDetailProductQty += 1;
 
-    // renderDetailProduct(productId);
-    // renderCartPage();
     return;
   }
 
@@ -291,6 +298,8 @@ $('.app').addEventListener('click', (e) => {
     const wishListIMG = `<img class="aside__productDetail--info-wishlistImg" 
     src="${checkWhetherAddWishList(id)}" alt="찜하기 버튼" />`;
     $('.aside__productDetail--info-wishlistBtn').innerHTML = wishListIMG;
+
+    countQtyInWishlist();
   }
 
   // [제품 상세 페이지]에서 '장바구니로 바로가기' 버튼 클릭 클릭 -> [장바구니 페이지]로 이동
@@ -303,7 +312,9 @@ $('.app').addEventListener('click', (e) => {
   // [제품 상세 페이지]에서 '구매하기' 버튼 클릭 클릭 -> [결제 페이지]로 이동
   if (e.target.classList.contains('buyBtn')) {
     console.log(e.target);
-    if (window.localStorage.getItem('token')) {
+    if (localStorage.getItem('token')) {
+      // '장바구니에 담기/구매하기' 핸들링 함수
+      pushInCart(e);
       router.navigate('/payment');
     } else {
       alert('로그인이 필요한 페이지 입니다. 로그인 페이지로 이동합니다.');
@@ -317,34 +328,24 @@ $('.app').addEventListener('click', (e) => {
 /** '최근 본 상품' localStorage에 저장 */
 const storeRecentViewed = (id, title, thumbnail) => {
   let recentViewedArr = recentViewStore.getLocalStorage();
-  console.log(recentViewedArr);
-
   const existingItem = recentViewedArr.find((item) => item.id === id);
-  // const newRecentViewedArr = recentViewedArr.filter((item) => item.id === id);
-
-  // console.log(newRecentViewedArr);
-  console.log(existingItem);
+  console.log('existingItem', existingItem);
   if (existingItem) {
     const existingIndex = recentViewedArr.findIndex(
       (item) => item.id === existingItem.id,
     );
-    console.log(existingIndex);
-    recentViewedArr = recentViewedArr.slice(existingIndex, 0);
-    recentViewedArr.unshift({ id, title, thumbnail });
-    return;
-  } else if (!existingItem) {
-    // let recentViewedArr = recentViewStore.getLocalStorage();
-    recentViewedArr.unshift({ id, title, thumbnail });
+
+    recentViewedArr.splice(existingIndex, existingIndex);
+    // recentViewedArr.unshift({ id, title, thumbnail });
     recentViewStore.setLocalStorage(recentViewedArr);
-    return;
   }
-  // let recentViewedArr = recentViewStore.getLocalStorage();
-  // recentViewedArr.unshift({ id, title, thumbnail });
-  // recentViewStore.setLocalStorage(recentViewedArr);
+  recentViewedArr.unshift({ id, title, thumbnail });
+  recentViewStore.setLocalStorage(recentViewedArr);
 };
 
 /** /product/:id 핸들링 함수 */
 export const handleDetailProductPage = async (params) => {
+  renderInitHeaderLogin();
   renderSkeletonUIinDetailProductPage();
   await renderDetailProduct(params);
 };
