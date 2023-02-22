@@ -10,6 +10,7 @@ import { wishListStore } from '../../store/wishListStore.js';
 import { shoppingCartStore } from '../../store/shoppingCartStore.js';
 import { htmlMypage_Nav, resetNavbarActive } from '../mypage.js';
 import { router } from '../../main.js';
+import { countQtyInCart } from '../mainPage/mainPage.js';
 
 /** 찜한상품 제목, ul 태그 템플릿 삽입 */
 const handleWishListInitTemplate = () => {
@@ -114,8 +115,6 @@ $('.app').addEventListener('click', (e) => {
     wishListArr = wishListArr.filter((item) => item.id !== id);
     console.log('removeItem from wishListArr', wishListArr);
     wishListStore.setLocalStorage(wishListArr);
-    // renderWishListPage();
-
     wishListUtilInit();
   }
 });
@@ -138,6 +137,7 @@ $('.app').addEventListener('click', (e) => {
       wishListInfo.pricePerOne,
     );
     shoppingCartStore.setLocalStorage(shoppingCartStore.getLocalStorage());
+    countQtyInCart();
     console.log(shoppingCartStore.getLocalStorage());
   }
 });

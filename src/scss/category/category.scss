@@ -15,14 +15,18 @@
 
   &__aside {
     width: 200px;
-    height: 100vh;
+    min-height: 100vh;
     height: auto;
 
     &--container {
       display: flex;
       flex-direction: column;
+      padding: 20px 0;
+      border: 1px solid var(--logo-color);
+      border-radius: 16px;
       h4 {
         margin: 0 auto;
+        border-bottom: 1px solid;
       }
     }
 
@@ -88,6 +92,7 @@
       gap: 13px;
     }
     &--list {
+      height: auto;
       border-radius: 6px;
       padding: 3px;
       &:hover {

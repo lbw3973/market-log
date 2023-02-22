@@ -1,35 +1,61 @@
 <!DOCTYPE html>
 <html lang="ko">
-
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="public/favicon.svg" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Market.log | MainPage</title>
-  <!-- scss -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
-  <!-- <link rel="stylesheet" href="./src/scss/main.scss" /> -->
-  <!-- <link rel="stylesheet" href="./src/scss/jaehaForward/jaeha.scss" /> -->
-  <link rel="stylesheet" href="./src/scss/index.scss" />
-  <!-- 다음 우편번호 찾기 api -->
-  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-  <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7c9e5a646386af3e36b1fffb93f2ffcc&libraries=services"></script>
-  <!-- js -->
-  <script type="module" src="./src/js/main.js" defer></script>
-</head>
-
-<body>
-  <!-- 공통 헤더 시작 -->
-  <header class="header-container">
-    <div class="header-banner">
-      <a href="https://github.com/Team-fast4ward/market-log" target="_blank" rel="noopener noreferrer">Follow our Github
-        →</a>
-    </div>
-    <div class="header">
-      <nav class="header__user-login">
-        <ul class="header__user-login--ul">
-          <!-- <li class="header__user-login--li">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="public/favicon.svg" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>market.log - 개발자들을 위한 마켓</title>
+    <!-- meta tag -->
+    <meta name="description" content="마켓로그에서 다양한 상품을 만나 보세요" />
+    <meta property="og:title" content="마켓로그" />
+    <meta property="og:url" content="https://market-log.vercel.app/" />
+    <meta property="og:image" content="./public/mainLogo.svg" />
+    <meta
+      property="og:description"
+      content="마켓로그에서 다양한 상품을 만나 보세요"
+    />
+    <meta
+      name="twitter:card"
+      content="마켓로그에서 다양한 상품을 만나 보세요"
+    />
+    <meta name="twitter:title" content="마켓로그" />
+    <meta name="twitter:url" content="https://market-log.vercel.app/" />
+    <meta name="twitter:image" content="./public/mainLogo.svg" />
+    <meta
+      name="twitter:description"
+      content="마켓로그에서 다양한 상품을 만나 보세요"
+    />
+    <!-- google font -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+    />
+    <!-- scss -->
+    <!-- <link rel="stylesheet" href="./src/scss/main.scss" /> -->
+    <!-- <link rel="stylesheet" href="./src/scss/jaehaForward/jaeha.scss" /> -->
+    <link rel="stylesheet" href="./src/scss/index.scss" />
+    <!-- kakao 우편번호 찾기 api -->
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7c9e5a646386af3e36b1fffb93f2ffcc&libraries=services"></script>
+    <!-- javascript -->
+    <script type="module" src="./src/js/main.js" defer></script>
+  </head>
+  <body>
+    <!-- 공통 헤더 시작 -->
+    <header class="header-container">
+      <div class="header-banner">
+        <a
+          href="https://github.com/Team-fast4ward/market-log"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Follow our Github →</a
+        >
+      </div>
+      <div class="header">
+        <nav class="header__user-login">
+          <ul class="header__user-login--ul">
+            <!-- <li class="header__user-login--li">
             <a href="/login" data-navigo id="btnlogin"> 로그인 </a>
           </li> -->
         </ul>

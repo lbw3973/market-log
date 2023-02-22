@@ -11,6 +11,7 @@ import { shoppingCartStore } from '../../store/shoppingCartStore.js';
 import { recentViewStore } from '../../store/recentViewStore.js';
 import { renderInitHeaderLogin } from '../login.js';
 import { formatPrice } from '../../utils/format.js';
+import { countQtyInCart, countQtyInWishlist } from '../mainPage/mainPage.js';
 
 /** 찜하기 상품 유/무에 따라 다른 초기화면 렌더링 */
 export const checkWhetherAddWishList = (id) => {
@@ -192,6 +193,7 @@ export const pushInCart = (e) => {
     const pricePerOne = productDetailPricePerOne;
 
     storeCart(id, price, count, thumbnail, title, pricePerOne);
+    countQtyInCart();
     console.log('shoppingCartArr.push', shoppingCartStore.getLocalStorage());
   }
 };
@@ -296,6 +298,8 @@ $('.app').addEventListener('click', (e) => {
     const wishListIMG = `<img class="aside__productDetail--info-wishlistImg" 
     src="${checkWhetherAddWishList(id)}" alt="찜하기 버튼" />`;
     $('.aside__productDetail--info-wishlistBtn').innerHTML = wishListIMG;
+
+    countQtyInWishlist();
   }
 
   // [제품 상세 페이지]에서 '장바구니로 바로가기' 버튼 클릭 클릭 -> [장바구니 페이지]로 이동
@@ -324,30 +328,19 @@ $('.app').addEventListener('click', (e) => {
 /** '최근 본 상품' localStorage에 저장 */
 const storeRecentViewed = (id, title, thumbnail) => {
   let recentViewedArr = recentViewStore.getLocalStorage();
-  console.log(recentViewedArr);
-
   const existingItem = recentViewedArr.find((item) => item.id === id);
-  // const newRecentViewedArr = recentViewedArr.filter((item) => item.id === id);
-
-  // console.log(newRecentViewedArr);
-  console.log(existingItem);
+  console.log('existingItem', existingItem);
   if (existingItem) {
     const existingIndex = recentViewedArr.findIndex(
       (item) => item.id === existingItem.id,
     );
-    console.log(existingIndex);
-    recentViewedArr = recentViewedArr.slice(existingIndex, 0);
-    recentViewedArr.unshift({ id, title, thumbnail });
-    return;
-  } else if (!existingItem) {
-    // let recentViewedArr = recentViewStore.getLocalStorage();
-    recentViewedArr.unshift({ id, title, thumbnail });
+
+    recentViewedArr.splice(existingIndex, existingIndex);
+    // recentViewedArr.unshift({ id, title, thumbnail });
     recentViewStore.setLocalStorage(recentViewedArr);
-    return;
   }
-  // let recentViewedArr = recentViewStore.getLocalStorage();
-  // recentViewedArr.unshift({ id, title, thumbnail });
-  // recentViewStore.setLocalStorage(recentViewedArr);
+  recentViewedArr.unshift({ id, title, thumbnail });
+  recentViewStore.setLocalStorage(recentViewedArr);
 };
 
 /** /product/:id 핸들링 함수 */
