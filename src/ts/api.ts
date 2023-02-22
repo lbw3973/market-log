@@ -1,21 +1,39 @@
+import {
+  AddProductParams,
+  AuthorizationValue,
+  BuyItemAPI,
+  CancelConfirmTransactionAPI,
+  DeleteAccount,
+  GetAccountDetail,
+  GetAllProductsValue,
+  GetAllTransactionsValue,
+  GetBankListValue,
+  GetUserAccounts,
+  GetUserInfoAPI,
+  HEADERS,
+  Logout,
+  PersonalInfoLogin,
+  TransactionDetailValue,
+} from './interface/index.js';
 // api 파일입니다.
 
 // dotenv 사용 예시
 import dotenv from 'dotenv';
-import { base_url, api_key, user_name, admin_email } from './db.js';
+import { base_url, api_key, user_name } from './db.js';
+import { $ } from './utils/dom.js';
 dotenv.config();
 
 // const api_key = 'FcKdtJs202301';
 // const user_name = 'KDT4_Team3';
 
-const headers = {
+const headers: HEADERS = {
   'content-type': 'application/json',
   apikey: api_key,
   username: user_name,
 };
 
 /** 전체 제품 가져오기api */
-export const getAllProducts = async () => {
+export const getAllProducts = async (): Promise<GetAllProductsValue> => {
   try {
     const res = await fetch(`${base_url}/products`, {
       headers: {
@@ -32,13 +50,13 @@ export const getAllProducts = async () => {
 };
 
 /** 검색한 제품, 태그 가져오기 */
-export const getSearchedProducts = async (title = '') => {
+export const getSearchedProducts = async (
+  title = '',
+): Promise<GetAllProductsValue> => {
   try {
     const res = await fetch(`${base_url}/products/search`, {
       method: 'POST',
-      headers: {
-        ...headers,
-      },
+      headers,
       body: JSON.stringify({
         searchText: title,
       }),
@@ -53,7 +71,9 @@ export const getSearchedProducts = async (title = '') => {
 };
 
 /** 상세 제품 db에서 불러오기 */
-export const getDetailProduct = async (productId) => {
+export const getDetailProduct = async (
+  productId: string,
+): Promise<GetAllProductsValue> => {
   try {
     const res = await fetch(`${base_url}/products/${productId}`, {
       headers,
@@ -67,28 +87,31 @@ export const getDetailProduct = async (productId) => {
 };
 
 /** 구매내역 확인 API */
-export const getAllTransactions = async () => {
-  try {
-    const res = await fetch(`${base_url}/products/transactions/details`, {
-      headers: {
-        ...headers,
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    });
-    const data = await res.json();
+export const getAllTransactions =
+  async (): Promise<GetAllTransactionsValue> => {
+    try {
+      const res = await fetch(`${base_url}/products/transactions/details`, {
+        headers: {
+          ...headers,
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      const data = await res.json();
 
-    if (res.status === 400) {
-      return [];
-    } else {
-      return data;
+      if (res.status === 400) {
+        return [];
+      } else {
+        return data;
+      }
+    } catch (err) {
+      console.log('거래내역 가져오기 실패', err);
     }
-  } catch (err) {
-    console.log('거래내역 가져오기 실패', err);
-  }
-};
+  };
 
 /** 구매 확정 API */
-export const confirmTransactionAPI = async (detailId) => {
+export const confirmTransactionAPI = async (
+  detailId: string,
+): Promise<CancelConfirmTransactionAPI> => {
   try {
     const res = await fetch(`${base_url}/products/ok`, {
       method: 'POST',
@@ -108,9 +131,11 @@ export const confirmTransactionAPI = async (detailId) => {
 };
 
 /** 구매 취소 API */
-export const cancelTransactionAPI = async (detailId) => {
+export const cancelTransactionAPI = async (
+  detailId: string,
+): Promise<CancelConfirmTransactionAPI> => {
   try {
-    const res = await fetch(`${BASE_URL}/products/cancel`, {
+    const res = await fetch(`${base_url}/products/cancel`, {
       method: 'POST',
       headers: {
         ...headers,
@@ -129,7 +154,7 @@ export const cancelTransactionAPI = async (detailId) => {
 };
 
 /** 주문 상세정보 조회 API */
-export const getDetailOrderProduct = async (detailId) => {
+export const getDetailOrderProduct = async (detailId: string) => {
   try {
     const res = await fetch(`${base_url}/products/transactions/detail`, {
       method: 'POST',
@@ -149,7 +174,7 @@ export const getDetailOrderProduct = async (detailId) => {
 };
 
 /** 계좌 목록 및 잔액 조회 db에서 불러오기 */
-export const getAccountDetail = async () => {
+export const getAccountDetail = async (): Promise<GetAccountDetail> => {
   try {
     const res = await fetch(`${base_url}/account`, {
       headers: {
@@ -158,7 +183,7 @@ export const getAccountDetail = async () => {
       },
     });
     const data = await res.json();
-    const { accounts, totalBalance } = data;
+    const { accounts } = data;
 
     return accounts;
   } catch (err) {
@@ -168,7 +193,10 @@ export const getAccountDetail = async () => {
 };
 
 /** 제품 결제 API */
-export const buyItemAPI = async (productId, accountId) => {
+export const buyItemAPI = async (
+  productId: string,
+  accountId: string,
+): Promise<BuyItemAPI> => {
   try {
     const res = await fetch(`${base_url}/products/buy`, {
       method: 'POST',
@@ -191,7 +219,7 @@ export const buyItemAPI = async (productId, accountId) => {
 };
 
 /** [결제 페이지] 로그인 한 정보 가져오기 */
-export const getUserInfoAPI = async () => {
+export const getUserInfoAPI = async (): Promise<GetUserInfoAPI> => {
   try {
     const res = await fetch(`${base_url}/auth/me`, {
       method: 'POST',
@@ -210,7 +238,7 @@ export const getUserInfoAPI = async () => {
 
 // [관리자 페이지]
 /** 단일 상품 가져오기 API */
-export const addProduct = async (product) => {
+export const addProduct = async (product: AddProductParams) => {
   const { title, price, description, tags, thumbnail } = product;
 
   try {
@@ -235,7 +263,7 @@ export const addProduct = async (product) => {
 };
 
 /** 단일 상품 삭제 API */
-export const deleteProduct = async (id) => {
+export const deleteProduct = async (id: string) => {
   try {
     await fetch(`${base_url}/products/${id}`, {
       method: 'DELETE',
@@ -277,7 +305,7 @@ export const editProduct = async (product) => {
 };
 
 /**전체 거래 내역 가져오기 API */
-export const getAllOrder = async () => {
+export const getAllOrder = async (): Promise<TransactionDetailValue> => {
   try {
     const res = await fetch(`${base_url}/products/transactions/all`, {
       method: 'GET',
@@ -340,7 +368,7 @@ export const editCancelOrder = async (order) => {
 };
 
 /** API : 은행 목록 */
-export const getBankList = async () => {
+export const getBankList = async (): Promise<GetBankListValue> => {
   const res = await fetch(`${base_url}/account/banks`, {
     method: 'GET',
     headers: {
@@ -354,7 +382,7 @@ export const getBankList = async () => {
 };
 
 /** API : 계좌 조회 */
-export const getUserAccounts = async () => {
+export const getUserAccounts = async (): Promise<GetUserAccounts> => {
   const res = await fetch(`${base_url}/account`, {
     method: 'GET',
     headers: {
@@ -368,7 +396,7 @@ export const getUserAccounts = async () => {
 };
 
 /** API : 계좌 개설 */
-export const createUserAccount = async (bankCode) => {
+export const createUserAccount = async (bankCode: string): Promise<boolean> => {
   const res = await fetch(`${base_url}/account`, {
     method: 'POST',
     headers: {
@@ -377,8 +405,8 @@ export const createUserAccount = async (bankCode) => {
     },
     body: JSON.stringify({
       bankCode: bankCode,
-      accountNumber: document.querySelector('#input__account').value,
-      phoneNumber: document.querySelector('#input__phone').value,
+      accountNumber: $<HTMLInputElement>('#input__account').value,
+      phoneNumber: $<HTMLInputElement>('#input__phone').value,
       signature: true,
     }),
   });
@@ -387,7 +415,7 @@ export const createUserAccount = async (bankCode) => {
 };
 
 // API : 계좌 해지
-export const deleteAccount = async (e) => {
+export const deleteAccount = async (e: any): Promise<DeleteAccount> => {
   const accountId = e.target.dataset.id;
   const res = await fetch(`${base_url}/account`, {
     method: 'DELETE',
@@ -413,8 +441,8 @@ export async function login() {
       ...headers,
     },
     body: JSON.stringify({
-      email: document.querySelector('#inputID').value,
-      password: document.querySelector('#inputPW').value,
+      email: $<HTMLInputElement>('#inputID').value,
+      password: $<HTMLInputElement>('#inputPW').value,
     }),
   });
   const json = await res.json();
@@ -422,7 +450,7 @@ export async function login() {
 }
 
 /** API : Logout */
-export async function logout() {
+export async function logout(): Promise<Logout> {
   const res = await fetch(`${base_url}/auth/logout`, {
     method: 'POST',
     headers: {
@@ -435,7 +463,7 @@ export async function logout() {
 }
 
 /** API : 인증확인 */
-export async function authorization() {
+export async function authorization(): Promise<AuthorizationValue> {
   const res = await fetch(`${base_url}/auth/me`, {
     method: 'POST',
     headers: {
@@ -456,16 +484,16 @@ export async function submitChangeInfo() {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     },
     body: JSON.stringify({
-      displayName: document.querySelector('#user-name').value,
-      oldPassword: document.querySelector('#user-oldpw').value,
-      newPassword: document.querySelector('#user-newpw').value,
+      displayName: $<HTMLInputElement>('#user-name').value,
+      oldPassword: $<HTMLInputElement>('#user-oldpw').value,
+      newPassword: $<HTMLInputElement>('#user-newpw').value,
     }),
   });
   const json = await res.json();
   return json;
 }
 // 비밀번호 재확인(login api 사용)
-export async function personalInfoLogin(auth) {
+export async function personalInfoLogin(auth: any): Promise<PersonalInfoLogin> {
   const res = await fetch(`${base_url}/auth/login`, {
     method: 'POST',
     headers: {
@@ -474,7 +502,7 @@ export async function personalInfoLogin(auth) {
     },
     body: JSON.stringify({
       email: auth.email,
-      password: document.querySelector('#inputPW').value,
+      password: $<HTMLInputElement>('#inputPW').value,
     }),
   });
   const json = await res.json();

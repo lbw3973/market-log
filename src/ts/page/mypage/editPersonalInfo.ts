@@ -1,5 +1,4 @@
 import { $ } from '../../utils/dom.js';
-import { base_url, api_key, user_name } from '../../db.js';
 import { router } from '../../main.js';
 import { renderPage } from '../../utils/render.js';
 import { getLoginStatus, showAlertPlzLogin } from '../login.js';
@@ -9,11 +8,7 @@ import {
   personalInfoLogin,
   submitChangeInfo,
 } from '../../api.js';
-const headers = {
-  'content-type': 'application/json',
-  apikey: api_key,
-  username: user_name,
-};
+
 /** 개인정보 수정 페이지 html 템플릿 */
 const handleEditPersonalInfoPrecheckTemplate = () => {
   const htmlMypage_editPersonalInfo_precheck = /* html */ `
@@ -95,14 +90,17 @@ const page = function (auth) {
   //사용자 정보 수정 submit
   $('#btnEditComplete').addEventListener('click', async () => {
     if (
-      !$('#user-newpwConfirm').value ||
-      !$('#user-oldpw').value ||
-      !$('#user-newpw').value ||
-      !$('#user-name').value
+      !$<HTMLInputElement>('#user-newpwConfirm').value ||
+      !$<HTMLInputElement>('#user-oldpw').value ||
+      !$<HTMLInputElement>('#user-newpw').value ||
+      !$<HTMLInputElement>('#user-name').value
     ) {
       alert('내용을 전부 기입해주세요');
       return;
-    } else if ($('#user-newpw').value !== $('#user-newpwConfirm').value) {
+    } else if (
+      $<HTMLInputElement>('#user-newpw').value !==
+      $<HTMLInputElement>('#user-newpwConfirm').value
+    ) {
       alert('새로운 비밀번호가 일치하지 않습니다');
       return;
     }

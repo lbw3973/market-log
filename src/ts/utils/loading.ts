@@ -1,7 +1,9 @@
-export const toggleLoadingSpinner = (isActive) => {
+import { $ } from './dom.js';
+
+export const toggleLoadingSpinner = (isActive: boolean) => {
   isActive
-    ? ((document.querySelector('.loadingGif').style.display = 'block'),
-      (document.querySelector('body').style.overflow = 'hidden'))
-    : ((document.querySelector('.loadingGif').style.display = 'none'),
-      (document.querySelector('body').style.overflow = 'visible'));
+    ? (($('.loadingGif').style.display = 'block'),
+      ($('body').style.overflow = 'hidden'))
+    : (($('.loadingGif').style.display = 'none'),
+      ($('body').style.overflow = 'visible'));
 };
