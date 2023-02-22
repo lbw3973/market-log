@@ -3,6 +3,7 @@ import { base_url, api_key, user_name, admin_email } from '../db.js';
 import { router } from '../main.js';
 import { renderPage } from '../utils/render.js';
 import { outlink } from '../importIMGFiles.js';
+import { login, logout, authorization } from '../api.js';
 const headers = {
   'content-type': 'application/json',
   apikey: api_key,
@@ -47,48 +48,6 @@ const htmlHeaderLogout = /* html */ `
   <button id="btnlogout"> 로그아웃 </button>
   </li>
   `;
-
-/** API : Login */
-async function login() {
-  const res = await fetch(`${base_url}/auth/login`, {
-    method: 'POST',
-    headers: {
-      ...headers,
-    },
-    body: JSON.stringify({
-      email: $('#inputID').value,
-      password: $('#inputPW').value,
-    }),
-  });
-  const json = await res.json();
-  return json;
-}
-
-/** API : Logout */
-async function logout() {
-  const res = await fetch(`${base_url}/auth/logout`, {
-    method: 'POST',
-    headers: {
-      ...headers,
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
-  });
-  const json = await res.json();
-  return json;
-}
-
-/** API : 인증확인 */
-async function authorization() {
-  const res = await fetch(`${base_url}/auth/me`, {
-    method: 'POST',
-    headers: {
-      ...headers,
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
-  });
-  const json = await res.json();
-  return json;
-}
 
 /** 로그인 후, displayName Render */
 function displayUserName(user) {

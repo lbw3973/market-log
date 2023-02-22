@@ -4,6 +4,12 @@ import { renderPage } from '../../utils/render.js';
 import { htmlMypage_Nav } from '../mypage.js';
 import { getLoginStatus, showAlertPlzLogin } from '../login.js';
 import { router } from '../../main.js';
+import {
+  getBankList,
+  getUserAccounts,
+  createUserAccount,
+  deleteAccount,
+} from '../../api.js';
 const headers = {
   'content-type': 'application/json',
   apikey: api_key,
@@ -120,85 +126,14 @@ async function initFuncAccount() {
   });
 
   // 계좌 생성 버튼
-  btnFinalCreate.addEventListener('click', () => {
+  btnFinalCreate.addEventListener('click', async () => {
     const bankCode = getUserSelectBank();
-    createUserAccount(bankCode);
+    const res = await createUserAccount(bankCode);
+    if (res === true) {
+      renderAccountPage();
+    }
   });
 }
-
-// API : 은행 목록
-const getBankList = async () => {
-  const res = await fetch(`${base_url}/account/banks`, {
-    method: 'GET',
-    headers: {
-      ...headers,
-      Authorization: `Bearer ${window.localStorage.getItem('token')}`,
-    },
-  });
-  const json = await res.json();
-
-  return json;
-};
-
-// API : 계좌 조회
-const getUserAccounts = async () => {
-  const res = await fetch(`${base_url}/account`, {
-    method: 'GET',
-    headers: {
-      ...headers,
-      Authorization: `Bearer ${window.localStorage.getItem('token')}`,
-    },
-  });
-  const json = await res.json();
-
-  return json;
-};
-
-// API : 계좌 개설
-const createUserAccount = async (bankCode) => {
-  const res = await fetch(`${base_url}/account`, {
-    method: 'POST',
-    headers: {
-      ...headers,
-      Authorization: `Bearer ${window.localStorage.getItem('token')}`,
-    },
-    body: JSON.stringify({
-      bankCode: bankCode,
-      accountNumber: document.querySelector('#input__account').value,
-      phoneNumber: document.querySelector('#input__phone').value,
-      signature: true,
-    }),
-  });
-
-  if (res.ok) {
-    renderAccountPage();
-  }
-};
-
-// API : 계좌 해지
-const deleteAccount = async (e) => {
-  const accountId = e.target.dataset.id;
-  const res = await fetch(`${base_url}/account`, {
-    method: 'DELETE',
-    headers: {
-      ...headers,
-      Authorization: `Bearer ${window.localStorage.getItem('token')}`,
-    },
-    body: JSON.stringify({
-      accountId: accountId,
-      signature: true,
-    }),
-  });
-
-  if (res.ok) {
-    // renderPage(htmlMypage_Account);
-    // initFuncAccount();
-    renderAccountPage();
-  }
-
-  const json = await res.json();
-  return json;
-};
 
 // Input Tag Custom : 숫자만 입력 가능
 function checkInputNumber() {
@@ -304,6 +239,8 @@ const showDeleteAccountModal = (event) => {
     const result = await deleteAccount(event);
     if (result === false) {
       alert('삭제 오류');
+    } else {
+      renderAccountPage();
     }
   });
 
