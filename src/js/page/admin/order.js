@@ -1,5 +1,6 @@
 import { getAllOrder } from '../../api.js';
 import { renderPageBtn, renderOrderList } from './renderDetail.js';
+import { toggleLoadingSpinner } from '../../utils/loading.js';
 
 let orders = [];
 
@@ -12,6 +13,7 @@ const getOrderCurrentPage = (orders, activeIdx, itemsPerPage) => {
   const start = (activeIdx - 1) * itemsPerPage;
   const end = start + itemsPerPage;
   const newOrders = orders.slice(start, end);
+
   return newOrders;
 };
 
@@ -26,6 +28,8 @@ let newOrders = getOrderCurrentPage(orders, activeIdx, itemsPerPage);
 
 /** 거래내역관리 페이지 핸들러 */
 export const orderHandler = async () => {
+  toggleLoadingSpinner(true);
+
   const orderContainer = document.querySelector('.order-container');
   const orderList = orderContainer.querySelector('.order-container__list');
   const orderPageBtn = orderContainer.querySelector(
@@ -116,4 +120,6 @@ export const orderHandler = async () => {
     orderList.innerHTML = ``;
     setUpUI(orderPageBtn, orderList);
   });
+
+  toggleLoadingSpinner(false);
 };
