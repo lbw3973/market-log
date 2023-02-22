@@ -10,7 +10,7 @@ import { wishListStore } from '../../store/wishListStore.js';
 import { shoppingCartStore } from '../../store/shoppingCartStore.js';
 import { htmlMypage_Nav, resetNavbarActive } from '../mypage.js';
 import { router } from '../../main.js';
-import { countQtyInCart } from '../mainPage/mainPage.js';
+import { countQtyInCart, countQtyInWishlist } from '../mainPage/mainPage.js';
 import { getLoginStatus, showAlertPlzLogin } from '../login.js';
 
 /** 찜한상품 제목, ul 태그 템플릿 삽입 */
@@ -116,7 +116,9 @@ $('.app').addEventListener('click', (e) => {
     wishListArr = wishListArr.filter((item) => item.id !== id);
     console.log('removeItem from wishListArr', wishListArr);
     wishListStore.setLocalStorage(wishListArr);
-    wishListUtilInit();
+    countQtyInWishlist();
+    // wishListUtilInit();
+    renderWishListPage();
   }
 });
 
