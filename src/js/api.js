@@ -446,3 +446,37 @@ export async function authorization() {
   const json = await res.json();
   return json;
 }
+
+//사용자 정보 수정 api 사용
+export async function submitChangeInfo() {
+  const res = await fetch(`${base_url}/auth/user`, {
+    method: 'PUT',
+    headers: {
+      ...headers,
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+    body: JSON.stringify({
+      displayName: document.querySelector('#user-name').value,
+      oldPassword: document.querySelector('#user-oldpw').value,
+      newPassword: document.querySelector('#user-newpw').value,
+    }),
+  });
+  const json = await res.json();
+  return json;
+}
+// 비밀번호 재확인(login api 사용)
+export async function personalInfoLogin(auth) {
+  const res = await fetch(`${base_url}/auth/login`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+    body: JSON.stringify({
+      email: auth.email,
+      password: document.querySelector('#inputPW').value,
+    }),
+  });
+  const json = await res.json();
+  return json;
+}
