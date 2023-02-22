@@ -1,4 +1,7 @@
 export const toggleLoadingSpinner = (isActive) => {
-  const LoadingSpinner = document.querySelector('.loadingGif');
-  LoadingSpinner.style.display = isActive ? 'block' : 'none';
+  isActive
+    ? ((document.querySelector('.loadingGif').style.display = 'block'),
+      (document.querySelector('body').style.overflow = 'hidden'))
+    : ((document.querySelector('.loadingGif').style.display = 'none'),
+      (document.querySelector('body').style.overflow = 'visible'));
 };
