@@ -157,7 +157,9 @@ const renderOrderedProductList = (orderedItems) => {
     })
     .join('');
 
-  $('.orderHistory__lists').innerHTML = orderedProductListTemplate;
+  if ($('.orderHistory__lists')) {
+    $('.orderHistory__lists').innerHTML = orderedProductListTemplate;
+  }
 };
 
 /** 주문 내역 skeleton ui 초기 렌더링 */
@@ -319,7 +321,9 @@ const orderHistoryUtilDisplayButtons = (container, pages, activeIndex) => {
   utilBtns.unshift(
     `<button class="order-history__pagination--btn-prev">이전</button>`,
   );
-  container.innerHTML = utilBtns.join('');
+  if (container) {
+    container.innerHTML = utilBtns.join('');
+  }
 };
 
 /** prev, next, 페이지네이션 버튼 핸들링 이벤트 */
