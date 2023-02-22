@@ -261,7 +261,7 @@ export const handleCartPage = () => {
   $('.modal__addCart').style.display = 'none';
   console.log('/cart');
 
-  renderPage(renderInitCartPage);
+  // renderPage(renderInitCartPage);
   // 카트 페이지 렌더
   renderCartPage();
 };
