@@ -15,9 +15,10 @@ import { formatDate } from '../../utils/format.js';
 import { htmlMypage_Nav, resetNavbarActive } from '../mypage.js';
 import { router } from '../../main.js';
 import { getLoginStatus, showAlertPlzLogin } from '../login.js';
+import { GetAllTransactionsValue } from '../../interface/index.js';
 
 /** 거래 완료/취소 확인 함수 */
-const checkWhetherTransactionIsDone = (done, isCanceled) => {
+const checkWhetherTransactionIsDone = (done: boolean, isCanceled: boolean) => {
   const buttons = `<button class="button cancel-btn orderHistory__list--cancelBtn">주문 취소</button>
                   <button class="button orderfix-btn orderHistory__list--confirmBtn">구매 확정</button>`;
   const emptyButtons = ``;
@@ -123,7 +124,7 @@ export const handleOrderHistoryInitTemplate = () => {
 };
 
 /** 제품 구매 내역 */
-const renderOrderedProductList = (orderedItems) => {
+const renderOrderedProductList = (orderedItems: GetAllTransactionsValue) => {
   console.log(orderedItems);
   const orderedProductListTemplate = orderedItems
     .map((item) => {
@@ -169,7 +170,7 @@ const renderSkeletonUIinOrderHistoryPage = () => {
 `;
   const skeletonUI12 = Array(12)
     .fill(skeletonUITemplate)
-    .map((v, i) => {
+    .map((v) => {
       return v;
     })
     .join('');
@@ -209,24 +210,18 @@ const renderOrderedListPage = async () => {
     orderHistoryUtilInit();
   }
 };
-const setNavbacActive = () => {
-  const active = document.querySelector('#mpOrderHistory');
-  active.parentElement.classList.add('active');
-};
+// const setNavbacActive = () => {
+//   const active = document.querySelector('#mpOrderHistory');
+//   active.parentElement.classList.add('active');
+// };
 
 /** [주문 내역 페이지] 구매확정/취소 버튼 클릭 이벤트 */
-$('.app').addEventListener('click', async (e) => {
+$('.app').addEventListener('click', async (e: any) => {
   const detailId = e.target.closest('li')?.dataset.detailId;
-  // const ETargetInnerHTMl = (className, text) => {
-  //   return (e.target.closest('li').querySelector(className).innerHTML = text);
-  // };
+
   if (e.target.classList.contains('orderHistory__list--confirmBtn')) {
     confirmTransactionAPI(detailId);
-    // ETargetInnerHTMl(
-    //   '.orderHistory__list--confirmed-order',
-    //   '구매가 확정되었습니다.',
-    // );
-    // ETargetInnerHTMl('.orderHistory__list--buttons', '');
+
     e.target
       .closest('li')
       .querySelector('.orderHistory__list--confirmed-order').innerHTML =
@@ -268,15 +263,15 @@ export const handleOrderHistoryPage = async () => {
 \*-----------------------------------*/
 
 /** 처음 index = 0 */
-let orderHistoryUtilIndex = 0;
+let orderHistoryUtilIndex: number = 0;
 /** 페이지네이션 배열 초기화 = 0 */
-let orderHistoryUtilPages = [];
+let orderHistoryUtilPages: GetAllTransactionsValue[] = [];
 
 /** 주문내역 페이지 제품, 버튼 초기 렌더링 */
 const orderHistoryUtilSetupUI = () => {
   renderOrderedProductList(orderHistoryUtilPages[orderHistoryUtilIndex]);
   orderHistoryUtilDisplayButtons(
-    $('.order-history__pagination--btnsContainer'),
+    $<HTMLDivElement>('.order-history__pagination--btnsContainer'),
     orderHistoryUtilPages,
     orderHistoryUtilIndex,
   );
@@ -291,7 +286,7 @@ const orderHistoryUtilInit = async () => {
 };
 
 /** 주문내역 페이지 페이지네이션 1페이지 당 10개, slice 메서드로 배열에 삽입 */
-const orderHistoryUtilPaginate = (list) => {
+const orderHistoryUtilPaginate = (list: GetAllTransactionsValue) => {
   const itemsPerPage = 10;
   const numberOfPages = Math.ceil(list.length / itemsPerPage);
 
@@ -305,8 +300,12 @@ const orderHistoryUtilPaginate = (list) => {
 };
 
 /** 주문내역 페이지 페이지네이션 버튼 */
-const orderHistoryUtilDisplayButtons = (container, pages, activeIndex) => {
-  let utilBtns = pages.map((_, pageIndex) => {
+const orderHistoryUtilDisplayButtons = (
+  container: HTMLDivElement,
+  pages: GetAllTransactionsValue[],
+  activeIndex: number,
+) => {
+  let utilBtns = pages.map((_: unknown, pageIndex: number) => {
     return `
     <button class="order-history__pagination--btn ${
       activeIndex === pageIndex ? 'active-btn' : 'null'
@@ -327,23 +326,35 @@ const orderHistoryUtilDisplayButtons = (container, pages, activeIndex) => {
 };
 
 /** prev, next, 페이지네이션 버튼 핸들링 이벤트 */
-$('.app').addEventListener('click', (e) => {
-  if (e.target.classList.contains('order-history__pagination--btnsContainer'))
+$('.app').addEventListener('click', (e: Event) => {
+  if (
+    e.target instanceof HTMLDivElement &&
+    e.target.classList.contains('order-history__pagination--btnsContainer')
+  )
     return;
 
-  if (e.target.classList.contains('order-history__pagination--btn')) {
+  if (
+    e.target instanceof HTMLButtonElement &&
+    e.target.classList.contains('order-history__pagination--btn')
+  ) {
     orderHistoryUtilIndex = Number(e.target.dataset.index);
     orderHistoryUtilSetupUI();
   }
 
-  if (e.target.classList.contains('order-history__pagination--btn-next')) {
+  if (
+    e.target instanceof HTMLButtonElement &&
+    e.target.classList.contains('order-history__pagination--btn-next')
+  ) {
     orderHistoryUtilIndex++;
     if (orderHistoryUtilIndex > orderHistoryUtilPages.length - 1) {
       orderHistoryUtilIndex = 0;
     }
     orderHistoryUtilSetupUI();
   }
-  if (e.target.classList.contains('order-history__pagination--btn-prev')) {
+  if (
+    e.target instanceof HTMLButtonElement &&
+    e.target.classList.contains('order-history__pagination--btn-prev')
+  ) {
     orderHistoryUtilIndex--;
     if (orderHistoryUtilIndex < 0) {
       orderHistoryUtilIndex = orderHistoryUtilPages.length - 1;
@@ -353,6 +364,6 @@ $('.app').addEventListener('click', (e) => {
 });
 
 const setNavbarActive = () => {
-  const active = document.querySelector('#mpOrderHistory');
+  const active = $('#mpOrderHistory');
   active.parentElement.classList.add('active');
 };
