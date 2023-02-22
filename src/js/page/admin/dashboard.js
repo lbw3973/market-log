@@ -2,14 +2,14 @@ import {
   renderDashboardCurrent,
   renderDashboardChart,
 } from './renderDetail.js';
+import { toggleLoadingSpinner } from '../../utils/loading.js';
 import { getAllOrder, getAllProducts } from '../../api.js';
 import { formatPrice } from '../../utils/format.js';
 import Chart from 'chart.js/auto';
-import { divLoadingEl } from '../../main.js';
 
 /** 대시보드 페이지 핸들러 */
 export const dashboardHandler = async () => {
-  divLoadingEl.style.display = 'block';
+  toggleLoadingSpinner(true);
 
   let orders = await getAllOrder();
   let products = await getAllProducts();
@@ -19,7 +19,7 @@ export const dashboardHandler = async () => {
   renderDashboardChart();
   setDashBoardChartCategory(products);
   setDashBoardChartAmount(orders);
-  divLoadingEl.style.display = 'none';
+  toggleLoadingSpinner(false);
 };
 
 /** 거래 카테고리 통계 chart 생성 */
