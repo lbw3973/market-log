@@ -11,7 +11,7 @@ import { shoppingCartStore } from '../../store/shoppingCartStore.js';
 import { recentViewStore } from '../../store/recentViewStore.js';
 import { renderInitHeaderLogin } from '../login.js';
 import { formatPrice } from '../../utils/format.js';
-import { countQtyInCart } from '../mainPage/mainPage.js';
+import { countQtyInCart, countQtyInWishlist } from '../mainPage/mainPage.js';
 
 /** 찜하기 상품 유/무에 따라 다른 초기화면 렌더링 */
 export const checkWhetherAddWishList = (id) => {
@@ -298,6 +298,8 @@ $('.app').addEventListener('click', (e) => {
     const wishListIMG = `<img class="aside__productDetail--info-wishlistImg" 
     src="${checkWhetherAddWishList(id)}" alt="찜하기 버튼" />`;
     $('.aside__productDetail--info-wishlistBtn').innerHTML = wishListIMG;
+
+    countQtyInWishlist();
   }
 
   // [제품 상세 페이지]에서 '장바구니로 바로가기' 버튼 클릭 클릭 -> [장바구니 페이지]로 이동

@@ -121,22 +121,33 @@ img {
       margin: 0 8px;
     }
   }
+
+  @mixin headerQty($translateX) {
+    position: absolute;
+    transform: translateX($translateX) translateY(-10%);
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--deps-blue);
+    border-radius: 50%;
+    text-align: center;
+    background-color: var(--deps-blue);
+    color: #fff;
+    font-weight: 900;
+  }
+
   &__wishlist {
+    position: relative;
     width: 34px;
+
+    &--qty {
+      @include headerQty(-120%);
+    }
   }
   &__cart {
     position: relative;
 
     &--qty {
-      position: absolute;
-      transform: translateX(-140%) translateY(-10%);
-      width: 20px;
-      height: 20px;
-      border: 1px solid var(--deps-blue);
-      border-radius: 50%;
-      text-align: center;
-      background-color: var(--deps-blue);
-      color: #fff;
+      @include headerQty(-140%);
     }
   }
 
