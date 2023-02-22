@@ -123,7 +123,7 @@ $('.app').addEventListener('click', (e) => {
   }
 });
 
-/** 장바구니 상품 수량 */
+/** 장바구니, 찜하기 상품 수량 */
 $('.header__cart--qty').innerHTML = shoppingCartStore.getLocalStorage().length;
 $('.header__wishlist--qty').innerHTML = wishListStore.getLocalStorage().length;
 
