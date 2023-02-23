@@ -62,9 +62,9 @@ async function signup() {
     method: 'POST',
     headers: headers,
     body: JSON.stringify({
-      email: $('#inputID').value,
-      password: $('#inputPW').value,
-      displayName: $('#inputName').value,
+      email: $<HTMLInputElement>('#inputID').value,
+      password: $<HTMLInputElement>('#inputPW').value,
+      displayName: $<HTMLInputElement>('#inputName').value,
     }),
   });
   const json = await res.json();
@@ -109,19 +109,23 @@ export function initFuncSignup() {
   btnCheckDuplication.addEventListener('click', async (e) => {
     const userIDList = (await getUserList()).map((user) => user.email);
     console.log(userIDList);
-    const ID = $('#inputID').value;
+    const ID = $<HTMLInputElement>('#inputID').value;
     const noticeID = $('#noticeID');
 
     if (!RegexID.test(ID)) {
       alert('아이디가 양식에 맞지 않습니다');
-    } else if (userIDList.includes($('#inputID').value) === true) {
+    } else if (
+      userIDList.includes($<HTMLInputElement>('#inputID').value) === true
+    ) {
       bSignup = false;
       alert('동일한 ID가 이미 사용중입니다!');
     } else {
       bSignup = true;
-      e.target.innerText = '확인 완료';
-      e.target.style.backgroundColor = '#333';
-      e.target.style.color = '#eee';
+      const button: HTMLButtonElement = e.target as HTMLButtonElement;
+
+      button.innerText = '확인 완료';
+      button.style.backgroundColor = '#333';
+      button.style.color = '#eee';
       noticeID.innerText = '아이디 사용 가능!';
       noticeID.style.color = 'blue';
       noticeID.style.display = 'block';
@@ -133,12 +137,14 @@ export function initFuncSignup() {
 
 /** 정보를 입력할 때마다 유효성 검사 Event */
 function addValidationEvent() {
-  const btnCheckDuplication = $('.signup__container__input button');
-  const inputID = $('#inputID');
-  const inputPW = $('#inputPW');
-  const inputConfirmPW = $('#inputConfirmPW');
-  const inputName = $('#inputName');
-  const noticeID = $('#noticeID');
+  const btnCheckDuplication = $<HTMLButtonElement>(
+    '.signup__container__input button',
+  );
+  const inputID = $<HTMLInputElement>('#inputID');
+  const inputPW = $<HTMLInputElement>('#inputPW');
+  const inputConfirmPW = $<HTMLInputElement>('#inputConfirmPW');
+  const inputName = $<HTMLInputElement>('#inputName');
+  const noticeID = $<HTMLPreElement>('#noticeID');
   const noticePW = $('#noticePW');
   const noticeName = $('#noticeName');
 
@@ -148,7 +154,7 @@ function addValidationEvent() {
     btnCheckDuplication.style.color = '#000';
     bSignup = false;
 
-    if (!RegexID.test(inputID.value)) {
+    if (!RegexID.test((e.target as HTMLInputElement).value)) {
       noticeID.style.display = 'block';
       noticeID.style.color = 'red';
       noticeID.innerText = '이메일 양식에 맞춰주세요';
@@ -157,8 +163,8 @@ function addValidationEvent() {
     }
   });
 
-  inputPW.addEventListener('input', () => {
-    if (!RegexPW.test(inputPW.value)) {
+  inputPW.addEventListener('input', (e) => {
+    if (!RegexPW.test((e.target as HTMLInputElement).value)) {
       noticePW.innerText = '비밀번호 양식에 맞춰주세요';
       noticePW.style.color = 'red';
       noticePW.style.display = 'block';
@@ -167,8 +173,8 @@ function addValidationEvent() {
     }
   });
 
-  inputConfirmPW.addEventListener('input', () => {
-    if (inputPW.value === inputConfirmPW.value) {
+  inputConfirmPW.addEventListener('input', (e) => {
+    if ((e.target as HTMLInputElement).value === inputConfirmPW.value) {
       noticePW.style.color = 'blue';
       noticePW.innerText = '비밀번호가 일치합니다!';
     } else {
@@ -178,8 +184,8 @@ function addValidationEvent() {
     noticePW.style.display = 'block';
   });
 
-  inputName.addEventListener('input', () => {
-    if (inputName.value.length < 3) {
+  inputName.addEventListener('input', (e) => {
+    if ((e.target as HTMLInputElement).value.length < 3) {
       noticeName.innerText = '3글자 이상 작성해주세요!';
       noticeName.style.display = 'block';
     } else {
@@ -190,12 +196,12 @@ function addValidationEvent() {
 
 /** 가입하기 버튼을 눌렀을 때, 유효성 검사 */
 function checkValidation() {
-  const ID = $('#inputID').value;
-  const PW = $('#inputPW').value;
-  const confirmPW = $('#inputConfirmPW').value;
-  const Name = $('#inputName').value;
-  const chkEssentialFirst = $('#chk_essentialFirst');
-  const chkEssentialSecond = $('#chk_essentialSecond');
+  const ID = $<HTMLInputElement>('#inputID').value;
+  const PW = $<HTMLInputElement>('#inputPW').value;
+  const confirmPW = $<HTMLInputElement>('#inputConfirmPW').value;
+  const Name = $<HTMLInputElement>('#inputName').value;
+  const chkEssentialFirst = $<HTMLInputElement>('#chk_essentialFirst');
+  const chkEssentialSecond = $<HTMLInputElement>('#chk_essentialSecond');
 
   if (!RegexID.test(ID)) {
     alert('아이디가 양식에 맞지 않습니다');

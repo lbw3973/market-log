@@ -40,11 +40,11 @@ const renderContainer = () => {
   $('.app').innerHTML = `<div class="container"></div>`;
 };
 
-const render = (html) => {
+const render = (html: string) => {
   $('.container').innerHTML = html;
 };
 
-const initPage = (page) => {
+const initPage = (page: string) => {
   renderContainer();
   render(sideBar);
   $('.container').insertAdjacentHTML('beforeend', page);

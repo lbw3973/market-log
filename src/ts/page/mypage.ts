@@ -40,7 +40,7 @@ export const htmlMypage_Nav = /* html */ `
 </div>
 `;
 
-export function handleMyPage() {
+export function handleMyPage(): void {
   if (getLoginStatus() === false) {
     showAlertPlzLogin();
     router.navigate('/login');
