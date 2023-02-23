@@ -18,7 +18,10 @@ import { getLoginStatus, showAlertPlzLogin } from '../login.js';
 import { GetAllTransactionsValue } from '../../interface/index.js';
 
 /** 거래 완료/취소 확인 함수 */
-const checkWhetherTransactionIsDone = (done: boolean, isCanceled: boolean) => {
+const checkWhetherTransactionIsDone = (
+  done: boolean,
+  isCanceled: boolean,
+): string => {
   const buttons = `<button class="button cancel-btn orderHistory__list--cancelBtn">주문 취소</button>
                   <button class="button orderfix-btn orderHistory__list--confirmBtn">구매 확정</button>`;
   const emptyButtons = ``;
@@ -70,7 +73,7 @@ export const renderInitMypageTemplate = `
 `;
 
 /** 구매내역 초기 템플릿 */
-export const handleOrderHistoryInitTemplate = () => {
+export const handleOrderHistoryInitTemplate = (): void => {
   const renderOrderHistoryPageInitTemplate = `
   <div class="mypage__orderhistory">
     <h2>주문 내역</h2>
@@ -288,7 +291,7 @@ const orderHistoryUtilSetupUI = () => {
 };
 
 /** 주문내역 페이지 초기 렌더링 시 ui, api 불러오는 함수 */
-const orderHistoryUtilInit = async () => {
+const orderHistoryUtilInit = async (): Promise<void> => {
   const orderHistory = await getAllTransactions();
   orderHistoryUtilPages = orderHistoryUtilPaginate(orderHistory);
 
@@ -296,15 +299,20 @@ const orderHistoryUtilInit = async () => {
 };
 
 /** 주문내역 페이지 페이지네이션 1페이지 당 10개, slice 메서드로 배열에 삽입 */
-const orderHistoryUtilPaginate = (list: GetAllTransactionsValue) => {
-  const itemsPerPage = 10;
-  const numberOfPages = Math.ceil(list.length / itemsPerPage);
+const orderHistoryUtilPaginate = (
+  list: GetAllTransactionsValue,
+): GetAllTransactionsValue[] => {
+  const itemsPerPage: number = 10;
+  const numberOfPages: number = Math.ceil(list.length / itemsPerPage);
 
-  const newList = Array.from({ length: numberOfPages }, (_, index) => {
-    const start = index * itemsPerPage;
+  const newList: GetAllTransactionsValue[] = Array.from(
+    { length: numberOfPages },
+    (_, index) => {
+      const start: number = index * itemsPerPage;
 
-    return list.slice(start, start + itemsPerPage);
-  });
+      return list.slice(start, start + itemsPerPage);
+    },
+  );
 
   return newList;
 };
@@ -314,7 +322,7 @@ const orderHistoryUtilDisplayButtons = (
   container: HTMLDivElement,
   pages: GetAllTransactionsValue[],
   activeIndex: number,
-) => {
+): void => {
   let utilBtns = pages.map((_: unknown, pageIndex: number) => {
     return `
     <button class="order-history__pagination--btn ${
