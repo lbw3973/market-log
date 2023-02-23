@@ -2,16 +2,16 @@ import { ShoppingCartStore } from '../interface/store';
 
 /** 장바구니 localStorage */
 export const shoppingCartStore = {
-  setLocalStorage(product: ShoppingCartStore) {
+  setLocalStorage(product: ShoppingCartStore): void {
     localStorage.setItem('shoppingCart', JSON.stringify(product));
   },
-  getLocalStorage() {
+  getLocalStorage(): ShoppingCartStore[] {
     return JSON.parse(localStorage.getItem('shoppingCart')) || [];
   },
-  removeLocalStorage() {
+  removeLocalStorage(): void {
     return localStorage.removeItem('shoppingCart');
   },
-  clearLocalStorage() {
+  clearLocalStorage(): void {
     localStorage.clear();
   },
 };
