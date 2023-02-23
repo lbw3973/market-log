@@ -8,15 +8,16 @@ import {
 import { renderSkeletonUIinCategoryPage } from '../categoryPage/categoryPage.js';
 import { router } from '../../main.js';
 import { recentViewStore } from '../../store/recentViewStore.js';
+import { GetAllProductsInterface } from '../../interface/index.js';
 
 /*-----------------------------------*\
   검색 페이지  #search
 \*-----------------------------------*/
 
 /** 제품 이름 검색 */
-const renderSearchedProductList = (title = '') => {
+const renderSearchedProductList = (title: any): void => {
   const categoryProductListTemplate = title
-    .map((item) => {
+    .map((item: GetAllProductsInterface) => {
       const { id, price, thumbnail, title } = item;
 
       return `
@@ -39,7 +40,8 @@ const renderSearchedProductList = (title = '') => {
     })
     .join('');
 
-  $('.categoryPage__product--lists').innerHTML = categoryProductListTemplate;
+  $<HTMLUListElement>('.categoryPage__product--lists').innerHTML =
+    categoryProductListTemplate;
 };
 
 /** 검색한 제품이 없을 때 렌더링, 추천 검색어 클릭 -> 카테고리 페이지로 이동 */
@@ -56,13 +58,13 @@ const searchPageNoSearchResultTemplate = `
 
 /** input 값이 입력된 제품 찾기 함수 */
 const findProduct = async () => {
-  const $inputValue = $('.header-main__search--input').value;
+  const $inputValue = $<HTMLInputElement>('.header-main__search--input').value;
   console.log('inputValue', $inputValue);
   return await getSearchedProducts($inputValue);
 };
 
 /** 검색한 제품의 유/무 예외처리 핸들링 함수 */
-const handleSearchPageResult = async () => {
+const handleSearchPageResult = async (): Promise<void> => {
   renderPage(renderInitCategoryPage);
   renderSkeletonUIinCategoryPage();
   renderRecentViewed(recentViewStore.getLocalStorage().slice(0, 5));
@@ -74,35 +76,43 @@ const handleSearchPageResult = async () => {
       searchPageNoSearchResultTemplate;
 
     // 검색한 단어 화면에 표시
-    $('.searchPage__noResult--inputValue').innerHTML = $(
-      '.header-main__search--input',
-    ).value;
+    $<HTMLInputElement>('.searchPage__noResult--inputValue').innerHTML =
+      $<HTMLInputElement>('.header-main__search--input').value;
   } else if (findProductArr.length >= 1) {
     renderSearchedProductList(findProductArr);
   }
-  $('.header-main__search--input').value = '';
+  $<HTMLInputElement>('.header-main__search--input').value = '';
 };
 
 /** 검색창 폼 태그 새로고침 방지 */
-$('.header-main__search--form').addEventListener('submit', (e) => {
-  e.preventDefault();
-});
+$<HTMLFormElement>('.header-main__search--form').addEventListener(
+  'submit',
+  (e) => {
+    e.preventDefault();
+  },
+);
 
 /** [모든 페이지]에서 제품 검색 버튼 'click' 이벤트 */
-$('.header-main__search--button').addEventListener('click', async (e) => {
-  e.preventDefault();
-  router.navigate('/products/search');
-  await handleSearchPageResult();
-  return;
-});
-
-/** [모든 페이지]에서 제품 검색 버튼 'Enter'이벤트 */
-$('.header-main__search--button').addEventListener('keypress', async (e) => {
-  if (e.key === 'Enter') {
+$<HTMLButtonElement>('.header-main__search--button').addEventListener(
+  'click',
+  async (e) => {
+    e.preventDefault();
     router.navigate('/products/search');
     await handleSearchPageResult();
-  }
-});
+    return;
+  },
+);
+
+/** [모든 페이지]에서 제품 검색 버튼 'Enter'이벤트 */
+$<HTMLButtonElement>('.header-main__search--button').addEventListener(
+  'keypress',
+  async (e) => {
+    if (e.key === 'Enter') {
+      router.navigate('/products/search');
+      await handleSearchPageResult();
+    }
+  },
+);
 
 /** /products/search 핸들링 함수 */
 export const handleSearchPage = async () => {
