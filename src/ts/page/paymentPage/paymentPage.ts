@@ -1,9 +1,8 @@
 /*-----------------------------------*\
   # 결제 페이지 # pay js
 \*-----------------------------------*/
-import Navigo from 'navigo';
 import { router } from '../../main.js';
-import { $ } from '../../utils/dom.js';
+import { $, $$ } from '../../utils/dom.js';
 import { renderPage } from '../../utils/render.js';
 
 import {
@@ -18,16 +17,20 @@ import { getAccountDetail, buyItemAPI, getUserInfoAPI } from '../../api.js';
 import Swiper, { Navigation, Pagination } from 'swiper';
 import { renderCartTotalPrice } from '../cartPage/cartPage.js';
 import { shoppingCartStore } from '../../store/shoppingCartStore.js';
-import { renderInitHeaderLogin } from '../login.js';
+import {
+  ShoppingCartStore,
+  ShoppingCartStoreValue,
+} from '../../interface/store.js';
+import { Bank } from '../../interface/index.js';
 
 Swiper.use([Navigation, Pagination]);
 
 /** 제품 총 개수 렌더링 함수 */
-const renderProductTotalQty = () => {
+const renderProductTotalQty = (): number => {
   const paymentItemCount = shoppingCartStore
     .getLocalStorage()
-    .map((items) => items.count);
-  const renderProductTotalQty = paymentItemCount.reduce((acc, val) => {
+    .map((items: ShoppingCartStore) => items.count);
+  const renderProductTotalQty = paymentItemCount.reduce<number>((acc, val) => {
     return acc + val;
   }, 0);
 
@@ -196,9 +199,9 @@ const renderInitPaymentPage = `
 `;
 
 /** 결제페이지 구매할 제품 리스트 렌더링 */
-const renderPaymentProductList = (storage) => {
+const renderPaymentProductList = (storage: ShoppingCartStoreValue) => {
   const paymentProductListTemplate = storage
-    .map((item) => {
+    .map((item: ShoppingCartStore) => {
       const { id, price, count, thumbnail, title } = item;
 
       return `
@@ -217,7 +220,7 @@ const renderPaymentProductList = (storage) => {
     })
     .join('');
 
-  $('.app').querySelector('.pay__info--orderItem-lists').innerHTML =
+  $<HTMLUListElement>('.pay__info--orderItem-lists').innerHTML =
     paymentProductListTemplate;
 };
 
@@ -225,27 +228,33 @@ const renderPaymentProductList = (storage) => {
 const renderUserInfoInPaymentPage = async () => {
   const getUserInformation = await getUserInfoAPI();
   const { email, displayName } = getUserInformation;
-  $('.pay__info--payer--name-input').value = displayName;
-  $('.pay__info--payer--email-input').value = email;
+  $<HTMLInputElement>('.pay__info--payer--name-input').value = displayName;
+  $<HTMLInputElement>('.pay__info--payer--email-input').value = email;
 };
 // pay__info--payer-sameWithPayer
 
 /** '주문자와 동일' 체크박스 이벤트 */
-$('.app').addEventListener('change', (e) => {
-  if (e.target.classList.contains('pay__info--payer-sameWithPayer')) {
-    if ($('.pay__info--payer-sameWithPayer').checked === true) {
+$('.app').addEventListener('change', (e: Event) => {
+  if (
+    (e.target as HTMLInputElement).classList.contains(
+      'pay__info--payer-sameWithPayer',
+    )
+  ) {
+    if (
+      $<HTMLInputElement>('.pay__info--payer-sameWithPayer').checked === true
+    ) {
       renderUserInfoInPaymentPage();
     } else {
-      $('.pay__info--payer--name-input').value = '';
-      $('.pay__info--payer--email-input').value = '';
+      $<HTMLInputElement>('.pay__info--payer--name-input').value = '';
+      $<HTMLInputElement>('.pay__info--payer--email-input').value = '';
     }
   }
 });
 
 /** 계좌목록 및 잔액 조회 */
-const renderPaymentAccount = async (items) => {
+const renderPaymentAccount = async (items: Bank[]) => {
   const paymentAccountListTemplate = items
-    .map((item) => {
+    .map((item: Bank) => {
       const { id, bankName, bankCode, accountNumber, balance } = item;
 
       return `
@@ -309,7 +318,7 @@ const renderNoPaymentAccount = () => {
 
 /** 카카오 맵 렌더링 */
 const renderKakaoMap = () => {
-  var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+  var mapContainer = document.getElementById('map') as HTMLElement, // 지도를 표시할 div
     mapOption = {
       center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
       level: 5, // 지도의 확대 레벨
@@ -326,52 +335,57 @@ const renderKakaoMap = () => {
   });
   function sample5_execDaumPostcode() {
     new daum.Postcode({
-      oncomplete: function (data) {
+      oncomplete: function (data: any) {
         var addr = data.address; // 최종 주소 변수
 
         // 주소 정보를 해당 필드에 넣는다.
-        document.getElementById('sample5_address').value = addr;
+        (document.getElementById('sample5_address') as HTMLInputElement).value =
+          addr;
         // 주소로 상세 정보를 검색
-        geocoder.addressSearch(data.address, function (results, status) {
-          // 정상적으로 검색이 완료됐으면
-          if (status === daum.maps.services.Status.OK) {
-            var result = results[0]; //첫번째 결과의 값을 활용
+        geocoder.addressSearch(
+          data.address,
+          function (results: any, status: any) {
+            // 정상적으로 검색이 완료됐으면
+            if (status === daum.maps.services.Status.OK) {
+              var result = results[0]; //첫번째 결과의 값을 활용
 
-            // 해당 주소에 대한 좌표를 받아서
-            var coords = new daum.maps.LatLng(result.y, result.x);
-            // 지도를 보여준다.
-            mapContainer.style.display = 'block';
-            map.relayout();
-            // 지도 중심을 변경한다.
-            map.setCenter(coords);
-            // 마커를 결과값으로 받은 위치로 옮긴다.
-            marker.setPosition(coords);
-          }
-        });
+              // 해당 주소에 대한 좌표를 받아서
+              var coords = new daum.maps.LatLng(result.y, result.x);
+              // 지도를 보여준다.
+              mapContainer.style.display = 'block';
+              map.relayout();
+              // 지도 중심을 변경한다.
+              map.setCenter(coords);
+              // 마커를 결과값으로 받은 위치로 옮긴다.
+              marker.setPosition(coords);
+            }
+          },
+        );
       },
     }).open();
   }
-  $('.app')
-    .querySelector('.pay__info-zipcode--data-searchBtn')
-    .addEventListener('click', (e) => {
+  $<HTMLButtonElement>('.pay__info-zipcode--data-searchBtn').addEventListener(
+    'click',
+    (e) => {
       e.preventDefault();
       sample5_execDaumPostcode();
-    });
+    },
+  );
 };
 
 /** 결제하기 버튼 활성화/비활성화 */
-const activePaymentBtn = async () => {
-  const finalPaymentBtn = $('.app').querySelector(
+const activePaymentBtn = async (): Promise<void> => {
+  const finalPaymentBtn = $<HTMLButtonElement>(
     '.payment-method__final-confirm--btn',
   );
-  const selectedPaymentAccount = $('.app').querySelector(
+  const selectedPaymentAccount = $<HTMLSpanElement>(
     '.payment-method__account-selected',
   );
   console.log(selectedPaymentAccount.textContent);
   const accountList = await getAccountDetail();
-  if (accountList === 'undefined' || accountList.length === 0) {
+  if (accountList.length === 0) {
     finalPaymentBtn.style.backgroundColor = 'gray';
-    finalPaymentBtn.setAttribute('disabled', true);
+    finalPaymentBtn.setAttribute('disabled', 'true');
   } else if (accountList.length >= 1) {
     finalPaymentBtn.style.backgroundColor = 'var(--logo-color)';
     finalPaymentBtn.style.cursor = 'pointer';
@@ -379,17 +393,17 @@ const activePaymentBtn = async () => {
 };
 
 /** swiper 결제 페이지 선택된 계좌 이름 렌더링 */
-const renderSelectedPayment = (e) => {
-  const availableBankAccount = $('.app')
-    .querySelectorAll('.payment-method__card-list')
-    [e.realIndex]?.querySelector('.payment-method__card-name')?.textContent;
+const renderSelectedPayment = (e: any) => {
+  const availableBankAccount = $$<any>('.payment-method__card-list')[
+    e.realIndex
+  ]?.querySelector('.payment-method__card-name')?.textContent;
   console.log(availableBankAccount);
 
   if (availableBankAccount === undefined) {
-    $('.app').querySelector('.payment-method__account-selected').innerHTML =
+    $<HTMLSpanElement>('.payment-method__account-selected').innerHTML =
       '등록된 계좌가 없습니다.';
   } else {
-    $('.app').querySelector('.payment-method__account-selected').innerHTML =
+    $<HTMLSpanElement>('.payment-method__account-selected').innerHTML =
       availableBankAccount;
   }
 };
@@ -414,7 +428,8 @@ const paymentPageFunction = async () => {
   // 2. 결제할 제품들 렌더링
   renderPaymentProductList(shoppingCartStore.getLocalStorage());
   // 3. 제품 개수
-  $('.paymentProductQty').innerHTML = renderProductTotalQty();
+  $<HTMLSpanElement>('.paymentProductQty').innerHTML =
+    renderProductTotalQty().toString();
   renderFinalPaymentPrice();
   // 4. 주소찾기 카카오api
   renderKakaoMap();
@@ -454,7 +469,9 @@ const paymentPageFunction = async () => {
 /////////////////////////////
 
 /** 현재 선택한 은행계좌의 잔액 확인해주는 함수 */
-const checkBalanceOfselectedBankAccount = async (id) => {
+const checkBalanceOfselectedBankAccount = async (
+  id: string,
+): Promise<Bank[]> => {
   const availableAccount = await getAccountDetail();
   console.log(availableAccount);
   const checkCurrentSelectedBankId = availableAccount.filter((item) => {
@@ -464,7 +481,7 @@ const checkBalanceOfselectedBankAccount = async (id) => {
 };
 
 /** [결제 페이지] 결제버튼 로직 */
-const handlePaymentBtnLogic = async () => {
+const handlePaymentBtnLogic = async (): Promise<void> => {
   const currentSelectedBankId = $('.swiper-slide-active').dataset.accountId;
   const productIds = shoppingCartStore.getLocalStorage().map((items) => {
     return items.id;
@@ -500,24 +517,28 @@ const handlePaymentBtnLogic = async () => {
 
 $('.app').addEventListener('click', async (e) => {
   /** 결제 버튼 클릭시 결제 진행 (리팩토링 예정)*/
-  if (e.target.classList.contains('payment-method__final-confirm--btn')) {
-    if ($('.pay__info-zipcode--data-input').value === '') {
-      $('.pay__info-zipcode--data-input').focus();
+  if (
+    (e.target as HTMLButtonElement).classList.contains(
+      'payment-method__final-confirm--btn',
+    )
+  ) {
+    if ($<HTMLInputElement>('.pay__info-zipcode--data-input').value === '') {
+      $<HTMLInputElement>('.pay__info-zipcode--data-input').focus();
       alert('우편번호를 입력해주세요');
       return;
     }
-    if ($('.pay__info--payer--name-input').value === '') {
-      $('.pay__info--payer--name-input').focus();
+    if ($<HTMLInputElement>('.pay__info--payer--name-input').value === '') {
+      $<HTMLInputElement>('.pay__info--payer--name-input').focus();
       alert('주문자 이름을 입력해주세요.');
       return;
     }
     // 결제가 성공하면 구매내역 페이지로 라우팅 (지금은 홈으로 이동)
-    await handlePaymentBtnLogic(e);
+    await handlePaymentBtnLogic();
   }
 });
 
 /** /payment 핸들링 함수 */
-export const handlePaymentPage = async () => {
+export const handlePaymentPage = async (): Promise<void> => {
   $('.modal__addCart').style.display = 'none';
   console.log('/payment');
   renderPage(renderInitPaymentPage);
