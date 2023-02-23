@@ -219,22 +219,22 @@ const renderOrderedListPage = async (): Promise<void> => {
 
 /** [주문 내역 페이지] 구매확정/취소 버튼 클릭 이벤트 */
 $('.app')?.addEventListener('click', async (e: MouseEvent) => {
-  const detailId = (e.target as HTMLElement).closest('li')?.dataset.detailId;
+  const detailId = (e.target as HTMLLIElement).closest('li')?.dataset.detailId;
 
   if (
-    (e.target as HTMLElement).classList.contains(
+    (e.target as HTMLButtonElement).classList.contains(
       'orderHistory__list--confirmBtn',
     )
   ) {
     confirmTransactionAPI(detailId);
 
-    (e.target as HTMLElement)
+    (e.target as HTMLLIElement)
       .closest('li')
       .querySelector('.orderHistory__list--confirmed-order')!.innerHTML =
       '구매가 확정되었습니다.';
-    (e.target as HTMLElement)
+    (e.target as HTMLLIElement)
       .closest('li')
-      .querySelector('.orderHistory__list--buttons').innerHTML = '';
+      .querySelector('.orderHistory__list--buttons')!.innerHTML = '';
     return;
   }
 
@@ -244,13 +244,13 @@ $('.app')?.addEventListener('click', async (e: MouseEvent) => {
     )
   ) {
     cancelTransactionAPI(detailId);
-    (e.target as HTMLElement)
+    (e.target as HTMLLIElement)
       .closest('li')
-      .querySelector('.orderHistory__list--confirmed-order').innerHTML =
+      .querySelector('.orderHistory__list--confirmed-order')!.innerHTML =
       '구매가 취소되었습니다.';
-    (e.target as HTMLElement)
+    (e.target as HTMLLIElement)
       .closest('li')
-      .querySelector('.orderHistory__list--buttons').innerHTML = '';
+      .querySelector('.orderHistory__list--buttons')!.innerHTML = '';
 
     return;
   }
@@ -281,7 +281,7 @@ let orderHistoryUtilPages: GetAllTransactionsValue[] = [];
 const orderHistoryUtilSetupUI = () => {
   renderOrderedProductList(orderHistoryUtilPages[orderHistoryUtilIndex]);
   orderHistoryUtilDisplayButtons(
-    $<HTMLDivElement>('.order-history__pagination--btnsContainer'),
+    $('.order-history__pagination--btnsContainer'),
     orderHistoryUtilPages,
     orderHistoryUtilIndex,
   );
