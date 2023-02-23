@@ -6,8 +6,7 @@ import {
   CancelConfirmTransactionAPI,
   DeleteAccount,
   GetAllProductsInterface,
-  GetAllProductsValue,
-  GetAllTransactionsValue,
+  GetAllTransactionsInterface,
   GetBankListValue,
   GetUserAccounts,
   GetUserInfoAPI,
@@ -73,7 +72,7 @@ export const tokenHeaders = createHeaders({
 });
 
 /** 전체 제품 가져오기api */
-export const getAllProducts = async (): Promise<GetAllProductsValue> => {
+export const getAllProducts = async (): Promise<GetAllProductsInterface[]> => {
   try {
     const res = await fetch(`${base_url}/products`, {
       headers: createHeaders({ isMasterKey: true }),
@@ -89,7 +88,7 @@ export const getAllProducts = async (): Promise<GetAllProductsValue> => {
 /** 검색한 제품, 태그 가져오기 */
 export const getSearchedProducts = async (
   title: string,
-): Promise<GetAllProductsValue> => {
+): Promise<GetAllProductsInterface[]> => {
   try {
     const res = await fetch(`${base_url}/products/search`, {
       method: 'POST',
@@ -124,23 +123,24 @@ export const getDetailProduct = async (
 };
 
 /** 구매내역 확인 API */
-export const getAllTransactions =
-  async (): Promise<GetAllTransactionsValue> => {
-    try {
-      const res = await fetch(`${base_url}/products/transactions/details`, {
-        headers: tokenHeaders,
-      });
-      const data = await res.json();
+export const getAllTransactions = async (): Promise<
+  GetAllTransactionsInterface[]
+> => {
+  try {
+    const res = await fetch(`${base_url}/products/transactions/details`, {
+      headers: tokenHeaders,
+    });
+    const data = await res.json();
 
-      if (res.status === 400) {
-        return [];
-      } else {
-        return data;
-      }
-    } catch (err) {
-      console.log('거래내역 가져오기 실패', err);
+    if (res.status === 400) {
+      return [];
+    } else {
+      return data;
     }
-  };
+  } catch (err) {
+    console.log('거래내역 가져오기 실패', err);
+  }
+};
 
 /** 구매 확정 API */
 export const confirmTransactionAPI = async (

@@ -7,7 +7,6 @@ export type HeadersOptions = {
 
 /** 전체 제품 가져오기api */
 /** 검색한 제품, 태그 가져오기 */
-export type GetAllProductsValue = GetAllProductsInterface[];
 export interface GetAllProductsInterface {
   // 제품 정보
   id: string; // 제품 ID
@@ -29,7 +28,7 @@ interface Reservation {
 }
 
 /** 제품 전체 거래(구매) 내역 */
-export type GetAllTransactionsValue = GetAllTransactionsInterface[]; // 모든 거래 내역의 목록
+// export type GetAllTransactionsValue = GetAllTransactionsInterface[]; // 모든 거래 내역의 목록
 
 export interface GetAllTransactionsInterface {
   // 거래 내역 정보

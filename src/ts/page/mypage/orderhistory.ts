@@ -15,7 +15,7 @@ import { formatDate } from '../../utils/format.js';
 import { htmlMypage_Nav, resetNavbarActive } from '../mypage.js';
 import { router } from '../../main.js';
 import { getLoginStatus, showAlertPlzLogin } from '../login.js';
-import { GetAllTransactionsValue } from '../../interface/index.js';
+import { GetAllTransactionsInterface } from '../../interface/index.js';
 
 /** 거래 완료/취소 확인 함수 */
 const checkWhetherTransactionIsDone = (
@@ -128,7 +128,7 @@ export const handleOrderHistoryInitTemplate = (): void => {
 
 /** 제품 구매 내역 */
 const renderOrderedProductList = (
-  orderedItems: GetAllTransactionsValue,
+  orderedItems: GetAllTransactionsInterface[],
 ): void => {
   console.log(orderedItems);
   const orderedProductListTemplate = orderedItems
@@ -278,7 +278,7 @@ export const handleOrderHistoryPage = async () => {
 /** 처음 index = 0 */
 let orderHistoryUtilIndex: number = 0;
 /** 페이지네이션 배열 초기화 = 0 */
-let orderHistoryUtilPages: GetAllTransactionsValue[] = [];
+let orderHistoryUtilPages: GetAllTransactionsInterface[][] = [];
 
 /** 주문내역 페이지 제품, 버튼 초기 렌더링 */
 const orderHistoryUtilSetupUI = () => {
@@ -300,19 +300,17 @@ const orderHistoryUtilInit = async (): Promise<void> => {
 
 /** 주문내역 페이지 페이지네이션 1페이지 당 10개, slice 메서드로 배열에 삽입 */
 const orderHistoryUtilPaginate = (
-  list: GetAllTransactionsValue,
-): GetAllTransactionsValue[] => {
+  list: GetAllTransactionsInterface[],
+): GetAllTransactionsInterface[][] => {
   const itemsPerPage: number = 10;
   const numberOfPages: number = Math.ceil(list.length / itemsPerPage);
 
-  const newList: GetAllTransactionsValue[] = Array.from(
-    { length: numberOfPages },
-    (_, index) => {
-      const start: number = index * itemsPerPage;
+  const newList = Array.from({ length: numberOfPages }, (_, index) => {
+    const start: number = index * itemsPerPage;
 
-      return list.slice(start, start + itemsPerPage);
-    },
-  );
+    return list.slice(start, start + itemsPerPage);
+  });
+  console.log(newList);
 
   return newList;
 };
@@ -320,7 +318,7 @@ const orderHistoryUtilPaginate = (
 /** 주문내역 페이지 페이지네이션 버튼 */
 const orderHistoryUtilDisplayButtons = (
   container: HTMLDivElement,
-  pages: GetAllTransactionsValue[],
+  pages: GetAllTransactionsInterface[][],
   activeIndex: number,
 ): void => {
   let utilBtns = pages.map((_: unknown, pageIndex: number) => {

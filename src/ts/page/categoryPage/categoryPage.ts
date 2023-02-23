@@ -2,10 +2,7 @@ import { $ } from '../../utils/dom.js';
 import { renderPage } from '../../utils/render.js';
 import { getAllProducts } from '../../api.js';
 import { recentViewStore } from '../../store/recentViewStore.js';
-import {
-  GetAllProductsInterface,
-  GetAllProductsValue,
-} from '../../interface/index.js';
+import { GetAllProductsInterface } from '../../interface/index.js';
 import { RecentView } from '../../interface/store.js';
 import { Category } from '../../interface/enum.js';
 
@@ -68,7 +65,7 @@ export const renderSkeletonUIinCategoryPage = (): void => {
 };
 
 /** 카테고리 페이지 제품 db에서 불러오기 */
-const renderCategoryProductList = (items: GetAllProductsValue): void => {
+const renderCategoryProductList = (items: GetAllProductsInterface[]): void => {
   const categoryProductListTemplate = items
     .map((item: GetAllProductsInterface) => {
       const { id, price, thumbnail, title, tags } = item;
@@ -121,24 +118,24 @@ const getProductTags = async () => {
   // const allTags = allProductArray.map((items) => {
   //   return items.tags;
   // });
-  const filterKeyboardTag: GetAllProductsValue = allProductArray.filter(
-    (item): boolean => {
+  const filterKeyboardTag = allProductArray.filter(
+    (item: GetAllProductsInterface): boolean => {
       return item.tags[0] === Category.keyboards;
     },
   );
 
-  const filterKeycapTag: GetAllProductsValue = allProductArray.filter(
-    (item): boolean => {
+  const filterKeycapTag = allProductArray.filter(
+    (item: GetAllProductsInterface): boolean => {
       return item.tags[0] === Category.keycaps;
     },
   );
-  const filterSwitchTag: GetAllProductsValue = allProductArray.filter(
-    (item): boolean => {
+  const filterSwitchTag = allProductArray.filter(
+    (item: GetAllProductsInterface): boolean => {
       return item.tags[0] === Category.switches;
     },
   );
-  const filterAccessoryTag: GetAllProductsValue = allProductArray.filter(
-    (item): boolean => {
+  const filterAccessoryTag = allProductArray.filter(
+    (item: GetAllProductsInterface): boolean => {
       return item.tags[0] === Category.accessories;
     },
   );
@@ -154,9 +151,11 @@ const getProductTags = async () => {
 const getSortedLowToHighPriceProduct = async (i: number): Promise<void> => {
   const getKeyBoardCategory = await getProductTags();
   const keyboardCategoryProduct = getKeyBoardCategory[i];
-  const LowToHighPrice = keyboardCategoryProduct.sort((a, b) => {
-    return a.price - b.price;
-  });
+  const LowToHighPrice = keyboardCategoryProduct.sort(
+    (a: GetAllProductsInterface, b: GetAllProductsInterface) => {
+      return a.price - b.price;
+    },
+  );
   console.log('LowToHighPrice', LowToHighPrice);
   // $('.categoryPage__product--lists').innerHTML = LowToHighPrice;
   // return keyboardCategoryProduct;
@@ -168,9 +167,11 @@ const getSortedLowToHighPriceProduct = async (i: number): Promise<void> => {
 const getSortedHighToLowPriceProduct = async (i: number): Promise<void> => {
   const getKeyBoardCategory = await getProductTags();
   const keyboardCategoryProduct = getKeyBoardCategory[i];
-  const HighToLowPrice = keyboardCategoryProduct.sort((a, b) => {
-    return b.price - a.price;
-  });
+  const HighToLowPrice = keyboardCategoryProduct.sort(
+    (a: GetAllProductsInterface, b: GetAllProductsInterface) => {
+      return b.price - a.price;
+    },
+  );
   console.log('HighToLowPrice', HighToLowPrice);
   renderCategoryProductList(HighToLowPrice);
   return;
@@ -240,7 +241,7 @@ export const handleCategoryPage = async (i: number): Promise<void> => {
 /** 처음 index = 0 */
 let categoryUtilIndex: number = 0;
 /** 페이지네이션 배열 초기화 = 0 */
-let categoryUtilPages: GetAllProductsValue[] = [];
+let categoryUtilPages: GetAllProductsInterface[][] = [];
 
 /** 카테고리 페이지 제품, 버튼 초기 렌더링 */
 const categoryUtilSetupUI = () => {
@@ -266,8 +267,8 @@ const categoryUtilInit = async (i: number) => {
 
 /** 카테고리 페이지 페이지네이션 1페이지 당 10개, slice 메서드로 배열에 삽입 */
 const categoryUtilPaginate = (
-  list: GetAllProductsValue,
-): GetAllProductsValue[] => {
+  list: GetAllProductsInterface[],
+): GetAllProductsInterface[][] => {
   const itemsPerPage = 9;
   const numberOfPages = Math.ceil(list.length / itemsPerPage);
 
@@ -283,7 +284,7 @@ const categoryUtilPaginate = (
 /** 카테고리 페이지 페이지네이션 버튼 */
 const categoryUtilDisplayButtons = (
   container: HTMLDivElement,
-  pages: GetAllProductsValue[],
+  pages: GetAllProductsInterface[][],
   activeIndex: number,
 ) => {
   let categoryUtilBtns = pages.map((_, pageIndex) => {
