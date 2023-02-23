@@ -87,7 +87,7 @@ const handleSearchPageResult = async (): Promise<void> => {
 /** 검색창 폼 태그 새로고침 방지 */
 $<HTMLFormElement>('.header-main__search--form').addEventListener(
   'submit',
-  (e) => {
+  (e: SubmitEvent) => {
     e.preventDefault();
   },
 );
@@ -95,7 +95,7 @@ $<HTMLFormElement>('.header-main__search--form').addEventListener(
 /** [모든 페이지]에서 제품 검색 버튼 'click' 이벤트 */
 $<HTMLButtonElement>('.header-main__search--button').addEventListener(
   'click',
-  async (e) => {
+  async (e: MouseEvent) => {
     e.preventDefault();
     router.navigate('/products/search');
     await handleSearchPageResult();
@@ -106,7 +106,7 @@ $<HTMLButtonElement>('.header-main__search--button').addEventListener(
 /** [모든 페이지]에서 제품 검색 버튼 'Enter'이벤트 */
 $<HTMLButtonElement>('.header-main__search--button').addEventListener(
   'keypress',
-  async (e) => {
+  async (e: KeyboardEvent) => {
     if (e.key === 'Enter') {
       router.navigate('/products/search');
       await handleSearchPageResult();

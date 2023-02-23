@@ -304,7 +304,7 @@ const categoryUtilDisplayButtons = (
 };
 
 /** prev, next, 페이지네이션 버튼 핸들링 이벤트 */
-$('.app')?.addEventListener('click', (e) => {
+$('.app')?.addEventListener('click', (e: MouseEvent) => {
   if (
     (e.target as HTMLDivElement).classList.contains(
       'categoryPage__pagination--btn-container',

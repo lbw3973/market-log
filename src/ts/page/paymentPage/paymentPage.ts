@@ -444,6 +444,7 @@ const paymentPageFunction = async () => {
     : await renderPaymentAccount(await getAccountDetail());
 
   // 5. 연결된 계좌 swiper
+  paymentCardSwiper;
   var paymentCardSwiper = new Swiper('.payment-method__swiper-wrapper', {
     pagination: {
       el: '.swiper-pagination',
