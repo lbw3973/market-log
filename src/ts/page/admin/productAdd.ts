@@ -1,28 +1,16 @@
 import { router } from '../../main.js';
 import { addProduct } from '../../api.js';
-import { router } from '../../main.js';
+import { $ } from '../../utils/dom.js';
 
 /** 상품 추가 핸들러 */
 export const productAddHandler = () => {
-  const form = document.querySelector('.container-form');
-  const titleInput = form.querySelector(
-    '.container-form__content--title input',
-  );
-  const priceInput = form.querySelector(
-    '.container-form__content--price input',
-  );
-  const desciptionInput = form.querySelector(
-    '.container-form__content--description textarea',
-  );
-  const tagsSelect = form.querySelector(
-    '.container-form__content--tags select',
-  );
-  const thumbnailInput = form.querySelector(
-    '.container-form__content--thumbnail input',
-  );
-  const preview = document.querySelector(
-    '.container-form__content--thumbnail img',
-  );
+  const form = $('.container-form');
+  const titleInput = $('.container-form__content--title input');
+  const priceInput = $('.container-form__content--price input');
+  const desciptionInput = $('.container-form__content--description textarea');
+  const tagsSelect = $('.container-form__content--tags select');
+  const thumbnailInput = $('.container-form__content--thumbnail input');
+  const preview = $('.container-form__content--thumbnail img');
 
   let profileImgBase64 = '';
 
