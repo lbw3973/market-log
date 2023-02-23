@@ -1,10 +1,9 @@
 // export type MasterKeyHeaders = Record<string, string> & { masterKey: string };
 
-export interface Headers {
-  'content-type': 'application/json';
-  apikey: string;
-  username: string;
-}
+export type HeadersOptions = {
+  isMasterKey?: boolean;
+  token?: string;
+};
 
 /** 전체 제품 가져오기api */
 /** 검색한 제품, 태그 가져오기 */
