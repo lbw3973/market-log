@@ -66,7 +66,7 @@ export const renderSkeletonUIinCategoryPage = (): void => {
 };
 
 /** 카테고리 페이지 제품 db에서 불러오기 */
-const renderCategoryProductList = (items: GetAllProductsValue) => {
+const renderCategoryProductList = (items: GetAllProductsValue): void => {
   const categoryProductListTemplate = items
     .map((item: GetAllProductsInterface) => {
       const { id, price, thumbnail, title, tags } = item;
