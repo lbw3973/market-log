@@ -87,7 +87,7 @@ export const renderInitCartPage = `
 `;
 
 /** 장바구니 결제금액 렌더링 */
-const renderCartOrderPrice = () => {
+const renderCartOrderPrice = (): void => {
   // [장바구니] 총 결제 금액
   $('.cartOrderPrice').innerHTML = `${formatPrice(renderCartTotalPrice())} 원`;
   $('.cartTotalPaymentPrice').innerHTML = `${formatPrice(
@@ -180,7 +180,7 @@ export const renderCartPage = (): void => {
 };
 
 /** 버튼 요소 핸들링 이벤트 */
-$('.app').addEventListener('click', (e) => {
+$('.app').addEventListener('click', (e: MouseEvent) => {
   // [장바구니 페이지]에서 장바구니에 상품이 없을 때, '계속 쇼핑하기' 버튼 클릭 -> [메인페이지]로 이동
   if (
     (e.target as HTMLButtonElement).classList.contains(
@@ -263,7 +263,7 @@ $('.app').addEventListener('click', (e: MouseEvent) => {
   ) {
     shoppingCartArr = shoppingCartStore
       .getLocalStorage()
-      .filter((item: ShoppingCartStore) => item.id !== id);
+      .filter((item: ShoppingCartStore): boolean => item.id !== id);
     // storeLocalStorage(id);
     shoppingCartStore.setLocalStorage(shoppingCartArr);
     console.log(shoppingCartArr);
