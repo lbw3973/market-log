@@ -1,56 +1,59 @@
 /*-----------------------------------*\
   마이 페이지 - 주문내역 상세 페이지  # mypage/order/:id
 \*-----------------------------------*/
-import Navigo from 'navigo';
 import { $ } from '../../utils/dom.js';
 import { renderPage } from '../../utils/render.js';
 import { getDetailOrderProduct } from '../../api.js';
-import { formatPrice, formatDate } from '../../utils/format.js';
+import { formatDate } from '../../utils/format.js';
 import { getLoginStatus, showAlertPlzLogin } from '../login.js';
 import { htmlMypage_Nav } from '../mypage.js';
+import { router } from '../../main.js';
 
 /** 마이 페이지 mypage__navigo__container 초기 템플릿 */
-const renderInitMypageTemplate = `
-      <div class="mypage__app">
-        <div class="mypage__container">
-          <div class="mypage__navbar">
-            <h1>마이페이지</h1>
-            <nav>
-              <ul>
-                <li>
-                  <a href="/mypage/order" data-navigo
-                    >주문내역
-                    <img src="./public/chevronright.svg" alt="chevronright" />
-                  </a>
-                </li>
-                <li>
-                  <a href="/mypage/account" data-navigo
-                    >계좌 관리
-                    <img src="./public/chevronright.svg" alt="chevronright" />
-                  </a>
-                </li>
-                <li>
-                  <a href="/mypage/wishlist" data-navigo
-                    >찜한 상품
-                    <img src="./public/chevronright.svg" alt="chevronright" />
-                  </a>
-                </li>
-                <li>
-                  <a href="/mypage/editPersonalInfo" data-navigo
-                    >개인 정보 수정
-                    <img src="./public/chevronright.svg" alt="chevronright" />
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-          <div class="mypage__navigo__container"></div>
-        </div>
-      </div>
-`;
+// const renderInitMypageTemplate = `
+//       <div class="mypage__app">
+//         <div class="mypage__container">
+//           <div class="mypage__navbar">
+//             <h1>마이페이지</h1>
+//             <nav>
+//               <ul>
+//                 <li>
+//                   <a href="/mypage/order" data-navigo
+//                     >주문내역
+//                     <img src="./public/chevronright.svg" alt="chevronright" />
+//                   </a>
+//                 </li>
+//                 <li>
+//                   <a href="/mypage/account" data-navigo
+//                     >계좌 관리
+//                     <img src="./public/chevronright.svg" alt="chevronright" />
+//                   </a>
+//                 </li>
+//                 <li>
+//                   <a href="/mypage/wishlist" data-navigo
+//                     >찜한 상품
+//                     <img src="./public/chevronright.svg" alt="chevronright" />
+//                   </a>
+//                 </li>
+//                 <li>
+//                   <a href="/mypage/editPersonalInfo" data-navigo
+//                     >개인 정보 수정
+//                     <img src="./public/chevronright.svg" alt="chevronright" />
+//                   </a>
+//                 </li>
+//               </ul>
+//             </nav>
+//           </div>
+//           <div class="mypage__navigo__container"></div>
+//         </div>
+//       </div>
+// `;
 
 /** 주문 상세정보 구매확정/취소/완료 체크 함수 */
-const checkWhetherDetailOrderTransactionIsDone = (done, isCanceled) => {
+const checkWhetherDetailOrderTransactionIsDone = (
+  done: boolean,
+  isCanceled: boolean,
+) => {
   if (done) {
     return '구매 확정';
   } else if (isCanceled) {
@@ -61,7 +64,7 @@ const checkWhetherDetailOrderTransactionIsDone = (done, isCanceled) => {
 };
 
 /** 주문 상세정보 렌더링 함수 */
-const renderDetailOrderProduct = async (id) => {
+const renderDetailOrderProduct = async (id: string): Promise<void> => {
   const detailOrderProduct = await getDetailOrderProduct(id);
   console.log(id);
   console.log(detailOrderProduct);
@@ -139,14 +142,14 @@ const renderDetailOrderProduct = async (id) => {
 };
 
 /** 상세 주문 내역 skeleton ui 초기 렌더링 */
-const renderSkeletonUIinDetailOrderHistoryPage = () => {
+const renderSkeletonUIinDetailOrderHistoryPage = (): void => {
   const skeletonUITemplate = `
   <li class="orderHistoryPage__skeleton"></li>
 `;
 
-  const skeletonUI12 = Array(2)
+  const skeletonUI12: string = Array(2)
     .fill(skeletonUITemplate)
-    .map((v, i) => {
+    .map((v: string) => {
       return v;
     })
     .join('');
@@ -155,14 +158,16 @@ const renderSkeletonUIinDetailOrderHistoryPage = () => {
 };
 
 /** 상세 주문내역 핸들링 함수 */
-const renderDetailOrderPage = async (params) => {
+const renderDetailOrderPage = async (params: string): Promise<void> => {
   renderPage(htmlMypage_Nav);
   renderSkeletonUIinDetailOrderHistoryPage();
   await renderDetailOrderProduct(params);
 };
 
 /** /mypage/order/:id 핸들링 함수 */
-export const handleDetailOrderHistoryPage = async (params) => {
+export const handleDetailOrderHistoryPage = async (
+  params: string,
+): Promise<void> => {
   if (getLoginStatus() === false) {
     showAlertPlzLogin();
     router.navigate('/login');
