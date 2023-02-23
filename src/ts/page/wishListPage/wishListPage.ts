@@ -12,6 +12,7 @@ import { htmlMypage_Nav, resetNavbarActive } from '../mypage.js';
 import { router } from '../../main.js';
 import { countQtyInCart, countQtyInWishlist } from '../mainPage/mainPage.js';
 import { getLoginStatus, showAlertPlzLogin } from '../login.js';
+import { WishListStore, WishListStoreValue } from '../../interface/store.js';
 
 /** 찜한상품 제목, ul 태그 템플릿 삽입 */
 const handleWishListInitTemplate = () => {
@@ -29,10 +30,10 @@ const handleWishListInitTemplate = () => {
 };
 
 /** ul 태그에 찜한 제품 li 삽입, */
-const renderWishListProductList = (store) => {
+const renderWishListProductList = (store: WishListStore[]) => {
   console.log(store);
   const wishListProductListTemplate = store
-    .map((item) => {
+    .map((item: WishListStore) => {
       const { id, pricePerOne, thumbnail, title } = item;
       console.log(pricePerOne);
 
@@ -71,7 +72,8 @@ const renderWishListProductList = (store) => {
     })
     .join('');
 
-  $('.wishlist__product--lists').innerHTML = wishListProductListTemplate;
+  $<HTMLLIElement>('.wishlist__product--lists').innerHTML =
+    wishListProductListTemplate;
 };
 
 /** 찜하기 목록이 비어있을 때 템플릿 */
@@ -83,7 +85,7 @@ const handleEmptyWishlistInit = () => {
     <a href="/category/keyboards">쇼핑하러 가기</a>
   </div>
   `;
-  $('.app').querySelector('.wishlist__product--lists').innerHTML =
+  $<HTMLUListElement>('.wishlist__product--lists').innerHTML =
     emptyWishlistTemplate;
 };
 
@@ -103,16 +105,20 @@ const renderWishListPage = () => {
     return;
   }
 };
+
+/** 마이페이지 side navbar 이동 및 클릭 시 색깔 active */
 const setNavbacActive = () => {
-  const active = document.querySelector('#mpWishList');
+  const active = $<HTMLAnchorElement>('#mpWishList');
   active.parentElement.classList.add('active');
 };
 
 /** [찜하기 페이지]에서 제품 제거 버튼 이벤트, 함수 */
-$('.app').addEventListener('click', (e) => {
+$('.app').addEventListener('click', (e: MouseEvent) => {
   let wishListArr = wishListStore.getLocalStorage();
-  const id = e.target.closest('li')?.dataset.productId;
-  if (e.target.classList.contains('removeFromWishListBtn')) {
+  const id = (e.target as HTMLLinkElement).closest('li')?.dataset.productId;
+  if (
+    (e.target as HTMLButtonElement).classList.contains('removeFromWishListBtn')
+  ) {
     wishListArr = wishListArr.filter((item) => item.id !== id);
     console.log('removeItem from wishListArr', wishListArr);
     wishListStore.setLocalStorage(wishListArr);
@@ -123,11 +129,13 @@ $('.app').addEventListener('click', (e) => {
 });
 
 /** [찜하기 페이지]에서 '카트에 담기' 버튼 클릭 시, 해당 제품을 장바구니에 저장  */
-$('.app').addEventListener('click', (e) => {
-  const id = e.target.closest('li')?.dataset.productId;
+$('.app').addEventListener('click', (e: MouseEvent) => {
+  const id = (e.target as HTMLLIElement).closest('li')?.dataset.productId;
   let wishListArr = wishListStore.getLocalStorage();
-  let shoppingCartArr = shoppingCartStore.getLocalStorage();
-  if (e.target.classList.contains('wishList-AddToCartBtn')) {
+
+  if (
+    (e.target as HTMLButtonElement).classList.contains('wishList-AddToCartBtn')
+  ) {
     const wishListAddToCart = wishListArr.filter((item) => item.id === id);
 
     const wishListInfo = wishListAddToCart[0];
@@ -161,9 +169,9 @@ export const handleWishListPage = () => {
 \*-----------------------------------*/
 
 /** 처음 index = 0 */
-let wishListUtilIndex = 0;
+let wishListUtilIndex: number = 0;
 /** 페이지네이션 배열 초기화 = 0 */
-let wishListUtilPages = [];
+let wishListUtilPages: WishListStoreValue[] = [];
 
 /** 주문내역 페이지 제품, 버튼 초기 렌더링 */
 const wishListUtilSetupUI = () => {
@@ -184,7 +192,7 @@ const wishListUtilInit = async () => {
 };
 
 /** 주문내역 페이지 페이지네이션 1페이지 당 10개, slice 메서드로 배열에 삽입 */
-const wishListUtilPaginate = (list) => {
+const wishListUtilPaginate = (list: WishListStore[]): WishListStoreValue[] => {
   const itemsPerPage = 10;
   const numberOfPages = Math.ceil(list.length / itemsPerPage);
 
@@ -198,7 +206,11 @@ const wishListUtilPaginate = (list) => {
 };
 
 /** 주문내역 페이지 페이지네이션 버튼 */
-const wishListUtilDisplayButtons = (container, pages, activeIndex) => {
+const wishListUtilDisplayButtons = (
+  container: HTMLDivElement,
+  pages: WishListStoreValue[],
+  activeIndex: number,
+) => {
   let utilBtns = pages.map((_, pageIndex) => {
     return `
     <button class="wishList__pagination--btn ${
@@ -216,23 +228,39 @@ const wishListUtilDisplayButtons = (container, pages, activeIndex) => {
 };
 
 /** prev, next, 페이지네이션 버튼 핸들링 이벤트 */
-$('.app').addEventListener('click', (e) => {
-  if (e.target.classList.contains('wishList__pagination--btnsContainer'))
+$('.app').addEventListener('click', (e: MouseEvent) => {
+  if (
+    (e.target as HTMLDivElement).classList.contains(
+      'wishList__pagination--btnsContainer',
+    )
+  )
     return;
 
-  if (e.target.classList.contains('wishList__pagination--btn')) {
-    wishListUtilIndex = Number(e.target.dataset.index);
+  if (
+    (e.target as HTMLButtonElement).classList.contains(
+      'wishList__pagination--btn',
+    )
+  ) {
+    wishListUtilIndex = Number((e.target as HTMLButtonElement).dataset.index);
     wishListUtilSetupUI();
   }
 
-  if (e.target.classList.contains('wishList__pagination--btn-next')) {
+  if (
+    (e.target as HTMLButtonElement).classList.contains(
+      'wishList__pagination--btn-next',
+    )
+  ) {
     wishListUtilIndex++;
     if (wishListUtilIndex > wishListUtilPages.length - 1) {
       wishListUtilIndex = 0;
     }
     wishListUtilSetupUI();
   }
-  if (e.target.classList.contains('wishList__pagination--btn-prev')) {
+  if (
+    (e.target as HTMLButtonElement).classList.contains(
+      'wishList__pagination--btn-prev',
+    )
+  ) {
     wishListUtilIndex--;
     if (wishListUtilIndex < 0) {
       wishListUtilIndex = wishListUtilPages.length - 1;
