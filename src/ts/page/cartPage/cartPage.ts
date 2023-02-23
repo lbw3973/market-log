@@ -208,9 +208,9 @@ $('.app').addEventListener('click', (e: MouseEvent) => {
 
 /** 구매수량 추가 핸들링 이벤트 */
 $('.app')?.addEventListener('click', (e: MouseEvent) => {
-  const detailProductId = (e.target as HTMLLIElement)?.closest('li')?.dataset
-    .productId;
-  updateInfo(e, detailProductId);
+  // const detailProductId = (e.target as HTMLLIElement)?.closest('li')?.dataset
+  //   .productId;
+  updateInfo(e);
 });
 
 /** 장바구니 담기 핸들링 이벤트 */
