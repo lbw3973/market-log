@@ -6,6 +6,7 @@ import { toggleLoadingSpinner } from '../../utils/loading.js';
 import { getAllOrder, getAllProducts } from '../../api.js';
 import { formatPrice } from '../../utils/format.js';
 import Chart from 'chart.js/auto';
+import { $ } from '../../utils/dom';
 
 /** 대시보드 페이지 핸들러 */
 export const dashboardHandler = async () => {
@@ -24,7 +25,7 @@ export const dashboardHandler = async () => {
 
 /** 거래 카테고리 통계 chart 생성 */
 const setDashBoardChartCategory = (products) => {
-  const chartCategory = document.querySelector('#chartCategory');
+  const chartCategory = $('#chartCategory');
 
   const keyboardNum = products.filter(
     (product) => product.tags[0] === '키보드',
@@ -70,7 +71,7 @@ const setDashBoardChartCategory = (products) => {
 
 /** 금주 거래 금액 통계 chart 생성 */
 const setDashBoardChartAmount = (orders) => {
-  const chartAmount = document.querySelector('#chartAmount');
+  const chartAmount = $('#chartAmount');
 
   const thisWeek = [];
 
