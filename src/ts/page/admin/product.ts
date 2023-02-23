@@ -1,14 +1,20 @@
 import { deleteProduct, getAllProducts } from '../../api.js';
 import { renderPageBtn, renderProductList } from './renderDetail.js';
 
-let products = [];
+import { GetAllProductsValue } from '../../interface/index';
 
-let activeIdx = 1;
-let btnIdx = 1;
-const itemsPerPage = 10;
+let products: GetAllProductsValue = [];
+
+let activeIdx: number = 1;
+let btnIdx: number = 1;
+const itemsPerPage: number = 10;
 
 /** 현재 페이지의 상품목록 가져오기 */
-const getProductCurrentPage = (products, activeIdx, itemsPerPage) => {
+const getProductCurrentPage = (
+  products: GetAllProductsValue,
+  activeIdx: number,
+  itemsPerPage: number,
+): GetAllProductsValue => {
   const start = (activeIdx - 1) * itemsPerPage;
   const end = start + itemsPerPage;
   const newProducts = products.slice(start, end);
@@ -29,13 +35,13 @@ export const productHandler = async () => {
   const productContainer = document.querySelector('.product-container');
   const productList = productContainer.querySelector(
     '.product-container__list',
-  );
+  ) as HTMLUListElement;
   const checkProductAll = productContainer.querySelector(
     '.product-container__title input',
-  );
+  ) as HTMLInputElement;
   const productPageBtn = productContainer.querySelector(
     '.product-container__btn-page',
-  );
+  ) as HTMLButtonElement;
 
   products = await getAllProducts();
 
@@ -46,9 +52,8 @@ export const productHandler = async () => {
   );
 
   const searchedProductInput = searchContainer.querySelector('input');
-  const searchedProductBtn = searchContainer.querySelector('img');
 
-  const searchProductHandler = () => {
+  const searchProductHandler = (): void => {
     const filteredProduct = products.filter((product) =>
       product.title.toLowerCase().includes(searchedProductInput.value),
     );
@@ -61,13 +66,13 @@ export const productHandler = async () => {
   };
 
   /** 상품 검색(enter) 이벤트 리스너 */
-  searchedProductInput.addEventListener('keydown', (e) => {
+  searchedProductInput.addEventListener('keydown', (e: KeyboardEvent) => {
     if (e.key === 'Enter' && !e.isComposing) {
       searchProductHandler();
     }
   });
 
-  searchedProductInput.addEventListener('input', async (e) => {
+  searchedProductInput.addEventListener('input', async (e: InputEvent) => {
     searchedProductInput.value === ''
       ? (products = await getAllProducts())
       : products;
@@ -78,11 +83,18 @@ export const productHandler = async () => {
   // searchedProductBtn.addEventListener('click', searchProductHandler);
 
   /** 페이지 버튼 클릭 이벤트 리스너 */
-  productPageBtn.addEventListener('click', (e) => {
-    if (e.target.classList.contains('product-container__btn-delete')) return;
+  productPageBtn.addEventListener('click', (e: MouseEvent) => {
+    if (
+      (e.target as HTMLButtonElement).classList.contains(
+        'product-container__btn-delete',
+      )
+    )
+      return;
 
-    if (e.target.classList.contains('btn-page--number')) {
-      let numberBtn = e.target;
+    if (
+      (e.target as HTMLButtonElement).classList.contains('btn-page--number')
+    ) {
+      let numberBtn = e.target as HTMLButtonElement;
       activeIdx = Number(numberBtn.textContent);
 
       if (activeIdx === btnIdx * itemsPerPage + 1) {
@@ -94,7 +106,7 @@ export const productHandler = async () => {
       }
     }
 
-    if (e.target.classList.contains('btn-page--next')) {
+    if ((e.target as HTMLButtonElement).classList.contains('btn-page--next')) {
       activeIdx++;
 
       if (activeIdx > Math.ceil(products.length / itemsPerPage) - 1) {
@@ -106,7 +118,7 @@ export const productHandler = async () => {
       }
     }
 
-    if (e.target.classList.contains('btn-page--prev')) {
+    if ((e.target as HTMLButtonElement).classList.contains('btn-page--prev')) {
       activeIdx--;
 
       if (activeIdx < 1) {
