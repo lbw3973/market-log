@@ -1,4 +1,4 @@
-import { deleteProduct, getAllProducts, getAllProductss } from '../../api.js';
+import { deleteProduct, getAllProducts } from '../../api.js';
 import { renderPageBtn, renderProductList } from './renderDetail.js';
 
 let products = [];
