@@ -20,3 +20,11 @@ export interface WishListStore {
   title: string;
 }
 export type WishListStoreValue = WishListStore[];
+
+export interface RecentView {
+  id: string;
+  thumbnail: string;
+  title: string;
+}
+
+export type RecentViewValue = RecentView[];
