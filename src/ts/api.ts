@@ -5,6 +5,7 @@ import {
   CancelConfirmTransactionAPI,
   DeleteAccount,
   GetAccountDetail,
+  GetAllProductsInterface,
   GetAllProductsValue,
   GetAllTransactionsValue,
   GetBankListValue,
@@ -73,7 +74,7 @@ export const getSearchedProducts = async (
 /** 상세 제품 db에서 불러오기 */
 export const getDetailProduct = async (
   productId: string,
-): Promise<GetAllProductsValue> => {
+): Promise<GetAllProductsInterface> => {
   try {
     const res = await fetch(`${base_url}/products/${productId}`, {
       headers,
