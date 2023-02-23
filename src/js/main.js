@@ -134,4 +134,5 @@ router
       productEditHandler(params.data.id);
     },
   })
+  .notFound(() => {})
   .resolve();
