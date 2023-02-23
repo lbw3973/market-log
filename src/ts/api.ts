@@ -279,7 +279,7 @@ export const deleteProduct = async (id: string) => {
 };
 
 /** 단일 상품 수정 API */
-export const editProduct = async (product) => {
+export const editProduct = async (product: any): Promise<void> => {
   const { title, price, description, tags, isSoldOut, thumbnail } = product;
 
   try {

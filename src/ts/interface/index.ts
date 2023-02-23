@@ -3,8 +3,8 @@ export interface HEADERS {
   apikey: string;
   username: string;
 }
-export interface masterKey extends HEADERS {
-  masterKey?: boolean;
+export interface masterKeyHEADERS extends HEADERS {
+  masterKey: boolean;
 }
 
 /** 전체 제품 가져오기api */
