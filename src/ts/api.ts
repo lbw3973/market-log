@@ -11,7 +11,7 @@ import {
   GetBankListValue,
   GetUserAccounts,
   GetUserInfoAPI,
-  HEADERS,
+  HeadersOptions,
   Logout,
   PersonalInfoLogin,
   TransactionDetailValue,
@@ -24,23 +24,59 @@ import { base_url, api_key, user_name } from './db.js';
 import { $ } from './utils/dom.js';
 dotenv.config();
 
-// const api_key = 'FcKdtJs202301';
-// const user_name = 'KDT4_Team3';
+// export const headers: HeadersInit = {
+//   'content-type': 'application/json',
+//   apikey: api_key,
+//   username: user_name,
+// };
 
-const headers: HEADERS = {
-  'content-type': 'application/json',
-  apikey: api_key,
-  username: user_name,
+// export const masterKeyHeaders = {
+//   'content-type': 'application/json',
+//   apikey: api_key,
+//   username: user_name,
+//   masterKey: 'true',
+// };
+
+// export const tokenHeaders = {
+//   'content-type': 'application/json',
+//   apikey: api_key,
+//   username: user_name,
+//   Authorization: `Bearer ${localStorage.getItem('token')}`,
+// };
+
+/** API headers 함수 */
+const createHeaders = ({
+  isMasterKey = false,
+  token,
+}: HeadersOptions = {}): HeadersInit => {
+  const headers: HeadersInit = {
+    'content-type': 'application/json',
+    apikey: api_key,
+    username: user_name,
+  };
+
+  if (isMasterKey) {
+    headers.masterKey = 'true';
+  }
+
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  return headers;
 };
+
+export const headers = createHeaders();
+export const masterKeyHeaders = createHeaders({ isMasterKey: true });
+export const tokenHeaders = createHeaders({
+  token: localStorage.getItem('token') ?? undefined,
+});
 
 /** 전체 제품 가져오기api */
 export const getAllProducts = async (): Promise<GetAllProductsValue> => {
   try {
     const res = await fetch(`${base_url}/products`, {
-      headers: {
-        ...headers,
-        masterKey: true,
-      },
+      headers: createHeaders({ isMasterKey: true }),
     });
     const data = await res.json();
     return data;
@@ -53,7 +89,7 @@ export const getAllProducts = async (): Promise<GetAllProductsValue> => {
 /** 검색한 제품, 태그 가져오기 */
 export const getSearchedProducts = async (
   title: string,
-): Promise<GetAllProductsValue[]> => {
+): Promise<GetAllProductsValue> => {
   try {
     const res = await fetch(`${base_url}/products/search`, {
       method: 'POST',
@@ -92,10 +128,7 @@ export const getAllTransactions =
   async (): Promise<GetAllTransactionsValue> => {
     try {
       const res = await fetch(`${base_url}/products/transactions/details`, {
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
+        headers: tokenHeaders,
       });
       const data = await res.json();
 
@@ -116,10 +149,7 @@ export const confirmTransactionAPI = async (
   try {
     const res = await fetch(`${base_url}/products/ok`, {
       method: 'POST',
-      headers: {
-        ...headers,
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
+      headers: tokenHeaders,
       body: JSON.stringify({
         detailId,
       }),
@@ -138,10 +168,7 @@ export const cancelTransactionAPI = async (
   try {
     const res = await fetch(`${base_url}/products/cancel`, {
       method: 'POST',
-      headers: {
-        ...headers,
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
+      headers: tokenHeaders,
       body: JSON.stringify({
         detailId,
       }),
@@ -159,10 +186,7 @@ export const getDetailOrderProduct = async (detailId: string) => {
   try {
     const res = await fetch(`${base_url}/products/transactions/detail`, {
       method: 'POST',
-      headers: {
-        ...headers,
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
+      headers: tokenHeaders,
       body: JSON.stringify({
         detailId,
       }),
@@ -178,10 +202,7 @@ export const getDetailOrderProduct = async (detailId: string) => {
 export const getAccountDetail = async (): Promise<Bank[]> => {
   try {
     const res = await fetch(`${base_url}/account`, {
-      headers: {
-        ...headers,
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
+      headers: tokenHeaders,
     });
     const data = await res.json();
     const { accounts } = data;
@@ -201,10 +222,7 @@ export const buyItemAPI = async (
   try {
     const res = await fetch(`${base_url}/products/buy`, {
       method: 'POST',
-      headers: {
-        ...headers,
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
+      headers: tokenHeaders,
       body: JSON.stringify({
         productId,
         accountId,
@@ -224,10 +242,7 @@ export const getUserInfoAPI = async (): Promise<GetUserInfoAPI> => {
   try {
     const res = await fetch(`${base_url}/auth/me`, {
       method: 'POST',
-      headers: {
-        ...headers,
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
+      headers: tokenHeaders,
     });
     const data = await res.json();
     return data;
@@ -245,10 +260,7 @@ export const addProduct = async (product: AddProductParams): Promise<void> => {
   try {
     await fetch(`${base_url}/products`, {
       method: 'POST',
-      headers: {
-        ...headers,
-        masterKey: true,
-      },
+      headers: masterKeyHeaders,
       body: JSON.stringify({
         title: title,
         price: price,
@@ -268,10 +280,7 @@ export const deleteProduct = async (id: string) => {
   try {
     await fetch(`${base_url}/products/${id}`, {
       method: 'DELETE',
-      headers: {
-        ...headers,
-        masterKey: true,
-      },
+      headers: masterKeyHeaders,
     });
   } catch (err) {
     console.log(err);
@@ -286,10 +295,7 @@ export const editProduct = async (product: any): Promise<void> => {
   try {
     await fetch(`${base_url}/products/${product.id}`, {
       method: 'PUT',
-      headers: {
-        ...headers,
-        masterKey: true,
-      },
+      headers: masterKeyHeaders,
       body: JSON.stringify({
         title: title,
         price: price,
@@ -310,10 +316,7 @@ export const getAllOrder = async (): Promise<TransactionDetailValue> => {
   try {
     const res = await fetch(`${base_url}/products/transactions/all`, {
       method: 'GET',
-      headers: {
-        ...headers,
-        masterKey: true,
-      },
+      headers: masterKeyHeaders,
     });
     const data = await res.json();
     return data;
@@ -330,10 +333,7 @@ export const editDoneOrder = async (order) => {
   try {
     const res = await fetch(`${base_url}/products/transactions/${detailId}`, {
       method: 'PUT',
-      headers: {
-        ...headers,
-        masterKey: true,
-      },
+      headers: masterKeyHeaders,
       body: JSON.stringify({
         done: !done,
       }),
@@ -354,10 +354,7 @@ export const editCancelOrder = async (order) => {
   try {
     await fetch(`${base_url}/products/transactions/${detailId}`, {
       method: 'PUT',
-      headers: {
-        ...headers,
-        masterKey: true,
-      },
+      headers: masterKeyHeaders,
       body: JSON.stringify({
         isCanceled: !isCanceled,
       }),
@@ -372,10 +369,7 @@ export const editCancelOrder = async (order) => {
 export const getBankList = async (): Promise<GetBankListValue> => {
   const res = await fetch(`${base_url}/account/banks`, {
     method: 'GET',
-    headers: {
-      ...headers,
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
+    headers: tokenHeaders,
   });
   const json = await res.json();
 
@@ -386,10 +380,7 @@ export const getBankList = async (): Promise<GetBankListValue> => {
 export const getUserAccounts = async (): Promise<GetUserAccounts> => {
   const res = await fetch(`${base_url}/account`, {
     method: 'GET',
-    headers: {
-      ...headers,
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
+    headers: tokenHeaders,
   });
   const json = await res.json();
 
@@ -400,10 +391,7 @@ export const getUserAccounts = async (): Promise<GetUserAccounts> => {
 export const createUserAccount = async (bankCode: string): Promise<boolean> => {
   const res = await fetch(`${base_url}/account`, {
     method: 'POST',
-    headers: {
-      ...headers,
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
+    headers: tokenHeaders,
     body: JSON.stringify({
       bankCode: bankCode,
       accountNumber: $<HTMLInputElement>('#input__account').value,
@@ -420,10 +408,7 @@ export const deleteAccount = async (e: any): Promise<DeleteAccount> => {
   const accountId = e.target.dataset.id;
   const res = await fetch(`${base_url}/account`, {
     method: 'DELETE',
-    headers: {
-      ...headers,
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
+    headers: tokenHeaders,
     body: JSON.stringify({
       accountId: accountId,
       signature: true,
@@ -438,9 +423,7 @@ export const deleteAccount = async (e: any): Promise<DeleteAccount> => {
 export async function login() {
   const res = await fetch(`${base_url}/auth/login`, {
     method: 'POST',
-    headers: {
-      ...headers,
-    },
+    headers,
     body: JSON.stringify({
       email: $<HTMLInputElement>('#inputID').value,
       password: $<HTMLInputElement>('#inputPW').value,
@@ -454,10 +437,7 @@ export async function login() {
 export async function logout(): Promise<Logout> {
   const res = await fetch(`${base_url}/auth/logout`, {
     method: 'POST',
-    headers: {
-      ...headers,
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
+    headers: tokenHeaders,
   });
   const json = await res.json();
   return json;
@@ -467,10 +447,7 @@ export async function logout(): Promise<Logout> {
 export async function authorization(): Promise<AuthorizationValue> {
   const res = await fetch(`${base_url}/auth/me`, {
     method: 'POST',
-    headers: {
-      ...headers,
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
+    headers: tokenHeaders,
   });
   const json = await res.json();
   return json;
@@ -480,10 +457,7 @@ export async function authorization(): Promise<AuthorizationValue> {
 export async function submitChangeInfo() {
   const res = await fetch(`${base_url}/auth/user`, {
     method: 'PUT',
-    headers: {
-      ...headers,
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
+    headers: tokenHeaders,
     body: JSON.stringify({
       displayName: $<HTMLInputElement>('#user-name').value,
       oldPassword: $<HTMLInputElement>('#user-oldpw').value,
@@ -497,10 +471,7 @@ export async function submitChangeInfo() {
 export async function personalInfoLogin(auth: any): Promise<PersonalInfoLogin> {
   const res = await fetch(`${base_url}/auth/login`, {
     method: 'POST',
-    headers: {
-      ...headers,
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
+    headers: tokenHeaders,
     body: JSON.stringify({
       email: auth.email,
       password: $<HTMLInputElement>('#inputPW').value,

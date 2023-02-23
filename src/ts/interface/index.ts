@@ -1,10 +1,9 @@
-export interface HEADERS {
-  'content-type': string;
+// export type MasterKeyHeaders = Record<string, string> & { masterKey: string };
+
+export interface Headers {
+  'content-type': 'application/json';
   apikey: string;
   username: string;
-}
-export interface masterKeyHEADERS extends HEADERS {
-  masterKey: boolean;
 }
 
 /** 전체 제품 가져오기api */
