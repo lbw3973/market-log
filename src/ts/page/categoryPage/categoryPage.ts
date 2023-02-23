@@ -7,6 +7,7 @@ import {
   GetAllProductsValue,
 } from '../../interface/index.js';
 import { RecentView } from '../../interface/store.js';
+import { Category } from '../../interface/enum.js';
 
 /*-----------------------------------*\
   #카테고리 페이지 # category js
@@ -122,23 +123,23 @@ const getProductTags = async () => {
   // });
   const filterKeyboardTag: GetAllProductsValue = allProductArray.filter(
     (item): boolean => {
-      return item.tags[0] === '키보드';
+      return item.tags[0] === Category.keyboards;
     },
   );
 
   const filterKeycapTag: GetAllProductsValue = allProductArray.filter(
     (item): boolean => {
-      return item.tags[0] === '키캡';
+      return item.tags[0] === Category.keycaps;
     },
   );
   const filterSwitchTag: GetAllProductsValue = allProductArray.filter(
     (item): boolean => {
-      return item.tags[0] === '스위치';
+      return item.tags[0] === Category.switches;
     },
   );
   const filterAccessoryTag: GetAllProductsValue = allProductArray.filter(
     (item): boolean => {
-      return item.tags[0] === '액세서리';
+      return item.tags[0] === Category.accessories;
     },
   );
   return [
