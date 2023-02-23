@@ -1,6 +1,6 @@
 import { $ } from '../../utils/dom.js';
 import { renderPage } from '../../utils/render.js';
-import { getAllProducts, getDetailProduct } from '../../api.js';
+import { getAllProducts } from '../../api.js';
 import { recentViewStore } from '../../store/recentViewStore.js';
 
 /*-----------------------------------*\
@@ -41,7 +41,7 @@ export const renderInitCategoryPage = `
 `;
 
 /** 카테고리 페이지 skeleton ui 초기 렌더링 */
-export const renderSkeletonUIinCategoryPage = () => {
+export const renderSkeletonUIinCategoryPage = (): void => {
   const skeletonUITemplate = `
   <li class="categoryPage__skeleton">
     <div class="categoryPage__skeleton--img"></div>
@@ -57,7 +57,7 @@ export const renderSkeletonUIinCategoryPage = () => {
     })
     .join('');
 
-  $('.categoryPage__product--lists').innerHTML = skeletonUI12;
+  $<HTMLUListElement>('.categoryPage__product--lists').innerHTML = skeletonUI12;
 };
 
 /** 카테고리 페이지 제품 db에서 불러오기 */
