@@ -6,6 +6,7 @@ import {
   GetAllProductsInterface,
   GetAllProductsValue,
 } from '../../interface/index.js';
+import { RecentView } from '../../interface/store.js';
 
 /*-----------------------------------*\
   #카테고리 페이지 # category js
@@ -96,9 +97,9 @@ const renderCategoryProductList = (items: GetAllProductsValue): void => {
 };
 
 /** 최근 본 상품 템플릿 */
-export const renderRecentViewed = (items: GetAllProductsValue) => {
+export const renderRecentViewed = (items: RecentView[]) => {
   const recentViewedTemplate = items
-    .map((item: GetAllProductsInterface) => {
+    .map((item: RecentView) => {
       const { id, thumbnail, title } = item;
 
       return `
