@@ -1,14 +1,16 @@
+import { RecentView } from '../interface/store';
+
 export const recentViewStore = {
-  setLocalStorage(product) {
+  setLocalStorage(product: RecentView[]): void {
     localStorage.setItem('recentView', JSON.stringify(product));
   },
-  getLocalStorage() {
+  getLocalStorage(): RecentView[] {
     return JSON.parse(localStorage.getItem('recentView')) || [];
   },
-  removeLocalStorage() {
+  removeLocalStorage(): void {
     return localStorage.removeItem('recentView');
   },
-  clearLocalStorage() {
+  clearLocalStorage(): void {
     localStorage.clear();
   },
 };
