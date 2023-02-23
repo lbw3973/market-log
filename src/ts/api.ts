@@ -1,10 +1,10 @@
 import {
   AddProductParams,
   AuthorizationValue,
+  Bank,
   BuyItemAPI,
   CancelConfirmTransactionAPI,
   DeleteAccount,
-  GetAccountDetail,
   GetAllProductsInterface,
   GetAllProductsValue,
   GetAllTransactionsValue,
@@ -175,7 +175,7 @@ export const getDetailOrderProduct = async (detailId: string) => {
 };
 
 /** 계좌 목록 및 잔액 조회 db에서 불러오기 */
-export const getAccountDetail = async (): Promise<GetAccountDetail> => {
+export const getAccountDetail = async (): Promise<Bank[]> => {
   try {
     const res = await fetch(`${base_url}/account`, {
       headers: {
