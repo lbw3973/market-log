@@ -1,7 +1,7 @@
 import searchPNG from '../../../../public/search.png';
 
 /**사이드 메뉴  */
-export const sideBar = `
+export const sideBar: string = `
       <aside class="aside-container">
         <ul>
           <h1>관리자 페이지</h1>
@@ -21,7 +21,7 @@ export const sideBar = `
   `;
 
 /**대시보드 페이지 */
-export const dashboardPage = ` 
+export const dashboardPage: string = ` 
     <div class='dashboard-container' data-page='dashboard'>
 
       <div class='dashboard-container__current'>
@@ -36,7 +36,7 @@ export const dashboardPage = `
 `;
 
 /** 거래내역 페이지 */
-export const orderPage = `
+export const orderPage: string = `
     <div class='order-container' data-page='order'>
       <h2>거래 내역 관리</h2>
       <div class ='order-container__search'>
@@ -64,7 +64,7 @@ export const orderPage = `
       `;
 
 /** 상품 관리 페이지 */
-export const productPage = `
+export const productPage: string = `
     <div class='product-container' data-page='product'>
         <h2>상품 관리</h2>
         <div class ='product-container__search'>
@@ -95,7 +95,7 @@ export const productPage = `
 `;
 
 /** 상품 추가 페이지 */
-export const productAddPage = `
+export const productAddPage: string = `
   <div class='productAdd-container' data-page='productAdd'>
     <form class='container-form'>
       <h2 class='container-form__header'>상품 등록</h2>
@@ -144,7 +144,7 @@ export const productAddPage = `
 `;
 
 /** 상품상세 페이지 */
-export const productDetailPage = `
+export const productDetailPage: string = `
   <div class='productDetail-container'>
     <h2>상품 상세</h2>
     <section class='section'>
@@ -158,14 +158,14 @@ export const productDetailPage = `
 `;
 
 /** 상품수정 페이지 */
-export const productEditPage = `
+export const productEditPage: string = `
   <div class='productEdit-container'>
 
   </div>
 `;
 
 /** 거래내역상세 페이지 */
-export const orderDetailPage = `
+export const orderDetailPage: string = `
   <div class='orderDetail-container'>
     <h2>거래 내역 상세</h2>
     <div class="orderDetail-container__info">
