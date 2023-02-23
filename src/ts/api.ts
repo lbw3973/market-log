@@ -52,7 +52,7 @@ export const getAllProducts = async (): Promise<GetAllProductsValue> => {
 
 /** 검색한 제품, 태그 가져오기 */
 export const getSearchedProducts = async (
-  title = '',
+  title: string,
 ): Promise<GetAllProductsValue[]> => {
   try {
     const res = await fetch(`${base_url}/products/search`, {
