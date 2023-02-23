@@ -1,7 +1,17 @@
 import { formatDate, formatPrice } from '../../utils/format.js';
+import {
+  GetAllProductsInterface,
+  TransactionDetailInterface,
+  TransactionDetailValue,
+  GetAllProductsValue,
+  ConfirmOrder,
+} from '../../interface/index.js';
+import { CurrentStatusInterface } from '../../interface/cy.js';
 
 /**[상품관리수정 페이지] 페이지 렌더 */
-export const renderEditProduct = (productEdit) => {
+export const renderEditProduct = (
+  productEdit: GetAllProductsInterface,
+): string => {
   const { id, description, isSoldOut, price, tags, title, thumbnail } =
     productEdit;
 
@@ -68,7 +78,9 @@ export const renderEditProduct = (productEdit) => {
 };
 
 /** [상품관리상세 페이지] 페이지 렌더 */
-export const renderDetailProduct = (productDetail) => {
+export const renderDetailProduct = (
+  productDetail: GetAllProductsInterface,
+): void => {
   const { description, isSoldOut, price, tags, title, thumbnail } =
     productDetail;
 
@@ -104,7 +116,7 @@ export const renderDetailProduct = (productDetail) => {
 };
 
 /** [거래내역관리상세 페이지] 페이지 렌더 */
-export const renderOrderDetail = (order) => {
+export const renderOrderDetail = (order: TransactionDetailInterface): void => {
   const { user, account, product, timePaid, isCanceled, done } = order;
   const orderDetailEl = `
         <img src="${product.thumbnail}" alt="${product.title}">
@@ -154,13 +166,13 @@ export const renderOrderDetail = (order) => {
 
 /** 페이지네이션 버튼 렌더 */
 export const renderPageBtn = (
-  productPageBtn,
-  array,
-  activeIdx,
-  itemsPerPage,
-  btnIdx,
+  productPageBtn: HTMLElement,
+  array: TransactionDetailValue | GetAllProductsValue,
+  activeIdx: number,
+  itemsPerPage: number,
+  btnIdx: number,
 ) => {
-  let buttonsEl = ``;
+  let buttonsEl: string = ``;
 
   const totalBtnNum = Math.ceil(array.length / itemsPerPage);
 
@@ -184,7 +196,11 @@ export const renderPageBtn = (
 };
 
 /** [상품관리 페이지] 현재 페이지의 상품 목록 렌더 */
-export const renderProductList = (productList, products, activeIdx) => {
+export const renderProductList = (
+  productList: HTMLUListElement,
+  products: GetAllProductsValue,
+  activeIdx: number,
+) => {
   const productsEl = products
     .map((product, idx) => {
       const { id, tags, title, price, isSoldOut } = product;
@@ -212,7 +228,11 @@ export const renderProductList = (productList, products, activeIdx) => {
 };
 
 /** [거래내역관리 페이지] 거래 목록 렌더 */
-export const renderOrderList = (orderList, orders, activeIdx) => {
+export const renderOrderList = (
+  orderList: HTMLUListElement,
+  orders: TransactionDetailValue,
+  activeIdx: number,
+) => {
   const ordersEl = orders
     .map((order, idx) => {
       const { product, user, timePaid, isCanceled, done, detailId } = order;
@@ -237,7 +257,7 @@ export const renderOrderList = (orderList, orders, activeIdx) => {
 };
 
 /**  [거래내역관리상세 페이지] 상품 취소 및 완료 버튼 렌더*/
-export const renderOrderDetailBtn = (order) => {
+export const renderOrderDetailBtn = (order: ConfirmOrder) => {
   const { done, isCanceled } = order;
 
   const btnsEl = `
@@ -253,7 +273,9 @@ export const renderOrderDetailBtn = (order) => {
 };
 
 /** [대시보드 페이지] 거래, 상품 현황 렌더 */
-export const renderDashboardCurrent = (currentStatus) => {
+export const renderDashboardCurrent = (
+  currentStatus: CurrentStatusInterface,
+) => {
   const { orderStatus, productStatus } = currentStatus;
 
   const dashboardCurrentEl = `
@@ -293,7 +315,7 @@ export const renderDashboardCurrent = (currentStatus) => {
 };
 
 /** [대시보드 페이지] 차트 렌더 */
-export const renderDashboardChart = () => {
+export const renderDashboardChart = (): void => {
   const dashboardChartEl = `
     <div class='dashboard-container__chart--category'>
       <h2>거래 카태고리 통계</h2>
