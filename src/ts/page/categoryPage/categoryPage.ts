@@ -2,6 +2,10 @@ import { $ } from '../../utils/dom.js';
 import { renderPage } from '../../utils/render.js';
 import { getAllProducts } from '../../api.js';
 import { recentViewStore } from '../../store/recentViewStore.js';
+import {
+  GetAllProductsInterface,
+  GetAllProductsValue,
+} from '../../interface/index.js';
 
 /*-----------------------------------*\
   #카테고리 페이지 # category js
@@ -42,7 +46,7 @@ export const renderInitCategoryPage = `
 
 /** 카테고리 페이지 skeleton ui 초기 렌더링 */
 export const renderSkeletonUIinCategoryPage = (): void => {
-  const skeletonUITemplate = `
+  const skeletonUITemplate: string = `
   <li class="categoryPage__skeleton">
     <div class="categoryPage__skeleton--img"></div>
     <div class="categoryPage__product--info">
@@ -50,20 +54,21 @@ export const renderSkeletonUIinCategoryPage = (): void => {
     </div>
   </li>
 `;
-  const skeletonUI12 = Array(12)
+  const skeletonUI12: string = Array(12)
     .fill(skeletonUITemplate)
-    .map((v, i) => {
+    .map((v: string) => {
       return v;
     })
     .join('');
 
-  $<HTMLUListElement>('.categoryPage__product--lists').innerHTML = skeletonUI12;
+  $<HTMLUListElement>('.categoryPage__product--lists')!.innerHTML =
+    skeletonUI12;
 };
 
 /** 카테고리 페이지 제품 db에서 불러오기 */
-const renderCategoryProductList = (items) => {
+const renderCategoryProductList = (items: GetAllProductsValue) => {
   const categoryProductListTemplate = items
-    .map((item) => {
+    .map((item: GetAllProductsInterface) => {
       const { id, price, thumbnail, title, tags } = item;
 
       return `
@@ -86,13 +91,14 @@ const renderCategoryProductList = (items) => {
     })
     .join('');
 
-  $('.categoryPage__product--lists').innerHTML = categoryProductListTemplate;
+  $<HTMLUListElement>('.categoryPage__product--lists')!.innerHTML =
+    categoryProductListTemplate;
 };
 
 /** 최근 본 상품 템플릿 */
-export const renderRecentViewed = (items) => {
+export const renderRecentViewed = (items: GetAllProductsValue) => {
   const recentViewedTemplate = items
-    .map((item) => {
+    .map((item: GetAllProductsInterface) => {
       const { id, thumbnail, title } = item;
 
       return `
@@ -103,7 +109,7 @@ export const renderRecentViewed = (items) => {
     })
     .join('');
 
-  $('.categoryPage__aside--wrapper').innerHTML = recentViewedTemplate;
+  $('.categoryPage__aside--wrapper')!.innerHTML = recentViewedTemplate;
 };
 
 /** 카테고리 태그 필터링 함수 */
@@ -113,19 +119,27 @@ const getProductTags = async () => {
   // const allTags = allProductArray.map((items) => {
   //   return items.tags;
   // });
-  const filterKeyboardTag = allProductArray.filter((item) => {
-    return item.tags[0] === '키보드';
-  });
+  const filterKeyboardTag: GetAllProductsValue = allProductArray.filter(
+    (item): boolean => {
+      return item.tags[0] === '키보드';
+    },
+  );
 
-  const filterKeycapTag = allProductArray.filter((item) => {
-    return item.tags[0] === '키캡';
-  });
-  const filterSwitchTag = allProductArray.filter((item) => {
-    return item.tags[0] === '스위치';
-  });
-  const filterAccessoryTag = allProductArray.filter((item) => {
-    return item.tags[0] === '액세서리';
-  });
+  const filterKeycapTag: GetAllProductsValue = allProductArray.filter(
+    (item): boolean => {
+      return item.tags[0] === '키캡';
+    },
+  );
+  const filterSwitchTag: GetAllProductsValue = allProductArray.filter(
+    (item): boolean => {
+      return item.tags[0] === '스위치';
+    },
+  );
+  const filterAccessoryTag: GetAllProductsValue = allProductArray.filter(
+    (item): boolean => {
+      return item.tags[0] === '액세서리';
+    },
+  );
   return [
     filterKeyboardTag,
     filterKeycapTag,
@@ -135,33 +149,36 @@ const getProductTags = async () => {
 };
 
 /** 가격낮은순 정렬 후 렌더링 함수 */
-const getSortedLowToHighPriceProduct = async (i) => {
+const getSortedLowToHighPriceProduct = async (i: number): Promise<void> => {
   const getKeyBoardCategory = await getProductTags();
-  const keyboardCategoryProduct = await getKeyBoardCategory[i];
+  const keyboardCategoryProduct = getKeyBoardCategory[i];
   const LowToHighPrice = keyboardCategoryProduct.sort((a, b) => {
     return a.price - b.price;
   });
   console.log('LowToHighPrice', LowToHighPrice);
   // $('.categoryPage__product--lists').innerHTML = LowToHighPrice;
   // return keyboardCategoryProduct;
-  renderCategoryProductList(await LowToHighPrice);
+  renderCategoryProductList(LowToHighPrice);
   return;
 };
 
 /** 가격높은순 정렬 후 렌더링 함수 */
-const getSortedHighToLowPriceProduct = async (i) => {
+const getSortedHighToLowPriceProduct = async (i: number): Promise<void> => {
   const getKeyBoardCategory = await getProductTags();
-  const keyboardCategoryProduct = await getKeyBoardCategory[i];
+  const keyboardCategoryProduct = getKeyBoardCategory[i];
   const HighToLowPrice = keyboardCategoryProduct.sort((a, b) => {
     return b.price - a.price;
   });
   console.log('HighToLowPrice', HighToLowPrice);
-  renderCategoryProductList(await HighToLowPrice);
+  renderCategoryProductList(HighToLowPrice);
   return;
 };
 
 /** select option에 의해 정렬 */
-const renderCategoryProductBySelect = async (condition, i) => {
+const renderCategoryProductBySelect = async (
+  condition: string,
+  i: number,
+): Promise<void> => {
   renderSkeletonUIinCategoryPage();
   // const getProductTagList = await getProductTags();
 
@@ -176,16 +193,16 @@ const renderCategoryProductBySelect = async (condition, i) => {
 };
 
 /** 카테고리별 상품 개수 렌더링 */
-const renderCategoryProductQty = async (i) => {
+const renderCategoryProductQty = async (i: number): Promise<void> => {
   const getKeyBoardCategory = await getProductTags();
-  const categoryTotalQty = await getKeyBoardCategory[i];
+  const categoryTotalQty = getKeyBoardCategory[i];
   $(
     '.categoryPage__main--filter-totalQty',
-  ).innerHTML = `${categoryTotalQty.length}개 상품`;
+  )!.innerHTML = `${categoryTotalQty.length}개 상품`;
 };
 
 /** /category 핸들링 함수 */
-export const handleCategoryPage = async (i) => {
+export const handleCategoryPage = async (i: number): Promise<void> => {
   $('.modal__addCart').style.display = 'none';
   console.log('/category/0');
   renderPage(renderInitCategoryPage);
@@ -206,8 +223,8 @@ export const handleCategoryPage = async (i) => {
       console.log(e.target);
 
       renderCategoryProductBySelect(
-        await $('#categoryPage-filterByPrice').options[
-          $('#categoryPage-filterByPrice').selectedIndex
+        $<HTMLSelectElement>('#categoryPage-filterByPrice').options[
+          $<HTMLSelectElement>('#categoryPage-filterByPrice').selectedIndex
         ].value,
         i,
       );
@@ -219,9 +236,9 @@ export const handleCategoryPage = async (i) => {
 \*-----------------------------------*/
 
 /** 처음 index = 0 */
-let categoryUtilIndex = 0;
+let categoryUtilIndex: number = 0;
 /** 페이지네이션 배열 초기화 = 0 */
-let categoryUtilPages = [];
+let categoryUtilPages: GetAllProductsValue[] = [];
 
 /** 카테고리 페이지 제품, 버튼 초기 렌더링 */
 const categoryUtilSetupUI = () => {
@@ -237,7 +254,7 @@ const categoryUtilSetupUI = () => {
 };
 
 /** 카테고리 페이지 초기 렌더링 시 ui, api 불러오는 함수 */
-const categoryUtilInit = async (i) => {
+const categoryUtilInit = async (i: number) => {
   // const getProductTagList = await getProductTags();
   const getProductTagList = await getProductTags();
   categoryUtilPages = categoryUtilPaginate(getProductTagList[i]);
@@ -246,7 +263,9 @@ const categoryUtilInit = async (i) => {
 };
 
 /** 카테고리 페이지 페이지네이션 1페이지 당 10개, slice 메서드로 배열에 삽입 */
-const categoryUtilPaginate = (list) => {
+const categoryUtilPaginate = (
+  list: GetAllProductsValue,
+): GetAllProductsValue[] => {
   const itemsPerPage = 9;
   const numberOfPages = Math.ceil(list.length / itemsPerPage);
 
@@ -260,7 +279,11 @@ const categoryUtilPaginate = (list) => {
 };
 
 /** 카테고리 페이지 페이지네이션 버튼 */
-const categoryUtilDisplayButtons = (container, pages, activeIndex) => {
+const categoryUtilDisplayButtons = (
+  container: HTMLDivElement,
+  pages: GetAllProductsValue[],
+  activeIndex: number,
+) => {
   let categoryUtilBtns = pages.map((_, pageIndex) => {
     return `
     <button class="categoryPage__pagination--btn ${
@@ -280,23 +303,39 @@ const categoryUtilDisplayButtons = (container, pages, activeIndex) => {
 };
 
 /** prev, next, 페이지네이션 버튼 핸들링 이벤트 */
-$('.app').addEventListener('click', (e) => {
-  if (e.target.classList.contains('categoryPage__pagination--btn-container'))
+$('.app')?.addEventListener('click', (e) => {
+  if (
+    (e.target as HTMLDivElement).classList.contains(
+      'categoryPage__pagination--btn-container',
+    )
+  )
     return;
 
-  if (e.target.classList.contains('categoryPage__pagination--btn')) {
-    categoryUtilIndex = Number(e.target.dataset.index);
+  if (
+    (e.target as HTMLButtonElement).classList.contains(
+      'categoryPage__pagination--btn',
+    )
+  ) {
+    categoryUtilIndex = Number((e.target as HTMLButtonElement).dataset.index);
     categoryUtilSetupUI();
   }
 
-  if (e.target.classList.contains('categoryPage__pagination--btn-next')) {
+  if (
+    (e.target as HTMLButtonElement).classList.contains(
+      'categoryPage__pagination--btn-next',
+    )
+  ) {
     categoryUtilIndex++;
     if (categoryUtilIndex > categoryUtilPages.length - 1) {
       categoryUtilIndex = 0;
     }
     categoryUtilSetupUI();
   }
-  if (e.target.classList.contains('categoryPage__pagination--btn-prev')) {
+  if (
+    (e.target as HTMLButtonElement).classList.contains(
+      'categoryPage__pagination--btn-prev',
+    )
+  ) {
     categoryUtilIndex--;
     if (categoryUtilIndex < 0) {
       categoryUtilIndex = categoryUtilPages.length - 1;

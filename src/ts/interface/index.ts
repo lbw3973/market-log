@@ -20,7 +20,7 @@ export interface GetAllProductsInterface {
   thumbnail?: string | null; // 제품 썸네일 이미지(URL)
   isSoldOut?: boolean; // 제품 매진 여부
   reservations?: Reservation[]; // 제품의 모든 예약 정보 목록
-  discountRate: number; // 제품 할인율
+  discountRate?: number; // 제품 할인율
 }
 
 interface Reservation {
