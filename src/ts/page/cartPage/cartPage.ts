@@ -138,7 +138,7 @@ export const renderCartList = (storage: ShoppingCartStoreValue): void => {
 
   // renderCartTotalPrice();
   renderCartOrderPrice();
-  $('.app').querySelector('.cart__list').innerHTML = cartListTemplate;
+  $<HTMLUListElement>('.cart__list').innerHTML = cartListTemplate;
 };
 
 /** 장바구니 localStorage에 저장하는 함수 - 찜하기 페이지에서 재활용 */
