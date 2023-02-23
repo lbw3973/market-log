@@ -2,17 +2,20 @@ import {
   renderDashboardCurrent,
   renderDashboardChart,
 } from './renderDetail.js';
-import { toggleLoadingSpinner } from '../../utils/loading.js';
-import { getAllOrder, getAllProducts } from '../../api.js';
-import { formatPrice } from '../../utils/format.js';
+import { toggleLoadingSpinner } from '../../utils/loading';
+import { getAllOrder, getAllProducts } from '../../api';
+import { formatPrice } from '../../utils/format';
 import Chart from 'chart.js/auto';
 import { $ } from '../../utils/dom';
-import { getDate } from '../../utils/date.js';
+import { getDate } from '../../utils/date';
 // import { TransactionDetail } from '../../interface/cy';
 import {
   GetAllProductsValue,
   TransactionDetailValue,
 } from '../../interface/index';
+
+import { CurrentStatusInterface } from '../../interface/cy.js';
+
 /** 대시보드 페이지 핸들러 */
 export const dashboardHandler = async (): Promise<void> => {
   toggleLoadingSpinner(true);
@@ -30,7 +33,7 @@ export const dashboardHandler = async (): Promise<void> => {
 
 /** 거래 카테고리 통계 chart 생성 */
 const setDashBoardChartCategory = (products: GetAllProductsValue): void => {
-  const chartCategory = $('#chartCategory') as HTMLCanvasElement;
+  const chartCategory = $<HTMLCanvasElement>('#chartCategory');
 
   const keyboardNum = products.filter(
     (product) => product.tags[0] === '키보드',
@@ -76,7 +79,7 @@ const setDashBoardChartCategory = (products: GetAllProductsValue): void => {
 
 /** 금주 거래 금액 통계 chart 생성 */
 const setDashBoardChartAmount = (orders: TransactionDetailValue): void => {
-  const chartAmount = $('#chartAmount') as HTMLCanvasElement;
+  const chartAmount = $<HTMLCanvasElement>('#chartAmount');
 
   const thisWeek: number[] = [];
 
@@ -121,25 +124,12 @@ const setDashBoardChartAmount = (orders: TransactionDetailValue): void => {
 
 /** 현재 날짜 가져오기 */
 
-interface setCurrentStatusInterface {
-  orderStatus: {
-    num: number;
-    cancelNum: number;
-    doneNum: number;
-    amount: string;
-  };
-  productStatus: {
-    num: number;
-    soldOutNum: number;
-  };
-}
-
 /** 거래, 상품 현황 상태 설정 */
 const setCurrentStatus = (
   orders: TransactionDetailValue,
   products: GetAllProductsValue,
 ) => {
-  const currentStatus: setCurrentStatusInterface = {
+  const currentStatus: CurrentStatusInterface = {
     orderStatus: {
       num: 0,
       cancelNum: 0,

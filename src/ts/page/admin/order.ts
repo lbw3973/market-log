@@ -1,6 +1,6 @@
-import { getAllOrder } from '../../api.js';
-import { renderPageBtn, renderOrderList } from './renderDetail.js';
-import { toggleLoadingSpinner } from '../../utils/loading.js';
+import { getAllOrder } from '../../api';
+import { renderPageBtn, renderOrderList } from './renderDetail';
+import { toggleLoadingSpinner } from '../../utils/loading';
 import { $ } from '../../utils/dom';
 
 import { TransactionDetailValue } from '../../interface/index';
@@ -40,16 +40,16 @@ let newOrders = getOrderCurrentPage(orders, activeIdx, itemsPerPage);
 export const orderHandler = async (): Promise<void> => {
   toggleLoadingSpinner(true);
 
-  const orderList = $('.order-container__list') as HTMLUListElement;
-  const orderPageBtn = $('.order-container__btn-page') as HTMLElement;
+  const orderList = $<HTMLUListElement>('.order-container__list');
+  const orderPageBtn = $<HTMLElement>('.order-container__btn-page');
 
   orders = await getAllOrder();
 
   setUpUI(orderPageBtn, orderList);
 
-  const searchedOrderInput = $(
+  const searchedOrderInput = $<HTMLInputElement>(
     '.order-container__search-container--input input',
-  ) as HTMLInputElement;
+  );
 
   const searchOrderHandler = (): void => {
     const filteredOrder = orders.filter((order) =>

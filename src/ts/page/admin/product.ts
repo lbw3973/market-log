@@ -1,5 +1,7 @@
-import { deleteProduct, getAllProducts } from '../../api.js';
-import { renderPageBtn, renderProductList } from './renderDetail.js';
+import { deleteProduct, getAllProducts } from '../../api';
+import { renderPageBtn, renderProductList } from './renderDetail';
+
+import { $, $$ } from '../../utils/dom';
 
 import { GetAllProductsValue } from '../../interface/index';
 
@@ -22,7 +24,10 @@ const getProductCurrentPage = (
 };
 
 /** 상품 목록 페이지 초기화 */
-const setUpUI = (productPageBtn, productList) => {
+const setUpUI = (
+  productPageBtn: HTMLButtonElement,
+  productList: HTMLUListElement,
+): void => {
   renderPageBtn(productPageBtn, products, activeIdx, itemsPerPage, btnIdx);
   newProducts = getProductCurrentPage(products, activeIdx, itemsPerPage);
   renderProductList(productList, newProducts, activeIdx);
@@ -31,27 +36,20 @@ const setUpUI = (productPageBtn, productList) => {
 let newProducts = getProductCurrentPage(products, activeIdx, itemsPerPage);
 
 /** 상품관리 페이지 핸들러 */
-export const productHandler = async () => {
-  const productContainer = document.querySelector('.product-container');
-  const productList = productContainer.querySelector(
-    '.product-container__list',
-  ) as HTMLUListElement;
-  const checkProductAll = productContainer.querySelector(
+export const productHandler = async (): Promise<void> => {
+  const productList = $('.product-container__list') as HTMLUListElement;
+  const checkProductAll = $(
     '.product-container__title input',
   ) as HTMLInputElement;
-  const productPageBtn = productContainer.querySelector(
-    '.product-container__btn-page',
-  ) as HTMLButtonElement;
+  const productPageBtn = $('.product-container__btn-page') as HTMLButtonElement;
 
   products = await getAllProducts();
 
   setUpUI(productPageBtn, productList);
 
-  const searchContainer = productContainer.querySelector(
-    '.product-container__search-container--input',
-  );
-
-  const searchedProductInput = searchContainer.querySelector('input');
+  const searchedProductInput = $(
+    '.product-container__search-container--input input',
+  ) as HTMLInputElement;
 
   const searchProductHandler = (): void => {
     const filteredProduct = products.filter((product) =>
@@ -72,7 +70,7 @@ export const productHandler = async () => {
     }
   });
 
-  searchedProductInput.addEventListener('input', async (e: InputEvent) => {
+  searchedProductInput.addEventListener('input', async () => {
     searchedProductInput.value === ''
       ? (products = await getAllProducts())
       : products;
@@ -134,32 +132,35 @@ export const productHandler = async () => {
     setUpUI(productPageBtn, productList);
   });
 
-  const productContainerBtn = productContainer.querySelector(
-    '.product-container__btn',
-  );
-  const deleteBtn = productContainerBtn.querySelector(
-    '.product-container__btn-delete',
-  );
+  const deleteBtn = $<HTMLButtonElement>('.product-container__btn-delete');
 
   /** 상품 목록 체크리스트 모두 선택 및 해제 이벤트 리스너 */
   checkProductAll.addEventListener('change', () => {
-    const productsEl = productList.querySelectorAll('li');
+    const productsEl = $$(
+      '.product-container__list li',
+    ) as unknown as NodeListOf<Element>;
 
     checkProductAll.checked
-      ? [...productsEl].forEach(
-          (productEl) => (productEl.querySelector('input').checked = true),
+      ? [...[productsEl]].forEach(
+          (productEl: any) =>
+            ((productEl.querySelector('input') as HTMLInputElement).checked =
+              true),
         )
-      : [...productsEl].forEach(
-          (productEl) => (productEl.querySelector('input').checked = false),
+      : [...[productsEl]].forEach(
+          (productEl: any) =>
+            ((productEl.querySelector('input') as HTMLInputElement).checked =
+              false),
         );
   });
 
   /** 상품 목록 체크리스트 선택한 상품 삭제  이벤트 리스너 */
   deleteBtn.addEventListener('click', async () => {
-    const productsEl = productList.querySelectorAll('li');
+    const productsEl = $$(
+      '.product-container__list li',
+    ) as unknown as NodeListOf<Element>;
 
-    const newProductsEl = [...productsEl].filter(
-      (productEl) => productEl.querySelector('input').checked === true,
+    const newProductsEl = [...[productsEl]].filter(
+      (productEl: any) => productEl.querySelector('input').checked === true,
     );
 
     if (newProductsEl.length === 0) {
@@ -178,7 +179,8 @@ export const productHandler = async () => {
       // await deleteProductPromise(newProductsEl);
       await Promise.all(
         newProductsEl.map(
-          async (newProductEl) => await deleteProduct(newProductEl.dataset.id),
+          async (newProductEl: any) =>
+            await deleteProduct(newProductEl.dataset.id),
         ),
       );
 
