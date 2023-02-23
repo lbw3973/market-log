@@ -1,5 +1,6 @@
 import { getAllOrder, editCancelOrder, editDoneOrder } from '../../api.js';
 import { renderOrderDetail, renderOrderDetailBtn } from './renderDetail.js';
+import { $ } from '../../utils/dom.js';
 
 /** 거래내역관리상세 페이지 핸들러 */
 export const orderDetailHandler = async (detailId) => {
@@ -8,13 +9,9 @@ export const orderDetailHandler = async (detailId) => {
   renderOrderDetail(order);
   renderOrderDetailBtn(order);
 
-  const orderCancelBtn = document.querySelector(
-    '.orderDetail-container__btn--cancel',
-  );
+  const orderCancelBtn = $('.orderDetail-container__btn--cancel');
 
-  const orderDoneBtn = document.querySelector(
-    '.orderDetail-container__btn--done',
-  );
+  const orderDoneBtn = $('.orderDetail-container__btn--done');
 
   /** 거래 취소, 취소 해제 이벤트리스너 */
   orderCancelBtn.addEventListener('click', async () => {
