@@ -1,7 +1,9 @@
 import { getAllOrder } from '../../api.js';
 import { renderPageBtn, renderOrderList } from './renderDetail.js';
 import { toggleLoadingSpinner } from '../../utils/loading.js';
+import { $, $$ } from '../../utils/dom';
 
+import { formatDate } from '../../utils/format.js';
 let orders = [];
 
 let activeIdx = 1;
@@ -30,23 +32,17 @@ let newOrders = getOrderCurrentPage(orders, activeIdx, itemsPerPage);
 export const orderHandler = async () => {
   toggleLoadingSpinner(true);
 
-  const orderContainer = document.querySelector('.order-container');
-  const orderList = orderContainer.querySelector('.order-container__list');
-  const orderPageBtn = orderContainer.querySelector(
-    '.order-container__btn-page',
-  );
+  const orderList = $('.order-container__list');
+  const orderPageBtn = $('.order-container__btn-page');
 
   orders = await getAllOrder();
   console.log(orders);
 
   setUpUI(orderPageBtn, orderList);
 
-  const searchContainer = orderContainer.querySelector(
-    '.order-container__search-container--input',
+  const searchedOrderInput = $(
+    '.order-container__search-container--input input',
   );
-
-  const searchedOrderInput = searchContainer.querySelector('input');
-  const searchedOrderBtn = searchContainer.querySelector('img');
 
   const searchOrderHandler = () => {
     const filteredOrder = orders.filter((order) =>
