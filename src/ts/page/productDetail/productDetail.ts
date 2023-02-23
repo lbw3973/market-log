@@ -120,7 +120,7 @@ export const renderDetailProduct = async (productId) => {
 
   /** 상세 제품 레이아웃 html */
   const detailProductTemplate = /* html */ `
-  <div class="section__container" data-product-id="${id}">
+  <li class="section__container" data-product-id="${id}">
     <section class="section__productDetail">
       <img
         src="${thumbnail}"
@@ -172,7 +172,7 @@ export const renderDetailProduct = async (productId) => {
         }
       </div>
     </aside>
-  </div>
+  </li>
   `;
 
   $('.app').innerHTML = detailProductTemplate;

@@ -10,7 +10,7 @@ const formatDate = (target: string) => {
 };
 
 /** 가격 format 함수 */
-const formatPrice = (target: string) => {
+const formatPrice = (target: number): string => {
   if (target) {
     let result = target.toLocaleString();
     return result;

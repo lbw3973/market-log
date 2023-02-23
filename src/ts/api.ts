@@ -238,7 +238,7 @@ export const getUserInfoAPI = async (): Promise<GetUserInfoAPI> => {
 
 // [관리자 페이지]
 /** 단일 상품 가져오기 API */
-export const addProduct = async (product: AddProductParams) => {
+export const addProduct = async (product: AddProductParams): Promise<void> => {
   const { title, price, description, tags, thumbnail } = product;
 
   try {

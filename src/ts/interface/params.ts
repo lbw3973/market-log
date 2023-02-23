@@ -1,3 +1,4 @@
+/** router params type */
 export interface Params {
   data: { id: string };
   hashString: string;

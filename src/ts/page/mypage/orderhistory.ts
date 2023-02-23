@@ -344,7 +344,7 @@ const orderHistoryUtilDisplayButtons = (
 };
 
 /** prev, next, 페이지네이션 버튼 핸들링 이벤트 */
-$('.app').addEventListener('click', (e: Event): void => {
+$('.app').addEventListener('click', (e: MouseEvent): void => {
   if (
     e.target instanceof HTMLDivElement &&
     e.target.classList.contains('order-history__pagination--btnsContainer')

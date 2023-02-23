@@ -4,22 +4,29 @@
 
 import { router } from '../../main.js';
 import { $ } from '../../utils/dom.js';
-import { pushInCart, updateInfo } from '../productDetail/productDetail.js';
+import { updateInfo } from '../productDetail/productDetail.js';
 import { shoppingCartStore } from '../../store/shoppingCartStore.js';
 import { cartSVG } from '../../importIMGFiles.js';
 import { renderPage } from '../../utils/render.js';
 import { formatPrice } from '../../utils/format.js';
 import { countQtyInCart } from '../mainPage/mainPage.js';
+import {
+  ShoppingCartStore,
+  ShoppingCartStoreValue,
+} from '../../interface/store.js';
 
 /** 장바구니 총 가격 렌더링 */
-export const renderCartTotalPrice = () => {
+export const renderCartTotalPrice = (): number => {
   const cartTotalPrice = shoppingCartStore
     .getLocalStorage()
-    .map((items) => items.price);
+    .map((items: ShoppingCartStore) => items.price);
 
-  const cartTotalPriceReduce = cartTotalPrice.reduce((acc, val) => {
-    return acc + val;
-  }, 0);
+  const cartTotalPriceReduce = cartTotalPrice.reduce(
+    (acc: number, val: number): number => {
+      return acc + val;
+    },
+    0,
+  );
 
   return cartTotalPriceReduce;
 };
@@ -89,10 +96,10 @@ const renderCartOrderPrice = () => {
 };
 
 /** 장바구니 제품 리스트 렌더링 */
-export const renderCartList = (storage) => {
+export const renderCartList = (storage: ShoppingCartStoreValue): void => {
   const cartListTemplate = storage
-    .map((item) => {
-      const { id, price, count, thumbnail, title, pricePerOne } = item;
+    .map((item: ShoppingCartStore) => {
+      const { id, count, thumbnail, title, pricePerOne } = item;
 
       return `
     <li class="cart__item" data-product-id="${id}">
@@ -135,9 +142,11 @@ export const renderCartList = (storage) => {
 };
 
 /** 장바구니 localStorage에 저장하는 함수 - 찜하기 페이지에서 재활용 */
-export const storeLocalStorage = (id) => {
+export const storeLocalStorage = (id: string): void => {
   let shoppingCartArr = shoppingCartStore.getLocalStorage();
-  const existingItem = shoppingCartArr.find((item) => item.id === id);
+  const existingItem = shoppingCartArr.find(
+    (item: ShoppingCartStore) => item.id === id,
+  );
   console.log('existingItem', existingItem);
 
   if (existingItem) {
@@ -151,7 +160,7 @@ export const storeLocalStorage = (id) => {
 };
 
 /** 빈 장바구니일 때, 상품이 있는 장바구니일 때 */
-export const renderCartPage = () => {
+export const renderCartPage = (): void => {
   const shoppingCartArr = shoppingCartStore.getLocalStorage();
   renderPage(renderInitCartPage);
   if (shoppingCartArr.length === 0) {
@@ -173,14 +182,18 @@ export const renderCartPage = () => {
 /** 버튼 요소 핸들링 이벤트 */
 $('.app').addEventListener('click', (e) => {
   // [장바구니 페이지]에서 장바구니에 상품이 없을 때, '계속 쇼핑하기' 버튼 클릭 -> [메인페이지]로 이동
-  if (e.target.classList.contains('cartEmpty-goToShoppingBtn')) {
+  if (
+    (e.target as HTMLButtonElement).classList.contains(
+      'cartEmpty-goToShoppingBtn',
+    )
+  ) {
     console.log(e.target);
     router.navigate('/category/keyboards');
     return;
   }
 
   // [장바구니]에서 '구매하기' 버튼 클릭 클릭 -> [결제 페이지]로 이동
-  if (e.target.classList.contains('cartPaymentBtn')) {
+  if ((e.target as HTMLButtonElement).classList.contains('cartPaymentBtn')) {
     console.log(e.target);
     if (localStorage.getItem('token')) {
       router.navigate('/payment');
@@ -194,8 +207,8 @@ $('.app').addEventListener('click', (e) => {
 });
 
 /** 구매수량 추가 핸들링 이벤트 */
-$('.app').addEventListener('click', (e) => {
-  const detailProductId = e.target.closest('.section__container')?.dataset
+$('.app')?.addEventListener('click', (e: MouseEvent) => {
+  const detailProductId = (e.target as HTMLLIElement)?.closest('li')?.dataset
     .productId;
   updateInfo(e, detailProductId);
 });
@@ -206,11 +219,11 @@ $('.app').addEventListener('click', (e) => {
 // });
 
 /** 장바구니 페이지에서 수량 핸들링 */
-$('.app').addEventListener('click', (e) => {
-  const id = e.target.closest('li')?.dataset.productId;
+$('.app').addEventListener('click', (e: MouseEvent) => {
+  const id = (e.target as HTMLLIElement).closest('li')?.dataset.productId;
   // 구매 수량 +
   let shoppingCartArr = shoppingCartStore.getLocalStorage();
-  if (e.target.classList.contains('cart-addQtyBtn')) {
+  if ((e.target as HTMLButtonElement).classList.contains('cart-addQtyBtn')) {
     storeLocalStorage(id);
     // shoppingCartStore.setLocalStorage(shoppingCartArr);
     // 카트 페이지 렌더
@@ -219,9 +232,11 @@ $('.app').addEventListener('click', (e) => {
   }
 
   // 구매 수량 -
-  if (e.target.classList.contains('cart-minusQtyBtn')) {
+  if ((e.target as HTMLButtonElement).classList.contains('cart-minusQtyBtn')) {
     // let shoppingCartArr = shoppingCartStore.getLocalStorage();
-    const existingItem = shoppingCartArr.find((item) => item.id === id);
+    const existingItem = shoppingCartArr.find(
+      (item: ShoppingCartStore): boolean => item.id === id,
+    );
     console.log('existingItem', existingItem);
 
     if (existingItem) {
@@ -243,10 +258,12 @@ $('.app').addEventListener('click', (e) => {
   }
 
   // 장바구니에서 삭제
-  if (e.target.classList.contains('cartProductDeleteBtn')) {
+  if (
+    (e.target as HTMLButtonElement).classList.contains('cartProductDeleteBtn')
+  ) {
     shoppingCartArr = shoppingCartStore
       .getLocalStorage()
-      .filter((item) => item.id !== id);
+      .filter((item: ShoppingCartStore) => item.id !== id);
     // storeLocalStorage(id);
     shoppingCartStore.setLocalStorage(shoppingCartArr);
     console.log(shoppingCartArr);
@@ -257,7 +274,7 @@ $('.app').addEventListener('click', (e) => {
 });
 
 /** /cart 핸들링 함수 */
-export const handleCartPage = () => {
+export const handleCartPage = (): void => {
   $('.modal__addCart').style.display = 'none';
   console.log('/cart');
   // 카트 페이지 렌더

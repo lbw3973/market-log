@@ -32,7 +32,7 @@ import {
   sideBar,
   orderDetailPage,
 } from './page/admin/renderTemplate.js';
-import { Params } from './interface/jh.js';
+import { Params } from './interface/params.js';
 
 export const router = new Navigo('/');
 export const divLoadingEl = $('.loadingGif');
