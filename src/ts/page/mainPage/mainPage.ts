@@ -1,16 +1,9 @@
 import { $ } from '../../utils/dom.js';
 import { renderPage } from '../../utils/render.js';
-import {
-  air60,
-  air75,
-  halo65,
-  halo75,
-  halo96,
-  halo96,
-} from '../../importIMGFiles.js';
-import { renderInitHeaderLogin } from '../login.js';
+import { air60, air75, halo65, halo75, halo96 } from '../../importIMGFiles.js';
 import { shoppingCartStore } from '../../store/shoppingCartStore.js';
 import { wishListStore } from '../../store/wishListStore.js';
+import { router } from '../../main.js';
 
 /*-----------------------------------*\
   #메인 페이지
@@ -117,25 +110,34 @@ export const renderMainPageTemplate = `
 </div>
 `;
 
-$('.app').addEventListener('click', (e) => {
-  if (e.target.classList.contains('mainPage__hero--btn')) {
+$('.app')?.addEventListener('click', (e: MouseEvent) => {
+  if (
+    (e.target as HTMLButtonElement).classList.contains('mainPage__hero--btn')
+  ) {
     router.navigate('/category/keyboards');
   }
 });
 
 /** 장바구니, 찜하기 상품 수량 */
-$('.header__cart--qty').innerHTML = shoppingCartStore.getLocalStorage().length;
-$('.header__wishlist--qty').innerHTML = wishListStore.getLocalStorage().length;
+$<HTMLSpanElement>('.header__cart--qty').innerHTML = shoppingCartStore
+  .getLocalStorage()
+  .length.toString();
+
+$<HTMLSpanElement>('.header__wishlist--qty').innerHTML = wishListStore
+  .getLocalStorage()
+  .length.toString();
 
 /** 장바구니 상품 수량 카운팅 함수*/
 export const countQtyInCart = () => {
-  $('.header__cart--qty').innerHTML =
-    shoppingCartStore.getLocalStorage().length;
+  $<HTMLSpanElement>('.header__cart--qty').innerHTML = shoppingCartStore
+    .getLocalStorage()
+    .length.toString();
 };
 
 export const countQtyInWishlist = () => {
-  $('.header__wishlist--qty').innerHTML =
-    wishListStore.getLocalStorage().length;
+  $<HTMLSpanElement>('.header__wishlist--qty').innerHTML = wishListStore
+    .getLocalStorage()
+    .length.toString();
 };
 
 /** router on '/' 핸들링 함수 */
