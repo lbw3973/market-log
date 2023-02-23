@@ -32,6 +32,7 @@ import {
   sideBar,
   orderDetailPage,
 } from './page/admin/renderTemplate.js';
+import { Params } from './interface/jh.js';
 
 export const router = new Navigo('/');
 export const divLoadingEl = $('.loadingGif');
@@ -40,11 +41,11 @@ const renderContainer = () => {
   $('.app').innerHTML = `<div class="container"></div>`;
 };
 
-const render = (html) => {
+const render = (html: string) => {
   $('.container').innerHTML = html;
 };
 
-const initPage = (page) => {
+const initPage = (page: string) => {
   renderContainer();
   render(sideBar);
   $('.container').insertAdjacentHTML('beforeend', page);
@@ -59,7 +60,7 @@ router
     '/products/search': () => {
       handleSearchPage();
     },
-    '/product/:id': (params) => {
+    '/product/:id': (params: Params) => {
       // renderSkeletonUIinDetailProductPage();
       handleDetailProductPage(params.data.id);
     },
@@ -90,7 +91,7 @@ router
     '/mypage/order': () => {
       handleOrderHistoryPage();
     },
-    '/mypage/order/:id': (params) => {
+    '/mypage/order/:id': (params: Params) => {
       handleDetailOrderHistoryPage(params.data.id);
     },
     '/mypage/account': () => {
@@ -117,7 +118,7 @@ router
       initPage(orderPage);
       orderHandler();
     },
-    '/admin/order/:id': (params) => {
+    '/admin/order/:id': (params: Params) => {
       initPage(orderDetailPage);
       orderDetailHandler(params.data.id);
     },
@@ -125,11 +126,11 @@ router
       initPage(productAddPage);
       productAddHandler();
     },
-    '/admin/product/:id': (params) => {
+    '/admin/product/:id': (params: Params) => {
       initPage(productDetailPage);
       productDetailHandler(params.data.id);
     },
-    '/admin/product/edit/:id': (params) => {
+    '/admin/product/edit/:id': (params: Params) => {
       initPage(productEditPage);
       productEditHandler(params.data.id);
     },

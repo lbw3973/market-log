@@ -33,7 +33,7 @@ interface Reservation {
 /** 제품 전체 거래(구매) 내역 */
 export type GetAllTransactionsValue = GetAllTransactionsInterface[]; // 모든 거래 내역의 목록
 
-interface GetAllTransactionsInterface {
+export interface GetAllTransactionsInterface {
   // 거래 내역 정보
   detailId: string; // 거래 내역 ID
   product: {
