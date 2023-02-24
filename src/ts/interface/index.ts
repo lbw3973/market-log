@@ -9,7 +9,6 @@ export interface masterKey extends HEADERS {
 
 /** 전체 제품 가져오기api */
 /** 검색한 제품, 태그 가져오기 */
-export type GetAllProductsValue = GetAllProductsInterface[];
 export interface GetAllProductsInterface {
   // 제품 정보
   id: string; // 제품 ID
@@ -29,6 +28,7 @@ interface Reservation {
   isCanceled: boolean; // 예약 취소 여부
   isExpired: boolean; // 예약 만료 여부
 }
+export type GetAllProductsValue = GetAllProductsInterface[];
 
 /** 제품 전체 거래(구매) 내역 */
 export type GetAllTransactionsValue = GetAllTransactionsInterface[]; // 모든 거래 내역의 목록
@@ -95,14 +95,16 @@ export interface AddProduct {
   discountRate?: number; // 제품 할인율
 }
 
-export interface AddProductParams extends AddProduct {
-  thumbnail: string;
+export interface EditProductParams extends AddProduct {
+  id: string;
+  isSoldOut: boolean;
+  thumbnailBase64: string;
 }
 
 // 전체 거래(판매) 내역
 // https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/transactions/all
 
-export interface TransactionDetail {
+export interface TransactionDetailInterface {
   // 거래 내역 정보
   detailId: string; // 거래 내역 ID
   user: {
@@ -132,7 +134,15 @@ export interface TransactionDetail {
   isCanceled: boolean; // 거래 취소 여부
   done: boolean; // 거래 완료 여부
 }
-export type TransactionDetailValue = TransactionDetail[];
+export type TransactionDetailValue = TransactionDetailInterface[];
+
+export interface ConfirmOrder {
+  detailId?: string;
+  isCanceled?: boolean; // 거래 취소 여부 (사용자의 '제품 거래(구매) 취소' 상태와 같습니다)
+  done?: boolean; // 거래 완료 여부 (사용자의 '제품 거래(구매) 확정' 상태와 같습니다)
+}
+
+
 
 /** API : 은행 목록 */
 export interface GetBankList {

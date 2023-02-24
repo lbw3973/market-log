@@ -1,50 +1,50 @@
 import { router } from '../../main.js';
 import { addProduct } from '../../api.js';
-import { router } from '../../main.js';
+import { $ } from '../../utils/dom.js';
 
 /** 상품 추가 핸들러 */
 export const productAddHandler = () => {
-  const form = document.querySelector('.container-form');
-  const titleInput = form.querySelector(
+  const form = $<HTMLFormElement>('.container-form');
+  const titleInput = $<HTMLInputElement>(
     '.container-form__content--title input',
   );
-  const priceInput = form.querySelector(
+  const priceInput = $<HTMLInputElement>(
     '.container-form__content--price input',
   );
-  const desciptionInput = form.querySelector(
+  const desciptionInput = $<HTMLTextAreaElement>(
     '.container-form__content--description textarea',
-  );
-  const tagsSelect = form.querySelector(
+  ) as HTMLTextAreaElement;
+  const tagsSelect = $<HTMLSelectElement>(
     '.container-form__content--tags select',
   );
-  const thumbnailInput = form.querySelector(
+  const thumbnailInput = $<HTMLInputElement>(
     '.container-form__content--thumbnail input',
   );
-  const preview = document.querySelector(
+  const preview = $<HTMLImageElement>(
     '.container-form__content--thumbnail img',
   );
 
-  let profileImgBase64 = '';
+  let profileImgBase64: string = '';
 
   thumbnailInput.addEventListener('change', () => {
     const file = thumbnailInput.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.addEventListener('load', (e) => {
-      profileImgBase64 = e.target.result;
-      preview.src = e.target.result;
+    reader.addEventListener('load', () => {
+      profileImgBase64 = reader.result as string;
+      preview.src = reader.result as string;
     });
   });
 
-  form.addEventListener('submit', async (e) => {
+  form.addEventListener('submit', async (e: SubmitEvent) => {
     e.preventDefault();
 
     const product = {
       title: titleInput.value,
-      price: parseInt(priceInput.value),
+      price: Number(priceInput.value),
       description: desciptionInput.value,
       tags: [tagsSelect.value],
-      thumbnail: profileImgBase64,
+      thumbnailBase64: profileImgBase64,
     };
 
     console.log(product);

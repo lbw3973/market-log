@@ -1,18 +1,21 @@
 import { deleteProduct, getDetailProduct } from '../../api.js';
 import { renderDetailProduct } from './renderDetail';
+import { $ } from '../../utils/dom.js';
 
 import { router } from '../../main.js';
 
 /** 상품관리상세 페이지 핸들러 */
-export const productDetailHandler = async (productId) => {
+export const productDetailHandler = async (
+  productId: string,
+): Promise<void> => {
   const productDetail = await getDetailProduct(productId);
 
   renderDetailProduct(productDetail);
 
-  const deleteProductBtn = document.querySelector(
+  const deleteProductBtn = $<HTMLButtonElement>(
     '.productDetail-container__btn--delete',
   );
-  const editProductBtn = document.querySelector(
+  const editProductBtn = $<HTMLButtonElement>(
     '.productDetail-container__btn--edit',
   );
 
