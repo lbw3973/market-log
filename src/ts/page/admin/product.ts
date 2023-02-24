@@ -6,7 +6,6 @@ import { $, $$ } from '../../utils/dom';
 import { GetAllProductsValue } from '../../interface/index';
 
 let products: GetAllProductsValue = [];
-
 let activeIdx: number = 1;
 let btnIdx: number = 1;
 const itemsPerPage: number = 10;

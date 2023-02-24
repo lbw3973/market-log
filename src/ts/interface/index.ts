@@ -20,6 +20,8 @@ export interface GetAllProductsInterface {
   discountRate?: number; // 제품 할인율
 }
 
+export type GetAllProductsValue = GetAllProductsInterface[];
+
 interface Reservation {
   start: string; // 예약 시작 시간
   end: string; // 예약 종료 시간

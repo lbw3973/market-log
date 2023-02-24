@@ -10,10 +10,13 @@ import { $ } from '../../utils/dom';
 import { getDate } from '../../utils/date';
 // import { TransactionDetail } from '../../interface/cy';
 import {
-  GetAllProductsValue,
+  GetAllProductsInterface,
   TransactionDetailValue,
 } from '../../interface/index';
 
+import { Category } from '../../interface/enum.js';
+
+import { GetAllProductsValue } from '../../interface/index';
 import { CurrentStatusInterface } from '../../interface/cy.js';
 
 /** 대시보드 페이지 핸들러 */
@@ -36,19 +39,20 @@ const setDashBoardChartCategory = (products: GetAllProductsValue): void => {
   const chartCategory = $<HTMLCanvasElement>('#chartCategory');
 
   const keyboardNum = products.filter(
-    (product) => product.tags[0] === '키보드',
+    (product: GetAllProductsInterface) =>
+      product.tags[0] === Category.keyboards,
   ).length;
 
   const keycapNum = products.filter(
-    (product) => product.tags[0] === '키캡',
+    (product) => product.tags[0] === Category.keycaps,
   ).length;
 
   const switchNum = products.filter(
-    (product) => product.tags[0] === '스위치',
+    (product) => product.tags[0] === Category.switches,
   ).length;
 
   const accessory = products.filter(
-    (product) => product.tags[0] === '액세서리',
+    (product) => product.tags[0] === Category.accessories,
   ).length;
 
   new Chart(chartCategory, {
