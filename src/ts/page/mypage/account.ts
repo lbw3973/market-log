@@ -160,15 +160,17 @@ const getPossibleBankList = (div: HTMLDivElement, data: GetBankList[]) => {
 
 // 계좌 개설 시, 사용자가 선택한 은행Code를 가져옴
 const getUserSelectBank = () => {
-  const checkBoxs = $$<HTMLInputElement>('.selectBank');
-  const bchecked = Array.from(checkBoxs).every((x) => x.checked === false);
+  const checkBoxs = $$<any>('.selectBank');
+  const bchecked = Array.from(checkBoxs).every(
+    (x: HTMLInputElement) => x.checked === false,
+  );
 
   if (bchecked === true) {
     alert('Check');
     return;
   } else {
     const liEl = Array.from(checkBoxs).find(
-      (x) => x.checked === true,
+      (x: HTMLInputElement) => x.checked === true,
     ).parentElement;
     return liEl.dataset.code;
   }
