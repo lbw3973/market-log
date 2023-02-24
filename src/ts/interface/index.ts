@@ -26,7 +26,6 @@ interface Reservation {
   isCanceled: boolean; // 예약 취소 여부
   isExpired: boolean; // 예약 만료 여부
 }
-export type GetAllProductsValue = GetAllProductsInterface[];
 
 /** 제품 전체 거래(구매) 내역 */
 // export type GetAllTransactionsValue = GetAllTransactionsInterface[]; // 모든 거래 내역의 목록
@@ -147,8 +146,6 @@ export interface ConfirmOrder {
   isCanceled?: boolean; // 거래 취소 여부 (사용자의 '제품 거래(구매) 취소' 상태와 같습니다)
   done?: boolean; // 거래 완료 여부 (사용자의 '제품 거래(구매) 확정' 상태와 같습니다)
 }
-
-
 
 /** API : 은행 목록 */
 export interface GetBankList {
