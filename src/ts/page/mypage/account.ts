@@ -1,4 +1,4 @@
-import { $, $$ } from '../../utils/dom.js';
+import { $ } from '../../utils/dom.js';
 import { renderPage } from '../../utils/render.js';
 import { htmlMypage_Nav } from '../mypage.js';
 import { getLoginStatus, showAlertPlzLogin } from '../login.js';
@@ -132,10 +132,11 @@ async function initFuncAccount() {
 
 // Input Tag Custom : 숫자만 입력 가능
 function checkInputNumber() {
-  return (e) => {
-    if (e.key === /[0-9]/) {
+  return (e: KeyboardEvent) => {
+    if (e.key === /[0-9]/.toString()) {
     } else {
-      e.target.value = e.target.value
+      const inputEl = e.target as HTMLInputElement;
+      inputEl.value = inputEl.value
         .replace(/[^0-9.]/g, '')
         .replace(/(\..*)\./g, '$1');
     }
@@ -160,7 +161,7 @@ const getPossibleBankList = (div: HTMLDivElement, data: GetBankList[]) => {
 
 // 계좌 개설 시, 사용자가 선택한 은행Code를 가져옴
 const getUserSelectBank = () => {
-  const checkBoxs = $$<any>('.selectBank');
+  const checkBoxs = document.querySelectorAll('.selectBank');
   const bchecked = Array.from(checkBoxs).every(
     (x: HTMLInputElement) => x.checked === false,
   );

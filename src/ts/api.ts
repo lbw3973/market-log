@@ -14,7 +14,6 @@ import {
   GetUserInfoAPI,
   GetUserInfos,
   HeadersOptions,
-  HEADERS,
   Logout,
   PersonalInfoLogin,
   RegisterRes,
@@ -487,10 +486,7 @@ export async function signup(): Promise<RegisterRes> {
 export async function getUserList(): Promise<GetUserInfos> {
   const res = await fetch(`${base_url}/auth/users`, {
     method: 'GET',
-    headers: {
-      ...headers,
-      masterkey: true,
-    },
+    headers: masterKeyHeaders,
   });
   const json = await res.json();
   return json;
