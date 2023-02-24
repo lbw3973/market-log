@@ -1,6 +1,7 @@
 // dotenv 사용 예시
 import { chevronrightSVG } from '../importIMGFiles.js';
 import { router } from '../main.js';
+import { $$ } from '../utils/dom.js';
 import { renderPage } from '../utils/render.js';
 import { getLoginStatus, showAlertPlzLogin } from './login.js';
 let navliList;
@@ -40,7 +41,7 @@ export const htmlMypage_Nav = /* html */ `
 </div>
 `;
 
-export function handleMyPage() {
+export function handleMyPage(): void {
   if (getLoginStatus() === false) {
     showAlertPlzLogin();
     router.navigate('/login');
@@ -52,7 +53,9 @@ export function handleMyPage() {
 }
 
 /** mypage nav탭 선택시 영역 acitve */
-export const resetNavbarActive = () => {
-  navliList = document.querySelectorAll('.mypage__navbar nav ul li');
-  navliList?.forEach((navli) => navli.classList.remove('active'));
+export const resetNavbarActive = (): void => {
+  navliList = $$<any>('.mypage__navbar nav ul li');
+  navliList?.forEach((navli: HTMLLIElement) =>
+    navli.classList.remove('active'),
+  );
 };
