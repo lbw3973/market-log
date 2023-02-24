@@ -480,3 +480,31 @@ export async function personalInfoLogin(auth) {
   const json = await res.json();
   return json;
 }
+
+/** API : 회원가입 */
+export async function signup() {
+  const res = await fetch(`${base_url}/auth/signup`, {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify({
+      email: $('#inputID').value,
+      password: $('#inputPW').value,
+      displayName: $('#inputName').value,
+    }),
+  });
+  const json = await res.json();
+  return json;
+}
+
+/** API : 사용자 목록 조회 */
+export async function getUserList() {
+  const res = await fetch(`${base_url}/auth/users`, {
+    method: 'GET',
+    headers: {
+      ...headers,
+      masterkey: true,
+    },
+  });
+  const json = await res.json();
+  return json;
+}

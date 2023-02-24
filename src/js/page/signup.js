@@ -1,18 +1,15 @@
 import { $ } from '../utils/dom.js';
 import { htmlHeaderLogin } from './login.js';
-import { base_url, api_key, user_name } from '../db.js';
 import { router } from '../main.js';
 import { renderPage } from '../utils/render.js';
-const headers = {
-  'content-type': 'application/json',
-  apikey: api_key,
-  username: user_name,
-};
+import { getUserList, signup } from '../api.js';
+
 const RegexID =
   /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 const RegexPW = /^(?=.*[a-zA-Z\d])[a-zA-Z\d]{8,}$/;
 const ulLoginHeaderEl = $('.header__user-login--ul');
 let bSignup = false;
+
 export const htmlSignup = /* html */ `
   <div class="signup__container">
     <h1 class="title">회원가입</h1>
@@ -56,40 +53,12 @@ export const htmlSignup = /* html */ `
   </div>
 `;
 
-/** API : 회원가입 */
-async function signup() {
-  const res = await fetch(`${base_url}/auth/signup`, {
-    method: 'POST',
-    headers: headers,
-    body: JSON.stringify({
-      email: $('#inputID').value,
-      password: $('#inputPW').value,
-      displayName: $('#inputName').value,
-    }),
-  });
-  const json = await res.json();
-  return json;
-}
-
-/** API : 사용자 목록 조회 */
-async function getUserList() {
-  const res = await fetch(`${base_url}/auth/users`, {
-    method: 'GET',
-    headers: {
-      ...headers,
-      masterkey: true,
-    },
-  });
-  const json = await res.json();
-  return json;
-}
-
 export const handleSignupPage = () => {
   renderPage(htmlSignup);
   initFuncSignup();
 };
 
-export function initFuncSignup() {
+function initFuncSignup() {
   ulLoginHeaderEl.innerHTML = htmlHeaderLogin;
   const btnSubmit = $('.submit-btn');
   const btnCheckDuplication = $('.signup__container__input button');
