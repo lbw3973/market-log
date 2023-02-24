@@ -219,12 +219,6 @@ export interface Authorization {
   displayName: string; // 사용자 표시 이름
   profileImg: string | null; // 사용자 프로필 이미지(URL)
 }
-export type AuthorizationValue = Authorization[];
 
 // 사용자 정보 수정
 // https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/logout
-export interface Logout {
-  email: string; // 사용자 아이디
-  displayName: string; // 사용자 표시 이름
-  profileImg: string | null; // 사용자 프로필 이미지(URL)
-}
