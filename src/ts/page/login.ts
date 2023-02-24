@@ -105,7 +105,7 @@ function initFuncLogin() {
       const loginJSON = await login();
       errMessage = loginJSON;
       displayUserName(loginJSON.user);
-      localStorage.setItem('token', loginJSON.accessToken);
+      localStorage.setItem('marketLogToken', loginJSON.accessToken);
       router.navigate('/');
     } catch (exception) {
       alert(errMessage);

@@ -66,7 +66,7 @@ export function initFuncSignup() {
     if (checkValidation() === true) {
       const res = await signup();
       if (res.accessToken != null) {
-        localStorage.setItem('token', res.accessToken);
+        localStorage.setItem('marketLogToken', res.accessToken);
       }
       router.navigate('/');
     }
