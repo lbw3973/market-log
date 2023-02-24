@@ -1,5 +1,4 @@
-import { $ } from '../../utils/dom.js';
-import { base_url, api_key, user_name } from '../../db.js';
+import { $, $$ } from '../../utils/dom.js';
 import { renderPage } from '../../utils/render.js';
 import { htmlMypage_Nav } from '../mypage.js';
 import { getLoginStatus, showAlertPlzLogin } from '../login.js';
@@ -10,11 +9,7 @@ import {
   createUserAccount,
   deleteAccount,
 } from '../../api.js';
-const headers = {
-  'content-type': 'application/json',
-  apikey: api_key,
-  username: user_name,
-};
+import { GetBankList, GetUserAccounts } from '../../interface/index.js';
 
 // HTML : mypage 계좌관리 탭
 
@@ -88,18 +83,18 @@ const renderAccountPage = async () => {
 };
 
 async function initFuncAccount() {
-  const active = document.querySelector('#mpAccount');
+  const active = $('#mpAccount');
   active.parentElement.classList.add('active');
 
-  const divUserAccount = document.querySelector('.user__account');
-  const dicCreateAccount = document.querySelector('.create__account');
-  const btnCloseModal = document.querySelector('#btnCloseModal');
+  const divUserAccount = $('.user__account');
+  const dicCreateAccount = $('.create__account');
+  const btnCloseModal = $('#btnCloseModal');
   const inputAccountNumberEl =
     dicCreateAccount.querySelector('#input__account');
   const inputPhoneNumberEl = dicCreateAccount.querySelector('#input__phone');
-  const btnFinalCreate = document.querySelector('#btnFinalCreate');
+  const btnFinalCreate = $('#btnFinalCreate');
 
-  const btnCreateAccount = document.querySelector('.btn__create__account');
+  const btnCreateAccount = $('.btn__create__account');
   const UserAccounts = await getUserAccounts();
   showUserAccounts(divUserAccount, UserAccounts);
 
@@ -148,7 +143,7 @@ function checkInputNumber() {
 }
 
 // 등록 가능한 은행 목록을 가져와 은행 이름과 계좌번호 형식과 Render
-const getPossibleBankList = (div, data) => {
+const getPossibleBankList = (div: HTMLDivElement, data: GetBankList[]) => {
   const ulEl = div.querySelector('ul');
   const liEls = data.map((_data) => {
     const liEl = document.createElement('li');
@@ -165,22 +160,24 @@ const getPossibleBankList = (div, data) => {
 
 // 계좌 개설 시, 사용자가 선택한 은행Code를 가져옴
 const getUserSelectBank = () => {
-  const checkBoxs = document.querySelectorAll('.selectBank');
-  const bchecked = Array.from(checkBoxs).every((x) => x.checked === false);
+  const checkBoxs = $$<any>('.selectBank');
+  const bchecked = Array.from(checkBoxs).every(
+    (x: HTMLInputElement) => x.checked === false,
+  );
 
   if (bchecked === true) {
     alert('Check');
     return;
   } else {
     const liEl = Array.from(checkBoxs).find(
-      (x) => x.checked === true,
+      (x: HTMLInputElement) => x.checked === true,
     ).parentElement;
     return liEl.dataset.code;
   }
 };
 
 // 사용자의 계좌를 전부 보여준다
-const showUserAccounts = (div, datas) => {
+const showUserAccounts = (div: HTMLDivElement, datas: GetUserAccounts) => {
   const totalBalance = document.createElement('span');
   totalBalance.textContent = `총 계좌 잔액 : ${datas.totalBalance.toLocaleString()}`;
   totalBalance.classList.add('total__balance');
@@ -231,12 +228,12 @@ const showUserAccounts = (div, datas) => {
 };
 
 // 계좌 삭제 Click시 modal Open
-const showDeleteAccountModal = (event) => {
-  const divDeleteAccount = document.querySelector('.delete__account');
+const showDeleteAccountModal = (event: Event) => {
+  const divDeleteAccount = $('.delete__account');
   divDeleteAccount.style.display = 'block';
 
-  document.querySelector('#delete-ok').addEventListener('click', async () => {
-    const result = await deleteAccount(event);
+  $('#delete-ok').addEventListener('click', async () => {
+    const result: Boolean = await deleteAccount(event);
     if (result === false) {
       alert('삭제 오류');
     } else {
@@ -244,7 +241,7 @@ const showDeleteAccountModal = (event) => {
     }
   });
 
-  document.querySelector('#delete-cancel').addEventListener('click', () => {
+  $('#delete-cancel').addEventListener('click', () => {
     divDeleteAccount.style.display = 'none';
   });
 };

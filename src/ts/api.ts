@@ -1,6 +1,5 @@
 import {
   AddProduct,
-  AddProductParams,
   AuthorizationValue,
   Bank,
   BuyItemAPI,
@@ -8,16 +7,16 @@ import {
   ConfirmOrder,
   DeleteAccount,
   EditProductParams,
-  GetAccountDetail,
   GetAllProductsInterface,
-  GetAllProductsValue,
-  GetAllTransactionsValue,
+  GetAllTransactionsInterface,
   GetBankListValue,
   GetUserAccounts,
   GetUserInfoAPI,
+  GetUserInfos,
   HeadersOptions,
   Logout,
   PersonalInfoLogin,
+  RegisterRes,
   TransactionDetailValue,
 } from './interface/index.js';
 // api 파일입니다.
@@ -484,6 +483,33 @@ export async function personalInfoLogin(auth: any): Promise<PersonalInfoLogin> {
       email: auth.email,
       password: $<HTMLInputElement>('#inputPW').value,
     }),
+  });
+  const json = await res.json();
+  return json;
+}
+/** API : 회원가입 */
+export async function signup(): Promise<RegisterRes> {
+  const res = await fetch(`${base_url}/auth/signup`, {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify({
+      email: $<HTMLInputElement>('#inputID').value,
+      password: $<HTMLInputElement>('#inputPW').value,
+      displayName: $<HTMLInputElement>('#inputName').value,
+    }),
+  });
+  const json = await res.json();
+  return json;
+}
+
+/** API : 사용자 목록 조회 */
+export async function getUserList(): Promise<GetUserInfos> {
+  const res = await fetch(`${base_url}/auth/users`, {
+    method: 'GET',
+    headers: {
+      ...headers,
+      masterkey: true,
+    },
   });
   const json = await res.json();
   return json;

@@ -199,8 +199,12 @@ export interface RegisterReq {
 }
 
 export interface RegisterRes {
-  email: string; // 사용자 아이디 (필수!)
-  password: string; // 사용자 비밀번호 (필수!)
+  user: {
+    email: string; // 사용자 아이디
+    displayName: string; // 사용자 표시 이름
+    profileImg: string | null; // 사용자 프로필 이미지(URL)
+  };
+  accessToken: string; // 사용자 접근 토큰
 }
 
 // 로그인
@@ -230,4 +234,14 @@ export interface Logout {
   email: string; // 사용자 아이디
   displayName: string; // 사용자 표시 이름
   profileImg: string | null; // 사용자 프로필 이미지(URL)
+}
+
+// 사용자 목록 조회
+// https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/users
+export type GetUserInfos = UserInfo[];
+
+export interface UserInfo {
+  email: string; // 사용자 아이디
+  displayName: string; // 사용자 표시 이름
+  profileImg: string; // 사용자 프로필 이미지 URL
 }
