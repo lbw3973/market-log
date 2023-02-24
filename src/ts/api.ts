@@ -1,6 +1,5 @@
 import {
   AddProduct,
-  AddProductParams,
   AuthorizationValue,
   Bank,
   BuyItemAPI,
@@ -8,10 +7,8 @@ import {
   ConfirmOrder,
   DeleteAccount,
   EditProductParams,
-  GetAccountDetail,
   GetAllProductsInterface,
-  GetAllProductsValue,
-  GetAllTransactionsValue,
+  GetAllTransactionsInterface,
   GetBankListValue,
   GetUserAccounts,
   GetUserInfoAPI,
@@ -27,26 +24,6 @@ import dotenv from 'dotenv';
 import { base_url, api_key, user_name } from './db.js';
 import { $ } from './utils/dom.js';
 dotenv.config();
-
-// export const headers: HeadersInit = {
-//   'content-type': 'application/json',
-//   apikey: api_key,
-//   username: user_name,
-// };
-
-// export const masterKeyHeaders = {
-//   'content-type': 'application/json',
-//   apikey: api_key,
-//   username: user_name,
-//   masterKey: 'true',
-// };
-
-// export const tokenHeaders = {
-//   'content-type': 'application/json',
-//   apikey: api_key,
-//   username: user_name,
-//   Authorization: `Bearer ${localStorage.getItem('token')}`,
-// };
 
 /** API headers 함수 */
 const createHeaders = ({
