@@ -14,9 +14,8 @@ import {
   GetUserInfoAPI,
   GetUserInfos,
   HeadersOptions,
-  Logout,
   PersonalInfoLogin,
-  TransactionDetailInterface
+  TransactionDetailInterface,
   RegisterRes,
 } from './interface/index.js';
 // api 파일입니다.
