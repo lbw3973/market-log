@@ -1,14 +1,14 @@
-import { $ } from '../../utils/dom.js';
-import { renderPage } from '../../utils/render.js';
-import { getSearchedProducts } from '../../api.js';
+import { $ } from '../../utils/dom';
+import { renderPage } from '../../utils/render';
+import { getSearchedProducts } from '../../api';
 import {
   renderInitCategoryPage,
   renderRecentViewed,
-} from '../categoryPage/categoryPage.js';
-import { renderSkeletonUIinCategoryPage } from '../categoryPage/categoryPage.js';
-import { router } from '../../main.js';
-import { recentViewStore } from '../../store/recentViewStore.js';
-import { GetAllProductsInterface } from '../../interface/index.js';
+} from '../categoryPage/categoryPage';
+import { renderSkeletonUIinCategoryPage } from '../categoryPage/categoryPage';
+import { router } from '../../main';
+import { recentViewStore } from '../../store/recentViewStore';
+import { GetAllProductsInterface } from '../../interface/index';
 
 /*-----------------------------------*\
   검색 페이지  #search
@@ -59,7 +59,7 @@ const searchPageNoSearchResultTemplate = `
 /** input 값이 입력된 제품 찾기 함수 */
 const findProduct = async () => {
   const $inputValue = $<HTMLInputElement>('.header-main__search--input').value;
-  console.log('inputValue', $inputValue);
+
   return await getSearchedProducts($inputValue);
 };
 
@@ -118,7 +118,6 @@ $<HTMLButtonElement>('.header-main__search--button').addEventListener(
 export const handleSearchPage = async () => {
   $('.modal__addCart').style.display = 'none';
 
-  console.log('/products/search route is working');
   // 제품 검색
   await handleSearchPageResult();
 };

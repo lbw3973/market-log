@@ -1,9 +1,9 @@
-import { $ } from '../../utils/dom.js';
-import { renderPage } from '../../utils/render.js';
-import { air60, air75, halo65, halo75, halo96 } from '../../importIMGFiles.js';
-import { shoppingCartStore } from '../../store/shoppingCartStore.js';
-import { wishListStore } from '../../store/wishListStore.js';
-import { router } from '../../main.js';
+import { $ } from '../../utils/dom';
+import { renderPage } from '../../utils/render';
+import { air60, air75, halo65, halo75, halo96 } from '../../importIMGFiles';
+import { shoppingCartStore } from '../../store/shoppingCartStore';
+import { wishListStore } from '../../store/wishListStore';
+import { router } from '../../main';
 
 /*-----------------------------------*\
   #메인 페이지

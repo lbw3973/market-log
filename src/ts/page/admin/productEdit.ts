@@ -1,8 +1,8 @@
-import { editProduct, getDetailProduct } from '../../api.js';
+import { editProduct, getDetailProduct } from '../../api';
 import { renderEditProduct } from './renderDetail';
-import { $ } from '../../utils/dom.js';
+import { $ } from '../../utils/dom';
 
-import { router } from '../../main.js';
+import { router } from '../../main';
 
 /** 상품수정 페이지 핸들러 */
 export const productEditHandler = async (productId: string): Promise<void> => {
@@ -12,8 +12,6 @@ export const productEditHandler = async (productId: string): Promise<void> => {
     'afterbegin',
     renderEditProduct(product),
   );
-
-  console.log(product);
 
   const titleInput = $<HTMLInputElement>(
     '.container-form__content--title input',
@@ -61,8 +59,6 @@ export const productEditHandler = async (productId: string): Promise<void> => {
         isSoldOut: 'true' === soldoutSelect.value,
         thumbnailBase64: profileImgBase64,
       };
-
-      console.log(product);
 
       if (confirm('상품을 수정하시겠습니까?')) {
         await editProduct(product);

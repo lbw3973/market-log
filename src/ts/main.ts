@@ -1,27 +1,27 @@
 import Navigo from 'navigo';
-import { $ } from './utils/dom.js';
-import { handleMyPage } from './page/mypage.js';
-import { handleAccountPage } from './page/mypage/account.js';
-import { handleLoginPage } from './page/login.js';
-import { handleSignupPage } from './page/signup.js';
-import { handleCartPage } from './page/cartPage/cartPage.js';
-import { handleMainPage } from './page/mainPage/mainPage.js';
-import { handleCategoryPage } from './page/categoryPage/categoryPage.js';
-import { handleSearchPage } from './page/searchPage/searchPage.js';
-import { handleDetailProductPage } from './page/productDetail/productDetail.js';
-import { handleWishListPage } from './page/wishListPage/wishListPage.js';
-import { handlePaymentPage } from './page/paymentPage/paymentPage.js';
-import { handleOrderHistoryPage } from './page/mypage/orderhistory.js';
-import { handleeditPersonalInfoPage } from './page/mypage/editPersonalInfo.js';
+import { $ } from './utils/dom';
+import { handleMyPage } from './page/mypage';
+import { handleAccountPage } from './page/mypage/account';
+import { handleLoginPage } from './page/login';
+import { handleSignupPage } from './page/signup';
+import { handleCartPage } from './page/cartPage/cartPage';
+import { handleMainPage } from './page/mainPage/mainPage';
+import { handleCategoryPage } from './page/categoryPage/categoryPage';
+import { handleSearchPage } from './page/searchPage/searchPage';
+import { handleDetailProductPage } from './page/productDetail/productDetail';
+import { handleWishListPage } from './page/wishListPage/wishListPage';
+import { handlePaymentPage } from './page/paymentPage/paymentPage';
+import { handleOrderHistoryPage } from './page/mypage/orderhistory';
+import { handleeditPersonalInfoPage } from './page/mypage/editPersonalInfo';
 
-import { productHandler } from './page/admin/product.js';
-import { dashboardHandler } from './page/admin/dashboard.js';
-import { orderHandler } from './page/admin/order.js';
-import { productAddHandler } from './page/admin/productAdd.js';
-import { productDetailHandler } from './page/admin/productDetail.js';
-import { productEditHandler } from './page/admin/productEdit.js';
-import { orderDetailHandler } from './page/admin/orderDetail.js';
-import { handleDetailOrderHistoryPage } from './page/detailOrderHistoryPage/detailOrderHistory.js';
+import { productHandler } from './page/admin/product';
+import { dashboardHandler } from './page/admin/dashboard';
+import { orderHandler } from './page/admin/order';
+import { productAddHandler } from './page/admin/productAdd';
+import { productDetailHandler } from './page/admin/productDetail';
+import { productEditHandler } from './page/admin/productEdit';
+import { orderDetailHandler } from './page/admin/orderDetail';
+import { handleDetailOrderHistoryPage } from './page/detailOrderHistoryPage/detailOrderHistory';
 import {
   dashboardPage,
   orderPage,
@@ -31,8 +31,8 @@ import {
   productEditPage,
   sideBar,
   orderDetailPage,
-} from './page/admin/renderTemplate.js';
-import { Params } from './interface/params.js';
+} from './page/admin/renderTemplate';
+import { Params } from './interface/params';
 
 export const router = new Navigo('/');
 export const divLoadingEl = $('.loadingGif');

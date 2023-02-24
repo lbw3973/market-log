@@ -3,7 +3,7 @@ import { renderPageBtn, renderOrderList } from './renderDetail';
 import { toggleLoadingSpinner } from '../../utils/loading';
 import { $ } from '../../utils/dom';
 
-import { TransactionDetailInterface} from '../../interface/index';
+import { TransactionDetailInterface } from '../../interface/index';
 
 let orders: TransactionDetailInterface[] = [];
 
@@ -72,7 +72,6 @@ export const orderHandler = async (): Promise<void> => {
   });
 
   searchedOrderInput.addEventListener('input', async () => {
-    console.log(searchedOrderInput.value);
     searchedOrderInput.value === '' ? (orders = await getAllOrder()) : orders;
     searchOrderHandler();
   });

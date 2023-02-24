@@ -1,4 +1,4 @@
-import { $ } from './dom.js';
+import { $ } from './dom';
 
 export const toggleLoadingSpinner = (isActive: boolean) => {
   isActive

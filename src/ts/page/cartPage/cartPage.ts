@@ -2,18 +2,18 @@
   # 장바구니 페이지 cart js
 \*-----------------------------------*/
 
-import { router } from '../../main.js';
-import { $ } from '../../utils/dom.js';
-import { updateInfo } from '../productDetail/productDetail.js';
-import { shoppingCartStore } from '../../store/shoppingCartStore.js';
-import { cartSVG } from '../../importIMGFiles.js';
-import { renderPage } from '../../utils/render.js';
-import { formatPrice } from '../../utils/format.js';
-import { countQtyInCart } from '../mainPage/mainPage.js';
+import { router } from '../../main';
+import { $ } from '../../utils/dom';
+import { updateInfo } from '../productDetail/productDetail';
+import { shoppingCartStore } from '../../store/shoppingCartStore';
+import { cartSVG } from '../../importIMGFiles';
+import { renderPage } from '../../utils/render';
+import { formatPrice } from '../../utils/format';
+import { countQtyInCart } from '../mainPage/mainPage';
 import {
   ShoppingCartStore,
   ShoppingCartStoreValue,
-} from '../../interface/store.js';
+} from '../../interface/store';
 
 /** 장바구니 총 가격 렌더링 */
 export const renderCartTotalPrice = (): number => {
@@ -147,7 +147,6 @@ export const storeLocalStorage = (id: string): void => {
   const existingItem = shoppingCartArr.find(
     (item: ShoppingCartStore) => item.id === id,
   );
-  console.log('existingItem', existingItem);
 
   if (existingItem) {
     existingItem.price += existingItem.pricePerOne;
@@ -155,8 +154,6 @@ export const storeLocalStorage = (id: string): void => {
     existingItem.count += 1;
     shoppingCartStore.setLocalStorage(shoppingCartArr);
   }
-  // shoppingCartArr
-  console.log('장바구니에서 ++', shoppingCartArr);
 };
 
 /** 빈 장바구니일 때, 상품이 있는 장바구니일 때 */
@@ -164,7 +161,6 @@ export const renderCartPage = (): void => {
   const shoppingCartArr = shoppingCartStore.getLocalStorage();
   renderPage(renderInitCartPage);
   if (shoppingCartArr.length === 0) {
-    console.log('length 0');
     return;
   } else if (shoppingCartArr.length > 0) {
     // 장바구니에 넣은 상품 렌더링
@@ -187,14 +183,12 @@ $('.app').addEventListener('click', (e: MouseEvent) => {
       'cartEmpty-goToShoppingBtn',
     )
   ) {
-    console.log(e.target);
     router.navigate('/category/keyboards');
     return;
   }
 
   // [장바구니]에서 '구매하기' 버튼 클릭 클릭 -> [결제 페이지]로 이동
   if ((e.target as HTMLButtonElement).classList.contains('cartPaymentBtn')) {
-    console.log(e.target);
     if (localStorage.getItem('marketLogToken')) {
       router.navigate('/payment');
     } else {
@@ -237,7 +231,6 @@ $('.app').addEventListener('click', (e: MouseEvent) => {
     const existingItem = shoppingCartArr.find(
       (item: ShoppingCartStore): boolean => item.id === id,
     );
-    console.log('existingItem', existingItem);
 
     if (existingItem) {
       if (existingItem.price > existingItem.pricePerOne) {
@@ -250,7 +243,6 @@ $('.app').addEventListener('click', (e: MouseEvent) => {
         existingItem.count -= 1;
       }
 
-      console.log('장바구니에서 --', shoppingCartArr);
       // 카트 페이지 렌더
       shoppingCartStore.setLocalStorage(shoppingCartArr);
       renderCartPage();
@@ -266,7 +258,7 @@ $('.app').addEventListener('click', (e: MouseEvent) => {
       .filter((item: ShoppingCartStore): boolean => item.id !== id);
     // storeLocalStorage(id);
     shoppingCartStore.setLocalStorage(shoppingCartArr);
-    console.log(shoppingCartArr);
+
     countQtyInCart();
     renderCartPage();
     return;
@@ -276,7 +268,6 @@ $('.app').addEventListener('click', (e: MouseEvent) => {
 /** /cart 핸들링 함수 */
 export const handleCartPage = (): void => {
   $('.modal__addCart').style.display = 'none';
-  console.log('/cart');
   // 카트 페이지 렌더
   renderCartPage();
 };

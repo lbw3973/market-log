@@ -13,6 +13,5 @@ export const getDate = (): getDateInterface => {
     today: String(today.getDate()).padStart(2, '0'),
   };
 
-  console.log(dateObj);
   return dateObj;
 };

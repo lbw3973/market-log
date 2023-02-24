@@ -1,4 +1,4 @@
-import { renderPage } from '../../utils/render.js';
+import { renderPage } from '../../utils/render';
 
 export const handleErrorPage = () => {
   const htmlErrorPage: string = `

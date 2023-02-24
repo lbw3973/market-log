@@ -1,9 +1,9 @@
 /*-----------------------------------*\
   # 결제 페이지 # pay js
 \*-----------------------------------*/
-import { router } from '../../main.js';
-import { $, $$ } from '../../utils/dom.js';
-import { renderPage } from '../../utils/render.js';
+import { router } from '../../main';
+import { $, $$ } from '../../utils/dom';
+import { renderPage } from '../../utils/render';
 
 import {
   hanaBank,
@@ -12,16 +12,16 @@ import {
   nhBank,
   shinhanBank,
   wooriBank,
-} from './payIMG.js';
-import { getAccountDetail, buyItemAPI, getUserInfoAPI } from '../../api.js';
+} from './payIMG';
+import { getAccountDetail, buyItemAPI, getUserInfoAPI } from '../../api';
 import Swiper, { Navigation, Pagination } from 'swiper';
-import { renderCartTotalPrice } from '../cartPage/cartPage.js';
-import { shoppingCartStore } from '../../store/shoppingCartStore.js';
+import { renderCartTotalPrice } from '../cartPage/cartPage';
+import { shoppingCartStore } from '../../store/shoppingCartStore';
 import {
   ShoppingCartStore,
   ShoppingCartStoreValue,
-} from '../../interface/store.js';
-import { Bank } from '../../interface/index.js';
+} from '../../interface/store';
+import { Bank } from '../../interface/index';
 
 Swiper.use([Navigation, Pagination]);
 
@@ -378,10 +378,10 @@ const activePaymentBtn = async (): Promise<void> => {
   const finalPaymentBtn = $<HTMLButtonElement>(
     '.payment-method__final-confirm--btn',
   );
-  const selectedPaymentAccount = $<HTMLSpanElement>(
-    '.payment-method__account-selected',
-  );
-  console.log(selectedPaymentAccount.textContent);
+  // const selectedPaymentAccount = $<HTMLSpanElement>(
+  //   '.payment-method__account-selected',
+  // );
+  // console.log(selectedPaymentAccount.textContent);
   const accountList = await getAccountDetail();
   if (accountList.length === 0) {
     finalPaymentBtn.style.backgroundColor = 'gray';
@@ -397,7 +397,6 @@ const renderSelectedPayment = (e: any) => {
   const availableBankAccount = $$<any>('.payment-method__card-list')[
     e.realIndex
   ]?.querySelector('.payment-method__card-name')?.textContent;
-  console.log(availableBankAccount);
 
   if (availableBankAccount === undefined) {
     $<HTMLSpanElement>('.payment-method__account-selected').innerHTML =
@@ -438,7 +437,7 @@ const paymentPageFunction = async () => {
   // 5. 결제수단 불러오기
   // 예외처리: 불러올 결제수단이 없으면 '계좌 연결하러 가기 버튼 생성'
   const accountList = await getAccountDetail();
-  console.log(accountList);
+
   accountList === undefined || accountList.length === 0
     ? renderNoPaymentAccount()
     : await renderPaymentAccount(await getAccountDetail());
@@ -454,12 +453,10 @@ const paymentPageFunction = async () => {
     spaceBetween: 30,
     on: {
       afterInit: (e) => {
-        console.log('afterInit 결제수단 realIndex', e.realIndex);
         renderSelectedPayment(e);
         activePaymentBtn();
       },
       slideChange: (e) => {
-        console.log('slideChange 결제수단 realIndex', e.realIndex);
         renderSelectedPayment(e);
         activePaymentBtn();
       },
@@ -474,7 +471,7 @@ const checkBalanceOfselectedBankAccount = async (
   id: string,
 ): Promise<Bank[]> => {
   const availableAccount = await getAccountDetail();
-  console.log(availableAccount);
+
   const checkCurrentSelectedBankId = availableAccount.filter((item) => {
     return item.id === id;
   });
@@ -488,13 +485,11 @@ const handlePaymentBtnLogic = async (): Promise<void> => {
     return items.id;
   });
   const totalProductPrice = renderCartTotalPrice();
-  console.log(totalProductPrice);
-  console.log('현재 선택한 계좌 id', currentSelectedBankId);
-  console.log('결제할 제품 id', ...productIds);
+
   const getCurrentSelectedAccount = await checkBalanceOfselectedBankAccount(
     currentSelectedBankId,
   );
-  console.log('getCurrentSelectedAccount', getCurrentSelectedAccount);
+
   const getCurrentSelectedAccountBalance =
     getCurrentSelectedAccount[0]['balance'];
 
@@ -541,7 +536,7 @@ $('.app').addEventListener('click', async (e) => {
 /** /payment 핸들링 함수 */
 export const handlePaymentPage = async (): Promise<void> => {
   $('.modal__addCart').style.display = 'none';
-  console.log('/payment');
+
   renderPage(renderInitPaymentPage);
   await paymentPageFunction();
 };

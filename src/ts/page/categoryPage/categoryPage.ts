@@ -1,10 +1,10 @@
-import { $ } from '../../utils/dom.js';
-import { renderPage } from '../../utils/render.js';
-import { getAllProducts } from '../../api.js';
-import { recentViewStore } from '../../store/recentViewStore.js';
-import { GetAllProductsInterface } from '../../interface/index.js';
-import { RecentView } from '../../interface/store.js';
-import { Category } from '../../interface/enum.js';
+import { $ } from '../../utils/dom';
+import { renderPage } from '../../utils/render';
+import { getAllProducts } from '../../api';
+import { recentViewStore } from '../../store/recentViewStore';
+import { GetAllProductsInterface } from '../../interface/index';
+import { RecentView } from '../../interface/store';
+import { Category } from '../../interface/enum';
 
 /*-----------------------------------*\
   #카테고리 페이지 # category js
@@ -114,10 +114,7 @@ export const renderRecentViewed = (items: RecentView[]) => {
 /** 카테고리 태그 필터링 함수 */
 const getProductTags = async () => {
   const allProductArray = await getAllProducts();
-  console.log(allProductArray);
-  // const allTags = allProductArray.map((items) => {
-  //   return items.tags;
-  // });
+
   const filterKeyboardTag = allProductArray.filter(
     (item: GetAllProductsInterface): boolean => {
       return item.tags[0] === Category.keyboards;
@@ -156,9 +153,7 @@ const getSortedLowToHighPriceProduct = async (i: number): Promise<void> => {
       return a.price - b.price;
     },
   );
-  console.log('LowToHighPrice', LowToHighPrice);
-  // $('.categoryPage__product--lists').innerHTML = LowToHighPrice;
-  // return keyboardCategoryProduct;
+
   renderCategoryProductList(LowToHighPrice);
   return;
 };
@@ -172,7 +167,7 @@ const getSortedHighToLowPriceProduct = async (i: number): Promise<void> => {
       return b.price - a.price;
     },
   );
-  console.log('HighToLowPrice', HighToLowPrice);
+
   renderCategoryProductList(HighToLowPrice);
   return;
 };
@@ -207,7 +202,7 @@ const renderCategoryProductQty = async (i: number): Promise<void> => {
 /** /category 핸들링 함수 */
 export const handleCategoryPage = async (i: number): Promise<void> => {
   $('.modal__addCart').style.display = 'none';
-  console.log('/category/0');
+
   renderPage(renderInitCategoryPage);
   renderRecentViewed(recentViewStore.getLocalStorage().slice(0, 5));
   renderSkeletonUIinCategoryPage();
@@ -222,9 +217,7 @@ export const handleCategoryPage = async (i: number): Promise<void> => {
   // 가격 정렬 이벤트
   $('.app')
     .querySelector('#categoryPage-filterByPrice')
-    ?.addEventListener('change', async (e) => {
-      console.log(e.target);
-
+    ?.addEventListener('change', async () => {
       renderCategoryProductBySelect(
         $<HTMLSelectElement>('#categoryPage-filterByPrice').options[
           $<HTMLSelectElement>('#categoryPage-filterByPrice').selectedIndex

@@ -1,9 +1,9 @@
 // dotenv 사용 예시
-import { chevronrightSVG } from '../importIMGFiles.js';
-import { router } from '../main.js';
-import { $$ } from '../utils/dom.js';
-import { renderPage } from '../utils/render.js';
-import { getLoginStatus, showAlertPlzLogin } from './login.js';
+import { chevronrightSVG } from '../importIMGFiles';
+import { router } from '../main';
+import { $$ } from '../utils/dom';
+import { renderPage } from '../utils/render';
+import { getLoginStatus, showAlertPlzLogin } from './login';
 let navliList;
 
 /** HTML : mypage nav 목록 */

@@ -1,13 +1,13 @@
 /*-----------------------------------*\
   마이 페이지 - 주문내역 상세 페이지  # mypage/order/:id
 \*-----------------------------------*/
-import { $ } from '../../utils/dom.js';
-import { renderPage } from '../../utils/render.js';
-import { getDetailOrderProduct } from '../../api.js';
-import { formatDate } from '../../utils/format.js';
-import { getLoginStatus, showAlertPlzLogin } from '../login.js';
-import { htmlMypage_Nav } from '../mypage.js';
-import { router } from '../../main.js';
+import { $ } from '../../utils/dom';
+import { renderPage } from '../../utils/render';
+import { getDetailOrderProduct } from '../../api';
+import { formatDate } from '../../utils/format';
+import { getLoginStatus, showAlertPlzLogin } from '../login';
+import { htmlMypage_Nav } from '../mypage';
+import { router } from '../../main';
 
 /** 마이 페이지 mypage__navigo__container 초기 템플릿 */
 // const renderInitMypageTemplate = `
@@ -66,8 +66,7 @@ const checkWhetherDetailOrderTransactionIsDone = (
 /** 주문 상세정보 렌더링 함수 */
 const renderDetailOrderProduct = async (id: string): Promise<void> => {
   const detailOrderProduct = await getDetailOrderProduct(id);
-  console.log(id);
-  console.log(detailOrderProduct);
+
   const { detailId, product, account, timePaid, isCanceled, done } =
     detailOrderProduct;
   const { bankName, accountNumber } = account;

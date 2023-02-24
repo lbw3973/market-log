@@ -32,7 +32,11 @@ const setUpUI = (
   renderProductList(productList, newProducts, activeIdx);
 };
 
-let newProducts = getProductCurrentPage(products, activeIdx, itemsPerPage);
+let newProducts = getProductCurrentPage(
+  (products = []),
+  activeIdx,
+  itemsPerPage,
+);
 
 /** 상품관리 페이지 핸들러 */
 export const productHandler = async (): Promise<void> => {

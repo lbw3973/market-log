@@ -1,11 +1,11 @@
-import { formatDate, formatPrice } from '../../utils/format.js';
+import { formatDate, formatPrice } from '../../utils/format';
 import {
   GetAllProductsInterface,
   TransactionDetailInterface,
   ConfirmOrder,
-} from '../../interface/index.js';
-import { CurrentStatusInterface } from '../../interface/cy.js';
-import { Category } from '../../interface/enum.js';
+} from '../../interface/index';
+import { CurrentStatusInterface } from '../../interface/cy';
+import { Category } from '../../interface/enum';
 
 /**[상품관리수정 페이지] 페이지 렌더 */
 export const renderEditProduct = (

@@ -2,17 +2,17 @@
   마이 페이지 - 찜하기 페이지 / 찜한 상품 페이지 #wishList js
 \*-----------------------------------*/
 
-import { $ } from '../../utils/dom.js';
-import { renderPage } from '../../utils/render.js';
-import { shoppingCart, hearted } from '../../importIMGFiles.js';
-import { storeCart } from '../productDetail/productDetail.js';
-import { wishListStore } from '../../store/wishListStore.js';
-import { shoppingCartStore } from '../../store/shoppingCartStore.js';
-import { htmlMypage_Nav, resetNavbarActive } from '../mypage.js';
-import { router } from '../../main.js';
-import { countQtyInCart, countQtyInWishlist } from '../mainPage/mainPage.js';
-import { getLoginStatus, showAlertPlzLogin } from '../login.js';
-import { WishListStore, WishListStoreValue } from '../../interface/store.js';
+import { $ } from '../../utils/dom';
+import { renderPage } from '../../utils/render';
+import { shoppingCart, hearted } from '../../importIMGFiles';
+import { storeCart } from '../productDetail/productDetail';
+import { wishListStore } from '../../store/wishListStore';
+import { shoppingCartStore } from '../../store/shoppingCartStore';
+import { htmlMypage_Nav, resetNavbarActive } from '../mypage';
+import { router } from '../../main';
+import { countQtyInCart, countQtyInWishlist } from '../mainPage/mainPage';
+import { getLoginStatus, showAlertPlzLogin } from '../login';
+import { WishListStore, WishListStoreValue } from '../../interface/store';
 
 /** 찜한상품 제목, ul 태그 템플릿 삽입 */
 const handleWishListInitTemplate = () => {
@@ -31,11 +31,9 @@ const handleWishListInitTemplate = () => {
 
 /** ul 태그에 찜한 제품 li 삽입, */
 const renderWishListProductList = (store: WishListStore[]) => {
-  console.log(store);
   const wishListProductListTemplate = store
     .map((item: WishListStore) => {
       const { id, pricePerOne, thumbnail, title } = item;
-      console.log(pricePerOne);
 
       return `
     <li class="wishlist__product--list" data-product-id="${id}">
@@ -120,7 +118,7 @@ $('.app').addEventListener('click', (e: MouseEvent) => {
     (e.target as HTMLButtonElement).classList.contains('removeFromWishListBtn')
   ) {
     wishListArr = wishListArr.filter((item) => item.id !== id);
-    console.log('removeItem from wishListArr', wishListArr);
+
     wishListStore.setLocalStorage(wishListArr);
     countQtyInWishlist();
     // wishListUtilInit();
@@ -149,7 +147,6 @@ $('.app').addEventListener('click', (e: MouseEvent) => {
     );
     shoppingCartStore.setLocalStorage(shoppingCartStore.getLocalStorage());
     countQtyInCart();
-    console.log(shoppingCartStore.getLocalStorage());
   }
 });
 

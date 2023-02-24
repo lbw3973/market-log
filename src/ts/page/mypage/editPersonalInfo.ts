@@ -1,13 +1,9 @@
-import { $ } from '../../utils/dom.js';
-import { router } from '../../main.js';
-import { renderPage } from '../../utils/render.js';
-import { getLoginStatus, showAlertPlzLogin } from '../login.js';
-import { htmlMypage_Nav, resetNavbarActive } from '../mypage.js';
-import {
-  authorization,
-  personalInfoLogin,
-  submitChangeInfo,
-} from '../../api.js';
+import { $ } from '../../utils/dom';
+import { router } from '../../main';
+import { renderPage } from '../../utils/render';
+import { getLoginStatus, showAlertPlzLogin } from '../login';
+import { htmlMypage_Nav, resetNavbarActive } from '../mypage';
+import { authorization, personalInfoLogin, submitChangeInfo } from '../../api';
 import { Authorization } from '../../interface/index';
 /** 개인정보 수정 페이지 html 템플릿 */
 const handleEditPersonalInfoPrecheckTemplate = () => {

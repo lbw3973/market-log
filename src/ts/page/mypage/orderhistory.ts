@@ -1,21 +1,17 @@
-import { $ } from '../../utils/dom.js';
-import { reload } from '../../importIMGFiles.js';
-import { renderPage } from '../../utils/render.js';
-import {
-  calendar,
-  exclamationmark,
-  transaction,
-} from '../../importIMGFiles.js';
+import { $ } from '../../utils/dom';
+import { reload } from '../../importIMGFiles';
+import { renderPage } from '../../utils/render';
+import { calendar, exclamationmark, transaction } from '../../importIMGFiles';
 import {
   getAllTransactions,
   cancelTransactionAPI,
   confirmTransactionAPI,
-} from '../../api.js';
-import { formatDate } from '../../utils/format.js';
-import { htmlMypage_Nav, resetNavbarActive } from '../mypage.js';
-import { router } from '../../main.js';
-import { getLoginStatus, showAlertPlzLogin } from '../login.js';
-import { GetAllTransactionsInterface } from '../../interface/index.js';
+} from '../../api';
+import { formatDate } from '../../utils/format';
+import { htmlMypage_Nav, resetNavbarActive } from '../mypage';
+import { router } from '../../main';
+import { getLoginStatus, showAlertPlzLogin } from '../login';
+import { GetAllTransactionsInterface } from '../../interface/index';
 
 /** 거래 완료/취소 확인 함수 */
 const checkWhetherTransactionIsDone = (
@@ -130,7 +126,6 @@ export const handleOrderHistoryInitTemplate = (): void => {
 const renderOrderedProductList = (
   orderedItems: GetAllTransactionsInterface[],
 ): void => {
-  console.log(orderedItems);
   const orderedProductListTemplate = orderedItems
     .map((item) => {
       const { detailId, product, timePaid, done, isCanceled } = item;
@@ -206,12 +201,10 @@ const renderOrderedListPage = async (): Promise<void> => {
 
   // 주문한 제품 없을 경우
   if (transactionArray.length === 0) {
-    console.log('빈 거래');
     emptyOrderHistory();
   } else {
     // 주문한 제품 있을 경우
     // renderOrderedProductList(transactionArray);
-    console.log('거래 있음');
     orderHistoryUtilInit();
   }
 };
@@ -267,7 +260,7 @@ export const handleOrderHistoryPage = async () => {
     return;
   }
   $('.modal__addCart').style.display = 'none';
-  console.log('/mypage/order');
+
   await renderOrderedListPage();
 };
 
@@ -310,7 +303,6 @@ const orderHistoryUtilPaginate = (
 
     return list.slice(start, start + itemsPerPage);
   });
-  console.log(newList);
 
   return newList;
 };

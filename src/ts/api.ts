@@ -17,14 +17,20 @@ import {
   PersonalInfoLogin,
   TransactionDetailInterface,
   RegisterRes,
-} from './interface/index.js';
+} from './interface/index';
 // api 파일입니다.
 
 // dotenv 사용 예시
 import dotenv from 'dotenv';
-import { base_url, api_key, user_name } from './db.js';
-import { $ } from './utils/dom.js';
+import { base_url, api_key, user_name } from './db';
+import { $ } from './utils/dom';
 dotenv.config();
+
+export const HEADERS = {
+  'content-type': 'application/json',
+  apikey: api_key,
+  username: user_name,
+};
 
 /** API headers 함수 */
 const createHeaders = ({
@@ -50,8 +56,8 @@ const createHeaders = ({
 
 export const headers = createHeaders();
 export const masterKeyHeaders = createHeaders({ isMasterKey: true });
-export const tokenHeaders = createHeaders({
-  token: localStorage.getItem('token') ?? undefined,
+export let tokenHeaders = createHeaders({
+  token: localStorage.getItem('marketLogToken') ?? undefined,
 });
 
 /** 전체 제품 가져오기api */
@@ -63,7 +69,6 @@ export const getAllProducts = async (): Promise<GetAllProductsInterface[]> => {
     const data = await res.json();
     return data;
   } catch (err) {
-    console.log(err);
     console.log('제품 가져오기 실패');
   }
 };
@@ -81,7 +86,6 @@ export const getSearchedProducts = async (
       }),
     });
     const data = await res.json();
-    console.log(data);
     return data;
   } catch (err) {
     console.log(err);
@@ -192,8 +196,7 @@ export const getAccountDetail = async (): Promise<Bank[]> => {
 
     return accounts;
   } catch (err) {
-    console.log(err);
-    console.log('err: ', '계좌목록 조회 실패');
+    console.log('계좌목록 조회 실패', err);
   }
 };
 
@@ -212,11 +215,9 @@ export const buyItemAPI = async (
       }),
     });
     const data = await res.json();
-    console.log('제품 결제', data);
     return data;
   } catch (err) {
-    console.log(err);
-    console.log('결제 실패');
+    console.log('결제 실패', err);
   }
 };
 
@@ -230,8 +231,7 @@ export const getUserInfoAPI = async (): Promise<GetUserInfoAPI> => {
     const data = await res.json();
     return data;
   } catch (err) {
-    console.log(err);
-    console.log('사용자 정보 가져오기 실패');
+    console.log('사용자 정보 가져오기 실패', err);
   }
 };
 
@@ -253,8 +253,7 @@ export const addProduct = async (product: AddProduct): Promise<void> => {
       }),
     });
   } catch (err) {
-    console.log(err);
-    console.log('선택 상품 조희 실패');
+    console.log('선택 상품 조희 실패', err);
   }
 };
 
@@ -266,8 +265,7 @@ export const deleteProduct = async (id: string): Promise<void> => {
       headers: masterKeyHeaders,
     });
   } catch (err) {
-    console.log(err);
-    console.log('선택 상품 삭제 실패');
+    console.log('선택 상품 삭제 실패', err);
   }
 };
 
@@ -292,8 +290,7 @@ export const editProduct = async (
       }),
     });
   } catch (err) {
-    console.log(err);
-    console.log('선택 상품 수정 실패');
+    console.log('선택 상품 수정 실패', err);
   }
 };
 
@@ -307,8 +304,7 @@ export const getAllOrder = async (): Promise<TransactionDetailInterface[]> => {
     const data = await res.json();
     return data;
   } catch (err) {
-    console.log(err);
-    console.log('전체 거래 내역 불러오기 실패');
+    console.log('전체 거래 내역 불러오기 실패', err);
   }
 };
 
@@ -327,8 +323,7 @@ export const editDoneOrder = async (order: ConfirmOrder): Promise<void> => {
     const data = await res.json();
     return data;
   } catch (err) {
-    console.log(err);
-    console.log('거래 내역 완료/완료해제 실패');
+    console.log('거래 내역 완료/완료해제 실패', err);
   }
 };
 
@@ -346,8 +341,7 @@ export const editCancelOrder = async (order: ConfirmOrder): Promise<void> => {
       }),
     });
   } catch (err) {
-    console.log(err);
-    console.log('err: ', '거래 내역 취소/취소해제 실패');
+    console.log('err: ', '거래 내역 취소/취소해제 실패', err);
   }
 };
 
@@ -406,7 +400,7 @@ export const deleteAccount = async (e: any): Promise<DeleteAccount> => {
 };
 
 /** API : Login */
-export async function login() {
+export async function login(): Promise<PersonalInfoLogin> {
   const res = await fetch(`${base_url}/auth/login`, {
     method: 'POST',
     headers,
@@ -431,9 +425,17 @@ export async function logout(): Promise<boolean> {
 
 /** API : 인증확인 */
 export async function authorization(): Promise<Authorization> {
+  // 처음 로그인할 때 undefined 오류 발생으로 추가
+  tokenHeaders = createHeaders({
+    token: localStorage.getItem('marketLogToken'),
+  });
   const res = await fetch(`${base_url}/auth/me`, {
     method: 'POST',
     headers: tokenHeaders,
+    // headers: {
+    //   ...HEADERS,
+    //   Authorization: `Bearer ${localStorage.getItem('marketLogToken')}`,
+    // },
   });
   const json = await res.json();
   return json;
@@ -464,6 +466,7 @@ export async function personalInfoLogin(auth: any): Promise<PersonalInfoLogin> {
     }),
   });
   const json = await res.json();
+
   return json;
 }
 /** API : 회원가입 */

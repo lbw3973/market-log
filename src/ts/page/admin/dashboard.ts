@@ -1,7 +1,4 @@
-import {
-  renderDashboardCurrent,
-  renderDashboardChart,
-} from './renderDetail.js';
+import { renderDashboardCurrent, renderDashboardChart } from './renderDetail';
 import { toggleLoadingSpinner } from '../../utils/loading';
 import { getAllOrder, getAllProducts } from '../../api';
 import { formatPrice } from '../../utils/format';
@@ -14,9 +11,9 @@ import {
   TransactionDetailInterface,
 } from '../../interface/index';
 
-import { Category } from '../../interface/enum.js';
+import { Category } from '../../interface/enum';
 
-import { CurrentStatusInterface } from '../../interface/cy.js';
+import { CurrentStatusInterface } from '../../interface/cy';
 
 /** 대시보드 페이지 핸들러 */
 export const dashboardHandler = async (): Promise<void> => {

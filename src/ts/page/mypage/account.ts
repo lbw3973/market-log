@@ -1,15 +1,15 @@
-import { $ } from '../../utils/dom.js';
-import { renderPage } from '../../utils/render.js';
-import { htmlMypage_Nav } from '../mypage.js';
-import { getLoginStatus, showAlertPlzLogin } from '../login.js';
-import { router } from '../../main.js';
+import { $ } from '../../utils/dom';
+import { renderPage } from '../../utils/render';
+import { htmlMypage_Nav } from '../mypage';
+import { getLoginStatus, showAlertPlzLogin } from '../login';
+import { router } from '../../main';
 import {
   getBankList,
   getUserAccounts,
   createUserAccount,
   deleteAccount,
-} from '../../api.js';
-import { GetBankList, GetUserAccounts } from '../../interface/index.js';
+} from '../../api';
+import { GetBankList, GetUserAccounts } from '../../interface/index';
 
 // HTML : mypage 계좌관리 탭
 

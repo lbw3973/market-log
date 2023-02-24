@@ -1,6 +1,6 @@
-import { router } from '../../main.js';
-import { addProduct } from '../../api.js';
-import { $ } from '../../utils/dom.js';
+import { router } from '../../main';
+import { addProduct } from '../../api';
+import { $ } from '../../utils/dom';
 
 /** 상품 추가 핸들러 */
 export const productAddHandler = () => {
@@ -46,8 +46,6 @@ export const productAddHandler = () => {
       tags: [tagsSelect.value],
       thumbnailBase64: profileImgBase64,
     };
-
-    console.log(product);
 
     if (confirm('상품을 추가하시겠습니까?')) {
       await addProduct(product);

@@ -1,8 +1,8 @@
-import { $ } from '../utils/dom.js';
-import { htmlHeaderLogin } from './login.js';
-import { router } from '../main.js';
-import { renderPage } from '../utils/render.js';
-import { getUserList, signup } from '../api.js';
+import { $ } from '../utils/dom';
+import { htmlHeaderLogin } from './login';
+import { router } from '../main';
+import { renderPage } from '../utils/render';
+import { getUserList, signup } from '../api';
 const RegexID =
   /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 const RegexPW = /^(?=.*[a-zA-Z\d])[a-zA-Z\d]{8,}$/;
@@ -58,7 +58,7 @@ export const handleSignupPage = () => {
 
 export function initFuncSignup() {
   ulLoginHeaderEl.innerHTML = htmlHeaderLogin;
-  const btnSubmit = $('.submit-btn');
+  const btnSubmit = $<HTMLButtonElement>('.submit-btn');
   const btnCheckDuplication = $('.signup__container__input button');
 
   /** 가입하기 button 클릭 */
@@ -75,7 +75,6 @@ export function initFuncSignup() {
   /** 중복확인 button 클릭 */
   btnCheckDuplication.addEventListener('click', async (e) => {
     const userIDList = (await getUserList()).map((user) => user.email);
-    console.log(userIDList);
     const ID = $<HTMLInputElement>('#inputID').value;
     const noticeID = $('#noticeID');
 

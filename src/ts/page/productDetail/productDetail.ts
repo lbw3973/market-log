@@ -2,24 +2,22 @@
   제품 상세 페이지  #productDetail js
 \*-----------------------------------*/
 
-import { router } from '../../main.js';
-import { $ } from '../../utils/dom.js';
-import { addHeart, emptyHeart } from '../../importIMGFiles.js';
-import { getDetailProduct } from '../../api.js';
-import { wishListStore } from '../../store/wishListStore.js';
-import { shoppingCartStore } from '../../store/shoppingCartStore.js';
-import { recentViewStore } from '../../store/recentViewStore.js';
-import { renderInitHeaderLogin } from '../login.js';
-import { formatPrice } from '../../utils/format.js';
-import { countQtyInCart, countQtyInWishlist } from '../mainPage/mainPage.js';
-import { WishListStore } from '../../interface/store.js';
+import { router } from '../../main';
+import { $ } from '../../utils/dom';
+import { addHeart, emptyHeart } from '../../importIMGFiles';
+import { getDetailProduct } from '../../api';
+import { wishListStore } from '../../store/wishListStore';
+import { shoppingCartStore } from '../../store/shoppingCartStore';
+import { recentViewStore } from '../../store/recentViewStore';
+import { renderInitHeaderLogin } from '../login';
+import { formatPrice } from '../../utils/format';
+import { countQtyInCart, countQtyInWishlist } from '../mainPage/mainPage';
+import { WishListStore } from '../../interface/store';
 
 /** 찜하기 상품 유/무에 따라 다른 초기화면 렌더링 */
 export const checkWhetherAddWishList = (id: string): string => {
   let wishListArr = wishListStore.getLocalStorage();
-  // console.log('wishListArr', wishListArr);
   const existingItem = wishListArr.find((item) => item.id === id);
-  // console.log('existingItem', existingItem);
   return existingItem ? addHeart : emptyHeart;
 };
 
@@ -39,15 +37,13 @@ export const storeWishList = (
   if (!existingItem) {
     wishListArr.unshift({ id, count, thumbnail, title, pricePerOne });
     wishListStore.setLocalStorage(wishListArr);
-    console.log('wishListArr', wishListArr);
   } else if (existingItem) {
     wishListArr = wishListArr.filter(
       (item: WishListStore): boolean => item.id !== id,
     );
-    console.log('wishListArr 이미 찜', wishListArr);
+
     wishListStore.setLocalStorage(wishListArr);
   }
-  console.log('wishListArr2', wishListArr);
 };
 
 ///////////////////////////
@@ -91,8 +87,7 @@ export const storeCart = (
   if (!existingItem) {
     shoppingCartArr.push({ id, price, count, thumbnail, title, pricePerOne });
     shoppingCartStore.setLocalStorage(shoppingCartArr);
-    console.log('shoppingCartArr.push', shoppingCartStore.getLocalStorage());
-    // console.log('shoppingCartArr.push', shoppingCartArr);
+
     return;
   } else if (existingItem) {
     // 이미 아이템이면 기존 수량, 가격에 누적 추가
@@ -101,7 +96,6 @@ export const storeCart = (
     shoppingCartStore.setLocalStorage(shoppingCartArr);
     return;
   }
-  console.log(shoppingCartArr);
 };
 
 /** 구매 수량 */
@@ -119,7 +113,7 @@ export const renderDetailProduct = async (productId: string) => {
   const productDetail = await getDetailProduct(productId);
   const { description, id, isSoldOut, price, tags, title, thumbnail } =
     productDetail;
-  console.log('productDetail', productDetail);
+
   storeRecentViewed(id, title, thumbnail);
 
   // 총 금액 계산, 제품title, thumbnail, 상품 개당 가격
@@ -201,7 +195,7 @@ export const pushInCart = (e: MouseEvent): void => {
     (e.target as HTMLButtonElement).classList.contains('buyBtn')
   ) {
     const id = (e.target as HTMLLIElement).closest('li').dataset.productId;
-    console.log(id);
+
     const price = productDetailPricePerOne * productDetailProductQty;
     const count = productDetailProductQty;
     const title = productDetailTitle;
@@ -210,14 +204,12 @@ export const pushInCart = (e: MouseEvent): void => {
 
     storeCart(id, price, count, thumbnail, title, pricePerOne);
     countQtyInCart();
-    console.log('shoppingCartArr.push', shoppingCartStore.getLocalStorage());
   }
 };
 
 /** '장바구니 추가버튼' 클릭 -> 장바구니에 추가 이벤트 */
 $('.app').addEventListener('click', (e: MouseEvent) => {
   if ((e.target as HTMLButtonElement).classList.contains('addCartBtn')) {
-    console.log(e.target);
     pushInCart(e);
   }
 });
@@ -252,7 +244,6 @@ export const updateInfo = async (e: MouseEvent) => {
   }
   // 구매 수량 +
   if ((e.target as HTMLButtonElement).classList.contains('addQtyBtn')) {
-    console.log('저장+');
     productDetailProductQty += 1;
     // 구매 수량 렌더링
     $(
@@ -307,7 +298,6 @@ $('.app').addEventListener('click', (e: MouseEvent) => {
     )
   ) {
     const id = (e.target as HTMLLIElement).closest('li')?.dataset.productId;
-    console.log('id', id);
     const count = 1;
     const title = productDetailTitle;
     const thumbnail = productDetailThumbnail;
@@ -327,14 +317,12 @@ $('.app').addEventListener('click', (e: MouseEvent) => {
 
   // [제품 상세 페이지]에서 '장바구니로 바로가기' 버튼 클릭 클릭 -> [장바구니 페이지]로 이동
   if ((e.target as HTMLAnchorElement).classList.contains('goToCart')) {
-    console.log(e.target);
     router.navigate('/cart');
     return;
   }
 
   // [제품 상세 페이지]에서 '구매하기' 버튼 클릭 클릭 -> [결제 페이지]로 이동
   if ((e.target as HTMLButtonElement).classList.contains('buyBtn')) {
-    console.log(e.target);
     if (localStorage.getItem('marketLogToken')) {
       // '장바구니에 담기/구매하기' 핸들링 함수
       pushInCart(e);
@@ -358,7 +346,7 @@ const storeRecentViewed = (
   const existingItem = recentViewedArr.find(
     (item: WishListStore): boolean => item.id === id,
   );
-  console.log('existingItem', existingItem);
+
   if (existingItem) {
     const existingIndex = recentViewedArr.findIndex(
       (item: WishListStore): boolean => item.id === existingItem.id,

@@ -1,9 +1,9 @@
-import { $ } from '../utils/dom.js';
-import { admin_email } from '../db.js';
-import { router } from '../main.js';
-import { renderPage } from '../utils/render.js';
-import { outlink } from '../importIMGFiles.js';
-import { login, logout, authorization } from '../api.js';
+import { $ } from '../utils/dom';
+import { admin_email } from '../db';
+import { router } from '../main';
+import { renderPage } from '../utils/render';
+import { outlink } from '../importIMGFiles';
+import { login, logout, authorization } from '../api';
 import { PersonalInfoLogin } from '../interface/index';
 
 const ulLoginHeaderEl = $('.header__user-login--ul');
@@ -49,7 +49,9 @@ const htmlHeaderLogout = /* html */ `
 /** 로그인 후, displayName Render */
 function displayUserName(personalInfo: PersonalInfoLogin) {
   ulLoginHeaderEl.innerHTML = htmlHeaderLogout;
+
   $('#header__user-login-name').innerText = personalInfo.user.displayName;
+
   if (personalInfo.user.email === admin_email) {
     $('#btnMypage').innerHTML = `
       <strong id="header__user-login-name">관리자 페이지로 이동</strong>
@@ -65,6 +67,7 @@ export async function renderInitHeaderLogin() {
   } else {
     const author = await authorization();
     ulLoginHeaderEl.innerHTML = htmlHeaderLogout;
+
     $('#header__user-login-name').innerText = author.displayName;
     if (author.email === admin_email) {
       $<HTMLAnchorElement>('#btnMypage').href = '/admin';
@@ -74,7 +77,7 @@ export async function renderInitHeaderLogin() {
         </strong>
         `;
     }
-    $('#btnlogout').addEventListener('click', async () => {
+    $<HTMLButtonElement>('#btnlogout').addEventListener('click', async () => {
       const logoutJSON = await logout();
       if (logoutJSON === true) {
         localStorage.removeItem('marketLogToken');
@@ -94,15 +97,15 @@ function initFuncLogin() {
   const btnLogin = $<HTMLButtonElement>('.login-btn');
   btnLogin.addEventListener('click', async () => {
     let errMessage;
-    try {
-      const loginJSON = await login();
-      errMessage = loginJSON;
-      displayUserName(loginJSON.user);
-      localStorage.setItem('marketLogToken', loginJSON.accessToken);
-      router.navigate('/');
-    } catch (exception) {
-      alert(errMessage);
-    }
+    // try {
+    const loginJSON = await login();
+    errMessage = loginJSON;
+    displayUserName(loginJSON);
+    localStorage.setItem('marketLogToken', loginJSON.accessToken);
+    router.navigate('/');
+    // } catch (exception) {
+    //   alert(errMessage);
+    // }
   });
   const inputPW = $('#inputPW');
   inputPW.addEventListener('keyup', (e) => {
