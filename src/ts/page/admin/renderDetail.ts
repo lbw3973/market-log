@@ -2,11 +2,10 @@ import { formatDate, formatPrice } from '../../utils/format.js';
 import {
   GetAllProductsInterface,
   TransactionDetailInterface,
-  TransactionDetailValue,
-  GetAllProductsValue,
   ConfirmOrder,
 } from '../../interface/index.js';
 import { CurrentStatusInterface } from '../../interface/cy.js';
+import { Category } from '../../interface/enum.js';
 
 /**[상품관리수정 페이지] 페이지 렌더 */
 export const renderEditProduct = (
@@ -23,16 +22,16 @@ export const renderEditProduct = (
               <p>카테고리<span>*</span></p>
               <select name='tags' required>
                 <option value='키보드' ${
-                  tags[0] === '키보드' ? 'selected' : ''
+                  tags[0] === Category.keyboards ? 'selected' : ''
                 }>키보드</option>
                 <option value='키캡'  ${
-                  tags[0] === '키캡' ? 'selected' : ''
+                  tags[0] === Category.keycaps ? 'selected' : ''
                 }>키캡</option>
                 <option value='스위치'  ${
-                  tags[0] === '스위치' ? 'selected' : ''
+                  tags[0] === Category.switches ? 'selected' : ''
                 }>스위치</option>
                 <option value='액세서리'  ${
-                  tags[0] === '액세서리' ? 'selected' : ''
+                  tags[0] === Category.accessories ? 'selected' : ''
                 }>액세서리</option>
               </select>
             </div>  
@@ -167,7 +166,7 @@ export const renderOrderDetail = (order: TransactionDetailInterface): void => {
 /** 페이지네이션 버튼 렌더 */
 export const renderPageBtn = (
   productPageBtn: HTMLElement,
-  array: TransactionDetailValue | GetAllProductsValue,
+  array: TransactionDetailInterface[] | GetAllProductsInterface[],
   activeIdx: number,
   itemsPerPage: number,
   btnIdx: number,
@@ -198,7 +197,7 @@ export const renderPageBtn = (
 /** [상품관리 페이지] 현재 페이지의 상품 목록 렌더 */
 export const renderProductList = (
   productList: HTMLUListElement,
-  products: GetAllProductsValue,
+  products: GetAllProductsInterface[],
   activeIdx: number,
 ) => {
   const productsEl = products
@@ -230,7 +229,7 @@ export const renderProductList = (
 /** [거래내역관리 페이지] 거래 목록 렌더 */
 export const renderOrderList = (
   orderList: HTMLUListElement,
-  orders: TransactionDetailValue,
+  orders: TransactionDetailInterface[],
   activeIdx: number,
 ) => {
   const ordersEl = orders

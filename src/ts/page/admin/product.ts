@@ -3,19 +3,19 @@ import { renderPageBtn, renderProductList } from './renderDetail';
 
 import { $, $$ } from '../../utils/dom';
 
-import { GetAllProductsValue } from '../../interface/index';
+import { GetAllProductsInterface } from '../../interface/index';
 
-let products: GetAllProductsValue = [];
+let products: GetAllProductsInterface[];
 let activeIdx: number = 1;
 let btnIdx: number = 1;
 const itemsPerPage: number = 10;
 
 /** 현재 페이지의 상품목록 가져오기 */
 const getProductCurrentPage = (
-  products: GetAllProductsValue,
+  products: GetAllProductsInterface[],
   activeIdx: number,
   itemsPerPage: number,
-): GetAllProductsValue => {
+): GetAllProductsInterface[] => {
   const start = (activeIdx - 1) * itemsPerPage;
   const end = start + itemsPerPage;
   const newProducts = products.slice(start, end);

@@ -3,9 +3,9 @@ import { renderPageBtn, renderOrderList } from './renderDetail';
 import { toggleLoadingSpinner } from '../../utils/loading';
 import { $ } from '../../utils/dom';
 
-import { TransactionDetailValue } from '../../interface/index';
+import { TransactionDetailInterface} from '../../interface/index';
 
-let orders: TransactionDetailValue = [];
+let orders: TransactionDetailInterface[] = [];
 
 let activeIdx: number = 1;
 let btnIdx: number = 1;
@@ -13,10 +13,10 @@ const itemsPerPage: number = 10;
 
 /**현재 페이지의 거래내역 가져오기 */
 const getOrderCurrentPage = (
-  orders: TransactionDetailValue,
+  orders: TransactionDetailInterface[],
   activeIdx: number,
   itemsPerPage: number,
-): TransactionDetailValue => {
+): TransactionDetailInterface[] => {
   const start = (activeIdx - 1) * itemsPerPage;
   const end = start + itemsPerPage;
   const newOrders = orders.slice(start, end);
