@@ -1,18 +1,19 @@
-import { getAllOrder, editCancelOrder, editDoneOrder } from '../../api.js';
-import { renderOrderDetail, renderOrderDetailBtn } from './renderDetail.js';
+import { getAllOrder, editCancelOrder, editDoneOrder } from '../../api';
+import { renderOrderDetail, renderOrderDetailBtn } from './renderDetail';
+import { $ } from '../../utils/dom';
 
 /** 거래내역관리상세 페이지 핸들러 */
-export const orderDetailHandler = async (detailId) => {
+export const orderDetailHandler = async (detailId: string) => {
   const orders = await getAllOrder();
   let order = orders.filter((order) => order.detailId === detailId)[0];
   renderOrderDetail(order);
   renderOrderDetailBtn(order);
 
-  const orderCancelBtn = document.querySelector(
+  const orderCancelBtn = $<HTMLButtonElement>(
     '.orderDetail-container__btn--cancel',
   );
 
-  const orderDoneBtn = document.querySelector(
+  const orderDoneBtn = $<HTMLButtonElement>(
     '.orderDetail-container__btn--done',
   );
 

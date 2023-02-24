@@ -2,13 +2,22 @@ import {
   renderDashboardCurrent,
   renderDashboardChart,
 } from './renderDetail.js';
-import { toggleLoadingSpinner } from '../../utils/loading.js';
-import { getAllOrder, getAllProducts } from '../../api.js';
-import { formatPrice } from '../../utils/format.js';
+import { toggleLoadingSpinner } from '../../utils/loading';
+import { getAllOrder, getAllProducts } from '../../api';
+import { formatPrice } from '../../utils/format';
 import Chart from 'chart.js/auto';
+import { $ } from '../../utils/dom';
+import { getDate } from '../../utils/date';
+// import { TransactionDetail } from '../../interface/cy';
+import {
+  GetAllProductsValue,
+  TransactionDetailValue,
+} from '../../interface/index';
+
+import { CurrentStatusInterface } from '../../interface/cy.js';
 
 /** 대시보드 페이지 핸들러 */
-export const dashboardHandler = async () => {
+export const dashboardHandler = async (): Promise<void> => {
   toggleLoadingSpinner(true);
 
   let orders = await getAllOrder();
@@ -23,8 +32,8 @@ export const dashboardHandler = async () => {
 };
 
 /** 거래 카테고리 통계 chart 생성 */
-const setDashBoardChartCategory = (products) => {
-  const chartCategory = document.querySelector('#chartCategory');
+const setDashBoardChartCategory = (products: GetAllProductsValue): void => {
+  const chartCategory = $<HTMLCanvasElement>('#chartCategory');
 
   const keyboardNum = products.filter(
     (product) => product.tags[0] === '키보드',
@@ -69,21 +78,21 @@ const setDashBoardChartCategory = (products) => {
 };
 
 /** 금주 거래 금액 통계 chart 생성 */
-const setDashBoardChartAmount = (orders) => {
-  const chartAmount = document.querySelector('#chartAmount');
+const setDashBoardChartAmount = (orders: TransactionDetailValue): void => {
+  const chartAmount = $<HTMLCanvasElement>('#chartAmount');
 
-  const thisWeek = [];
+  const thisWeek: number[] = [];
 
   for (let i = 0; i < 7; i++) {
     thisWeek.unshift(Number(getDate().today) - i);
   }
 
-  const amountOfthisWeek = [];
+  const amountOfthisWeek: number[] = [];
 
   for (let i = 0; i < 7; i++) {
     const todayOrder = orders.filter(
       (order) =>
-        Number(order.timePaid.substr(8, 2)) === thisWeek[i] &&
+        Number(order.timePaid.slice(8, 10)) === thisWeek[i] &&
         order.isCanceled === false,
     );
     amountOfthisWeek.unshift(
@@ -114,25 +123,18 @@ const setDashBoardChartAmount = (orders) => {
 };
 
 /** 현재 날짜 가져오기 */
-const getDate = () => {
-  const today = new Date();
-
-  const dateObj = {
-    date: today,
-    month: String(today.getMonth() + 1).padStart(2, 0),
-    today: String(today.getDate()).padStart(2, 0),
-  };
-  return dateObj;
-};
 
 /** 거래, 상품 현황 상태 설정 */
-const setCurrentStatus = (orders, products) => {
-  const currentStatus = {
+const setCurrentStatus = (
+  orders: TransactionDetailValue,
+  products: GetAllProductsValue,
+) => {
+  const currentStatus: CurrentStatusInterface = {
     orderStatus: {
       num: 0,
       cancelNum: 0,
       doneNum: 0,
-      amount: 0,
+      amount: '',
     },
     productStatus: {
       num: products.length,
@@ -141,25 +143,25 @@ const setCurrentStatus = (orders, products) => {
   };
 
   currentStatus.orderStatus.num = orders.filter(
-    (order) => order.timePaid.substr(5, 2) === getDate().month,
+    (order) => order.timePaid.slice(5, 7) === getDate().month,
   ).length;
 
   currentStatus.orderStatus.cancelNum = orders.filter(
     (order) =>
-      order.timePaid.substr(5, 2) === getDate().month &&
+      order.timePaid.slice(5, 7) === getDate().month &&
       order.isCanceled === true,
   ).length;
 
   currentStatus.orderStatus.doneNum = orders.filter(
     (order) =>
-      order.timePaid.substr(5, 2) === getDate().month && order.done === true,
+      order.timePaid.slice(5, 7) === getDate().month && order.done === true,
   ).length;
 
   currentStatus.orderStatus.amount = formatPrice(
     orders
       .filter(
         (order) =>
-          order.timePaid.substr(5, 2) === getDate().month &&
+          order.timePaid.slice(5, 7) === getDate().month &&
           order.isCanceled === false,
       )
       .reduce((acc, cur) => acc + Number(cur.product.price), 0),

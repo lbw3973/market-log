@@ -1,12 +1,17 @@
 import {
+  AddProduct,
   AddProductParams,
   AuthorizationValue,
   Bank,
   BuyItemAPI,
   CancelConfirmTransactionAPI,
+  ConfirmOrder,
   DeleteAccount,
+  EditProductParams,
+  GetAccountDetail,
   GetAllProductsInterface,
-  GetAllTransactionsInterface,
+  GetAllProductsValue,
+  GetAllTransactionsValue,
   GetBankListValue,
   GetUserAccounts,
   GetUserInfoAPI,
@@ -254,19 +259,19 @@ export const getUserInfoAPI = async (): Promise<GetUserInfoAPI> => {
 
 // [관리자 페이지]
 /** 단일 상품 가져오기 API */
-export const addProduct = async (product: AddProductParams): Promise<void> => {
-  const { title, price, description, tags, thumbnail } = product;
+export const addProduct = async (product: AddProduct): Promise<void> => {
+  const { title, price, description, tags, thumbnailBase64 } = product;
 
   try {
     await fetch(`${base_url}/products`, {
       method: 'POST',
       headers: masterKeyHeaders,
       body: JSON.stringify({
-        title: title,
-        price: price,
-        description: description,
-        tags: tags,
-        thumbnailBase64: thumbnail,
+        title,
+        price,
+        description,
+        tags,
+        thumbnailBase64,
       }),
     });
   } catch (err) {
@@ -276,7 +281,7 @@ export const addProduct = async (product: AddProductParams): Promise<void> => {
 };
 
 /** 단일 상품 삭제 API */
-export const deleteProduct = async (id: string) => {
+export const deleteProduct = async (id: string): Promise<void> => {
   try {
     await fetch(`${base_url}/products/${id}`, {
       method: 'DELETE',
@@ -289,20 +294,23 @@ export const deleteProduct = async (id: string) => {
 };
 
 /** 단일 상품 수정 API */
-export const editProduct = async (product: any): Promise<void> => {
-  const { title, price, description, tags, isSoldOut, thumbnail } = product;
+export const editProduct = async (
+  product: EditProductParams,
+): Promise<void> => {
+  const { title, price, description, tags, isSoldOut, thumbnailBase64 } =
+    product;
 
   try {
     await fetch(`${base_url}/products/${product.id}`, {
       method: 'PUT',
       headers: masterKeyHeaders,
       body: JSON.stringify({
-        title: title,
-        price: price,
-        description: description,
-        tags: tags,
-        isSoldOut: isSoldOut,
-        thumbnailBase64: thumbnail,
+        title,
+        price,
+        description,
+        tags,
+        isSoldOut,
+        thumbnailBase64,
       }),
     });
   } catch (err) {
@@ -327,7 +335,7 @@ export const getAllOrder = async (): Promise<TransactionDetailValue> => {
 };
 
 /** 거래 내역 완료 및 완료 해제 API */
-export const editDoneOrder = async (order) => {
+export const editDoneOrder = async (order: ConfirmOrder): Promise<void> => {
   const { detailId, done } = order;
 
   try {
@@ -348,7 +356,7 @@ export const editDoneOrder = async (order) => {
 
 /** 거래 내역 취소 및 취소 해제 API */
 
-export const editCancelOrder = async (order) => {
+export const editCancelOrder = async (order: ConfirmOrder): Promise<void> => {
   const { detailId, isCanceled } = order;
 
   try {

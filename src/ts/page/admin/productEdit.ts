@@ -1,51 +1,51 @@
 import { editProduct, getDetailProduct } from '../../api.js';
 import { renderEditProduct } from './renderDetail';
+import { $ } from '../../utils/dom.js';
 
 import { router } from '../../main.js';
 
 /** 상품수정 페이지 핸들러 */
-export const productEditHandler = async (productId) => {
+export const productEditHandler = async (productId: string): Promise<void> => {
   const product = await getDetailProduct(productId);
 
-  document
-    .querySelector('.productEdit-container')
-    .insertAdjacentHTML('afterbegin', renderEditProduct(product));
+  $('.productEdit-container').insertAdjacentHTML(
+    'afterbegin',
+    renderEditProduct(product),
+  );
 
   console.log(product);
 
-  const form = document.querySelector('.container-form');
-
-  const titleInput = form.querySelector(
+  const titleInput = $<HTMLInputElement>(
     '.container-form__content--title input',
   );
-  const priceInput = form.querySelector(
+  const priceInput = $<HTMLInputElement>(
     '.container-form__content--price input',
   );
-  const desciptionInput = form.querySelector(
+  const desciptionInput = $<HTMLTextAreaElement>(
     '.container-form__content--description textarea',
   );
-  const tagsSelect = form.querySelector(
+  const tagsSelect = $<HTMLSelectElement>(
     '.container-form__content--tags select',
   );
-  const soldoutSelect = form.querySelector(
+  const soldoutSelect = $<HTMLSelectElement>(
     '.container-form__content--soldout select',
   );
-  const thumbnailInput = form.querySelector(
+  const thumbnailInput = $<HTMLInputElement>(
     '.container-form__content--thumbnail input',
   );
-  const preview = document.querySelector(
+  const preview = $<HTMLImageElement>(
     '.container-form__content--thumbnail img',
   );
 
-  let profileImgBase64 = ``;
+  let profileImgBase64: string = ``;
 
   thumbnailInput.addEventListener('change', () => {
     const file = thumbnailInput.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.addEventListener('load', (e) => {
-      profileImgBase64 = e.target.result;
-      preview.src = e.target.result;
+    reader.addEventListener('load', () => {
+      profileImgBase64 = reader.result as string;
+      preview.src = reader.result as string;
     });
   });
 
@@ -59,7 +59,7 @@ export const productEditHandler = async (productId) => {
         description: desciptionInput.value,
         tags: [tagsSelect.value],
         isSoldOut: 'true' === soldoutSelect.value,
-        thumbnail: profileImgBase64,
+        thumbnailBase64: profileImgBase64,
       };
 
       console.log(product);
