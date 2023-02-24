@@ -1,14 +1,11 @@
 import { $ } from '../utils/dom.js';
-import { base_url, api_key, user_name, admin_email } from '../db.js';
+import { admin_email } from '../db.js';
 import { router } from '../main.js';
 import { renderPage } from '../utils/render.js';
 import { outlink } from '../importIMGFiles.js';
 import { login, logout, authorization } from '../api.js';
-const headers = {
-  'content-type': 'application/json',
-  apikey: api_key,
-  username: user_name,
-};
+import { PersonalInfoLogin } from '../interface/index';
+
 const ulLoginHeaderEl = $('.header__user-login--ul');
 
 /** HTML : 로그인 페이지 템플릿 */
@@ -50,11 +47,10 @@ const htmlHeaderLogout = /* html */ `
   `;
 
 /** 로그인 후, displayName Render */
-function displayUserName(user) {
+function displayUserName(personalInfo: PersonalInfoLogin) {
   ulLoginHeaderEl.innerHTML = htmlHeaderLogout;
-  $('#header__user-login-name').innerText = user.displayName;
-
-  if (user.email === admin_email) {
+  $('#header__user-login-name').innerText = personalInfo.user.displayName;
+  if (personalInfo.user.email === admin_email) {
     $('#btnMypage').innerHTML = `
       <strong id="header__user-login-name">관리자 페이지로 이동</strong>
       `;
@@ -64,27 +60,24 @@ function displayUserName(user) {
 /** 로그인,아웃 후, header의 로그인,아웃 영역을 Render */
 export async function renderInitHeaderLogin() {
   $('.app').innerHTML = '';
-
-  if (!localStorage.getItem('token')) {
+  if (!localStorage.getItem('marketLogToken')) {
     ulLoginHeaderEl.innerHTML = htmlHeaderLogin;
   } else {
     const author = await authorization();
     ulLoginHeaderEl.innerHTML = htmlHeaderLogout;
     $('#header__user-login-name').innerText = author.displayName;
-
     if (author.email === admin_email) {
-      $('#btnMypage').href = '/admin';
-      $('#btnMypage').innerHTML = `
+      $<HTMLAnchorElement>('#btnMypage').href = '/admin';
+      $<HTMLAnchorElement>('#btnMypage').innerHTML = `
         <strong id="header__user-login-name">관리자 페이지로 이동
           <img src="${outlink}" alt="OutLink"/>
         </strong>
         `;
     }
-
     $('#btnlogout').addEventListener('click', async () => {
       const logoutJSON = await logout();
       if (logoutJSON === true) {
-        localStorage.removeItem('token');
+        localStorage.removeItem('marketLogToken');
         ulLoginHeaderEl.innerHTML = htmlHeaderLogin;
         router.navigate('/');
       }
@@ -98,7 +91,7 @@ export const handleLoginPage = () => {
 
 /** 초기화면 Render시 Inititalize */
 function initFuncLogin() {
-  const btnLogin = $('.login-btn');
+  const btnLogin = $<HTMLButtonElement>('.login-btn');
   btnLogin.addEventListener('click', async () => {
     let errMessage;
     try {
@@ -111,7 +104,6 @@ function initFuncLogin() {
       alert(errMessage);
     }
   });
-
   const inputPW = $('#inputPW');
   inputPW.addEventListener('keyup', (e) => {
     if (e.key === 'Enter') {
@@ -119,9 +111,8 @@ function initFuncLogin() {
     }
   });
 }
-
 export function getLoginStatus() {
-  return localStorage.getItem('token') ? true : false;
+  return localStorage.getItem('marketLogToken') ? true : false;
 }
 export function showAlertPlzLogin() {
   alert('로그인이 필요한 서비스입니다');

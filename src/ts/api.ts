@@ -1,6 +1,6 @@
 import {
   AddProduct,
-  AuthorizationValue,
+  Authorization,
   Bank,
   BuyItemAPI,
   CancelConfirmTransactionAPI,
@@ -421,7 +421,7 @@ export async function login() {
 }
 
 /** API : Logout */
-export async function logout(): Promise<Logout> {
+export async function logout(): Promise<boolean> {
   const res = await fetch(`${base_url}/auth/logout`, {
     method: 'POST',
     headers: tokenHeaders,
@@ -431,7 +431,7 @@ export async function logout(): Promise<Logout> {
 }
 
 /** API : 인증확인 */
-export async function authorization(): Promise<AuthorizationValue> {
+export async function authorization(): Promise<Authorization> {
   const res = await fetch(`${base_url}/auth/me`, {
     method: 'POST',
     headers: tokenHeaders,

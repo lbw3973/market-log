@@ -20,7 +20,6 @@ export interface GetAllProductsInterface {
   discountRate?: number; // 제품 할인율
 }
 
-
 interface Reservation {
   start: string; // 예약 시작 시간
   end: string; // 예약 종료 시간
@@ -223,15 +222,9 @@ export interface Authorization {
   displayName: string; // 사용자 표시 이름
   profileImg: string | null; // 사용자 프로필 이미지(URL)
 }
-export type AuthorizationValue = Authorization[];
 
 // 사용자 정보 수정
 // https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/logout
-export interface Logout {
-  email: string; // 사용자 아이디
-  displayName: string; // 사용자 표시 이름
-  profileImg: string | null; // 사용자 프로필 이미지(URL)
-}
 
 // 사용자 목록 조회
 // https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/users
