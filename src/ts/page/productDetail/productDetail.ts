@@ -335,7 +335,7 @@ $('.app').addEventListener('click', (e: MouseEvent) => {
   // [제품 상세 페이지]에서 '구매하기' 버튼 클릭 클릭 -> [결제 페이지]로 이동
   if ((e.target as HTMLButtonElement).classList.contains('buyBtn')) {
     console.log(e.target);
-    if (localStorage.getItem('token')) {
+    if (localStorage.getItem('marketLogToken')) {
       // '장바구니에 담기/구매하기' 핸들링 함수
       pushInCart(e);
       router.navigate('/payment');

@@ -10,9 +10,11 @@ import { $ } from '../../utils/dom';
 import { getDate } from '../../utils/date';
 // import { TransactionDetail } from '../../interface/cy';
 import {
-  GetAllProductsValue,
-  TransactionDetailValue,
+  GetAllProductsInterface,
+  TransactionDetailInterface,
 } from '../../interface/index';
+
+import { Category } from '../../interface/enum.js';
 
 import { CurrentStatusInterface } from '../../interface/cy.js';
 
@@ -32,29 +34,37 @@ export const dashboardHandler = async (): Promise<void> => {
 };
 
 /** 거래 카테고리 통계 chart 생성 */
-const setDashBoardChartCategory = (products: GetAllProductsValue): void => {
+const setDashBoardChartCategory = (
+  products: GetAllProductsInterface[],
+): void => {
   const chartCategory = $<HTMLCanvasElement>('#chartCategory');
 
   const keyboardNum = products.filter(
-    (product) => product.tags[0] === '키보드',
+    (product: GetAllProductsInterface) =>
+      product.tags[0] === Category.keyboards,
   ).length;
 
   const keycapNum = products.filter(
-    (product) => product.tags[0] === '키캡',
+    (product) => product.tags[0] === Category.keycaps,
   ).length;
 
   const switchNum = products.filter(
-    (product) => product.tags[0] === '스위치',
+    (product) => product.tags[0] === Category.switches,
   ).length;
 
   const accessory = products.filter(
-    (product) => product.tags[0] === '액세서리',
+    (product) => product.tags[0] === Category.accessories,
   ).length;
 
   new Chart(chartCategory, {
     type: 'pie',
     data: {
-      labels: ['키보드', '키캡', '스위치', '액세서리'],
+      labels: [
+        Category.keyboards,
+        Category.keycaps,
+        Category.switches,
+        Category.accessories,
+      ],
       datasets: [
         {
           label: ' 거래 수 ',
@@ -78,7 +88,9 @@ const setDashBoardChartCategory = (products: GetAllProductsValue): void => {
 };
 
 /** 금주 거래 금액 통계 chart 생성 */
-const setDashBoardChartAmount = (orders: TransactionDetailValue): void => {
+const setDashBoardChartAmount = (
+  orders: TransactionDetailInterface[],
+): void => {
   const chartAmount = $<HTMLCanvasElement>('#chartAmount');
 
   const thisWeek: number[] = [];
@@ -126,8 +138,8 @@ const setDashBoardChartAmount = (orders: TransactionDetailValue): void => {
 
 /** 거래, 상품 현황 상태 설정 */
 const setCurrentStatus = (
-  orders: TransactionDetailValue,
-  products: GetAllProductsValue,
+  orders: TransactionDetailInterface[],
+  products: GetAllProductsInterface[],
 ) => {
   const currentStatus: CurrentStatusInterface = {
     orderStatus: {

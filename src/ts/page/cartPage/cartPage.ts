@@ -195,7 +195,7 @@ $('.app').addEventListener('click', (e: MouseEvent) => {
   // [장바구니]에서 '구매하기' 버튼 클릭 클릭 -> [결제 페이지]로 이동
   if ((e.target as HTMLButtonElement).classList.contains('cartPaymentBtn')) {
     console.log(e.target);
-    if (localStorage.getItem('token')) {
+    if (localStorage.getItem('marketLogToken')) {
       router.navigate('/payment');
     } else {
       alert('로그인이 필요한 페이지 입니다. 로그인 페이지로 이동합니다.');
