@@ -14,6 +14,7 @@ import {
   GetUserInfoAPI,
   GetUserInfos,
   HeadersOptions,
+  HEADERS,
   Logout,
   PersonalInfoLogin,
   RegisterRes,
