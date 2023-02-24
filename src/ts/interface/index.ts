@@ -20,6 +20,7 @@ export interface GetAllProductsInterface {
   discountRate?: number; // 제품 할인율
 }
 
+
 interface Reservation {
   start: string; // 예약 시작 시간
   end: string; // 예약 종료 시간
@@ -139,7 +140,6 @@ export interface TransactionDetailInterface {
   isCanceled: boolean; // 거래 취소 여부
   done: boolean; // 거래 완료 여부
 }
-export type TransactionDetailValue = TransactionDetailInterface[];
 
 export interface ConfirmOrder {
   detailId?: string;

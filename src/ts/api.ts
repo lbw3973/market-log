@@ -16,8 +16,8 @@ import {
   HeadersOptions,
   Logout,
   PersonalInfoLogin,
+  TransactionDetailInterface
   RegisterRes,
-  TransactionDetailValue,
 } from './interface/index.js';
 // api 파일입니다.
 
@@ -299,7 +299,7 @@ export const editProduct = async (
 };
 
 /**전체 거래 내역 가져오기 API */
-export const getAllOrder = async (): Promise<TransactionDetailValue> => {
+export const getAllOrder = async (): Promise<TransactionDetailInterface[]> => {
   try {
     const res = await fetch(`${base_url}/products/transactions/all`, {
       method: 'GET',
