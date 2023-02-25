@@ -3,7 +3,7 @@ import { addProduct } from '../../api';
 import { $ } from '../../utils/dom';
 
 /** 상품 추가 핸들러 */
-export const productAddHandler = () => {
+export const handleProductAddPage = () => {
   const form = $<HTMLFormElement>('.container-form');
   const titleInput = $<HTMLInputElement>(
     '.container-form__content--title input',

@@ -37,13 +37,14 @@ const setUpUI = (
 let newOrders = getOrderCurrentPage(orders, activeIdx, itemsPerPage);
 
 /** 거래내역관리 페이지 핸들러 */
-export const orderHandler = async (): Promise<void> => {
+export const handleOrderPage = async (): Promise<void> => {
   toggleLoadingSpinner(true);
 
   const orderList = $<HTMLUListElement>('.order-container__list');
   const orderPageBtn = $<HTMLElement>('.order-container__btn-page');
 
   orders = await getAllOrder();
+  orders = orders.sort((a, b) => +new Date(b.timePaid) - +new Date(a.timePaid));
 
   setUpUI(orderPageBtn, orderList);
 

@@ -39,7 +39,7 @@ let newProducts = getProductCurrentPage(
 );
 
 /** 상품관리 페이지 핸들러 */
-export const productHandler = async (): Promise<void> => {
+export const handleProductPage = async (): Promise<void> => {
   const productList = $('.product-container__list') as HTMLUListElement;
   const checkProductAll = $(
     '.product-container__title input',
@@ -139,17 +139,15 @@ export const productHandler = async (): Promise<void> => {
 
   /** 상품 목록 체크리스트 모두 선택 및 해제 이벤트 리스너 */
   checkProductAll.addEventListener('change', () => {
-    const productsEl = $$(
-      '.product-container__list li',
-    ) as unknown as NodeListOf<Element>;
+    const productsEl = $$<any>('.product-container__list li');
 
     checkProductAll.checked
-      ? [...[productsEl]].forEach(
+      ? [...productsEl].forEach(
           (productEl: any) =>
             ((productEl.querySelector('input') as HTMLInputElement).checked =
               true),
         )
-      : [...[productsEl]].forEach(
+      : [...productsEl].forEach(
           (productEl: any) =>
             ((productEl.querySelector('input') as HTMLInputElement).checked =
               false),
@@ -158,11 +156,9 @@ export const productHandler = async (): Promise<void> => {
 
   /** 상품 목록 체크리스트 선택한 상품 삭제  이벤트 리스너 */
   deleteBtn.addEventListener('click', async () => {
-    const productsEl = $$(
-      '.product-container__list li',
-    ) as unknown as NodeListOf<Element>;
+    const productsEl = $$<any>('.product-container__list li');
 
-    const newProductsEl = [...[productsEl]].filter(
+    const newProductsEl = [...productsEl].filter(
       (productEl: any) => productEl.querySelector('input').checked === true,
     );
 

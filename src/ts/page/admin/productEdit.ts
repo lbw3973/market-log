@@ -5,7 +5,9 @@ import { $ } from '../../utils/dom';
 import { router } from '../../main';
 
 /** 상품수정 페이지 핸들러 */
-export const productEditHandler = async (productId: string): Promise<void> => {
+export const handleProductEditPage = async (
+  productId: string,
+): Promise<void> => {
   const product = await getDetailProduct(productId);
 
   $('.productEdit-container').insertAdjacentHTML(
