@@ -1,9 +1,12 @@
 import { getAllOrder, editCancelOrder, editDoneOrder } from '../../api';
 import { renderOrderDetail, renderOrderDetailBtn } from './renderDetail';
+import { toggleLoadingSpinner } from '../../utils/loading';
 import { $ } from '../../utils/dom';
 
 /** 거래내역관리상세 페이지 핸들러 */
 export const orderDetailHandler = async (detailId: string) => {
+  toggleLoadingSpinner(true);
+
   const orders = await getAllOrder();
   let order = orders.filter((order) => order.detailId === detailId)[0];
   renderOrderDetail(order);
@@ -54,4 +57,6 @@ export const orderDetailHandler = async (detailId: string) => {
       renderOrderDetail(order);
     }
   });
+
+  toggleLoadingSpinner(false);
 };
