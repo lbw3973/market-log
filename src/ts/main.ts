@@ -14,13 +14,13 @@ import { handlePaymentPage } from './page/paymentPage/paymentPage';
 import { handleOrderHistoryPage } from './page/mypage/orderhistory';
 import { handleeditPersonalInfoPage } from './page/mypage/editPersonalInfo';
 
-import { productHandler } from './page/admin/product';
-import { dashboardHandler } from './page/admin/dashboard';
-import { orderHandler } from './page/admin/order';
-import { productAddHandler } from './page/admin/productAdd';
-import { productDetailHandler } from './page/admin/productDetail';
-import { productEditHandler } from './page/admin/productEdit';
-import { orderDetailHandler } from './page/admin/orderDetail';
+import { handleProductPage } from './page/admin/product';
+import { handleDashboardPage } from './page/admin/dashboard';
+import { handleOrderPage } from './page/admin/order';
+import { handleProductAddPage } from './page/admin/productAdd';
+import { handleProductDetailPage } from './page/admin/productDetail';
+import { handleProductEditPage } from './page/admin/productEdit';
+import { handleOrderDetailPage } from './page/admin/orderDetail';
 import { handleDetailOrderHistoryPage } from './page/detailOrderHistoryPage/detailOrderHistory';
 import {
   dashboardPage,
@@ -108,31 +108,31 @@ router
     },
     '/admin': () => {
       initPage(dashboardPage);
-      dashboardHandler();
+      handleDashboardPage();
     },
     '/admin/product': () => {
       initPage(productPage);
-      productHandler();
+      handleProductPage();
     },
     '/admin/order': () => {
       initPage(orderPage);
-      orderHandler();
+      handleOrderPage();
     },
     '/admin/order/:id': (params: Params) => {
       initPage(orderDetailPage);
-      orderDetailHandler(params.data.id);
+      handleOrderDetailPage(params.data.id);
     },
     '/admin/product/add': () => {
       initPage(productAddPage);
-      productAddHandler();
+      handleProductAddPage();
     },
     '/admin/product/:id': (params: Params) => {
       initPage(productDetailPage);
-      productDetailHandler(params.data.id);
+      handleProductDetailPage(params.data.id);
     },
     '/admin/product/edit/:id': (params: Params) => {
       initPage(productEditPage);
-      productEditHandler(params.data.id);
+      handleProductEditPage(params.data.id);
     },
   })
   .resolve();

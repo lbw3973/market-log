@@ -37,7 +37,7 @@ const setUpUI = (
 let newOrders = getOrderCurrentPage(orders, activeIdx, itemsPerPage);
 
 /** 거래내역관리 페이지 핸들러 */
-export const orderHandler = async (): Promise<void> => {
+export const handleOrderPage = async (): Promise<void> => {
   toggleLoadingSpinner(true);
 
   const orderList = $<HTMLUListElement>('.order-container__list');

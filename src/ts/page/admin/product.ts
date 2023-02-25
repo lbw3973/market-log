@@ -39,7 +39,7 @@ let newProducts = getProductCurrentPage(
 );
 
 /** 상품관리 페이지 핸들러 */
-export const productHandler = async (): Promise<void> => {
+export const handleProductPage = async (): Promise<void> => {
   const productList = $('.product-container__list') as HTMLUListElement;
   const checkProductAll = $(
     '.product-container__title input',
