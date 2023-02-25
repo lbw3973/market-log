@@ -156,11 +156,9 @@ export const productHandler = async (): Promise<void> => {
 
   /** 상품 목록 체크리스트 선택한 상품 삭제  이벤트 리스너 */
   deleteBtn.addEventListener('click', async () => {
-    const productsEl = $$(
-      '.product-container__list li',
-    ) as unknown as NodeListOf<Element>;
+    const productsEl = $$<any>('.product-container__list li');
 
-    const newProductsEl = [...[productsEl]].filter(
+    const newProductsEl = [...productsEl].filter(
       (productEl: any) => productEl.querySelector('input').checked === true,
     );
 
