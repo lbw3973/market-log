@@ -139,17 +139,15 @@ export const productHandler = async (): Promise<void> => {
 
   /** 상품 목록 체크리스트 모두 선택 및 해제 이벤트 리스너 */
   checkProductAll.addEventListener('change', () => {
-    const productsEl = $$(
-      '.product-container__list li',
-    ) as unknown as NodeListOf<Element>;
+    const productsEl = $$<any>('.product-container__list li');
 
     checkProductAll.checked
-      ? [...[productsEl]].forEach(
+      ? [...productsEl].forEach(
           (productEl: any) =>
             ((productEl.querySelector('input') as HTMLInputElement).checked =
               true),
         )
-      : [...[productsEl]].forEach(
+      : [...productsEl].forEach(
           (productEl: any) =>
             ((productEl.querySelector('input') as HTMLInputElement).checked =
               false),
