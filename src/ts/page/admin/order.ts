@@ -44,6 +44,7 @@ export const handleOrderPage = async (): Promise<void> => {
   const orderPageBtn = $<HTMLElement>('.order-container__btn-page');
 
   orders = await getAllOrder();
+  orders = orders.sort((a, b) => +new Date(b.timePaid) - +new Date(a.timePaid));
 
   setUpUI(orderPageBtn, orderList);
 
