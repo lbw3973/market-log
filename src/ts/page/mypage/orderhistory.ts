@@ -288,6 +288,12 @@ const orderHistoryUtilSetupUI = () => {
 /** 주문내역 페이지 초기 렌더링 시 ui, api 불러오는 함수 */
 const orderHistoryUtilInit = async (): Promise<void> => {
   const orderHistory = await getAllTransactions();
+  orderHistory.sort(
+    (a, b) => new Date(b.timePaid).getTime() - new Date(a.timePaid).getTime(),
+  );
+
+  // const sortedByDate = sortedOrderHistory.sort((a, b) => b - a);
+
   orderHistoryUtilPages = orderHistoryUtilPaginate(orderHistory);
 
   orderHistoryUtilSetupUI();
