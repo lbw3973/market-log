@@ -10,6 +10,7 @@ import {
   deleteAccount,
 } from '../../api';
 import { GetBankList, GetUserAccounts } from '../../interface/index';
+import { toggleLoadingSpinner } from '../../utils/loading';
 
 // HTML : mypage 계좌관리 탭
 
@@ -73,7 +74,9 @@ export const handleAccountPage = async () => {
     router.navigate('/login');
     return;
   }
+  toggleLoadingSpinner(true);
   await renderAccountPage();
+  toggleLoadingSpinner(false);
 };
 
 const renderAccountPage = async () => {

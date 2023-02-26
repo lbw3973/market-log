@@ -140,7 +140,7 @@ function addValidationEvent() {
   });
 
   inputConfirmPW.addEventListener('input', (e) => {
-    if ((e.target as HTMLInputElement).value === inputConfirmPW.value) {
+    if ((e.target as HTMLInputElement).value === inputPW.value) {
       noticePW.style.color = 'blue';
       noticePW.innerText = '비밀번호가 일치합니다!';
     } else {

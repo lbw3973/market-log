@@ -12,6 +12,7 @@ import { htmlMypage_Nav, resetNavbarActive } from '../mypage';
 import { router } from '../../main';
 import { getLoginStatus, showAlertPlzLogin } from '../login';
 import { GetAllTransactionsInterface } from '../../interface/index';
+import { toggleLoadingSpinner } from '../../utils/loading';
 
 /** 거래 완료/취소 확인 함수 */
 const checkWhetherTransactionIsDone = (
@@ -260,8 +261,9 @@ export const handleOrderHistoryPage = async () => {
     return;
   }
   $('.modal__addCart').style.display = 'none';
-
+  toggleLoadingSpinner(true);
   await renderOrderedListPage();
+  toggleLoadingSpinner(false);
 };
 
 /*-----------------------------------*\
