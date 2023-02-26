@@ -292,8 +292,6 @@ const orderHistoryUtilInit = async (): Promise<void> => {
     (a, b) => new Date(b.timePaid).getTime() - new Date(a.timePaid).getTime(),
   );
 
-  // const sortedByDate = sortedOrderHistory.sort((a, b) => b - a);
-
   orderHistoryUtilPages = orderHistoryUtilPaginate(orderHistory);
 
   orderHistoryUtilSetupUI();
