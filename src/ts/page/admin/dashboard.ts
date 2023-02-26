@@ -16,7 +16,7 @@ import { Category } from '../../interface/enum';
 import { CurrentStatusInterface } from '../../interface/cy';
 
 /** 대시보드 페이지 핸들러 */
-export const dashboardHandler = async (): Promise<void> => {
+export const handleDashboardPage = async (): Promise<void> => {
   toggleLoadingSpinner(true);
 
   let orders = await getAllOrder();

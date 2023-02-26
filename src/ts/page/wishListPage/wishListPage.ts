@@ -152,11 +152,11 @@ $('.app').addEventListener('click', (e: MouseEvent) => {
 
 /** /mypage/wishlist 핸들링 함수 */
 export const handleWishListPage = () => {
-  if (getLoginStatus() === false) {
-    showAlertPlzLogin();
-    router.navigate('/login');
-    return;
-  }
+  // if (getLoginStatus() === false) {
+  //   showAlertPlzLogin();
+  //   router.navigate('/login');
+  //   return;
+  // }
   renderWishListPage();
   // wishListUtilInit();
 };
