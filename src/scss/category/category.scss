@@ -19,6 +19,9 @@
     height: auto;
 
     &--container {
+      position: sticky;
+      top: 10px;
+      left: 20px;
       display: flex;
       flex-direction: column;
       padding: 20px 0;
