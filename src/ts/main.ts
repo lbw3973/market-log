@@ -33,6 +33,7 @@ import {
   orderDetailPage,
 } from './page/admin/renderTemplate';
 import { Params } from './interface/params';
+import { handleErrorPage } from './page/errorPage/errorPage';
 
 export const router = new Navigo('/');
 export const divLoadingEl = $('.loadingGif');
@@ -134,5 +135,8 @@ router
       initPage(productEditPage);
       handleProductEditPage(params.data.id);
     },
+  })
+  .notFound(() => {
+    handleErrorPage();
   })
   .resolve();
