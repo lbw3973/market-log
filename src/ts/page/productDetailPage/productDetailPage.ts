@@ -5,13 +5,17 @@
 import { router } from '../../main';
 import { $ } from '../../utils/dom';
 import { addHeart, emptyHeart } from '../../importIMGFiles';
-import { getDetailProduct } from '../../api';
+import { getAllProducts, getDetailProduct } from '../../api';
 import { wishListStore } from '../../store/wishListStore';
 import { shoppingCartStore } from '../../store/shoppingCartStore';
 import { recentViewStore } from '../../store/recentViewStore';
 import { renderInitHeaderLogin } from '../loginPage';
 import { formatPrice } from '../../utils/format';
-import { updateCartItemQty, updateWishListItemQty } from '../mainPage/mainPage';
+import {
+  renderCategoryNav,
+  updateCartItemQty,
+  updateWishListItemQty,
+} from '../mainPage/mainPage';
 import { WishListStore } from '../../types/store';
 import {
   renderSkeletonUI,
@@ -354,6 +358,7 @@ export const handleDetailProductPage = async (
   params: string,
 ): Promise<void> => {
   renderInitHeaderLogin();
+  renderCategoryNav(await getAllProducts());
   renderSkeletonUI(skeletonUITemplateProductDetail, 1, $('.app'));
   await renderDetailProduct(params);
 };
