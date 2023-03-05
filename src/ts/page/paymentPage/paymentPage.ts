@@ -466,9 +466,7 @@ const paymentPageFunction = async () => {
 /////////////////////////////
 
 /** 현재 선택한 은행계좌의 잔액 확인해주는 함수 */
-const checkBalanceOfselectedBankAccount = async (
-  id: string,
-): Promise<Bank[]> => {
+const getSelectedBankAccountBalance = async (id: string): Promise<Bank[]> => {
   const availableAccount = await getAccountDetail();
 
   const checkCurrentSelectedBankId = availableAccount.filter((item) => {
@@ -485,7 +483,7 @@ const handlePaymentBtnLogic = async (): Promise<void> => {
   });
   const totalProductPrice = renderCartTotalPrice();
 
-  const getCurrentSelectedAccount = await checkBalanceOfselectedBankAccount(
+  const getCurrentSelectedAccount = await getSelectedBankAccountBalance(
     currentSelectedBankId,
   );
 
