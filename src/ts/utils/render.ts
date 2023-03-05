@@ -1,4 +1,4 @@
-import { renderInitHeaderLogin } from '../page/login';
+import { renderInitHeaderLogin } from '../page/loginPage';
 import { $ } from './dom';
 
 /** Navigo innerHTML template */

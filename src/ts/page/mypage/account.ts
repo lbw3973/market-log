@@ -1,7 +1,7 @@
 import { $ } from '../../utils/dom';
 import { renderPage } from '../../utils/render';
 import { htmlMypage_Nav } from '../mypage';
-import { getLoginStatus, showAlertPlzLogin } from '../login';
+import { getLoginStatus, showAlertPlzLogin } from '../loginPage';
 import { router } from '../../main';
 import {
   getBankList,

@@ -1,7 +1,7 @@
 import { $ } from '../../utils/dom';
 import { router } from '../../main';
 import { renderPage } from '../../utils/render';
-import { getLoginStatus, showAlertPlzLogin } from '../login';
+import { getLoginStatus, showAlertPlzLogin } from '../loginPage';
 import { htmlMypage_Nav, resetNavbarActive } from '../mypage';
 import { authorization, personalInfoLogin, submitChangeInfo } from '../../api';
 import { Authorization } from '../../interface/index';

@@ -4,7 +4,7 @@
 
 import { router } from '../../main';
 import { $ } from '../../utils/dom';
-import { updateInfo } from '../productDetail/productDetail';
+import { updateInfo } from '../productDetailPage/productDetailPage';
 import { shoppingCartStore } from '../../store/shoppingCartStore';
 import { cartSVG } from '../../importIMGFiles';
 import { renderPage } from '../../utils/render';

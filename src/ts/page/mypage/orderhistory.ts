@@ -10,7 +10,7 @@ import {
 import { formatDate } from '../../utils/format';
 import { htmlMypage_Nav, resetNavbarActive } from '../mypage';
 import { router } from '../../main';
-import { getLoginStatus, showAlertPlzLogin } from '../login';
+import { getLoginStatus, showAlertPlzLogin } from '../loginPage';
 import { GetAllTransactionsInterface } from '../../interface/index';
 import { toggleLoadingSpinner } from '../../utils/loading';
 

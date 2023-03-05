@@ -5,7 +5,7 @@ import { $ } from '../../utils/dom';
 import { renderPage } from '../../utils/render';
 import { getDetailOrderProduct } from '../../api';
 import { formatDate } from '../../utils/format';
-import { getLoginStatus, showAlertPlzLogin } from '../login';
+import { getLoginStatus, showAlertPlzLogin } from '../loginPage';
 import { htmlMypage_Nav } from '../mypage';
 import { router } from '../../main';
 

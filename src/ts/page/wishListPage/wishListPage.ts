@@ -5,13 +5,13 @@
 import { $ } from '../../utils/dom';
 import { renderPage } from '../../utils/render';
 import { shoppingCart, hearted } from '../../importIMGFiles';
-import { storeCart } from '../productDetail/productDetail';
+import { storeCart } from '../productDetailPage/productDetailPage';
 import { wishListStore } from '../../store/wishListStore';
 import { shoppingCartStore } from '../../store/shoppingCartStore';
 import { htmlMypage_Nav, resetNavbarActive } from '../mypage';
 import { router } from '../../main';
 import { countQtyInCart, countQtyInWishlist } from '../mainPage/mainPage';
-import { getLoginStatus, showAlertPlzLogin } from '../login';
+import { getLoginStatus, showAlertPlzLogin } from '../loginPage';
 import { WishListStore, WishListStoreValue } from '../../interface/store';
 
 /** 찜한상품 제목, ul 태그 템플릿 삽입 */

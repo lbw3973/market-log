@@ -9,7 +9,7 @@ import { getDetailProduct } from '../../api';
 import { wishListStore } from '../../store/wishListStore';
 import { shoppingCartStore } from '../../store/shoppingCartStore';
 import { recentViewStore } from '../../store/recentViewStore';
-import { renderInitHeaderLogin } from '../login';
+import { renderInitHeaderLogin } from '../loginPage';
 import { formatPrice } from '../../utils/format';
 import { countQtyInCart, countQtyInWishlist } from '../mainPage/mainPage';
 import { WishListStore } from '../../interface/store';
