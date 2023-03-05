@@ -195,9 +195,6 @@ export const handleCategoryPage = async (i: number): Promise<void> => {
   renderPage(renderInitCategoryPage);
   renderRecentViewed(recentViewStore.getLocalStorage().slice(0, 5));
   renderSkeletonUIinCategoryPage();
-  //
-  // const getKeyBoardCategory = await getProductTags();
-  // renderCategoryProductList(await getKeyBoardCategory[i]);
   categoryUtilInit(i);
   //
 
@@ -207,12 +204,13 @@ export const handleCategoryPage = async (i: number): Promise<void> => {
   $('.app')
     .querySelector('#categoryPage-filterByPrice')
     ?.addEventListener('change', async () => {
-      renderCategoryProductBySelect(
-        $<HTMLSelectElement>('#categoryPage-filterByPrice').options[
-          $<HTMLSelectElement>('#categoryPage-filterByPrice').selectedIndex
-        ].value,
-        i,
-      );
+      const selectedOptionValue = $<HTMLSelectElement>(
+        '#categoryPage-filterByPrice',
+      ).options[
+        $<HTMLSelectElement>('#categoryPage-filterByPrice').selectedIndex
+      ].value;
+
+      renderCategoryProductBySelect(selectedOptionValue, i);
     });
 };
 
