@@ -17,6 +17,7 @@ import {
   renderSkeletonUI,
   skeletonUITemplateProductDetail,
 } from '../../utils/skeletonUI';
+import { Category } from '../../types/enum';
 
 /** 찜하기 상품 유/무에 따라 다른 초기화면 렌더링 */
 export const checkWhetherAddWishList = (id: string): string => {
@@ -72,6 +73,19 @@ export const storeCart = (
   }
 };
 
+const getCategoryName = (category: string) => {
+  switch (category) {
+    case Category.keyboards:
+      return 'keyboadrs';
+    case Category.keycaps:
+      return 'keycaps';
+    case Category.switches:
+      return 'switches';
+    case Category.accessories:
+      return 'accessories';
+  }
+};
+
 /** 구매 수량 */
 let productDetailProductQty: number = 1;
 /** 총 상품 금액 */
@@ -98,7 +112,9 @@ export const renderDetailProduct = async (productId: string) => {
 
   const productTags = tags
     .map((tag: string) => {
-      return `<li class="aside__productDetail--info-tagLists-tag">${tag}</li>`;
+      return `<a href="/category/${getCategoryName(tag)}" data-navigo>
+                <li class="aside__productDetail--info-tagLists-tag">${tag}</li>
+              </a>`;
     })
     .join('');
 
