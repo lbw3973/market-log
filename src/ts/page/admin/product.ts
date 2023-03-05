@@ -168,14 +168,6 @@ export const handleProductPage = async (): Promise<void> => {
     }
 
     if (confirm('선택한 상품을 삭제하시겠습니까? ')) {
-      // async function deleteProductPromise(newProductsEl) {
-      //   const productsMap = newProductsEl.map(async (newProductEl) => {
-      //     return await deleteProduct(newProductEl.dataset.id);
-      //   });
-      //   return productsMap;
-      // }
-
-      // await deleteProductPromise(newProductsEl);
       await Promise.all(
         newProductsEl.map(
           async (newProductEl: any) =>
