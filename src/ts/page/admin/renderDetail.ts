@@ -4,7 +4,7 @@ import {
   TransactionDetailInterface,
   ConfirmOrder,
 } from '../../interface/index';
-import { CurrentStatusInterface } from '../../interface/cy';
+import { CurrentStatusInterface } from '../../interface/index';
 import { Category } from '../../interface/enum';
 
 /**[상품관리수정 페이지] 페이지 렌더 */

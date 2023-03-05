@@ -235,3 +235,16 @@ export interface UserInfo {
   displayName: string; // 사용자 표시 이름
   profileImg: string; // 사용자 프로필 이미지 URL
 }
+
+export interface CurrentStatusInterface {
+  orderStatus: {
+    num: number;
+    cancelNum: number;
+    doneNum: number;
+    amount: string;
+  };
+  productStatus: {
+    num: number;
+    soldOutNum: number;
+  };
+}
