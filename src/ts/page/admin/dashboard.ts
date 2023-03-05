@@ -5,7 +5,6 @@ import { formatPrice } from '../../utils/format';
 import Chart from 'chart.js/auto';
 import { $ } from '../../utils/dom';
 import { getDate } from '../../utils/date';
-// import { TransactionDetail } from '../../interface/cy';
 import {
   GetAllProductsInterface,
   TransactionDetailInterface,
@@ -13,7 +12,7 @@ import {
 
 import { Category } from '../../interface/enum';
 
-import { CurrentStatusInterface } from '../../interface/cy';
+import { CurrentStatusInterface } from '../../interface/index';
 
 /** 대시보드 페이지 핸들러 */
 export const handleDashboardPage = async (): Promise<void> => {
