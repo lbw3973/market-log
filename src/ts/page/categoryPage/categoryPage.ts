@@ -115,27 +115,17 @@ export const renderRecentViewed = (items: RecentView[]) => {
 const getProductTags = async () => {
   const allProductArray = await getAllProducts();
 
-  const filterKeyboardTag = allProductArray.filter(
-    (item: GetAllProductsInterface): boolean => {
-      return item.tags[0] === Category.keyboards;
-    },
-  );
+  const filterProductsByCategory = (category: Category) => {
+    return allProductArray.filter((item: GetAllProductsInterface) => {
+      return item.tags[0] === category;
+    });
+  };
 
-  const filterKeycapTag = allProductArray.filter(
-    (item: GetAllProductsInterface): boolean => {
-      return item.tags[0] === Category.keycaps;
-    },
-  );
-  const filterSwitchTag = allProductArray.filter(
-    (item: GetAllProductsInterface): boolean => {
-      return item.tags[0] === Category.switches;
-    },
-  );
-  const filterAccessoryTag = allProductArray.filter(
-    (item: GetAllProductsInterface): boolean => {
-      return item.tags[0] === Category.accessories;
-    },
-  );
+  const filterKeyboardTag = filterProductsByCategory(Category.keyboards);
+  const filterKeycapTag = filterProductsByCategory(Category.keycaps);
+  const filterSwitchTag = filterProductsByCategory(Category.switches);
+  const filterAccessoryTag = filterProductsByCategory(Category.accessories);
+
   return [
     filterKeyboardTag,
     filterKeycapTag,
