@@ -60,7 +60,7 @@ export const handleProductPage = async (): Promise<void> => {
 
   const searchProductHandler = (): void => {
     const filteredProduct = products.filter((product) =>
-      product.title.toLowerCase().trim().includes(searchedProductInput.value),
+      product.title.trim().toLowerCase().includes(searchedProductInput.value),
     );
 
     productList.innerHTML = ``;

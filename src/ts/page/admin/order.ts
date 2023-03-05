@@ -58,7 +58,10 @@ export const handleOrderPage = async (): Promise<void> => {
 
   const searchOrderHandler = (): void => {
     const filteredOrder = orders.filter((order) =>
-      order.user.displayName.includes(searchedOrderInput.value),
+      order.user.displayName
+        .trim()
+        .toLowerCase()
+        .includes(searchedOrderInput.value),
     );
 
     orderList.innerHTML = ``;
