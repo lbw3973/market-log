@@ -92,7 +92,7 @@ const setDashBoardChartAmount = (
   const thisWeek: number[] = [];
 
   for (let i = 0; i < 7; i++) {
-    thisWeek.unshift(Number(getDate().today) - i);
+    thisWeek.unshift(Number(getDate(i).date));
   }
 
   const amountOfthisWeek: number[] = [];
