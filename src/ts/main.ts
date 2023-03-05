@@ -11,7 +11,7 @@ import { handleSearchPage } from './page/searchPage/searchPage';
 import { handleDetailProductPage } from './page/productDetailPage/productDetailPage';
 import { handleWishListPage } from './page/wishListPage/wishListPage';
 import { handlePaymentPage } from './page/paymentPage/paymentPage';
-import { handleOrderHistoryPage } from './page/mypage/orderHistory';
+import { handleOrderHistoryPage } from './page/mypage/orderhistory';
 import { handleeditPersonalInfoPage } from './page/mypage/editPersonalInfo';
 
 import { handleProductPage } from './page/admin/product';
