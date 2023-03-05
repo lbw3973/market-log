@@ -9,6 +9,10 @@ import { getLoginStatus, showAlertPlzLogin } from '../loginPage';
 import { htmlMypage_Nav } from '../mypage';
 import { router } from '../../main';
 import { OrderStatus } from '../../types/enum';
+import {
+  renderSkeletonUI,
+  skeletonUITemplateDetailOrderHistoryPage,
+} from '../../utils/skeletonUI';
 
 /** 주문 상세정보 구매확정/취소/완료 체크 함수 */
 const checkTransactionStatus = (done: boolean, isCanceled: boolean): string => {
@@ -98,26 +102,14 @@ const renderDetailOrderProduct = async (id: string): Promise<void> => {
   $('.mypage__navigo__container').innerHTML = detailOrderTemplate;
 };
 
-/** 상세 주문 내역 skeleton ui 초기 렌더링 */
-const renderSkeletonUIinDetailOrderHistoryPage = (): void => {
-  const skeletonUITemplate = `
-  <li class="orderHistoryPage__skeleton"></li>
-`;
-
-  const skeletonUI12: string = Array(2)
-    .fill(skeletonUITemplate)
-    .map((v: string) => {
-      return v;
-    })
-    .join('');
-
-  $('.mypage__navigo__container').innerHTML = skeletonUI12;
-};
-
 /** 상세 주문내역 핸들링 함수 */
 const renderDetailOrderPage = async (params: string): Promise<void> => {
   renderPage(htmlMypage_Nav);
-  renderSkeletonUIinDetailOrderHistoryPage();
+  renderSkeletonUI(
+    skeletonUITemplateDetailOrderHistoryPage,
+    2,
+    $('.mypage__navigo__container'),
+  );
   await renderDetailOrderProduct(params);
 };
 

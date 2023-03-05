@@ -13,6 +13,10 @@ import { renderInitHeaderLogin } from '../loginPage';
 import { formatPrice } from '../../utils/format';
 import { updateCartItemQty, updateWishListItemQty } from '../mainPage/mainPage';
 import { WishListStore } from '../../types/store';
+import {
+  renderSkeletonUI,
+  skeletonUITemplateProductDetail,
+} from '../../utils/skeletonUI';
 
 /** 찜하기 상품 유/무에 따라 다른 초기화면 렌더링 */
 export const checkWhetherAddWishList = (id: string): string => {
@@ -41,29 +45,6 @@ export const storeWishList = (params: WishListStore): void => {
 
 ///////////////////////////
 
-/** [제품 상세페이지] skeleton ui 초기 렌더링 */
-export const renderSkeletonUIinDetailProductPage = (): void => {
-  const skeletonUITemplate: string = `
-    <div class="productDetail__skeleton--container">
-      <div class="productDetail__skeleton--img"></div>
-      <div class="productDetail__skeleton--aside">
-        <div class="productDetail__skeleton--aside-desc"></div>
-        <div class="productDetail__skeleton--aside-desc"></div>
-        <div class="productDetail__skeleton--aside-desc"></div>
-        <div class="productDetail__skeleton--aside-desc"></div>
-      </div>
-    </div>
-`;
-
-  const skeletonUI12: string = Array(1)
-    .fill(skeletonUITemplate)
-    .map((v: string) => {
-      return v;
-    })
-    .join('');
-
-  $('.app').innerHTML = skeletonUI12;
-};
 /** 장바구니에 저장 */
 export const storeCart = (
   id: string,
@@ -357,6 +338,6 @@ export const handleDetailProductPage = async (
   params: string,
 ): Promise<void> => {
   renderInitHeaderLogin();
-  renderSkeletonUIinDetailProductPage();
+  renderSkeletonUI(skeletonUITemplateProductDetail, 1, $('.app'));
   await renderDetailProduct(params);
 };

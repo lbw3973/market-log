@@ -5,6 +5,10 @@ import { recentViewStore } from '../../store/recentViewStore';
 import { GetAllProductsInterface } from '../../types/index';
 import { RecentView } from '../../types/store';
 import { Category, CategorySortCondition } from '../../types/enum';
+import {
+  renderSkeletonUI,
+  skeletonUITemplateCategoryPage,
+} from '../../utils/skeletonUI';
 
 /*-----------------------------------*\
   #카테고리 페이지 # category js
@@ -42,27 +46,6 @@ export const renderInitCategoryPage = `
     </div>
   </div>
 `;
-
-/** 카테고리 페이지 skeleton ui 초기 렌더링 */
-export const renderSkeletonUIinCategoryPage = (): void => {
-  const skeletonUITemplate: string = `
-  <li class="categoryPage__skeleton">
-    <div class="categoryPage__skeleton--img"></div>
-    <div class="categoryPage__product--info">
-      <h3 class="categoryPage__skeleton--title"></h3>
-    </div>
-  </li>
-`;
-  const skeletonUI12: string = Array(12)
-    .fill(skeletonUITemplate)
-    .map((v: string) => {
-      return v;
-    })
-    .join('');
-
-  $<HTMLUListElement>('.categoryPage__product--lists')!.innerHTML =
-    skeletonUI12;
-};
 
 /** 카테고리 페이지 제품 db에서 불러오기 */
 const renderCategoryProductList = (items: GetAllProductsInterface[]): void => {
@@ -176,8 +159,11 @@ const renderCategoryProductBySelect = async (
   condition: string,
   i: number,
 ): Promise<void> => {
-  renderSkeletonUIinCategoryPage();
-  // const getProductTagList = await getProductTags();
+  renderSkeletonUI(
+    skeletonUITemplateCategoryPage,
+    12,
+    $<HTMLUListElement>('.categoryPage__product--lists'),
+  );
 
   if (condition === CategorySortCondition.RESET) {
     return categoryUtilInit(i);
@@ -205,7 +191,11 @@ export const handleCategoryPage = async (i: number): Promise<void> => {
 
   renderPage(renderInitCategoryPage);
   renderRecentViewed(recentViewStore.getLocalStorage().slice(0, 5));
-  renderSkeletonUIinCategoryPage();
+  renderSkeletonUI(
+    skeletonUITemplateCategoryPage,
+    12,
+    $<HTMLUListElement>('.categoryPage__product--lists'),
+  );
   categoryUtilInit(i);
   //
 
