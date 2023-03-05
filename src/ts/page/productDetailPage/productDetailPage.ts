@@ -73,10 +73,10 @@ export const storeCart = (
   }
 };
 
-const getCategoryName = (category: string) => {
+export const getCategoryName = (category: string) => {
   switch (category) {
     case Category.keyboards:
-      return 'keyboadrs';
+      return 'keyboards';
     case Category.keycaps:
       return 'keycaps';
     case Category.switches:
