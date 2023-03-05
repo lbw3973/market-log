@@ -96,6 +96,17 @@ const renderCategoryProductList = (items: GetAllProductsInterface[]): void => {
 
 /** 최근 본 상품 템플릿 */
 export const renderRecentViewed = (items: RecentView[]) => {
+  if (items.length === 0) {
+    const emptyRecentViewedTemplate = `
+    <li class="categoryPage__aside--img">
+      <p>최근 본 상품이 없습니다.</p>
+    </li>
+    `;
+
+    return ($('.categoryPage__aside--wrapper')!.innerHTML =
+      emptyRecentViewedTemplate);
+  }
+
   const recentViewedTemplate = items
     .map((item: RecentView) => {
       const { id, thumbnail, title } = item;
