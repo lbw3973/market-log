@@ -12,7 +12,7 @@ import { recentViewStore } from '../../store/recentViewStore';
 import { renderInitHeaderLogin } from '../loginPage';
 import { formatPrice } from '../../utils/format';
 import { countQtyInCart, countQtyInWishlist } from '../mainPage/mainPage';
-import { WishListStore } from '../../interface/store';
+import { WishListStore } from '../../types/store';
 
 /** 찜하기 상품 유/무에 따라 다른 초기화면 렌더링 */
 export const checkWhetherAddWishList = (id: string): string => {

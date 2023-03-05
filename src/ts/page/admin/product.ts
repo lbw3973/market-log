@@ -3,7 +3,7 @@ import { renderPageBtn, renderProductList } from './renderDetail';
 
 import { $, $$ } from '../../utils/dom';
 
-import { GetAllProductsInterface } from '../../interface/index';
+import { GetAllProductsInterface } from '../../types/index';
 
 let products: GetAllProductsInterface[];
 let activeIdx: number = 1;

@@ -11,7 +11,7 @@ import { formatDate } from '../../utils/format';
 import { htmlMypage_Nav, resetNavbarActive } from '../mypage';
 import { router } from '../../main';
 import { getLoginStatus, showAlertPlzLogin } from '../loginPage';
-import { GetAllTransactionsInterface } from '../../interface/index';
+import { GetAllTransactionsInterface } from '../../types/index';
 import { toggleLoadingSpinner } from '../../utils/loading';
 
 /** 거래 완료/취소 확인 함수 */

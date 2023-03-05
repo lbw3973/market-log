@@ -9,7 +9,7 @@ import {
   createUserAccount,
   deleteAccount,
 } from '../../api';
-import { GetBankList, GetUserAccounts } from '../../interface/index';
+import { GetBankList, GetUserAccounts } from '../../types/index';
 import { toggleLoadingSpinner } from '../../utils/loading';
 
 // HTML : mypage 계좌관리 탭

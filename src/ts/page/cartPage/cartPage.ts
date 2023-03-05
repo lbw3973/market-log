@@ -10,11 +10,8 @@ import { cartSVG } from '../../importIMGFiles';
 import { renderPage } from '../../utils/render';
 import { formatPrice } from '../../utils/format';
 import { countQtyInCart } from '../mainPage/mainPage';
-import {
-  ShoppingCartStore,
-  ShoppingCartStoreValue,
-} from '../../interface/store';
-import { CartOperation } from '../../interface/enum';
+import { ShoppingCartStore, ShoppingCartStoreValue } from '../../types/store';
+import { CartOperation } from '../../types/enum';
 
 /** 장바구니 총 가격 렌더링 */
 export const renderCartTotalPrice = (): number => {

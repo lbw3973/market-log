@@ -8,7 +8,7 @@ import {
 import { renderSkeletonUIinCategoryPage } from '../categoryPage/categoryPage';
 import { router } from '../../main';
 import { recentViewStore } from '../../store/recentViewStore';
-import { GetAllProductsInterface } from '../../interface/index';
+import { GetAllProductsInterface } from '../../types/index';
 
 /*-----------------------------------*\
   검색 페이지  #search

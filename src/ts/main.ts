@@ -32,7 +32,7 @@ import {
   sideBar,
   orderDetailPage,
 } from './page/admin/renderTemplate';
-import { Params } from './interface/params';
+import { Params } from './types/params';
 import { handleErrorPage } from './page/errorPage/errorPage';
 
 export const router = new Navigo('/');

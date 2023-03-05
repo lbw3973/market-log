@@ -3,7 +3,7 @@ import { renderPageBtn, renderOrderList } from './renderDetail';
 import { toggleLoadingSpinner } from '../../utils/loading';
 import { $ } from '../../utils/dom';
 
-import { TransactionDetailInterface } from '../../interface/index';
+import { TransactionDetailInterface } from '../../types/index';
 
 let orders: TransactionDetailInterface[] = [];
 

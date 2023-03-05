@@ -2,9 +2,9 @@ import { $ } from '../../utils/dom';
 import { renderPage } from '../../utils/render';
 import { getAllProducts } from '../../api';
 import { recentViewStore } from '../../store/recentViewStore';
-import { GetAllProductsInterface } from '../../interface/index';
-import { RecentView } from '../../interface/store';
-import { Category, CategorySortCondition } from '../../interface/enum';
+import { GetAllProductsInterface } from '../../types/index';
+import { RecentView } from '../../types/store';
+import { Category, CategorySortCondition } from '../../types/enum';
 
 /*-----------------------------------*\
   #카테고리 페이지 # category js
@@ -145,7 +145,6 @@ const getSortedLowToHighPriceProduct = async (i: number): Promise<void> => {
   );
 
   renderCategoryProductList(LowToHighPrice);
-  return;
 };
 
 /** 가격높은순 정렬 후 렌더링 함수 */
@@ -159,7 +158,6 @@ const getSortedHighToLowPriceProduct = async (i: number): Promise<void> => {
   );
 
   renderCategoryProductList(HighToLowPrice);
-  return;
 };
 
 /** select option에 의해 정렬 */

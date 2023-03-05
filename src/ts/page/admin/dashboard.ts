@@ -8,11 +8,11 @@ import { getDate } from '../../utils/date';
 import {
   GetAllProductsInterface,
   TransactionDetailInterface,
-} from '../../interface/index';
+} from '../../types/index';
 
-import { Category } from '../../interface/enum';
+import { Category } from '../../types/enum';
 
-import { CurrentStatusInterface } from '../../interface/index';
+import { CurrentStatusInterface } from '../../types/index';
 
 /** 대시보드 페이지 핸들러 */
 export const handleDashboardPage = async (): Promise<void> => {

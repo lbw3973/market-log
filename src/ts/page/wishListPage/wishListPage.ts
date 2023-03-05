@@ -12,7 +12,7 @@ import { htmlMypage_Nav, resetNavbarActive } from '../mypage';
 import { router } from '../../main';
 import { countQtyInCart, countQtyInWishlist } from '../mainPage/mainPage';
 import { getLoginStatus, showAlertPlzLogin } from '../loginPage';
-import { WishListStore, WishListStoreValue } from '../../interface/store';
+import { WishListStore, WishListStoreValue } from '../../types/store';
 
 /** 찜한상품 제목, ul 태그 템플릿 삽입 */
 const handleWishListInitTemplate = () => {

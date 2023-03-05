@@ -17,11 +17,8 @@ import { getAccountDetail, buyItemAPI, getUserInfoAPI } from '../../api';
 import Swiper, { Navigation, Pagination } from 'swiper';
 import { renderCartTotalPrice } from '../cartPage/cartPage';
 import { shoppingCartStore } from '../../store/shoppingCartStore';
-import {
-  ShoppingCartStore,
-  ShoppingCartStoreValue,
-} from '../../interface/store';
-import { Bank } from '../../interface/index';
+import { ShoppingCartStore, ShoppingCartStoreValue } from '../../types/store';
+import { Bank } from '../../types/index';
 
 Swiper.use([Navigation, Pagination]);
 
