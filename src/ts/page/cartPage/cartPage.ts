@@ -14,6 +14,7 @@ import {
   ShoppingCartStore,
   ShoppingCartStoreValue,
 } from '../../interface/store';
+import { CartOperation } from '../../interface/enum';
 
 /** 장바구니 총 가격 렌더링 */
 export const renderCartTotalPrice = (): number => {
@@ -206,17 +207,14 @@ $('.app')?.addEventListener('click', (e: MouseEvent) => {
 // });
 
 /** 장바구니 아이템 수량 조절 함수 */
-const handleCartItemQty = (
-  id: string,
-  operation: 'increment' | 'decrement' | 'delete',
-) => {
+const handleCartItemQty = (id: string, operation: CartOperation) => {
   let shoppingCartArr = shoppingCartStore.getLocalStorage();
   const existingItem = shoppingCartArr.find(
     (item: ShoppingCartStore): boolean => item.id === id,
   );
 
   switch (operation) {
-    case 'increment':
+    case CartOperation.INCREMENT:
       if (existingItem) {
         existingItem.price += existingItem.pricePerOne;
         existingItem.qty += 1;
@@ -227,7 +225,7 @@ const handleCartItemQty = (
       }
       break;
 
-    case 'decrement':
+    case CartOperation.DECREMENT:
       if (existingItem) {
         if (existingItem) {
           if (existingItem.price > existingItem.pricePerOne) {
@@ -246,12 +244,15 @@ const handleCartItemQty = (
       }
       break;
 
-    case 'delete':
+    case CartOperation.DELETE:
       shoppingCartArr = shoppingCartStore
         .getLocalStorage()
         .filter((item: ShoppingCartStore): boolean => item.id !== id);
       shoppingCartStore.setLocalStorage(shoppingCartArr);
       break;
+
+    default:
+      throw new Error(`존재하지 않는 ${operation}`);
   }
 
   countQtyInCart();
@@ -263,15 +264,15 @@ $('.app').addEventListener('click', (e: MouseEvent) => {
   const id = (e.target as HTMLLIElement).closest('li')?.dataset.productId;
 
   if ((e.target as HTMLButtonElement).classList.contains('cart-addQtyBtn')) {
-    handleCartItemQty(id, 'increment');
+    handleCartItemQty(id, CartOperation.INCREMENT);
   } else if (
     (e.target as HTMLButtonElement).classList.contains('cart-minusQtyBtn')
   ) {
-    handleCartItemQty(id, 'decrement');
+    handleCartItemQty(id, CartOperation.DECREMENT);
   } else if (
     (e.target as HTMLButtonElement).classList.contains('cartProductDeleteBtn')
   ) {
-    handleCartItemQty(id, 'delete');
+    handleCartItemQty(id, CartOperation.DELETE);
   }
 });
 
