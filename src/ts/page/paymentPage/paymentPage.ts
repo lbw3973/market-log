@@ -4,7 +4,13 @@
 import { router } from '../../main';
 import { $, $$ } from '../../utils/dom';
 import { renderPage } from '../../utils/render';
-
+import { getAccountDetail, buyItemAPI, getUserInfoAPI } from '../../api';
+import Swiper, { Navigation, Pagination } from 'swiper';
+import 'swiper/swiper-bundle.css';
+import { renderCartTotalPrice } from '../cartPage/cartPage';
+import { shoppingCartStore } from '../../store/shoppingCartStore';
+import { ShoppingCartStore, ShoppingCartStoreValue } from '../../types/store';
+import { Bank } from '../../types/index';
 import {
   hanaBank,
   kakaoBank,
@@ -13,12 +19,6 @@ import {
   shinhanBank,
   wooriBank,
 } from './payIMG';
-import { getAccountDetail, buyItemAPI, getUserInfoAPI } from '../../api';
-import Swiper, { Navigation, Pagination } from 'swiper';
-import { renderCartTotalPrice } from '../cartPage/cartPage';
-import { shoppingCartStore } from '../../store/shoppingCartStore';
-import { ShoppingCartStore, ShoppingCartStoreValue } from '../../types/store';
-import { Bank } from '../../types/index';
 
 Swiper.use([Navigation, Pagination]);
 
@@ -248,6 +248,28 @@ $('.app').addEventListener('change', (e: Event) => {
   }
 });
 
+/** 은행에 따라 다른 카드 이미지 가져오기 */
+const getBankIMG = (bankCode: string) => {
+  switch (bankCode) {
+    case '081':
+      return hanaBank;
+    case '089':
+      return kbBank;
+    case '090':
+      return kakaoBank;
+    case '011':
+      return nhBank;
+    case '088':
+      return shinhanBank;
+    case '020':
+      return wooriBank;
+    case '004':
+      return kbBank;
+    default:
+      return '';
+  }
+};
+
 /** 계좌목록 및 잔액 조회 */
 const renderPaymentAccount = async (items: Bank[]) => {
   const paymentAccountListTemplate = items
@@ -257,29 +279,12 @@ const renderPaymentAccount = async (items: Bank[]) => {
       return `
     <li class="swiper-slide payment-method__card-list" data-account-id="${id}">
       <img
-        src="${
-          bankCode === '081'
-            ? hanaBank
-            : bankCode === '089'
-            ? kbBank
-            : bankCode === '090'
-            ? kakaoBank
-            : bankCode === '011'
-            ? nhBank
-            : bankCode === '088'
-            ? shinhanBank
-            : bankCode === '020'
-            ? wooriBank
-            : bankCode === '004'
-            ? kbBank
-            : ''
-        }"
+        src="${getBankIMG(bankCode)}"
         width="210"
         height="140"
         alt="${bankName}"
       />
       <p class="payment-method__card-name">${bankName}</p>
-      
       <p>${bankCode}</p>
       <p>${accountNumber}</p>
       <p>${balance.toLocaleString()} 원</p>
@@ -406,15 +411,12 @@ const renderSelectedPayment = (e: any) => {
 
 /** 결제 페이지 최종 결제 버튼의 결제 가격 재렌더링 함수 */
 const renderFinalPaymentPrice = () => {
+  const totalPrice = renderCartTotalPrice().toLocaleString();
   $(
     '.payment-method__final-confirm--btn',
-  ).innerHTML = `총 ${renderCartTotalPrice().toLocaleString()} 원 결제하기`;
-  $(
-    '.payTotalOrderPrice',
-  ).innerHTML = `${renderCartTotalPrice().toLocaleString()} 원`;
-  $(
-    '.payTotalPaymentPrice',
-  ).innerHTML = `${renderCartTotalPrice().toLocaleString()} 원`;
+  ).innerHTML = `총 ${totalPrice} 원 결제하기`;
+  $('.payTotalOrderPrice').innerHTML = `${totalPrice} 원`;
+  $('.payTotalPaymentPrice').innerHTML = `${totalPrice} 원`;
 };
 
 /** 결제페이지에서 작동하는 함수들 */
