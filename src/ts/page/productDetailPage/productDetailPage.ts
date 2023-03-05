@@ -352,10 +352,9 @@ const storeRecentViewed = (
       (item: WishListStore): boolean => item.id === existingItem.id,
     );
 
-    recentViewedArr.splice(existingIndex, existingIndex);
-    // recentViewedArr.unshift({ id, title, thumbnail });
-    recentViewStore.setLocalStorage(recentViewedArr);
+    recentViewedArr.splice(existingIndex, 1);
   }
+
   recentViewedArr.unshift({ id, title, thumbnail });
   recentViewStore.setLocalStorage(recentViewedArr);
 };
