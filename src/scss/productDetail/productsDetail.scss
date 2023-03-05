@@ -23,14 +23,6 @@
   cursor: pointer;
 }
 
-// body {
-//   width: 100%;
-//   min-width: 1540px;
-//   height: auto;
-//   justify-content: center;
-//   align-content: center;
-// }
-
 img {
   cursor: pointer;
   border-radius: 6px;
@@ -58,6 +50,7 @@ img {
 
     img {
       width: 90%;
+      object-fit: contain;
     }
   }
 }
