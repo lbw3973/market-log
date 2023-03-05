@@ -16,34 +16,27 @@ import { WishListStore } from '../../types/store';
 
 /** 찜하기 상품 유/무에 따라 다른 초기화면 렌더링 */
 export const checkWhetherAddWishList = (id: string): string => {
-  let wishListArr = wishListStore.getLocalStorage();
+  const wishListArr = wishListStore.getLocalStorage();
   const existingItem = wishListArr.find((item) => item.id === id);
   return existingItem ? addHeart : emptyHeart;
 };
 
 /** 찜하기 목록에 저장 */
-export const storeWishList = (
-  id: string,
-  count: number,
-  thumbnail: string,
-  title: string,
-  pricePerOne: number,
-): void => {
-  let wishListArr = wishListStore.getLocalStorage();
-  const existingItem = wishListStore
-    .getLocalStorage()
-    .find((item: WishListStore): boolean => item.id === id);
+export const storeWishList = (params: WishListStore): void => {
+  const wishListMap = new Map<string, WishListStore>(
+    wishListStore.getLocalStorage().map((item) => [item.id, item]),
+  );
+
+  const existingItem = wishListMap.get(params.id);
 
   if (!existingItem) {
-    wishListArr.unshift({ id, count, thumbnail, title, pricePerOne });
-    wishListStore.setLocalStorage(wishListArr);
-  } else if (existingItem) {
-    wishListArr = wishListArr.filter(
-      (item: WishListStore): boolean => item.id !== id,
-    );
-
-    wishListStore.setLocalStorage(wishListArr);
+    wishListMap.set(params.id, params);
+  } else {
+    wishListMap.delete(params.id);
   }
+
+  const wishListArr = Array.from(wishListMap.values());
+  wishListStore.setLocalStorage(wishListArr);
 };
 
 ///////////////////////////
@@ -303,7 +296,7 @@ $('.app').addEventListener('click', (e: MouseEvent) => {
     const thumbnail = productDetailThumbnail;
     const pricePerOne = productDetailPricePerOne;
 
-    storeWishList(id, count, thumbnail, title, pricePerOne);
+    storeWishList({ id, count, thumbnail, title, pricePerOne });
     wishListStore.setLocalStorage(wishListStore.getLocalStorage());
 
     // 찜하기 버튼
