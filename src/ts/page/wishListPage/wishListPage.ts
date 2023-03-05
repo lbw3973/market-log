@@ -10,7 +10,7 @@ import { wishListStore } from '../../store/wishListStore';
 import { shoppingCartStore } from '../../store/shoppingCartStore';
 import { htmlMypage_Nav, resetNavbarActive } from '../mypage';
 import { router } from '../../main';
-import { countQtyInCart, countQtyInWishlist } from '../mainPage/mainPage';
+import { updateCartItemQty, updateWishListItemQty } from '../mainPage/mainPage';
 import { getLoginStatus, showAlertPlzLogin } from '../loginPage';
 import { WishListStore, WishListStoreValue } from '../../types/store';
 
@@ -120,7 +120,7 @@ $('.app').addEventListener('click', (e: MouseEvent) => {
     wishListArr = wishListArr.filter((item) => item.id !== id);
 
     wishListStore.setLocalStorage(wishListArr);
-    countQtyInWishlist();
+    updateWishListItemQty();
     // wishListUtilInit();
     renderWishListPage();
   }
@@ -146,7 +146,7 @@ $('.app').addEventListener('click', (e: MouseEvent) => {
       wishListInfo.pricePerOne,
     );
     shoppingCartStore.setLocalStorage(shoppingCartStore.getLocalStorage());
-    countQtyInCart();
+    updateCartItemQty();
   }
 });
 

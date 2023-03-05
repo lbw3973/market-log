@@ -128,13 +128,13 @@ $<HTMLSpanElement>('.header__wishlist--qty').innerHTML = wishListStore
   .length.toString();
 
 /** 장바구니 상품 수량 카운팅 함수*/
-export const countQtyInCart = () => {
+export const updateCartItemQty = () => {
   $<HTMLSpanElement>('.header__cart--qty').innerHTML = shoppingCartStore
     .getLocalStorage()
     .length.toString();
 };
 
-export const countQtyInWishlist = () => {
+export const updateWishListItemQty = () => {
   $<HTMLSpanElement>('.header__wishlist--qty').innerHTML = wishListStore
     .getLocalStorage()
     .length.toString();
@@ -143,6 +143,6 @@ export const countQtyInWishlist = () => {
 /** router on '/' 핸들링 함수 */
 export const handleMainPage = () => {
   $('.modal__addCart').style.display = 'none';
-  countQtyInCart();
+  updateCartItemQty();
   renderPage(renderMainPageTemplate);
 };

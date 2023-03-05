@@ -11,7 +11,7 @@ import { shoppingCartStore } from '../../store/shoppingCartStore';
 import { recentViewStore } from '../../store/recentViewStore';
 import { renderInitHeaderLogin } from '../loginPage';
 import { formatPrice } from '../../utils/format';
-import { countQtyInCart, countQtyInWishlist } from '../mainPage/mainPage';
+import { updateCartItemQty, updateWishListItemQty } from '../mainPage/mainPage';
 import { WishListStore } from '../../types/store';
 
 /** 찜하기 상품 유/무에 따라 다른 초기화면 렌더링 */
@@ -203,7 +203,7 @@ export const pushInCart = (e: MouseEvent): void => {
     const pricePerOne = productDetailPricePerOne;
 
     storeCart(id, price, count, thumbnail, title, pricePerOne);
-    countQtyInCart();
+    updateCartItemQty();
   }
 };
 
@@ -312,7 +312,7 @@ $('.app').addEventListener('click', (e: MouseEvent) => {
     $<HTMLButtonElement>('.aside__productDetail--info-wishlistBtn').innerHTML =
       wishListIMG;
 
-    countQtyInWishlist();
+    updateWishListItemQty();
   }
 
   // [제품 상세 페이지]에서 '장바구니로 바로가기' 버튼 클릭 클릭 -> [장바구니 페이지]로 이동

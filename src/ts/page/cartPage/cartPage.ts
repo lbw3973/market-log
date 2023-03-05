@@ -9,7 +9,7 @@ import { shoppingCartStore } from '../../store/shoppingCartStore';
 import { cartSVG } from '../../importIMGFiles';
 import { renderPage } from '../../utils/render';
 import { formatPrice } from '../../utils/format';
-import { countQtyInCart } from '../mainPage/mainPage';
+import { updateCartItemQty } from '../mainPage/mainPage';
 import { ShoppingCartStore, ShoppingCartStoreValue } from '../../types/store';
 import { CartOperation } from '../../types/enum';
 
@@ -252,7 +252,7 @@ const handleCartItemQty = (id: string, operation: CartOperation) => {
       throw new Error(`존재하지 않는 ${operation}`);
   }
 
-  countQtyInCart();
+  updateCartItemQty();
   renderCartPage();
 };
 
