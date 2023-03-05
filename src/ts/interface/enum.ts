@@ -11,6 +11,12 @@ export enum CartOperation {
   DELETE = 'delete',
 }
 
+export enum CategorySortCondition {
+  RESET = 'reset',
+  LOW_TO_HIGH = 'LowToHigh',
+  High_TO_LOW = 'HighToLow',
+}
+
 // export type CartOperations = {
 //   CartOperation.INCREMENT
 // }

@@ -4,7 +4,7 @@ import { getAllProducts } from '../../api';
 import { recentViewStore } from '../../store/recentViewStore';
 import { GetAllProductsInterface } from '../../interface/index';
 import { RecentView } from '../../interface/store';
-import { Category } from '../../interface/enum';
+import { Category, CategorySortCondition } from '../../interface/enum';
 
 /*-----------------------------------*\
   #카테고리 페이지 # category js
@@ -170,15 +170,16 @@ const renderCategoryProductBySelect = async (
   renderSkeletonUIinCategoryPage();
   // const getProductTagList = await getProductTags();
 
-  if (condition === 'reset') {
+  if (condition === CategorySortCondition.RESET) {
     return categoryUtilInit(i);
   }
-  if (condition === 'LowToHigh') {
+  if (condition === CategorySortCondition.LOW_TO_HIGH) {
     return await getSortedLowToHighPriceProduct(i);
-  } else if (condition === 'HighToLow') {
+  } else if (condition === CategorySortCondition.High_TO_LOW) {
     return await getSortedHighToLowPriceProduct(i);
   }
 };
+/**  */
 
 /** 카테고리별 상품 개수 렌더링 */
 const renderCategoryProductQty = async (i: number): Promise<void> => {
