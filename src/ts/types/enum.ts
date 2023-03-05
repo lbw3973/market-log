@@ -17,6 +17,8 @@ export enum CategorySortCondition {
   High_TO_LOW = 'HighToLow',
 }
 
-// export type CartOperations = {
-//   CartOperation.INCREMENT
-// }
+export enum OrderStatus {
+  DONE = '구매 확정',
+  CANCELED = '구매 취소',
+  COMPLETED = '구매 완료',
+}
