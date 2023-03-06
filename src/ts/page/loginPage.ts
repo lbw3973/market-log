@@ -66,6 +66,11 @@ export async function renderInitHeaderLogin() {
     ulLoginHeaderEl.innerHTML = htmlHeaderLogin;
   } else {
     const author = await authorization();
+    if (!author) {
+      localStorage.removeItem('marketLogToken');
+      ulLoginHeaderEl.innerHTML = htmlHeaderLogin;
+      return;
+    }
     ulLoginHeaderEl.innerHTML = htmlHeaderLogout;
 
     $('#header__user-login-name').innerText = author.displayName;
