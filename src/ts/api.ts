@@ -437,8 +437,12 @@ export async function authorization(): Promise<Authorization> {
     //   Authorization: `Bearer ${localStorage.getItem('marketLogToken')}`,
     // },
   });
-  const json = await res.json();
-  return json;
+
+  if (res.ok) {
+    const json = await res.json();
+    return json;
+  }
+  return undefined;
 }
 
 //사용자 정보 수정 api 사용
