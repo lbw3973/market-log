@@ -51,7 +51,6 @@ function displayUserName(personalInfo: PersonalInfoLogin) {
   ulLoginHeaderEl.innerHTML = htmlHeaderLogout;
 
   $('#header__user-login-name').innerText = personalInfo.user.displayName;
-
   if (personalInfo.user.email === admin_email) {
     $('#btnMypage').innerHTML = `
       <strong id="header__user-login-name">관리자 페이지로 이동</strong>
@@ -101,17 +100,17 @@ export const handleLoginPage = () => {
 function initFuncLogin() {
   const btnLogin = $<HTMLButtonElement>('.login-btn');
   btnLogin.addEventListener('click', async () => {
-    let errMessage;
-    // try {
     const loginJSON = await login();
-    errMessage = loginJSON;
+    if (!loginJSON.user) {
+      alert(loginJSON);
+      return;
+    }
+
     displayUserName(loginJSON);
     localStorage.setItem('marketLogToken', loginJSON.accessToken);
     router.navigate('/');
-    // } catch (exception) {
-    //   alert(errMessage);
-    // }
   });
+
   const inputPW = $('#inputPW');
   inputPW.addEventListener('keyup', (e) => {
     if (e.key === 'Enter') {
