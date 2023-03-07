@@ -1,4 +1,4 @@
-import { $, $$ } from '../../utils/dom';
+import { $ } from '../../utils/dom';
 import { renderPage } from '../../utils/render';
 import { htmlMypage_Nav } from '../mypage';
 import { getLoginStatus, showAlertPlzLogin } from '../loginPage';
