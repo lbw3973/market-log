@@ -31,11 +31,11 @@ const handleAccountInitTemplate = () => {
         <ul></ul>
         <div class="accountNumber">
           <span>계좌 번호</span>
-          <input type="text" id="input__account" class="create__input" />
+          <input type="text" id="input__account" class="create__input" placeholder="은행을 선택해 주세요"/>
         </div>
         <div class="phoneNumber">
           <span>전화 번호</span>
-          <input type="text" id="input__phone" class="create__input" />
+          <input type="text" id="input__phone" class="create__input" placeholder="010-●●●●-●●●●"/>
         </div>
         <div class="modal__notice">
           <p>· 계좌번호와 전화번호에는 - 구분이 없어야 합니다.</p>
@@ -172,9 +172,26 @@ const getPossibleBankList = (div: HTMLDivElement, data: GetBankList[]) => {
     `;
     liEl.dataset.code = _data.code;
 
+    liEl.querySelector('input').addEventListener('click', () => {
+      $<HTMLInputElement>('.create__input').placeholder = `${calculateBankCode(
+        _data.digits,
+      )}`;
+    });
+
     return liEl;
   });
   ulEl.append(...liEls);
+};
+
+const calculateBankCode = (digits: number[]) => {
+  let placeholder = '';
+  digits.map((digit) => {
+    for (let i = 0; i < digit; i++) {
+      placeholder += '●';
+    }
+    placeholder += '-';
+  });
+  return placeholder.substring(0, placeholder.length - 1);
 };
 
 // 계좌 개설 시, 사용자가 선택한 은행Code를 가져옴
