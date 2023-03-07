@@ -379,8 +379,11 @@ export const createUserAccount = async (bankCode: string): Promise<boolean> => {
       signature: true,
     }),
   });
-
-  return res.ok;
+  if (res.ok) {
+    const json = await res.json();
+    return json;
+  }
+  return false;
 };
 
 // API : 계좌 해지
