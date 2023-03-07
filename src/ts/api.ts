@@ -413,6 +413,14 @@ export async function login(): Promise<PersonalInfoLogin> {
     }),
   });
   const json = await res.json();
+
+  if (res.ok) {
+    tokenHeaders = createHeaders({
+      token: json.accessToken ?? undefined,
+    });
+  }
+  console.log(tokenHeaders);
+
   return json;
 }
 

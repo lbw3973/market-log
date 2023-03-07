@@ -5,6 +5,8 @@ import { renderPage } from '../utils/render';
 import { outlink } from '../importIMGFiles';
 import { login, logout, authorization } from '../api';
 import { PersonalInfoLogin } from '../types/index';
+let userDisplayName: string = undefined;
+let userEmail: string = undefined;
 
 const ulLoginHeaderEl = $('.header__user-login--ul');
 
@@ -60,20 +62,29 @@ function displayUserName(personalInfo: PersonalInfoLogin) {
 
 /** 로그인,아웃 후, header의 로그인,아웃 영역을 Render */
 export async function renderInitHeaderLogin() {
-  $('.app').innerHTML = '';
+  // $('.app').innerHTML = '';
   if (!localStorage.getItem('marketLogToken')) {
     ulLoginHeaderEl.innerHTML = htmlHeaderLogin;
   } else {
-    const author = await authorization();
-    if (!author) {
-      localStorage.removeItem('marketLogToken');
-      ulLoginHeaderEl.innerHTML = htmlHeaderLogin;
-      return;
+    // 로그인은 하지 않았는데 LocalStorage에 Token이 남아 있을때
+    if (!userDisplayName) {
+      const author = await authorization();
+
+      // 유효한 토큰이 아니면
+      if (!author) {
+        localStorage.removeItem('marketLogToken');
+        ulLoginHeaderEl.innerHTML = htmlHeaderLogin;
+        return;
+      }
+
+      userDisplayName = author.displayName;
+      userEmail = author.email;
     }
+
     ulLoginHeaderEl.innerHTML = htmlHeaderLogout;
 
-    $('#header__user-login-name').innerText = author.displayName;
-    if (author.email === admin_email) {
+    $('#header__user-login-name').innerText = userDisplayName;
+    if (userEmail === admin_email) {
       $<HTMLAnchorElement>('#btnMypage').href = '/admin';
       $<HTMLAnchorElement>('#btnMypage').innerHTML = `
         <strong id="header__user-login-name">관리자 페이지로 이동
@@ -91,6 +102,7 @@ export async function renderInitHeaderLogin() {
     });
   }
 }
+
 export const handleLoginPage = () => {
   renderPage(htmlLogin);
   initFuncLogin();
@@ -108,6 +120,7 @@ function initFuncLogin() {
 
     displayUserName(loginJSON);
     localStorage.setItem('marketLogToken', loginJSON.accessToken);
+    userDisplayName = loginJSON.user.displayName;
     router.navigate('/');
   });
 
