@@ -1,4 +1,4 @@
-import { $ } from '../../utils/dom';
+import { $, $$ } from '../../utils/dom';
 import { renderPage } from '../../utils/render';
 import { htmlMypage_Nav } from '../mypage';
 import { getLoginStatus, showAlertPlzLogin } from '../loginPage';
@@ -107,6 +107,13 @@ async function initFuncAccount() {
 
   // 계좌 추가 modal Open
   btnCreateAccount.addEventListener('click', async () => {
+    const pEls = document.querySelectorAll('.modal__notice p');
+    const inputEls = document.querySelectorAll('.modal__container input');
+    Array.from(pEls).forEach((el: HTMLParagraphElement) =>
+      el.classList.remove('errorInfo'),
+    );
+    Array.from(inputEls).forEach((el: HTMLInputElement) => (el.value = ''));
+
     const createAbleBankList = Array.from(await getBankList()).filter(
       (x) => x.disabled === false,
     );
@@ -127,8 +134,14 @@ async function initFuncAccount() {
   btnFinalCreate.addEventListener('click', async () => {
     const bankCode = getUserSelectBank();
     const res = await createUserAccount(bankCode);
-    if (res === true) {
+    if (res) {
       renderAccountPage();
+    } else {
+      const pEls = document.querySelectorAll('.modal__notice p');
+      Array.from(pEls).forEach((el: HTMLParagraphElement) =>
+        el.classList.add('errorInfo'),
+      );
+      alert('계좌번호 또는 전화번호를 확인해주세요');
     }
   });
 }
@@ -152,8 +165,10 @@ const getPossibleBankList = (div: HTMLDivElement, data: GetBankList[]) => {
   const liEls = data.map((_data) => {
     const liEl = document.createElement('li');
     liEl.innerHTML = /* html */ `
-    <input type="radio" name="bank" class="selectBank">
-    ${_data.name}, [${_data.digits}]
+    <label for="${_data.name}">
+      <input id="${_data.name}" type="radio" name="bank" class="selectBank">
+      ${_data.name}, [${_data.digits}]
+    </label>
     `;
     liEl.dataset.code = _data.code;
 
