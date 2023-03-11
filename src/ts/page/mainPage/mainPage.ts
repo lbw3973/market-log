@@ -122,6 +122,25 @@ $('.app')?.addEventListener('click', (e: MouseEvent) => {
   }
 });
 
+// [메인페이지] 헤더 서치바
+$<HTMLButtonElement>('.header-main__search--button').addEventListener(
+  'click',
+  () => {
+    $('.header-main__search--input').classList.add('active');
+    $('.header-main__search--button').style.display = 'none';
+    $('.header-main__search--close-button').style.display = 'block';
+  },
+);
+
+$<HTMLImageElement>('.header-main__search--close-button').addEventListener(
+  'click',
+  () => {
+    $('.header-main__search--input').classList.remove('active');
+    $('.header-main__search--close-button').style.display = 'none';
+    $('.header-main__search--button').style.display = 'block';
+  },
+);
+
 /** 장바구니, 찜하기 상품 수량 */
 $<HTMLSpanElement>('.header__cart--qty').innerHTML = shoppingCartStore
   .getLocalStorage()
