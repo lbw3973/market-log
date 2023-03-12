@@ -91,10 +91,12 @@ const setDashBoardChartAmount = (
 
   const thisWeek: number[] = [];
 
+  // 최근 일주일의 날짜를 가져옴
   for (let i = 0; i < 7; i++) {
     thisWeek.unshift(Number(getDate(i).date));
   }
 
+  // 이번 주 각 날짜에 해당하는 거래의 금액 합계를 계산함
   const amountOfthisWeek: number[] = [];
 
   for (let i = 0; i < 7; i++) {
@@ -108,6 +110,7 @@ const setDashBoardChartAmount = (
     );
   }
 
+  // 차트 렌더링
   new Chart(chartAmount, {
     type: 'line',
     data: {
@@ -129,8 +132,6 @@ const setDashBoardChartAmount = (
     },
   });
 };
-
-/** 현재 날짜 가져오기 */
 
 /** 거래, 상품 현황 상태 설정 */
 const setCurrentStatus = (

@@ -1,5 +1,5 @@
 import { $ } from '../utils/dom';
-import { admin_email } from '../db';
+import { ADMIN_EMAIL } from '../db';
 import { router } from '../main';
 import { renderPage } from '../utils/render';
 import { outlink } from '../importIMGFiles';
@@ -53,7 +53,7 @@ function displayUserName(personalInfo: PersonalInfoLogin) {
   ulLoginHeaderEl.innerHTML = htmlHeaderLogout;
 
   $('#header__user-login-name').innerText = personalInfo.user.displayName;
-  if (personalInfo.user.email === admin_email) {
+  if (personalInfo.user.email === ADMIN_EMAIL) {
     $('#btnMypage').innerHTML = `
       <strong id="header__user-login-name">관리자 페이지로 이동<img class="admin--outlink" src="${outlink}" alt="OutLink"/></span></strong>
       `;
@@ -84,7 +84,7 @@ export async function renderInitHeaderLogin() {
     ulLoginHeaderEl.innerHTML = htmlHeaderLogout;
 
     $('#header__user-login-name').innerText = userDisplayName;
-    if (userEmail === admin_email) {
+    if (userEmail === ADMIN_EMAIL) {
       $<HTMLAnchorElement>('#btnMypage').href = '/admin';
       $<HTMLAnchorElement>('#btnMypage').innerHTML = `
         <strong id="header__user-login-name">관리자 페이지로 이동

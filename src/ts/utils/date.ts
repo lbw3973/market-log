@@ -4,6 +4,7 @@ interface getDateInterface {
   date: string;
 }
 
+/** 현재 날짜 가져오기 */
 export const getDate = (prevDateNum: number = 0): getDateInterface => {
   const today = new Date();
 

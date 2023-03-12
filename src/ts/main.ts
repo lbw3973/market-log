@@ -67,7 +67,6 @@ router
       handleSearchPage();
     },
     '/product/:id': (params: Params) => {
-      // renderSkeletonUIinDetailProductPage();
       handleDetailProductPage(params.data.id);
     },
     '/cart': () => {

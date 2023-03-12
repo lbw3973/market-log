@@ -22,14 +22,14 @@ import {
 
 // dotenv 사용 예시
 import dotenv from 'dotenv';
-import { base_url, api_key, user_name } from './db';
+import { BASE_URL, API_KEY, USER_NAME } from './db';
 import { $ } from './utils/dom';
 dotenv.config();
 
 export const HEADERS = {
   'content-type': 'application/json',
-  apikey: api_key,
-  username: user_name,
+  apikey: API_KEY,
+  username: USER_NAME,
 };
 
 /** API headers 함수 */
@@ -39,8 +39,8 @@ const createHeaders = ({
 }: HeadersOptions = {}): HeadersInit => {
   const headers: HeadersInit = {
     'content-type': 'application/json',
-    apikey: api_key,
-    username: user_name,
+    apikey: API_KEY,
+    username: USER_NAME,
   };
 
   if (isMasterKey) {
@@ -63,7 +63,7 @@ export let tokenHeaders = createHeaders({
 /** 전체 제품 가져오기api */
 export const getAllProducts = async (): Promise<GetAllProductsInterface[]> => {
   try {
-    const res = await fetch(`${base_url}/products`, {
+    const res = await fetch(`${BASE_URL}/products`, {
       headers: createHeaders({ isMasterKey: true }),
     });
     const data = await res.json();
@@ -78,7 +78,7 @@ export const getSearchedProducts = async (
   title: string,
 ): Promise<GetAllProductsInterface[]> => {
   try {
-    const res = await fetch(`${base_url}/products/search`, {
+    const res = await fetch(`${BASE_URL}/products/search`, {
       method: 'POST',
       headers,
       body: JSON.stringify({
@@ -98,7 +98,7 @@ export const getDetailProduct = async (
   productId: string,
 ): Promise<GetAllProductsInterface> => {
   try {
-    const res = await fetch(`${base_url}/products/${productId}`, {
+    const res = await fetch(`${BASE_URL}/products/${productId}`, {
       headers,
     });
     const data = await res.json();
@@ -114,7 +114,7 @@ export const getAllTransactions = async (): Promise<
   GetAllTransactionsInterface[]
 > => {
   try {
-    const res = await fetch(`${base_url}/products/transactions/details`, {
+    const res = await fetch(`${BASE_URL}/products/transactions/details`, {
       headers: tokenHeaders,
     });
     const data = await res.json();
@@ -134,7 +134,7 @@ export const confirmTransactionAPI = async (
   detailId: string,
 ): Promise<CancelConfirmTransactionAPI> => {
   try {
-    const res = await fetch(`${base_url}/products/ok`, {
+    const res = await fetch(`${BASE_URL}/products/ok`, {
       method: 'POST',
       headers: tokenHeaders,
       body: JSON.stringify({
@@ -153,7 +153,7 @@ export const cancelTransactionAPI = async (
   detailId: string,
 ): Promise<CancelConfirmTransactionAPI> => {
   try {
-    const res = await fetch(`${base_url}/products/cancel`, {
+    const res = await fetch(`${BASE_URL}/products/cancel`, {
       method: 'POST',
       headers: tokenHeaders,
       body: JSON.stringify({
@@ -171,7 +171,7 @@ export const cancelTransactionAPI = async (
 /** 주문 상세정보 조회 API */
 export const getDetailOrderProduct = async (detailId: string) => {
   try {
-    const res = await fetch(`${base_url}/products/transactions/detail`, {
+    const res = await fetch(`${BASE_URL}/products/transactions/detail`, {
       method: 'POST',
       headers: tokenHeaders,
       body: JSON.stringify({
@@ -188,7 +188,7 @@ export const getDetailOrderProduct = async (detailId: string) => {
 /** 계좌 목록 및 잔액 조회 db에서 불러오기 */
 export const getAccountDetail = async (): Promise<Bank[]> => {
   try {
-    const res = await fetch(`${base_url}/account`, {
+    const res = await fetch(`${BASE_URL}/account`, {
       headers: tokenHeaders,
     });
     const data = await res.json();
@@ -206,7 +206,7 @@ export const buyItemAPI = async (
   accountId: string,
 ): Promise<BuyItemAPI> => {
   try {
-    const res = await fetch(`${base_url}/products/buy`, {
+    const res = await fetch(`${BASE_URL}/products/buy`, {
       method: 'POST',
       headers: tokenHeaders,
       body: JSON.stringify({
@@ -224,7 +224,7 @@ export const buyItemAPI = async (
 /** [결제 페이지] 로그인 한 정보 가져오기 */
 export const getUserInfoAPI = async (): Promise<GetUserInfoAPI> => {
   try {
-    const res = await fetch(`${base_url}/auth/me`, {
+    const res = await fetch(`${BASE_URL}/auth/me`, {
       method: 'POST',
       headers: tokenHeaders,
     });
@@ -241,7 +241,7 @@ export const addProduct = async (product: AddProduct): Promise<void> => {
   const { title, price, description, tags, thumbnailBase64 } = product;
 
   try {
-    await fetch(`${base_url}/products`, {
+    await fetch(`${BASE_URL}/products`, {
       method: 'POST',
       headers: masterKeyHeaders,
       body: JSON.stringify({
@@ -260,7 +260,7 @@ export const addProduct = async (product: AddProduct): Promise<void> => {
 /** 단일 상품 삭제 API */
 export const deleteProduct = async (id: string): Promise<void> => {
   try {
-    await fetch(`${base_url}/products/${id}`, {
+    await fetch(`${BASE_URL}/products/${id}`, {
       method: 'DELETE',
       headers: masterKeyHeaders,
     });
@@ -277,7 +277,7 @@ export const editProduct = async (
     product;
 
   try {
-    await fetch(`${base_url}/products/${product.id}`, {
+    await fetch(`${BASE_URL}/products/${product.id}`, {
       method: 'PUT',
       headers: masterKeyHeaders,
       body: JSON.stringify({
@@ -297,7 +297,7 @@ export const editProduct = async (
 /**전체 거래 내역 가져오기 API */
 export const getAllOrder = async (): Promise<TransactionDetailInterface[]> => {
   try {
-    const res = await fetch(`${base_url}/products/transactions/all`, {
+    const res = await fetch(`${BASE_URL}/products/transactions/all`, {
       method: 'GET',
       headers: masterKeyHeaders,
     });
@@ -313,7 +313,7 @@ export const editDoneOrder = async (order: ConfirmOrder): Promise<void> => {
   const { detailId, done } = order;
 
   try {
-    const res = await fetch(`${base_url}/products/transactions/${detailId}`, {
+    const res = await fetch(`${BASE_URL}/products/transactions/${detailId}`, {
       method: 'PUT',
       headers: masterKeyHeaders,
       body: JSON.stringify({
@@ -333,7 +333,7 @@ export const editCancelOrder = async (order: ConfirmOrder): Promise<void> => {
   const { detailId, isCanceled } = order;
 
   try {
-    await fetch(`${base_url}/products/transactions/${detailId}`, {
+    await fetch(`${BASE_URL}/products/transactions/${detailId}`, {
       method: 'PUT',
       headers: masterKeyHeaders,
       body: JSON.stringify({
@@ -347,7 +347,7 @@ export const editCancelOrder = async (order: ConfirmOrder): Promise<void> => {
 
 /** API : 은행 목록 */
 export const getBankList = async (): Promise<GetBankListValue> => {
-  const res = await fetch(`${base_url}/account/banks`, {
+  const res = await fetch(`${BASE_URL}/account/banks`, {
     method: 'GET',
     headers: tokenHeaders,
   });
@@ -358,7 +358,7 @@ export const getBankList = async (): Promise<GetBankListValue> => {
 
 /** API : 계좌 조회 */
 export const getUserAccounts = async (): Promise<GetUserAccounts> => {
-  const res = await fetch(`${base_url}/account`, {
+  const res = await fetch(`${BASE_URL}/account`, {
     method: 'GET',
     headers: tokenHeaders,
   });
@@ -369,7 +369,7 @@ export const getUserAccounts = async (): Promise<GetUserAccounts> => {
 
 /** API : 계좌 개설 */
 export const createUserAccount = async (bankCode: string): Promise<boolean> => {
-  const res = await fetch(`${base_url}/account`, {
+  const res = await fetch(`${BASE_URL}/account`, {
     method: 'POST',
     headers: tokenHeaders,
     body: JSON.stringify({
@@ -389,7 +389,7 @@ export const createUserAccount = async (bankCode: string): Promise<boolean> => {
 // API : 계좌 해지
 export const deleteAccount = async (e: any): Promise<DeleteAccount> => {
   const accountId = e.target.dataset.id;
-  const res = await fetch(`${base_url}/account`, {
+  const res = await fetch(`${BASE_URL}/account`, {
     method: 'DELETE',
     headers: tokenHeaders,
     body: JSON.stringify({
@@ -404,7 +404,7 @@ export const deleteAccount = async (e: any): Promise<DeleteAccount> => {
 
 /** API : Login */
 export async function login(): Promise<PersonalInfoLogin> {
-  const res = await fetch(`${base_url}/auth/login`, {
+  const res = await fetch(`${BASE_URL}/auth/login`, {
     method: 'POST',
     headers,
     body: JSON.stringify({
@@ -424,7 +424,7 @@ export async function login(): Promise<PersonalInfoLogin> {
 
 /** API : Logout */
 export async function logout(): Promise<boolean> {
-  const res = await fetch(`${base_url}/auth/logout`, {
+  const res = await fetch(`${BASE_URL}/auth/logout`, {
     method: 'POST',
     headers: tokenHeaders,
   });
@@ -438,13 +438,9 @@ export async function authorization(): Promise<Authorization> {
   tokenHeaders = createHeaders({
     token: localStorage.getItem('marketLogToken'),
   });
-  const res = await fetch(`${base_url}/auth/me`, {
+  const res = await fetch(`${BASE_URL}/auth/me`, {
     method: 'POST',
     headers: tokenHeaders,
-    // headers: {
-    //   ...HEADERS,
-    //   Authorization: `Bearer ${localStorage.getItem('marketLogToken')}`,
-    // },
   });
 
   if (res.ok) {
@@ -456,7 +452,7 @@ export async function authorization(): Promise<Authorization> {
 
 //사용자 정보 수정 api 사용
 export async function submitChangeInfo() {
-  const res = await fetch(`${base_url}/auth/user`, {
+  const res = await fetch(`${BASE_URL}/auth/user`, {
     method: 'PUT',
     headers: tokenHeaders,
     body: JSON.stringify({
@@ -470,7 +466,7 @@ export async function submitChangeInfo() {
 }
 // 비밀번호 재확인(login api 사용)
 export async function personalInfoLogin(auth: any): Promise<PersonalInfoLogin> {
-  const res = await fetch(`${base_url}/auth/login`, {
+  const res = await fetch(`${BASE_URL}/auth/login`, {
     method: 'POST',
     headers: tokenHeaders,
     body: JSON.stringify({
@@ -484,7 +480,7 @@ export async function personalInfoLogin(auth: any): Promise<PersonalInfoLogin> {
 }
 /** API : 회원가입 */
 export async function signup(): Promise<RegisterRes> {
-  const res = await fetch(`${base_url}/auth/signup`, {
+  const res = await fetch(`${BASE_URL}/auth/signup`, {
     method: 'POST',
     headers: headers,
     body: JSON.stringify({
@@ -499,7 +495,7 @@ export async function signup(): Promise<RegisterRes> {
 
 /** API : 사용자 목록 조회 */
 export async function getUserList(): Promise<GetUserInfos> {
-  const res = await fetch(`${base_url}/auth/users`, {
+  const res = await fetch(`${BASE_URL}/auth/users`, {
     method: 'GET',
     headers: masterKeyHeaders,
   });
