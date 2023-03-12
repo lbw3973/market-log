@@ -10,6 +10,10 @@
     font-weight: 600;
   }
 
+  &__list li a:hover {
+    color: var(--logo-color);
+  }
+
   &__search {
     display: flex;
     justify-content: flex-end;
@@ -86,7 +90,9 @@
       &:active {
         background-color: #fafafa;
 
-        color: var(--logo-color);
+        a {
+          color: var(--logo-color);
+        }
       }
     }
   }

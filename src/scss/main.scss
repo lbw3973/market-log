@@ -112,8 +112,8 @@ button:active {
         border: none;
         border-radius: 5px;
         box-sizing: border-box;
-        padding: 10px 30px;
-        width: 1px;
+        padding: 0 10px;
+        width: 0px;
         height: 50px;
         font-size: 20px;
         transition: all 0.3s;
@@ -121,7 +121,7 @@ button:active {
           width: 800px;
           border: 1px solid var(--division-line);
         }
-        &:focus {
+        &.active:focus {
           border: 1px solid var(--logo-color);
         }
       }
