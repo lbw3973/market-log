@@ -202,12 +202,13 @@ const getUserSelectBank = () => {
   );
 
   if (bchecked === true) {
-    alert('Check');
+    alert('은행을 선택해주세요');
     return;
   } else {
     const liEl = Array.from(checkBoxs).find(
       (x: HTMLInputElement) => x.checked === true,
-    ).parentElement;
+    ).parentElement.parentElement;
+
     return liEl.dataset.code;
   }
 };
