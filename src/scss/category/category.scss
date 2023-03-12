@@ -1,11 +1,11 @@
 @use '../globals/utils' as u;
 
 .categoryPage {
+  margin-top: 60px;
+  min-height: 450px;
+  height: 1500px; // 있어야 sticky 동작
   display: flex;
-  justify-content: center;
-  width: 1400px;
-  margin: 0 auto;
-  padding: 40px;
+  position: relative;
 
   &__container {
     display: flex;
@@ -14,14 +14,14 @@
   }
 
   &__aside {
+    margin-top: 50px;
     width: 200px;
-    min-height: 100vh;
-    height: auto;
-
+    height: 870px;
+    position: sticky;
+    top: 15px;
     &--container {
-      position: sticky;
-      top: 10px;
-      left: 20px;
+      border: 1px solid;
+      border-radius: 5px;
       display: flex;
       flex-direction: column;
       padding: 20px 0;
@@ -34,25 +34,23 @@
     }
 
     &--wrapper {
+      margin: 20px 10px;
+      min-height: 100px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin: 30px 0 10px;
-      gap: 10px;
+      gap: 20px;
     }
 
     &--img {
       display: flex;
-      // flex-direction: column;
-      justify-content: center;
-      align-items: center;
-
       a {
         display: flex;
         justify-content: center;
       }
       img {
-        width: 60%;
+        width: 120px;
+        height: 120px;
       }
     }
   }
@@ -61,6 +59,7 @@
     width: 900px;
     display: flex;
     flex-direction: column;
+    gap: 70px;
     justify-content: flex-start;
 
     &--container {
@@ -70,20 +69,15 @@
     }
 
     &--filter {
+      border-bottom: 2px solid #000;
+      height: 50px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin: 0 10px;
-      &-totalQty {
-      }
-
-      &-sort {
-      }
-
       &-select {
         padding: 6px 8px;
-        border: 1px solid var(--logo-color);
-        border-radius: 6px;
+        border: 1px solid #000;
+        border-radius: 5px;
       }
     }
   }
@@ -92,12 +86,19 @@
     &--lists {
       display: flex;
       flex-wrap: wrap;
-      gap: 13px;
+      justify-content: space-around;
+      position: relative;
+      min-height: 450px;
+      max-height: 1500px;
     }
     &--list {
-      height: auto;
-      border-radius: 6px;
-      padding: 3px;
+      margin: 20px 5px;
+      a {
+        width: 280px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
       &:hover {
         transition: 0.5s ease, border 0.2s ease;
         box-shadow: u.$boxShadow;
@@ -105,22 +106,22 @@
     }
     &--img {
       width: 280px;
-
+      height: 280px;
+      display: flex;
+      align-items: center;
       img {
         width: 100%;
-        border-radius: 16px;
-        margin-bottom: 10px;
       }
     }
 
     &--info {
-      color: #0c0c0c;
-      padding-top: 6px;
-      width: 276px;
+      box-sizing: border-box;
+      padding: 20px 4px 15px;
+      width: 100%;
+      font-size: 18px;
       &-title {
-        margin-bottom: 16px;
-      }
-      &-price {
+        padding: 0 0 10px 0;
+        font-weight: 600;
       }
     }
   }
@@ -128,7 +129,7 @@
 @mixin skeletonUI($width, $height) {
   opacity: 0.7;
   animation: skeleton-loading 0.5s linear infinite alternate;
-  border-radius: 6px;
+  border-radius: 5px;
   width: $width;
   height: $height;
 }
@@ -154,8 +155,8 @@
 }
 
 .orderHistoryPage__skeleton {
-  @include skeletonUI(900px, 160px);
-  margin: 30px 0;
+  @include skeletonUI(900px, 172px);
+  margin: 25px 0;
 }
 
 .productDetail__skeleton {
@@ -181,15 +182,12 @@
 }
 
 @mixin categoryPaginationBtn {
-  padding: 6px 10px;
   border: 1px solid var(--logo-color);
-  border-radius: 6px;
+  border-radius: 5px;
+  padding: 6px 10px;
   &:hover {
     color: #fff;
     background-color: var(--logo-color);
-  }
-  &:active {
-    transform: scale(0.95);
   }
 }
 
@@ -202,13 +200,9 @@
       justify-content: center;
       gap: 20px;
     }
-
-    &-next {
-      @include categoryPaginationBtn();
-    }
-
-    &-prev {
-      @include categoryPaginationBtn();
+    button.active-btn {
+      border: 1px solid var(--logo-color);
+      border-radius: 50%;
     }
   }
 }

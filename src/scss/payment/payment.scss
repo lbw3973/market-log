@@ -12,14 +12,13 @@
 
 .pay {
   display: flex;
-  justify-content: center;
-  margin: 0 auto;
-  height: auto;
-  padding: 60px;
+  width: 100%;
+  min-height: 450px;
+
   @mixin payBorderCustomize {
     border: none;
     border: 1px solid var(--division-line);
-    border-radius: 6px;
+    border-radius: 5px;
   }
   input {
     @include payBorderCustomize();
@@ -39,15 +38,16 @@
 
   &__container {
     text-align: start;
-    width: 90%;
+    width: 100%;
   }
 
   &__header {
-    margin-bottom: 10px;
-    padding: 10px;
-    border-bottom: 1px solid var(--logo-color);
+    margin: 50px 0 10px;
+    padding: 0 0 16px;
+    border-bottom: 2px solid;
     h2 {
-      padding-bottom: 10px;
+      font-size: 26px;
+      font-weight: 800;
     }
   }
 
@@ -55,8 +55,9 @@
     // height: 100%;
     margin: 60px;
     border: 1px solid var(--division-line);
+    border-radius: 5px;
     box-shadow: var(--box-shadow);
-    padding: 10px;
+    padding: 30px;
     input,
     select {
       width: 300px;
@@ -101,9 +102,6 @@
 
     // 배송지 입력, 우편번호 입력
     &--address {
-      &-container {
-      }
-
       &-form {
         display: flex;
         flex-direction: column;
@@ -141,9 +139,6 @@
     }
 
     &--payer {
-      &-container {
-      }
-
       &--form {
         display: flex;
         flex-direction: column;
@@ -168,25 +163,19 @@
         h6 {
           margin-right: 16px;
         }
-        &-input {
-        }
       }
 
       &--email {
         @include alignGap10px();
         margin-bottom: 10px;
-        &-input {
-        }
       }
 
       &--phoneNum {
         @include alignGap10px();
-        &-input {
-        }
       }
     }
     &--width400px {
-      width: 370px;
+      // width: 370px;
     }
 
     &--payment--container {
@@ -230,7 +219,7 @@
     height: 320px;
     text-align: center;
     border: 1px solid var(--logo-color);
-    border-radius: 6px;
+    border-radius: 5px;
     background-color: var(--division-line);
   }
   &__card-lists {
@@ -250,8 +239,8 @@
       margin-top: 20px;
       padding: 6px 10px;
       border: 1px solid var(--logo-color);
-      border-radius: 6px;
-      color: black;
+      border-radius: 5px;
+      color: #000;
 
       &:active,
       &:hover {
@@ -269,7 +258,7 @@
     margin-top: 20px;
     &-alert {
       padding: 10px 20px;
-      color: gray;
+      color: rgb(128, 128, 128);
     }
 
     &-confirm {
@@ -286,7 +275,7 @@
         background-color: var(--division-line);
         // background-color: var(--deps-pink);
         color: #fff;
-        border-radius: 6px;
+        border-radius: 5px;
         cursor: not-allowed;
 
         &:active {
@@ -302,6 +291,6 @@
   text-align: center;
   transform: translateZ(0);
   transition: opacity 0.3s;
-  color: black;
+  color: #000;
   left: 350px;
 }

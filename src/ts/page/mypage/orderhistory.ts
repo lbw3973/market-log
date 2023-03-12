@@ -78,38 +78,6 @@ export const handleOrderHistoryInitTemplate = (): void => {
   const renderOrderHistoryPageInitTemplate = `
   <div class="mypage__orderhistory">
     <h2>주문 내역</h2>
-    <div class="calendar-box">
-      <input class="calendar-date"></input>
-      <img class="calendar-icon icon icon-tabler icon-tabler-calendar-event" src="${calendar}"
-        alt="calendar icon">
-      <button><img src="${reload}" alt="reload icon"></button>
-      <div class="calendar nodisplay">
-        <div class="wrapper">
-          <div class="curr-date ">
-            <span></span>
-            <span class="material-symbols-outlined" id="prev">
-              chevron_left
-            </span>
-            <span class="material-symbols-outlined" id="next">
-              chevron_right
-            </span>
-          </div>
-          <div class="curr-dates">
-            <ul class="weeks">
-              <li>Sun</li>
-              <li>Mon</li>
-              <li>Tue</li>
-              <li>Wed</li>
-              <li>Thu</li>
-              <li>Fri</li>
-              <li>Sat</li>
-            </ul>
-            <ul class="days">
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
     <div class="products-container">
       <div class="nocontent-box nodisplay">
         <p>

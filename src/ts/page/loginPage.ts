@@ -55,7 +55,7 @@ function displayUserName(personalInfo: PersonalInfoLogin) {
   $('#header__user-login-name').innerText = personalInfo.user.displayName;
   if (personalInfo.user.email === admin_email) {
     $('#btnMypage').innerHTML = `
-      <strong id="header__user-login-name">관리자 페이지로 이동</strong>
+      <strong id="header__user-login-name">관리자 페이지로 이동<img class="admin--outlink" src="${outlink}" alt="OutLink"/></span></strong>
       `;
   }
 }
@@ -88,7 +88,7 @@ export async function renderInitHeaderLogin() {
       $<HTMLAnchorElement>('#btnMypage').href = '/admin';
       $<HTMLAnchorElement>('#btnMypage').innerHTML = `
         <strong id="header__user-login-name">관리자 페이지로 이동
-          <img src="${outlink}" alt="OutLink"/>
+          <img class="admin--outlink" src="${outlink}" alt="OutLink"/>
         </strong>
         `;
     }

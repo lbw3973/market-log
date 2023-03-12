@@ -32,6 +32,7 @@ import {
   sideBar,
   orderDetailPage,
 } from './page/admin/renderTemplate';
+import { renderInitHeaderLogin } from './page/loginPage';
 import { Params } from './types/params';
 import { handleErrorPage } from './page/errorPage/errorPage';
 import { getAllProducts } from './api';
@@ -47,10 +48,12 @@ const render = (html: string) => {
   $('.container').innerHTML = html;
 };
 
-const initPage = (page: string) => {
+const initPage = async (page: string) => {
+  renderInitHeaderLogin();
   renderContainer();
   render(sideBar);
   $('.container').insertAdjacentHTML('beforeend', page);
+  renderCategoryNav(await getAllProducts());
 };
 
 /** navigo router */

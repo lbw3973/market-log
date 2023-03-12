@@ -61,7 +61,6 @@ const renderWishListProductList = (store: WishListStore[]) => {
           삭제
         </button>
         <button class="wishlist__product--list-AddToCartBtn wishList-AddToCartBtn">
-          <img src="${shoppingCart}" alt="shopping cart" />
           담기
         </button>
       </div>

@@ -52,10 +52,12 @@ const searchPageNoSearchResultTemplate = `
   <div class="searchPage__noResult--container">
     <span class="searchPage__noResult--inputValue"></span> 관련 상품이 없습니다.
     추천 검색어: 
-    <a class="searchPage__noResult--button" href="/category/keyboards">키보드</a> 
-    <a class="searchPage__noResult--button" href="/category/keycaps">NuPhy</a>
-    <a class="searchPage__noResult--button" href="/category/switches">Xmas</a>
-    <a class="searchPage__noResult--button" href="/category/accessories">Nufolio</a>
+    <div class="searchPage__noResult--buttons">
+      <a class="searchPage__noResult--button" href="/category/keyboards">키보드</a>
+      <a class="searchPage__noResult--button" href="/category/keycaps">NuPhy</a>
+      <a class="searchPage__noResult--button" href="/category/switches">Xmas</a>
+      <a class="searchPage__noResult--button" href="/category/accessories">Nufolio</a>
+    </div>
   </div>
 `;
 
@@ -86,7 +88,9 @@ const handleSearchPageResult = async (): Promise<void> => {
     $<HTMLInputElement>('.searchPage__noResult--inputValue').innerHTML =
       $<HTMLInputElement>('.header-main__search--input').value;
   } else if (findProductArr.length >= 1) {
-    renderSearchedProductList(findProductArr);
+    const filteredArr = findProductArr.splice(0, 9);
+
+    renderSearchedProductList(filteredArr);
   }
   $<HTMLInputElement>('.header-main__search--input').value = '';
 };
@@ -104,14 +108,14 @@ $<HTMLButtonElement>('.header-main__search--button').addEventListener(
   'click',
   async (e: MouseEvent) => {
     e.preventDefault();
-    router.navigate('/products/search');
-    await handleSearchPageResult();
+    // router.navigate('/products/search');
+    // await handleSearchPageResult();
     return;
   },
 );
 
 /** [모든 페이지]에서 제품 검색 버튼 'Enter'이벤트 */
-$<HTMLButtonElement>('.header-main__search--button').addEventListener(
+$<HTMLInputElement>('.header-main__search--input').addEventListener(
   'keypress',
   async (e: KeyboardEvent) => {
     if (e.key === 'Enter') {
